@@ -77,9 +77,7 @@ class SensorSpec:
         seen: set[str] = set()
         for band in self.bands:
             if band.name in seen:
-                raise ValueError(
-                    f"Duplicate band {band.name!r} in sensor {self.sensor_name!r}"
-                )
+                raise ValueError(f"Duplicate band {band.name!r} in sensor {self.sensor_name!r}")
             seen.add(band.name)
 
     def band_names(self) -> tuple[str, ...]:
@@ -309,9 +307,7 @@ class SensorRegistry:
 
 def default_registry() -> SensorRegistry:
     """Registry pre-populated with the six M1 target sensors."""
-    return SensorRegistry(
-        (LANDSAT5, LANDSAT7, LANDSAT8, LANDSAT9, SENTINEL1, SENTINEL2)
-    )
+    return SensorRegistry((LANDSAT5, LANDSAT7, LANDSAT8, LANDSAT9, SENTINEL1, SENTINEL2))
 
 
 __all__ = [

@@ -58,9 +58,7 @@ def initialize() -> None:
     try:
         import ee  # type: ignore[import-not-found]
     except ImportError as exc:
-        raise RuntimeError(
-            "earthengine-api is not installed (optional 'gee' extra, M1+)."
-        ) from exc
+        raise RuntimeError("earthengine-api is not installed (optional 'gee' extra, M1+).") from exc
     ee.Initialize()  # pragma: no cover - exercised only with real credentials
 
 
