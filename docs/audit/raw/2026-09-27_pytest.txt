@@ -1,0 +1,44 @@
+# python: Python 3.10.12
+# pytest: pytest 9.1.1
+# date: 2026-09-27T07:30:56+08:00
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /data/yingda/Spartina-Earth
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.1
+collecting ... collected 28 items
+
+tests/integration/test_gee_integration.py::test_ee_initialize_smoke SKIPPED [  3%]
+tests/smoke/test_import_spartina.py::test_package_version PASSED         [  7%]
+tests/smoke/test_import_spartina.py::test_default_registry_contains_six_sensors PASSED [ 10%]
+tests/smoke/test_import_spartina.py::test_label_quality_tiers PASSED     [ 14%]
+tests/unit/test_gee_interfaces_mock.py::test_credentials_absent_and_initialize_raises PASSED [ 17%]
+tests/unit/test_gee_interfaces_mock.py::test_collection_mapping_covers_six_sensors PASSED [ 21%]
+tests/unit/test_gee_interfaces_mock.py::test_mock_catalog_filters_by_sensor_and_cloud PASSED [ 25%]
+tests/unit/test_gee_interfaces_mock.py::test_cloud_cover_filter_validation PASSED [ 28%]
+tests/unit/test_gee_interfaces_mock.py::test_null_exporter_and_manifest_build_are_offline PASSED [ 32%]
+tests/unit/test_gee_interfaces_mock.py::test_apply_filters_chain PASSED  [ 35%]
+tests/unit/test_manifest_schema.py::test_schema_file_is_valid_json_with_required_fields PASSED [ 39%]
+tests/unit/test_manifest_schema.py::test_valid_asset_passes PASSED       [ 42%]
+tests/unit/test_manifest_schema.py::test_missing_required_property_fails PASSED [ 46%]
+tests/unit/test_manifest_schema.py::test_bad_label_quality_enum_fails PASSED [ 50%]
+tests/unit/test_manifest_schema.py::test_unexpected_property_fails PASSED [ 53%]
+tests/unit/test_manifest_schema.py::test_fake_native_resolution_must_be_declared_honestly PASSED [ 57%]
+tests/unit/test_sensor_registry.py::test_bands_are_identity_not_channel_index PASSED [ 60%]
+tests/unit/test_sensor_registry.py::test_sar_bands_have_no_optical_wavelength PASSED [ 64%]
+tests/unit/test_sensor_registry.py::test_mixed_resolution_sentinel2_bands PASSED [ 67%]
+tests/unit/test_sensor_registry.py::test_unknown_sensor_and_band_raise PASSED [ 71%]
+tests/unit/test_sensor_registry.py::test_duplicate_sensor_registration_rejected PASSED [ 75%]
+tests/unit/test_sensor_registry.py::test_duplicate_band_name_rejected PASSED [ 78%]
+tests/unit/test_split_leakage.py::test_disjoint_units_pass_without_buffer PASSED [ 82%]
+tests/unit/test_split_leakage.py::test_buffer_catches_nearby_train_test_tiles PASSED [ 85%]
+tests/unit/test_split_leakage.py::test_same_split_neighbors_are_not_flagged PASSED [ 89%]
+tests/unit/test_split_leakage.py::test_random_patch_like_overlap_is_rejected PASSED [ 92%]
+tests/unit/test_split_leakage.py::test_temporal_grouping_violation_detected PASSED [ 96%]
+tests/unit/test_split_leakage.py::test_invalid_unit_extent_rejected PASSED [100%]
+
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/test_gee_integration.py:26: GEE credentials not configured; integration test skipped.
+======================== 27 passed, 1 skipped in 0.04s =========================
