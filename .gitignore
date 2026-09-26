@@ -1,0 +1,115 @@
+# ---------------------------------------------------------------------------
+# Spartina Earth .gitignore
+# Rule: large data, remote-sensing imagery, checkpoints and secrets NEVER
+# enter Git. Only code, configs, manifests, and small docs are tracked.
+# ---------------------------------------------------------------------------
+
+# Local third-party skill installation (kept usable on this machine only)
+.trae/skills/
+
+# Local IDE / editor state
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ---------------------------------------------------------------------------
+# Secrets / credentials (never commit)
+# ---------------------------------------------------------------------------
+.env
+.env.*
+*.key
+*.pem
+secrets/
+credentials/
+*service_account*.json
+*credential*.json
+id_rsa*
+.gee_token/
+.google/
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.coverage
+htmlcov/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# Large local data (workspace-local; inventory lives in docs/audit/*.md and
+# datasets/manifests/*.json, not the bytes themselves)
+# ---------------------------------------------------------------------------
+old datasets/
+datasets/raw/
+datasets/processed/
+datasets/external/
+# Root-anchored so the source package src/spartina/data/ stays tracked.
+/data/
+*.rar
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Geo/raster/array artifacts
+*.tif
+*.tiff
+*.jp2
+*.img
+*.nc
+*.grd
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.zarr/
+*.cog
+
+# Geospatial vector sidecars (keep .geojson/.shp only when explicitly forced)
+*.geojson.lck
+
+# Model artifacts
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.h5
+checkpoints/
+runs/
+artifacts/
+outputs/
+wandb/
+mlruns/
+
+# Jupyter: track notebooks, never their checkpoints or local data
+*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LaTeX build noise (papers/ sources are tracked)
+papers/**/*.aux
+papers/**/*.bbl
+papers/**/*.blg
+papers/**/*.log
+papers/**/*.out
+papers/**/*.toc
+papers/**/*.fls
+papers/**/*.fdb_latexmk
+papers/**/*.synctex.gz
+papers/**/*.pdf
