@@ -56,7 +56,7 @@ def _validate_node(value: Any, spec: dict[str, Any], path: str, errors: list[str
         return
     if "enum" in spec and value not in spec["enum"]:
         errors.append(f"{path}: value {value!r} not in enum {spec['enum']}")
-    if isinstance(value, (int, float)) and not isinstance(value, bool):
+    if isinstance(value, int | float) and not isinstance(value, bool):
         if "minimum" in spec and value < spec["minimum"]:
             errors.append(f"{path}: {value} below minimum {spec['minimum']}")
         if "maximum" in spec and value > spec["maximum"]:

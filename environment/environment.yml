@@ -1,0 +1,51 @@
+# Spartina Earth - reproducible research environment (M1.0)
+#
+# Create:   conda env create -f environment/environment.yml
+# Update:   conda env update -f environment/environment.yml --prune
+# Activate: conda activate spartina-earth
+#
+# Exact versions actually resolved at M1.0 are frozen in versions.txt.
+# Python 3.11 is the project baseline. Geo/GDAL stack comes from
+# conda-forge only (no pip GDAL). PyTorch is the pip cu118 build that has
+# already been verified on this host's 10x RTX 3090 (driver 580.x).
+# earthengine-api is intentionally NOT here: install the `gee` extra only
+# when GEE work begins.
+name: spartina-earth
+channels:
+  - conda-forge
+nodefaults: true
+dependencies:
+  - python=3.11
+  # numpy pinned to 1.26 for ABI stability with torch 2.5.1 wheels
+  - numpy=1.26
+  - pandas=2.2
+  - pyarrow>=17
+  - scipy=1.13
+  - scikit-learn=1.5
+  # geospatial stack (GDAL pulled transitively by rasterio/fiona)
+  - rasterio=1.4
+  - rioxarray=0.17
+  - xarray>=2024.7
+  - geopandas=1.0
+  - shapely=2.0
+  - pyproj=3.6
+  - fiona=1.10
+  # imaging / plotting
+  - pillow=10.4
+  - matplotlib=3.9
+  # config / validation
+  - pydantic=2.9
+  - pydantic-settings=2.5
+  - pyyaml=6.0
+  # dev / QA
+  - pytest=8.3
+  - pytest-cov=5.0
+  - ruff=0.7
+  - mypy=1.11
+  - pip
+  - pip:
+      # cu118 runtime verified on host; +cu118 local tag exists only on the
+      # PyTorch index, so extra-index is sufficient and PyPI stays available.
+      - --extra-index-url https://download.pytorch.org/whl/cu118
+      - torch==2.5.1+cu118
+      - torchvision==0.20.1+cu118
