@@ -1,0 +1,11 @@
+/data/yingda/software/miniconda3/envs/spartina-earth/lib/python3.11/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+{
+ "run_id": "unet_full_seed-42_20260927T080746Z",
+ "best_epoch": 54,
+ "val_threshold": 0.25,
+ "val_core_iou": 0.8998696219035202,
+ "checkpoint_sha256": "7f009f695af8a969",
+ "gpu": 2,
+ "wall_s": 71.0
+}
