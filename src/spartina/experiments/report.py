@@ -42,15 +42,14 @@ def main_table(metrics: pd.DataFrame) -> str:
     for model, label in MODEL_LABELS.items():
         if model not in set(test["model"]):
             continue
-        for variant in VARIANTS:
+        variants = ["spectral_sai"] if model == "sai" else list(VARIANTS)
+        for variant in variants:
             sub = test[(test["model"] == model) &
-                       (test["variant"] == variant)] \
-                if model != "sai" else test[test["model"] == "sai"]
+                       (test["variant"] == variant)]
             if sub.empty:
                 continue
-            vlabel = variant if model != "sai" else "spectral_sai"
             lines.append(
-                f"| {label} | {vlabel} | "
+                f"| {label} | {variant} | "
                 f"{_msd(sub['arbitrated_core_iou'])} | "
                 f"{_msd(sub['arbitrated_core_f1'])} | "
                 f"{_msd(sub['arbitrated_core_auprc'])} |")
@@ -87,9 +86,11 @@ def seed_table(metrics: pd.DataFrame) -> str:
              "strict IoU | strict F1 | thr |",
              "|---|---|---|---:|---:|---:|---:|---:|"]
     for _, r in test.iterrows():
+        seed_txt = ("deterministic" if pd.isna(r["seed"])
+                    else str(int(r["seed"])))
         lines.append(
             f"| {MODEL_LABELS.get(r['model'], r['model'])} | "
-            f"{r['variant']} | {r['seed']} | "
+            f"{r['variant']} | {seed_txt} | "
             f"{_fmt(r['arbitrated_core_iou'])} | "
             f"{_fmt(r['arbitrated_core_f1'])} | "
             f"{_fmt(r['silver_strict_iou'])} | "
@@ -267,10 +268,18 @@ def render(repo: Path) -> str:
     metrics, eff = tables["metrics"], tables["efficiency"]
     weak, stress = tables["weak"], tables["stress"]
     registry = repo / "docs/experiments/registries/pilot0_registry.csv"
-    n_fail = 0
+    n_fail_official = 0
+    n_fail_smoke = 0
+    n_boundary_thr = 0
     if registry.exists():
         reg = pd.read_csv(registry)
-        n_fail = int((reg["status"] == "FAILED").sum())
+        off = reg[reg["phase"] == "official"]
+        n_fail_official = int((off["status"] == "FAILED").sum())
+        n_fail_smoke = int((reg["status"] == "FAILED").sum())
+        n_boundary_thr = int((off["val_threshold"] == 0.05).sum())
+    test = metrics[metrics["split"] == "test"]
+    degenerate = test[test["arbitrated_core_iou"] < 0.10][[
+        "model", "variant", "seed", "arbitrated_core_iou"]]
     parts = [
         "# Pilot-0 Baseline Ladder — M1.5 Report",
         "",
@@ -301,10 +310,34 @@ def render(repo: Path) -> str:
         patch_table(metrics), "",
         "## 9. Area error", "", area_table(metrics), "",
         "## 10. Efficiency", "", efficiency_table(eff), "",
-        "## 11. Failure cases", "",
-        (f"FAILED runs: **{n_fail}**." if n_fail else
-         "No FAILED runs recorded in the registry."),
-        "", "See `docs/experiments/registries/pilot0_registry.csv` for "
+        "## 11. Failure cases and notable observations", "",
+        f"- Official runs FAILED: **{n_fail_official}** of 49; "
+        f"retained early smoke failures: {n_fail_smoke} (registry keeps "
+        "both for traceability; they never entered the official matrix).",
+        f"- VAL thresholds at the grid floor (0.05): "
+        f"{n_boundary_thr} official runs (all Random Forest) — low "
+        "probability scale under class imbalance; threshold protocol was "
+        "not altered.",
+        "- TEST core IoU < 0.10 (seed-level collapse, reported as run, "
+        "not averaged away):",
+    ]
+    if degenerate.empty:
+        parts.append("  - none")
+    for _, r in degenerate.iterrows():
+        parts.append(
+            f"  - {MODEL_LABELS.get(r['model'], r['model'])} / "
+            f"{r['variant']} / seed {int(r['seed'])}: "
+            f"TEST core IoU {float(r['arbitrated_core_iou']):.3f}")
+    parts += [
+        "- The first `final_eval.py` invocation aborted on the material "
+        "WEAK-component guard (9 != 91) **before** any TEST metric was "
+        "written; the candidate mask was corrected to the frozen Issue #4 "
+        "definition (disagreement code 3, incl. IGNORE boundary buffer) "
+        "and TEST was evaluated exactly once afterwards.",
+        "- TEST = 7 windows / 5 SILVER components: all differences at this "
+        "scale are sensitive to individual patches; no spatial CI.",
+        "",
+        "See `docs/experiments/registries/pilot0_registry.csv` for "
         "per-run checkpoint hashes, thresholds and GPU metadata.",
         "",
     ]

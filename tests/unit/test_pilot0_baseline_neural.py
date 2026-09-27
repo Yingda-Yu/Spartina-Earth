@@ -61,7 +61,8 @@ def make_sources() -> Pilot0Sources:
     windows = pd.DataFrame(rows)
     return Pilot0Sources(
         stack=stack, weak=weak, silver=silver, ignore=ignore,
-        weak_only=weak_only, windows=windows, crs="EPSG:32651",
+        weak_only=weak_only, weak_candidates=weak_only.copy(),
+        windows=windows, crs="EPSG:32651",
         transform=(30, 0, 0, 0, -30, 0), stack_checksum="synth",
         root=Path("."))
 
@@ -200,3 +201,15 @@ def test_training_side_gate_denies_test_even_unlocked(env, monkeypatch) -> None:
     assert g.request_split("train") is None
     with pytest.raises(embargo_mod.TestEmbargoError):
         g.request_split("test")
+
+
+def test_frozen_weak_candidate_registry_is_disagreement_code3() -> None:
+    """91 material WEAK-only candidates are defined on disagreement==3."""
+    from spartina.evaluation.weak_response import material_weak_labels
+    from spartina.experiments.runner import load_all, repo_root
+    repo = repo_root()
+    if not (repo / "work/hangzhou2015/v1/pilot0_stack_30m.tif").exists():
+        pytest.skip("Pilot-0 working rasters not present")
+    env = load_all(repo)
+    _, comps = material_weak_labels(env["sources"].weak_candidates, 10)
+    assert len(comps) == 91  # frozen Issue #4 material registry

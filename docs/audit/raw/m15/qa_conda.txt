@@ -1,6 +1,6 @@
-# QA snapshot M1.5 2026-09-27T08:10:15Z conda py3.11
+# QA snapshot M1.5 final 2026-09-27T08:36:38Z conda py3.11
 SKIPPED [1] tests/integration/test_gee_integration.py:26: GEE credentials not configured; integration test skipped.
-102 passed, 1 skipped, 4 warnings in 33.54s
+103 passed, 1 skipped, 4 warnings in 31.97s
 ## ruff
 All checks passed!
 ## mypy

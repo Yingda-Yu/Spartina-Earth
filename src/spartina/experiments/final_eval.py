@@ -67,8 +67,12 @@ def evaluate_all(
     device = torch.device(f"cuda:{gpu_index}" if torch.cuda.is_available()
                           else "cpu")
     test_cov = split_coverage_mask(sources, "test")
+    # Frozen Issue #4 candidate registry: disagreement code 3 incl. the
+    # IGNORE boundary buffer; only invalid-input pixels are dropped at
+    # response aggregation via the variant validity mask.
     weak_labels, weak_comps = material_weak_labels(
-        sources.weak_only, int(common["eval"]["small_patch_max_px"]))
+        sources.weak_candidates,
+        int(common["eval"]["small_patch_max_px"]))
     if len(weak_comps) != 91:  # Issue #4 material-component count
         raise RuntimeError(
             f"material WEAK-only components changed: {len(weak_comps)} != 91")
@@ -98,7 +102,7 @@ def evaluate_all(
                 views["silver_strict"] & coverage, threshold),
             "weak_candidate_response": component_responses(
                 p0, weak_labels, weak_comps, threshold,
-                test_cov & valid_grid & ~sources.ignore),
+                test_cov & valid_grid),
         }
         is_neural = entry["model"] in {
             "unet", "deeplabv3plus", "segformer_b0"}

@@ -33,6 +33,8 @@ class Pilot0Sources:
     silver: np.ndarray[Any, Any]         # bool
     ignore: np.ndarray[Any, Any]         # bool
     weak_only: np.ndarray[Any, Any]      # bool: weak+ / silver- / non-ignore
+    weak_candidates: np.ndarray[Any, Any]  # bool: disagreement code 3
+                                          # (frozen Issue #4 candidate mask)
     windows: pd.DataFrame
     crs: str
     transform: tuple[float, ...]
@@ -61,12 +63,15 @@ def load_sources(root: Path, common_cfg: dict[str, Any]) -> Pilot0Sources:
         silver = labels[1].astype(bool)
         ignore = labels[2].astype(bool)
     weak_only = weak & ~silver & ~ignore
+    with rasterio.open(root / paths["disagreement"]) as ds:
+        weak_candidates = (ds.read(1) == 3)
     windows = pd.read_parquet(root / paths["tiles_manifest"])
     # checksum is identical on every row by construction
     stack_checksum = str(windows["source_stack_checksum"].iloc[0])
     return Pilot0Sources(
         stack=stack, weak=weak, silver=silver, ignore=ignore,
-        weak_only=weak_only, windows=windows, crs=crs,
+        weak_only=weak_only, weak_candidates=weak_candidates,
+        windows=windows, crs=crs,
         transform=transform, stack_checksum=stack_checksum, root=root,
     )
 
