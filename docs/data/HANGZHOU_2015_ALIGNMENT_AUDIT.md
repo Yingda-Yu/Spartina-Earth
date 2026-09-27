@@ -47,11 +47,13 @@ only.
    (a) reproject/cut features in `work/` only at explicit target grids;
    (b) never present S1 upsampled to 30 m or L8 at 10 m as "new"
    information — report analysis at a declared common resolution with
-   resolution provenance per modality; (c) UTM 50N is the correct
-   analysis zone for Hangzhou (zone 51 is present in the source mask;
-   UTM **51N**, not 50N — EPSG:32651; the 2015 national product uses
-   EPSG:32650, zone 50N, applied nationwide); (d) co-registration does
-   not fix the label-provenance defect of the mask (WEAK tier).
+   resolution provenance per modality; (c) **the analysis zone is
+   UTM 51N, EPSG:32651** (correct for 121 E; the local mask already
+   uses it). The 2015 national product is stored in UTM 50N,
+   EPSG:32650, applied nationwide, and must be reprojected per-pixel
+   for this window — superseded and confirmed in
+   HANGZHOU_2015_COREGISTRATION.md; (d) co-registration does not fix
+   the label-provenance defect of the mask (WEAK tier).
 
 ## 3. Conclusion
 
