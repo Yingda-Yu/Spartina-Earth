@@ -1,0 +1,14 @@
+s....................................................................... [ 81%]
+................                                                         [100%]
+=============================== warnings summary ===============================
+tests/unit/test_audit_geo_tools.py::test_raster_projected_area_is_count_times_pixel_area
+tests/unit/test_audit_geo_tools.py::test_raster_geographic_area_guard_never_degrees_squared
+tests/unit/test_audit_geo_tools.py::test_raster_metadata_bands_and_compression
+tests/unit/test_audit_geo_tools.py::test_raster_report_is_json_serializable
+  /data/yingda/software/miniconda3/envs/spartina-earth/lib/python3.11/site-packages/rasterio/transform.py:178: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(west, north) * Affine.scale(xsize, -ysize)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/test_gee_integration.py:26: GEE credentials not configured; integration test skipped.
+87 passed, 1 skipped, 4 warnings in 29.16s
