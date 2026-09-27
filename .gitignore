@@ -52,6 +52,8 @@ venv/
 # datasets/manifests/*.json, not the bytes themselves)
 # ---------------------------------------------------------------------------
 old datasets/
+# Local scratch/output (reports of record live under docs/ and datasets/)
+/work/
 datasets/raw/
 datasets/processed/
 datasets/external/
