@@ -1,0 +1,9 @@
+model: random_forest
+variants: [optical, optical_indices, optical_sar, full]
+seeds: [17, 42, 2026]
+uses_unique_train_pixels: true
+params:
+  n_estimators: 500
+  class_weight: balanced_subsample
+  max_features: sqrt
+  min_samples_leaf: 2

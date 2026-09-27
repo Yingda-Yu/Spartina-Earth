@@ -1,0 +1,8 @@
+model: unet
+family: segmentation_models_pytorch
+encoder_name: resnet18
+encoder_weights: imagenet
+arch: Unet
+lr: 0.0003
+variants: [optical, optical_indices, optical_sar, full]
+seeds: [17, 42, 2026]
