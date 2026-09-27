@@ -1,0 +1,64 @@
+{
+  "path": "old datasets/30mSpartinaChina/2020/CM-SSM/CM-SSM.shp",
+  "driver": "ESRI Shapefile",
+  "crs": "EPSG:32650",
+  "schema": {
+    "properties": {
+      "Id": "int32:6",
+      "name": "str:50",
+      "area": "float:13.11"
+    },
+    "geometry": "Polygon"
+  },
+  "geometry_types_header": "Polygon",
+  "geometry_types_observed": {
+    "Polygon": 148072
+  },
+  "feature_count": 148072,
+  "bounds": [
+    -346085.7846107116,
+    2335243.3881422123,
+    1017464.9564826443,
+    4341555.000000002
+  ],
+  "empty_geometries": 0,
+  "invalid_geometries": 2402,
+  "invalid_reasons": {
+    "Ring Self-intersection": 2402
+  },
+  "duplicate_geometry_features": 0,
+  "area_summary": {
+    "crs_used_for_area": "EPSG:32650",
+    "computed_total_area_m2": 593709849.716549,
+    "computed_total_area_km2": 593.709849716549,
+    "computed_min_area_m2": 0.8099942782404799,
+    "computed_max_area_m2": 48667459.2300028,
+    "geometries_smaller_than_100m2": 100455
+  },
+  "area_field_forensics": {
+    "area": {
+      "field_sum": 59370.98228275039,
+      "field_min": 8.09994e-05,
+      "field_max": 4866.75,
+      "computed_area_m2_sum": 593709849.716549,
+      "median_ratio_computed_m2_over_field": 9999.999999993423,
+      "unit_hypothesis": "hectare if ratio~10000",
+      "warning": "hypothesis only; confirm against official field definition / metadata before quoting hectares"
+    }
+  },
+  "categorical_breakdown": {
+    "field": "name",
+    "counts": {
+      "ZJ": 39764,
+      "FJ": 28619,
+      "SH": 24566,
+      "JS": 24180,
+      "GX": 12658,
+      "SD": 9490,
+      "TJ": 6203,
+      "GD": 2082,
+      "HB": 510
+    }
+  },
+  "repair_policy": "originals untouched; any repair copy lives only under work/"
+}

@@ -1,0 +1,4 @@
+................................                                         [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/unit/test_audit_geo_tools.py:10: could not import 'rasterio': No module named 'rasterio'
+32 passed, 1 skipped in 0.06s

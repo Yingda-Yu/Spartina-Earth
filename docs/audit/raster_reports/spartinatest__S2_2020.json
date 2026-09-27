@@ -1,0 +1,119 @@
+{
+  "path": "old datasets/spartinatest/S2_2020.tif",
+  "driver": "GTiff",
+  "width": 669,
+  "height": 669,
+  "band_count": 5,
+  "dtypes": [
+    "float32"
+  ],
+  "crs": "EPSG:4326",
+  "crs_is_projected": false,
+  "crs_is_geographic": true,
+  "transform": [
+    8.983152841195215e-05,
+    0.0,
+    121.15991461950681,
+    0.0,
+    -8.983152841195215e-05,
+    28.370054313892254
+  ],
+  "bounds": [
+    121.15991461950681,
+    28.30995702138466,
+    121.2200119120144,
+    28.370054313892254
+  ],
+  "resolution_x": 8.983152841195215e-05,
+  "resolution_y": 8.983152841195215e-05,
+  "nodata": null,
+  "compression": "lzw",
+  "tiled": true,
+  "block_shapes": [
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ]
+  ],
+  "bands": [
+    {
+      "index": 1,
+      "dtype": "float32",
+      "description": "B4",
+      "block_shape": [
+        256,
+        256
+      ],
+      "overviews": [],
+      "nodata": null
+    },
+    {
+      "index": 2,
+      "dtype": "float32",
+      "description": "B3",
+      "block_shape": [
+        256,
+        256
+      ],
+      "overviews": [],
+      "nodata": null
+    },
+    {
+      "index": 3,
+      "dtype": "float32",
+      "description": "B2",
+      "block_shape": [
+        256,
+        256
+      ],
+      "overviews": [],
+      "nodata": null
+    },
+    {
+      "index": 4,
+      "dtype": "float32",
+      "description": "NDVI",
+      "block_shape": [
+        256,
+        256
+      ],
+      "overviews": [],
+      "nodata": null
+    },
+    {
+      "index": 5,
+      "dtype": "float32",
+      "description": "NDWI",
+      "block_shape": [
+        256,
+        256
+      ],
+      "overviews": [],
+      "nodata": null
+    }
+  ],
+  "dataset_tags": {
+    "AREA_OR_POINT": "Area"
+  },
+  "area": {
+    "method": null,
+    "positive_area_km2": null,
+    "guards": []
+  }
+}

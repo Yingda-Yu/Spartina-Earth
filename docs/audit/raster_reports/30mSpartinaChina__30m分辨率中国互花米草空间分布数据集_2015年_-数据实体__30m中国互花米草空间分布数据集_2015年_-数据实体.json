@@ -1,0 +1,84 @@
+{
+  "path": "old datasets/30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
+  "driver": "GTiff",
+  "width": 45282,
+  "height": 67077,
+  "band_count": 1,
+  "dtypes": [
+    "int16"
+  ],
+  "crs": "EPSG:32650",
+  "crs_is_projected": true,
+  "crs_is_geographic": false,
+  "transform": [
+    30.0,
+    0.0,
+    -345246.4962637047,
+    0.0,
+    -30.0,
+    4341513.444483308
+  ],
+  "bounds": [
+    -345246.4962637047,
+    2329203.444483308,
+    1013213.5037362953,
+    4341513.444483308
+  ],
+  "resolution_x": 30.0,
+  "resolution_y": 30.0,
+  "nodata": 255.0,
+  "compression": null,
+  "tiled": true,
+  "block_shapes": [
+    [
+      128,
+      128
+    ]
+  ],
+  "bands": [
+    {
+      "index": 1,
+      "dtype": "int16",
+      "description": null,
+      "block_shape": [
+        128,
+        128
+      ],
+      "overviews": [
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256
+      ],
+      "nodata": 255.0
+    }
+  ],
+  "dataset_tags": {
+    "AREA_OR_POINT": "Area",
+    "DataType": "Thematic"
+  },
+  "class_statistics_band_1": {
+    "unique_values": [
+      1
+    ],
+    "value_counts": {
+      "1": 608287
+    },
+    "unique_tracking_abandoned_above_MAX_UNIQUE": false,
+    "positive_pixel_count": 608287,
+    "nodata_pixel_count": 3036772427,
+    "valid_pixel_count": 608287
+  },
+  "area": {
+    "method": "pixel_count_x_transform_pixel_area(projected CRS)",
+    "pixel_area_m2": 900.0,
+    "positive_area_m2": 547458300.0,
+    "positive_area_km2": 547.4583,
+    "positive_pixel_count": 608287,
+    "guards": []
+  }
+}
