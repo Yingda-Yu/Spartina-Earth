@@ -1,0 +1,75 @@
+{
+  "schema_version": "ZHEJIANG_ROI_V0",
+  "created_utc": "2026-09-30T00:00:00Z",
+  "status": "PLANNED_GEOMETRY_MISSING",
+  "issue": "#7 preparation only, no bulk production",
+  "analysis_crs": "EPSG:32651 (UTM zone 51N; all three bays fall within 120E-126E)",
+  "rules": [
+    "No hand-drawn rectangle may be promoted to an authoritative bay boundary.",
+    "geometry stays null until a source document is retrieved, verified and license-checked.",
+    "Locator points are approximate cartographic references only, explicitly not boundaries.",
+    "The GEE technical smoke box (HZ_SMOKE_BOX) is not listed here as an ROI boundary."
+  ],
+  "rois": [
+    {
+      "roi_id": "ZJ-HZB",
+      "name": "杭州湾",
+      "name_en": "Hangzhou Bay",
+      "geometry": null,
+      "geometry_status": "MISSING",
+      "locator_point": {
+        "lon": 121.30, "lat": 30.35,
+        "note": "APPROXIMATE_LOCATOR_NOT_A_BOUNDARY"
+      },
+      "reason": "Pilot-0 legacy region; continuation site for cross-decade work; large estuarine turbidity + active remediation",
+      "coastline_coverage": "UNKNOWN",
+      "administrative_context": "Zhejiang shore (Jiaxing/Hangzhou/Shaoxing/Ningbo); Shanghai/Jiangsu north shore excluded pending boundary",
+      "chosen_source": null,
+      "source_candidates": [
+        {"tier": "authoritative_government", "name": "浙江省海洋功能区划（2011-2020年）", "status": "TODO_VERIFY", "note": "retrieve official approval text and any approved boundary vector; approval document number NOT recorded here unverified"},
+        {"tier": "authoritative_government", "name": "浙江省自然资源厅（海洋局）公开发布的海岸线/海域管理成果", "status": "TODO_VERIFY", "note": "confirm public availability and reuse license"},
+        {"tier": "reference", "name": "OpenStreetMap / Natural Earth coastline", "status": "TODO_VERIFY", "note": "locator-scale only; ODbL attribution required; not an authoritative management boundary"}
+      ]
+    },
+    {
+      "roi_id": "ZJ-SMB",
+      "name": "三门湾",
+      "name_en": "Sanmen Bay",
+      "geometry": null,
+      "geometry_status": "MISSING",
+      "locator_point": {
+        "lon": 121.62, "lat": 29.05,
+        "note": "APPROXIMATE_LOCATOR_NOT_A_BOUNDARY"
+      },
+      "reason": "Independent second embayment for cross-region generalization; mariculture/tidal-flat confounders",
+      "coastline_coverage": "UNKNOWN",
+      "administrative_context": "Ningbo (Ninghai/Xiangshan) - Taizhou (Sanmen) shoreline",
+      "chosen_source": null,
+      "source_candidates": [
+        {"tier": "authoritative_government", "name": "浙江省海洋功能区划（2011-2020年）Sanmen Bay units", "status": "TODO_VERIFY"},
+        {"tier": "authoritative_government", "name": "浙江省自然资源厅 marine zoning / coastline products", "status": "TODO_VERIFY"},
+        {"tier": "reference", "name": "OpenStreetMap / Natural Earth coastline", "status": "TODO_VERIFY", "note": "locator-scale only"}
+      ]
+    },
+    {
+      "roi_id": "ZJ-YQB",
+      "name": "乐清湾",
+      "name_en": "Yueqing Bay",
+      "geometry": null,
+      "geometry_status": "MISSING",
+      "locator_point": {
+        "lon": 121.15, "lat": 28.25,
+        "note": "APPROXIMATE_LOCATOR_NOT_A_BOUNDARY"
+      },
+      "reason": "Southern Zhejiang contrast site; narrower enclosed bay, different tidal regime and Spartina management history",
+      "coastline_coverage": "UNKNOWN",
+      "administrative_context": "Wenzhou (Yueqing/Rui'an) - Taizhou (Yuhuan) shoreline",
+      "chosen_source": null,
+      "source_candidates": [
+        {"tier": "authoritative_government", "name": "浙江省海洋功能区划（2011-2020年）Yueqing Bay units", "status": "TODO_VERIFY"},
+        {"tier": "authoritative_government", "name": "浙江省自然资源厅 marine zoning / coastline products", "status": "TODO_VERIFY"},
+        {"tier": "reference", "name": "OpenStreetMap / Natural Earth coastline", "status": "TODO_VERIFY", "note": "locator-scale only"}
+      ]
+    }
+  ]
+}
