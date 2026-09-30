@@ -81,5 +81,5 @@ warn_return_any = true
 # Third-party geo/ML libraries ship no type stubs in the frozen env;
 # missing imports are ignored per-module rather than weakening strictness.
 [[tool.mypy.overrides]]
-module = ["rasterio.*", "fiona.*", "geopandas.*", "shapely.*", "pandas.*", "osgeo.*", "scipy.*", "yaml.*", "sklearn.*", "joblib.*", "segmentation_models_pytorch.*", "transformers.*", "timm.*"]
+module = ["rasterio.*", "fiona.*", "geopandas.*", "shapely.*", "pandas.*", "osgeo.*", "scipy.*", "yaml.*", "sklearn.*", "joblib.*", "segmentation_models_pytorch.*", "transformers.*", "timm.*", "ee.*", "google.*", "googleapiclient.*"]
 ignore_missing_imports = true

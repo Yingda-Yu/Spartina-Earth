@@ -8,8 +8,9 @@
 # Python 3.11 is the project baseline. Geo/GDAL stack comes from
 # conda-forge only (no pip GDAL). PyTorch is the pip cu118 build that has
 # already been verified on this host's 10x RTX 3090 (driver 580.x).
-# earthengine-api is intentionally NOT here: install the `gee` extra only
-# when GEE work begins.
+# earthengine-api was added for Issue #6 real integration (2026-09-30)
+# via the pip section below; resolved wheels are appended to versions.txt.
+# Credentials / GCP project ids are never stored in this repository.
 name: spartina-earth
 channels:
   - conda-forge
@@ -54,3 +55,5 @@ dependencies:
       - transformers==4.46.3
       - timm==1.0.30
       - huggingface-hub==0.36.2
+      # M1.6 real GEE integration (Issue #6): official Earth Engine API
+      - earthengine-api==1.7.46

@@ -247,7 +247,7 @@ class EarthEngineBatchBackend:
     def _ee_module(self) -> Any:
         if self._ee is None:
             try:
-                import ee  # type: ignore[import-not-found]
+                import ee
             except ImportError as exc:  # pragma: no cover - env dependent
                 raise RuntimeError(
                     "earthengine-api is not installed (optional 'gee' "

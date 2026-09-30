@@ -388,3 +388,107 @@ def test_mock_catalog_still_works_after_v1_extensions() -> None:
         end_date="2015-12-31", region=Region({"type": "Polygon"}, 32651),
         max_cloud_cover=0.5))
     assert {s.scene_id for s in result} == {"good", "partial"}
+
+
+# --------------------------------------------------------------------------
+# Best-single-scene selection policy (Issue #6 real integration)
+# --------------------------------------------------------------------------
+
+def _candidate(
+    scene_id: str, *, coverage: float | None = 1.0,
+    valid: float | None = 1.0, cloud: float | None = 0.05,
+    accepted: bool = True, when: str = "2020-09-15T02:00:00+00:00",
+) -> dict[str, object]:
+    return {
+        "scene_id": scene_id,
+        "sensor": "landsat8",
+        "acquisition_utc": when,
+        "accepted": accepted,
+        "footprint_coverage_fraction": coverage,
+        "valid_pixel_fraction": valid,
+        "cloud_cover_fraction": cloud,
+        "quality_extras": {},
+        "rejection_reasons": [],
+    }
+
+
+def test_policy_rejects_unknown_low_coverage_and_cloud() -> None:
+    from spartina.data.gee.selection import (
+        REASON_HIGH_CLOUD,
+        REASON_LOW_COVERAGE,
+        REASON_LOW_VALID,
+        REASON_UNKNOWN_COVERAGE,
+        SingleScenePolicy,
+        rejection_reasons,
+    )
+
+    policy = SingleScenePolicy(target_doy=275)
+    assert rejection_reasons(_candidate("a", coverage=None), policy) == (
+        REASON_UNKNOWN_COVERAGE,)
+    assert REASON_LOW_COVERAGE in rejection_reasons(
+        _candidate("b", coverage=0.8), policy)
+    assert REASON_LOW_VALID in rejection_reasons(
+        _candidate("c", valid=0.5), policy)
+    assert REASON_HIGH_CLOUD in rejection_reasons(
+        _candidate("d", cloud=0.9), policy)
+
+
+def test_best_scene_is_deterministic_on_coverage_valid_cloud_season() -> None:
+    from spartina.data.gee.selection import (
+        SingleScenePolicy,
+        best_single_scene,
+    )
+
+    policy = SingleScenePolicy(target_doy=275)
+    rows = [
+        _candidate("far_season", when="2020-09-20T00:00:00+00:00"),
+        _candidate("more_valid", valid=0.99,
+                   when="2020-10-05T00:00:00+00:00"),
+        _candidate("fully_valid", valid=1.0, cloud=0.02,
+                   when="2020-10-10T00:00:00+00:00"),
+        _candidate("not_accepted", accepted=False),
+    ]
+    chosen = best_single_scene(rows, policy)
+    assert chosen is not None and chosen["scene_id"] == "fully_valid"
+    # deterministic under reordering
+    import random
+    for seed in range(5):
+        shuffled = rows[:]
+        random.Random(seed).shuffle(shuffled)
+        again = best_single_scene(shuffled, policy)
+        assert again is not None and again["scene_id"] == "fully_valid"
+
+
+def test_sar_scene_without_cloud_metadata_is_selectable() -> None:
+    from spartina.data.gee.selection import (
+        SingleScenePolicy,
+        best_single_scene,
+        circular_doy_distance,
+    )
+
+    policy = SingleScenePolicy(target_doy=275)
+    sar = _candidate("S1A_IW", cloud=None)
+    assert best_single_scene([sar], policy)["scene_id"] == "S1A_IW"
+    assert circular_doy_distance(360, 10) == 15
+    assert best_single_scene([], policy) is None
+
+
+def test_candidate_record_carries_polarizations() -> None:
+    scene = SceneMetadata(
+        scene_id="s1", sensor_name="sentinel1",
+        acquisition_time="2020-09-15T00:00:00+00:00",
+        cloud_cover=None, bbox=(0.0, 0.0, 1.0, 1.0), crs="EPSG:4326",
+        extra={"polarizations": ["VV", "VH"]})
+    table = build_candidate_table([scene], frozenset({"s1"}))
+    row = table[0].to_record()
+    assert row["polarizations"] == ["VV", "VH"]
+
+
+def test_project_env_var_is_required_by_initialize(monkeypatch: pytest.MonkeyPatch) -> None:
+    from spartina.data.gee import auth
+
+    monkeypatch.setattr(auth, "credentials_available", lambda: True)
+    monkeypatch.delenv("SPARTINA_GEE_PROJECT", raising=False)
+    assert auth.configured_project() is None
+    with pytest.raises(RuntimeError, match="SPARTINA_GEE_PROJECT"):
+        auth.initialize()

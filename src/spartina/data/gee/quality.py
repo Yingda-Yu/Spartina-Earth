@@ -73,6 +73,7 @@ class CandidateScene:
             "orbit_direction": self.scene.extra.get("orbit_direction"),
             "relative_orbit_number": self.scene.extra.get(
                 "relative_orbit_number"),
+            "polarizations": self.scene.extra.get("polarizations"),
             "mgrs_tile": self.scene.extra.get("mgrs_tile"),
             "wrs_path": self.scene.extra.get("wrs_path"),
             "wrs_row": self.scene.extra.get("wrs_row"),
