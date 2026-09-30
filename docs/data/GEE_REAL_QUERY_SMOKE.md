@@ -1,16 +1,25 @@
-# GEE Real Query Smoke — Issue #6 (M1.6)
+# GEE Real Query Smoke — Issue #6 (M1.6 / M1.6b)
 
-Status: **real, authenticated catalog retrieval PASSED; the first real
-Landsat-8 export gate is FAILED (zero policy-eligible L8 scenes in the
-fixed window).** No pixel export occurred; this is an honest
-`NO_ELIGIBLE_LANDSAT8_SCENE` result, not a silent relaxation of the
-predeclared rules.
+Status: **real, authenticated catalog retrieval PASSED for both
+predeclared windows; the real Landsat-8 pixel-export gate is FAILED in
+BOTH windows (zero policy-eligible L8 scenes in the autumn window AND in
+the predeclared summer backup window).** No pixel export occurred; both
+are honest `NO_ELIGIBLE_LANDSAT8_SCENE` results, not silent relaxations
+of the predeclared rules. The M1.6b closure token is
+**`L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`**: per the
+owner protocol no third date search was made, no threshold was relaxed,
+and no Sentinel-2 export was substituted. **Issue #6 remains OPEN; the
+real byte-export/provenance chain is NOT YET VERIFIED.**
 
 This document is the tracked human-readable evidence. The machine
 evidence is frozen at
 [tests/fixtures/gee/real_smoke_catalog_v1.json](../../tests/fixtures/gee/real_smoke_catalog_v1.json)
-(30 fully-typed candidate rows + fingerprints) and replayed offline by
-`tests/unit/test_gee_real_smoke_fixture.py`.
+(30 fully-typed candidate rows + fingerprints, autumn primary window)
+and
+[tests/fixtures/gee/real_smoke_backup_catalog_v1.json](../../tests/fixtures/gee/real_smoke_backup_catalog_v1.json)
+(2 L8 candidate rows + fingerprints, M1.6b predeclared backup window),
+replayed offline by `tests/unit/test_gee_real_smoke_fixture.py` and
+`tests/unit/test_gee_real_smoke_backup_fixture.py`.
 
 ## 1. What ran
 
@@ -203,14 +212,96 @@ rasterio grid match, reflectance scaling sanity, SHA-256, full
 `GEE_DATA_FACTORY_V1` manifest, and an end-to-end provenance-chain
 assertion.
 
-## 8. Known limitations
+## 8. M1.6b — predeclared seasonal fallback (second, final L8 attempt)
 
-1. **Zero export evidence this round** — the L8 autumn cloud reality on
-   this 0.02° box closes the gate. A future round may predeclare a
-   different window/ROI **before** inspecting it; the fixed policy code
-   must not be edited to force a pass.
-2. One tiny ROI, one 61-day window in 2020 — no cross-year, cross-region
-   or cross-sensor-generation inference is supported by this smoke.
+After the autumn gate closure, the owner fixed the next attempt in the
+Issue #6 comment "M1.6b closure protocol" (2026-09-30) **before any
+backup-window retrieval**: the documented backup seasonal policy
+(DOY 152–212, see
+[ZHEJIANG_DATA_PREPARATION_V0.md](ZHEJIANG_DATA_PREPARATION_V0.md)),
+same ROI, same thresholds, same eligibility/ranking code, Landsat 8 only,
+single scene only. This is a predeclared seasonal fallback, not a
+data-driven relaxation.
+
+* **Action**: metadata-only L8 retrieval, executed **twice in
+  independent calls** (run timestamps `2026-09-30T08:00:32Z` /
+  `2026-09-30T08:00:33Z`).
+* **Window**: `2020-06-01T00:00:00Z` … `2020-08-01T00:00:00Z`
+  (`filterDate` end exclusive); **target DOY 182**.
+* **Policy (unchanged)**: `min_footprint_coverage=0.99`,
+  `min_valid_pixel_fraction=0.95`, `max_cloud_fraction=0.30`.
+* **Collection**: `LANDSAT/LC08/C02/T1_L2` only.
+* **Driver profile**: `real_catalog_smoke.py --window-profile backup_v1`;
+  gate profile `real_export_smoke.py --window-profile backup_v1`.
+* **Counts**: 2 candidates / **0 policy-eligible / 0 selected**.
+
+### 8.1 Both backup L8 candidates rejected by ROI cloud
+
+Both scenes are WRS-2 path/row **118/39** with full ROI coverage (1.0)
+and valid-pixel fraction 1.0; the ROI is entirely inside the cloud/cirrus
+family on both dates:
+
+| Scene (system:index) | Product id | Acquisition UTC | DOY | Catalog CLOUD_COVER | ROI cloud | ROI cirrus | ROI shadow | ROI clear | Reason |
+|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| LC08_118039_20200613 | LC08_L2SP_118039_20200613_20200824_02_T1 | 2020-06-13T02:25:01.898000+00:00 | 165 | 0.9772 | 1.0000 | 1.0000 | 0.0000 | 0.0000 | high_roi_cloud_fraction |
+| LC08_118039_20200731 | LC08_L2SP_118039_20200731_20200908_02_T1 | 2020-07-31T02:25:20.994000+00:00 | 213 | 0.5977 | 1.0000 | 0.9962 | 0.0140 | 0.0000 | high_roi_cloud_fraction |
+
+ROI pixel totals: 5509 pixels per scene; ROI cloud pixels 5509/5509 on
+both dates (QA_PIXEL cloud family: dilated | cirrus | cloud). Snow and
+saturation are zero everywhere; this is purely a cloud gate failure.
+
+* **Observation, not an inference (MISSING explanation)**: the 61-day
+  window nominally contains four L8 overpasses of WRS 118/39 (16-day
+  revisit); the `T1_L2` filtered collection returned exactly the two
+  scenes above. Why the other nominal dates are absent from this
+  collection/filter response was **not investigated and is UNKNOWN**; no
+  third search or collection change was made.
+* Determinism: `rerun_identical = true`, `rerun_scene_id_sets_equal =
+  true`. **Catalog fingerprint (SHA-256)**:
+  `f9a9c0b4241fc0932535c21b408872db8054e62bf2bd4d7ce4de31ac63423109`;
+  **selection fingerprint (SHA-256)**:
+  `8c2d37cab34a6252b1edfe97cda5552a1a133abb21b1c5ba2990b8e0d8fac14b`.
+  Both are pinned in the frozen backup fixture and reproduced offline by
+  `tests/unit/test_gee_real_smoke_backup_fixture.py`.
+
+### 8.2 Gate closure and what did NOT happen
+
+Driven to the export gate under real credentials with
+`SPARTINA_GEE_SMOKE_EXPORT=1`, the backup profile refuses with
+`NO_ELIGIBLE_LANDSAT8_SCENE`
+(`test_real_backup_export_gate_blocks_zero_eligible_l8` asserts the
+refusal and that no `.tif`, manifest or task store is created).
+
+Outcome: **`L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`**.
+
+* **No Earth Engine batch task was started**, no Drive folder/file, no
+  download, no GeoTIFF, no SHA-256 of pixels, no GridSpec raster
+  verification, no export manifest, no ~500 m sub-ROI export, no
+  `datasets/manifests/gee_real_l8_export_smoke_v1.json` (the planned
+  tracked manifest name is simply not produced).
+* **No third arbitrary date search**, no `cloud <= 0.30` relaxation, no
+  ROI move, no manual scene pick, no median/mosaic, no sensor
+  substitution.
+* Per the owner protocol, a separate Sentinel-2 real export may be
+  *proposed* later purely as generic transport/export-pipeline
+  validation, but it must not be presented as a substitute for Landsat
+  scaling validation without explicit approval. No such S2 export was
+  run in M1.6b.
+* **Issue #6 stays OPEN**: it closes only after at least one real sensor
+  export lands with a complete manifest/provenance chain and precise
+  sensor-specific validation claims.
+* Combined with section 7, **5 real L8 scenes across 2 predeclared
+  windows (3 autumn + 2 summer) all fail the unchanged ROI cloud gate.**
+
+## 9. Known limitations
+
+1. **Zero export evidence** — the L8 cloud reality on this 0.02° box
+   closes the gate in both predeclared windows; real byte export is
+   NOT YET VERIFIED. Any future attempt must predeclare its window/ROI
+   **before** inspecting it; the fixed policy code must not be edited to
+   force a pass.
+2. One tiny ROI, two fixed 61-day windows in 2020 — no cross-year,
+   cross-region or cross-sensor-generation inference is supported.
 3. S1 `productIdentifier` is MISSING from GEE responses (pipeline-level);
    only `system:index` identity is evidenced.
 4. Tide/inundation is not assessed here; any such field stays PROXY,
@@ -220,16 +311,24 @@ assertion.
    must not be cited as their identification.
 6. HZB_TECH_SMOKE_V1 is not an authoritative bay boundary; do not reuse
    it as an Issue #7 production ROI.
+7. The absence of two nominal L8 overpass dates from the backup
+   collection response is UNVERIFIED (section 8.1); it was not probed,
+   in keeping with the no-third-search protocol.
 
-## 9. Reproduce
+## 10. Reproduce
 
 ```bash
 conda activate spartina-earth
 export SPARTINA_GEE_PROJECT="project-795fc21c-e217-47f3-adb"
-# metadata-only, two independent real retrievals:
+# primary autumn window, metadata-only, two independent real retrievals:
 python scripts/data/gee/real_catalog_smoke.py
-# real integration suite (catalog + honest gate-closure test):
+# M1.6b predeclared summer backup, Landsat 8 only, two retrievals:
+python scripts/data/gee/real_catalog_smoke.py --window-profile backup_v1 \
+    --sensors landsat8
+# real integration suite (catalog + honest gate-closure tests, both
+# windows; export tests require the explicit operator opt-in):
 SPARTINA_GEE_SMOKE_EXPORT=1 pytest -m gee_integration -v
-# offline replay of the frozen evidence (no credentials, no network):
-pytest tests/unit/test_gee_real_smoke_fixture.py -v
+# offline replay of both frozen evidence sets (no credentials/network):
+pytest tests/unit/test_gee_real_smoke_fixture.py \
+    tests/unit/test_gee_real_smoke_backup_fixture.py -v
 ```

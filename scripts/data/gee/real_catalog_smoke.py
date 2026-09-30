@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -70,8 +71,54 @@ DEFAULT_END = "2020-11-01T00:00:00Z"
 DEFAULT_TARGET_DOY = 275  # 1 October, autumn Spartina window (planning v0)
 SMOKE_VERSION = "real_smoke_v1"
 
+# Predeclared seasonal fallback (Issue #6 M1.6b protocol, owner comment
+# 2026-09-30): the documented backup seasonal window from
+# docs/data/ZHEJIANG_DATA_PREPARATION_V0.md (DOY 152-212). This is NOT a
+# data-driven relaxation chosen after seeing the autumn 0/3 result: it was
+# declared before the backup query ran. Same ROI, same thresholds, same
+# eligibility/ranking code, Landsat only, target DOY 182.
+BACKUP_START = "2020-06-01T00:00:00Z"
+BACKUP_END = "2020-08-01T00:00:00Z"  # filterDate end is exclusive
+BACKUP_TARGET_DOY = 182
+BACKUP_SMOKE_VERSION = "real_smoke_backup_v1"
+
 NOT_APPLICABLE = "NOT_APPLICABLE"
 MISSING = "MISSING"
+
+
+@dataclass(frozen=True)
+class SmokeWindow:
+    """One fixed, predeclared query window + output version.
+
+    Thresholds and ranking are NOT part of the window: the exact same
+    SingleScenePolicy defaults and selection code apply to every profile.
+    """
+
+    name: str
+    version: str
+    start_utc: str
+    end_utc: str
+    target_doy: int
+    declared_rationale: str
+
+
+AUTUMN_V1 = SmokeWindow(
+    name="autumn_v1", version=SMOKE_VERSION,
+    start_utc=DEFAULT_START, end_utc=DEFAULT_END,
+    target_doy=DEFAULT_TARGET_DOY,
+    declared_rationale=(
+        "primary autumn Spartina window DOY 260-305 "
+        "(docs/data/ZHEJIANG_DATA_PREPARATION_V0.md)"))
+BACKUP_V1 = SmokeWindow(
+    name="backup_v1", version=BACKUP_SMOKE_VERSION,
+    start_utc=BACKUP_START, end_utc=BACKUP_END,
+    target_doy=BACKUP_TARGET_DOY,
+    declared_rationale=(
+        "predeclared seasonal fallback DOY 152-212, fixed in the Issue #6 "
+        "M1.6b protocol BEFORE any backup-window retrieval; not a "
+        "post-result window widening"))
+WINDOW_PROFILES: dict[str, SmokeWindow] = {
+    AUTUMN_V1.name: AUTUMN_V1, BACKUP_V1.name: BACKUP_V1}
 
 SENSOR_SPEC: dict[str, dict[str, Any]] = {
     "landsat8": {
@@ -154,14 +201,15 @@ def _doy(iso_utc: str) -> int | None:
         return None
 
 
-def _raw_collection(ee: Any, sensor: str, roi: Any) -> Any:
+def _raw_collection(ee: Any, sensor: str, roi: Any,
+                    window: SmokeWindow = AUTUMN_V1) -> Any:
     """Full candidate collection (no cloud prefilter; SAR unfiltered).
 
     Catalog cloud metadata is retained as a feature but never removes a
     candidate. Sentinel-1 is queried WITHOUT mode/polarisation filters so
     non-IW or non-VV/VH scenes remain visible as rejected candidates.
     """
-    start, end = DEFAULT_START, DEFAULT_END
+    start, end = window.start_utc, window.end_utc
     if sensor == "landsat8":
         return (ee.ImageCollection(COLLECTIONS["landsat8"])
                 .filterBounds(roi).filterDate(start, end))
@@ -174,9 +222,11 @@ def _raw_collection(ee: Any, sensor: str, roi: Any) -> Any:
     raise KeyError(f"unsupported smoke sensor {sensor!r}")
 
 
-def _annotated_features(ee: Any, sensor: str, roi: Any) -> list[dict[str, Any]]:
+def _annotated_features(ee: Any, sensor: str, roi: Any,
+                        window: SmokeWindow = AUTUMN_V1
+                        ) -> list[dict[str, Any]]:
     """One getInfo: raw scenes + server-side ROI footprint coverage."""
-    collection = _raw_collection(ee, sensor, roi)
+    collection = _raw_collection(ee, sensor, roi, window)
     roi_area = roi.area(30.0)
 
     def annotate(image: Any) -> Any:
@@ -335,19 +385,20 @@ def _qa_counts(ee: Any, sensor: str, collection: Any,
 
 def collect_sensor(
     ee: Any, sensor: str, policy: SingleScenePolicy,
-    retrieval_ts: str,
+    retrieval_ts: str, window: SmokeWindow = AUTUMN_V1,
 ) -> list[dict[str, Any]]:
     """One full real retrieval: every candidate row with QA + rank marks."""
     roi = _ee_geometry(ee)
     query_id = (
-        f"{sensor}-{ROI_ID}-{DEFAULT_START[:10]}_{DEFAULT_END[:10]}"
-        f"-doy{DEFAULT_TARGET_DOY}-{SMOKE_VERSION}")
-    features = _annotated_features(ee, sensor, roi)
+        f"{sensor}-{ROI_ID}-{window.start_utc[:10]}_{window.end_utc[:10]}"
+        f"-doy{window.target_doy}-{window.version}")
+    features = _annotated_features(ee, sensor, roi, window)
     if not features:
         raise RuntimeError(
-            f"ZERO real scenes for {sensor} {DEFAULT_START}..{DEFAULT_END}; "
-            "the date range must NOT be widened silently -- report this")
-    raw = _raw_collection(ee, sensor, roi)
+            f"ZERO real scenes for {sensor} {window.start_utc}.."
+            f"{window.end_utc}; the date range must NOT be widened "
+            "silently -- report this")
+    raw = _raw_collection(ee, sensor, roi, window)
     qa_by_scene = _qa_counts(ee, sensor, raw, roi)
 
     rows: list[dict[str, Any]] = []
@@ -446,6 +497,8 @@ def _selection_payload(
 def run_smoke(
     sensors: tuple[str, ...] = ("landsat8", "sentinel1", "sentinel2"),
     out_dir: Path | None = None,
+    *,
+    window: SmokeWindow = AUTUMN_V1,
 ) -> dict[str, Any]:
     """Execute the real metadata-only smoke twice; return full evidence."""
     project = configured_project()
@@ -455,19 +508,19 @@ def run_smoke(
     initialize()
     import ee  # noqa: F401  (initialization side effect; module used below)
 
-    policy = SingleScenePolicy(target_doy=DEFAULT_TARGET_DOY)
+    policy = SingleScenePolicy(target_doy=window.target_doy)
     out_dir = out_dir or (REPO_ROOT / "artifacts" / "gee" / "real_smoke")
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # First retrieval.
     ts_a = _now_iso()
     rows_a: dict[str, list[dict[str, Any]]] = {
-        sensor: collect_sensor(ee, sensor, policy, ts_a)
+        sensor: collect_sensor(ee, sensor, policy, ts_a, window)
         for sensor in sensors}
     # Independent second retrieval (fresh EE calls) for determinism check.
     ts_b = _now_iso()
     rows_b: dict[str, list[dict[str, Any]]] = {
-        sensor: collect_sensor(ee, sensor, policy, ts_b)
+        sensor: collect_sensor(ee, sensor, policy, ts_b, window)
         for sensor in sensors}
 
     all_rows = [row for sensor in sensors for row in rows_a[sensor]]
@@ -519,9 +572,9 @@ def run_smoke(
             "valid_pixel_fraction": r["valid_pixel_fraction"],
         } for r in picks]
 
-    json_path = out_dir / f"candidate_scenes_{SMOKE_VERSION}.json"
-    csv_path = out_dir / f"candidate_scenes_{SMOKE_VERSION}.csv"
-    parquet_path = out_dir / f"candidate_scenes_{SMOKE_VERSION}.parquet"
+    json_path = out_dir / f"candidate_scenes_{window.version}.json"
+    csv_path = out_dir / f"candidate_scenes_{window.version}.csv"
+    parquet_path = out_dir / f"candidate_scenes_{window.version}.parquet"
     json_path.write_text(
         json.dumps(all_rows, indent=2, sort_keys=True), encoding="utf-8")
     try:
@@ -558,7 +611,9 @@ def run_smoke(
     pq_frame.to_parquet(parquet_path, index=False)
 
     summary = {
-        "smoke_version": SMOKE_VERSION,
+        "smoke_version": window.version,
+        "window_profile": window.name,
+        "window_declared_rationale": window.declared_rationale,
         "retrieval_utc_run_1": ts_a,
         "retrieval_utc_run_2": ts_b,
         "project_env_var": PROJECT_ENV_VAR,
@@ -570,8 +625,8 @@ def run_smoke(
             "note": ROI_NOTE,
         },
         "window": {
-            "start_utc": DEFAULT_START, "end_utc": DEFAULT_END,
-            "target_doy": DEFAULT_TARGET_DOY},
+            "start_utc": window.start_utc, "end_utc": window.end_utc,
+            "target_doy": window.target_doy},
         "collections": {s: COLLECTIONS[s] for s in sensors},
         "policy": policy.to_record(),
         "counts": counts,
@@ -587,7 +642,7 @@ def run_smoke(
             "json": str(json_path), "csv": str(csv_path),
             "parquet": str(parquet_path)},
     }
-    summary_path = out_dir / f"run_summary_{SMOKE_VERSION}.json"
+    summary_path = out_dir / f"run_summary_{window.version}.json"
     summary_path.write_text(
         json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8")
     return {**summary, "rows_run_1": rows_a, "rows_run_2": rows_b,
@@ -599,10 +654,16 @@ def main() -> None:
     parser.add_argument("--sensors", nargs="+",
                         default=["landsat8", "sentinel1", "sentinel2"])
     parser.add_argument("--out-dir", default=None)
+    parser.add_argument(
+        "--window-profile", choices=sorted(WINDOW_PROFILES),
+        default=AUTUMN_V1.name,
+        help="predeclared query window (autumn_v1 primary; backup_v1 is "
+             "the Issue #6 M1.6b predeclared seasonal fallback)")
     args = parser.parse_args()
     result = run_smoke(
         tuple(args.sensors),
-        Path(args.out_dir) if args.out_dir else None)
+        Path(args.out_dir) if args.out_dir else None,
+        window=WINDOW_PROFILES[args.window_profile])
     printable = {k: v for k, v in result.items()
                  if not k.startswith("rows_run")}
     print(json.dumps(printable, indent=2, sort_keys=True))

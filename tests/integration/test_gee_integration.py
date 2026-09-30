@@ -5,13 +5,17 @@ Never runs under the default test selection; execute manually with:
 
     pytest -m gee_integration
 
-Catalog tests are metadata-only and stay tiny. The export-gate test
-additionally requires SPARTINA_GEE_SMOKE_EXPORT=1, but under the fixed
-2020-09-01..2020-11-01 Hangzhou-bay window the three real Landsat 8 scenes
-ALL exceed the predeclared 0.30 ROI cloud threshold, so even with the
-opt-in flag the driver must refuse with NO_ELIGIBLE_LANDSAT8_SCENE. That
-refusal is the honest acceptance result for this window -- the test
-asserts the gate CLOSES, it never fabricates a successful export.
+Catalog tests are metadata-only and stay tiny. The export-gate tests
+additionally require SPARTINA_GEE_SMOKE_EXPORT=1. Under the fixed
+2020-09-01..2020-11-01 primary window the three real Landsat 8 scenes ALL
+exceed the predeclared 0.30 ROI cloud threshold; the predeclared M1.6b
+seasonal fallback (2020-06-01..2020-08-01, target DOY 182, Landsat only)
+returned two further real scenes, both 100% cloudy over the ROI. Under
+both windows the driver refuses with NO_ELIGIBLE_LANDSAT8_SCENE
+(L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS). These refusals
+are the honest acceptance results -- the tests assert the gate CLOSES,
+they never fabricate a successful export, and no third date search is
+ever made.
 """
 
 from __future__ import annotations
@@ -74,6 +78,17 @@ SCRIPTS = REPO_ROOT / "scripts" / "data" / "gee"
 S1_SELECTED = (
     "S1A_IW_GRDH_1SDV_20201002T100300_20201002T100325_034616_0407DA_822F")
 S2_SELECTED = "20200905T023549_20200905T024731_T51RUP"
+
+# Predeclared M1.6b seasonal fallback (Issue #6 owner protocol 2026-09-30):
+# 2020-06-01..2020-08-01 (end exclusive), target DOY 182, Landsat 8 only.
+# The real backup retrieval returned exactly these two WRS 118/39 scenes;
+# both are 100% cloud-covered over the ROI and rejected by the unchanged
+# cloud <= 0.30 gate. The pinned hex fingerprints live in the frozen
+# offline fixture; here we only require the double retrieval to be
+# internally deterministic.
+BACKUP_WINDOW = ("2020-06-01T00:00:00Z", "2020-08-01T00:00:00Z")
+BACKUP_L8_SCENES = {
+    "LC08_118039_20200613", "LC08_118039_20200731"}
 
 
 def _load_driver(stem: str) -> object:
@@ -240,3 +255,87 @@ def test_real_export_gate_blocks_zero_eligible_l8(tmp_path: Path) -> None:
     assert not list(tmp_path.glob("*.tif"))  # pragma: no cover
     assert not list(tmp_path.glob("*.manifest.json"))  # pragma: no cover
     assert not (tmp_path / "task_store.json").exists()  # pragma: no cover
+
+
+def test_real_backup_catalog_smoke_l8_evidence(tmp_path: Path) -> None:
+    """Real L8-only predeclared backup window, retrieved twice.
+
+    M1.6b protocol (Issue #6 comment 2026-09-30): same ROI, same cloud
+    threshold and ranking, 2020-06-01..2020-08-01 end-exclusive, target
+    DOY 182. The real answer is two fully-cloudy WRS 118/39 scenes, zero
+    eligible. The second retrieval must reproduce fingerprints and the
+    scene-id set exactly; no threshold or date is edited to force a pass.
+    """
+    driver = _load_driver("real_catalog_smoke")
+    summary = driver.run_smoke(  # type: ignore[attr-defined]
+        ("landsat8",), tmp_path, window=driver.BACKUP_V1)
+
+    assert summary["window_profile"] == "backup_v1"  # pragma: no cover
+    assert summary["window"] == {  # pragma: no cover
+        "start_utc": BACKUP_WINDOW[0], "end_utc": BACKUP_WINDOW[1],
+        "target_doy": 182}
+    assert summary["rerun_identical"] is True  # pragma: no cover
+    assert summary["rerun_scene_id_sets_equal"] is True  # pragma: no cover
+    assert summary["counts"]["landsat8"] == {  # pragma: no cover
+        "candidate_count": 2, "eligible_count": 0, "selected_count": 0}
+    assert summary["selected_scenes"]["landsat8"] == []  # pragma: no cover
+
+    rows = json.loads(  # pragma: no cover
+        Path(summary["candidate_files"]["json"]).read_text(
+            encoding="utf-8"))
+    l8 = [r for r in rows if r["sensor"] == "landsat8"]  # pragma: no cover
+    assert {r["scene_id"] for r in l8} == BACKUP_L8_SCENES  # pragma: no cover
+    assert not any(r["selected"] for r in l8)  # pragma: no cover
+    for row in l8:  # pragma: no cover
+        assert row["roi_cloud_fraction"] == 1.0
+        assert row["policy_eligible"] is False
+        assert row["rejection_reasons"] == ["high_roi_cloud_fraction"]
+
+    for key in ("catalog_fingerprint_sha256",  # pragma: no cover
+                "selection_fingerprint_sha256"):
+        fp_a = summary[f"{key}_run_1"]  # pragma: no cover
+        fp_b = summary[f"{key}_run_2"]  # pragma: no cover
+        assert len(fp_a) == 64 and fp_a == fp_b  # pragma: no cover
+
+
+@pytest.mark.skipif(
+    os.environ.get("SPARTINA_GEE_SMOKE_EXPORT") != "1",
+    reason="operator must opt in (SPARTINA_GEE_SMOKE_EXPORT=1); the backup "
+           "export path must refuse without an explicit operator gate",
+)
+def test_real_backup_export_gate_blocks_zero_eligible_l8(
+    tmp_path: Path,
+) -> None:
+    """Predeclared backup gate must CLOSE: 0/2 L8 eligible.
+
+    Outcome token L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS:
+    no third date search, no cloud-threshold relaxation, no S2
+    substitution, no manual scene pick. Even with the operator opt-in
+    flag the export driver exits NO_ELIGIBLE_LANDSAT8_SCENE and creates
+    no Drive task, GeoTIFF, manifest or task store.
+    """
+    catalog_driver = _load_driver("real_catalog_smoke")
+    summary = catalog_driver.run_smoke(  # type: ignore[attr-defined]
+        ("landsat8",), tmp_path, window=catalog_driver.BACKUP_V1)
+    candidates = Path(summary["candidate_files"]["json"])
+    assert candidates.is_file()  # pragma: no cover
+
+    export_driver = _load_driver("real_export_smoke")
+    old_argv = sys.argv
+    sys.argv = [
+        "real_export_smoke.py", "--window-profile", "backup_v1",
+        "--candidates", str(candidates),
+        "--out-dir", str(tmp_path), "--tasks",
+        str(tmp_path / "task_store_backup.json"),
+    ]
+    try:
+        with pytest.raises(SystemExit) as exc_info:  # pragma: no cover
+            export_driver.main()  # type: ignore[attr-defined]  # pragma: no cover
+    finally:
+        sys.argv = old_argv
+    message = str(exc_info.value.code)  # pragma: no cover
+    assert "NO_ELIGIBLE_LANDSAT8_SCENE" in message  # pragma: no cover
+
+    assert not list(tmp_path.glob("*.tif"))  # pragma: no cover
+    assert not list(tmp_path.glob("*.manifest.json"))  # pragma: no cover
+    assert not (tmp_path / "task_store_backup.json").exists()  # pragma: no cover

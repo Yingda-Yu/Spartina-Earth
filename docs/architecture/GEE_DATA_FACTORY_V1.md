@@ -1,11 +1,14 @@
 # GEE EO Data Factory v1 — Issue #6 (M1.6)
 
-Status (updated 2026-09-30 after real authentication): **real catalog
-retrieval VERIFIED** against Earth Engine with project
+Status (updated 2026-09-30 after M1.6b): **real catalog retrieval
+VERIFIED** against Earth Engine with project
 `project-795fc21c-e217-47f3-adb` (L8/S1/S2 over HZB_TECH_SMOKE_V1, double
-retrieval deterministic); **the first real Landsat-8 export is GATE-FAILED
-because all 3 fixed-window L8 scenes exceed the predeclared 0.30 ROI cloud
-threshold** — no bytes were exported. Evidence:
+retrieval deterministic in both predeclared windows). **REAL BYTE EXPORT:
+NOT VERIFIED** — the real Landsat-8 export gate is GATE-FAILED in BOTH
+predeclared windows: all 3 autumn L8 scenes AND both predeclared summer
+backup L8 scenes exceed the unchanged 0.30 ROI cloud threshold
+(`L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`); no bytes were
+exported, no third search was made. Evidence:
 [GEE_REAL_QUERY_SMOKE.md](../data/GEE_REAL_QUERY_SMOKE.md). Nothing here
 performs a nationwide download; the first real run targets one small
 Hangzhou Bay ROI and is exercised only via `pytest -m gee_integration`.
@@ -144,15 +147,21 @@ backend translates `READY/RUNNING/COMPLETED/FAILED/CANCELLED`.
   credentials**: counts, exact selected ids/ranks, the S1
   15-ascending/0-descending split, L8 zero-eligibility, ROI hash, and
   recomputation of both frozen SHA-256 fingerprints.
+* `tests/unit/test_gee_real_smoke_backup_fixture.py` — offline replay of
+  the 2 frozen L8 rows from the predeclared M1.6b backup window:
+  2/0/0 counts, both scenes rejected solely for ROI cloud, unchanged ROI
+  hash, and both backup fingerprints recomputed.
 * `tests/unit/test_gee_interfaces_mock.py` (M0 contracts) remains green.
 * `tests/integration/test_gee_integration.py` — real init smoke; real
   per-sensor candidate-provenance queries (S1 null `productIdentifier`
   accepted as MISSING evidence); the real catalog driver evidence test
-  (double retrieval, fingerprints, exact S1/S2 selections); and an
-  operator-opt-in test proving the export gate **closes with
-  `NO_ELIGIBLE_LANDSAT8_SCENE`** and creates no tif/manifest/task store.
-  All skip without credentials/project; the gate test additionally
-  requires `SPARTINA_GEE_SMOKE_EXPORT=1`. No fake success is possible.
+  (double retrieval, fingerprints, exact S1/S2 selections); the real
+  M1.6b L8-only backup-window evidence test (2 scenes, 0 eligible,
+  double-retrieval deterministic); and operator-opt-in tests proving
+  the export gate **closes with `NO_ELIGIBLE_LANDSAT8_SCENE`** for BOTH
+  windows and creates no tif/manifest/task store. All skip without
+  credentials/project; the gate tests additionally require
+  `SPARTINA_GEE_SMOKE_EXPORT=1`. No fake success is possible.
 
 ## 7. Real-run status and remaining blockers
 
@@ -166,13 +175,20 @@ Resolved on 2026-09-30:
 
 Still open:
 
-1. **Export gate FAILED for the fixed 2020 window**: all three L8 scenes
-   have ROI cloud fraction 0.783 / 1.0 / 1.0 > 0.30, so no
-   policy-eligible scene exists. No Drive task, GeoTIFF, checksum or
-   COMPLETED manifest exists; the export acceptance items are NOT RUN /
-   FAILED GATE, not "done". A future attempt must predeclare a different
-   window/ROI before inspecting it — it must not edit the policy to
-   force a pass.
+1. **REAL BYTE EXPORT NOT VERIFIED — export gate FAILED in both
+   predeclared windows.** Autumn (2020-09-01..11-01, DOY 275): three L8
+   scenes, ROI cloud 0.783 / 1.0 / 1.0. Predeclared M1.6b summer
+   fallback (2020-06-01..08-01 end-exclusive, DOY 182, L8 only): two L8
+   scenes, ROI cloud 1.0 / 1.0. No policy-eligible scene exists in
+   either window; no Drive task, GeoTIFF, checksum or COMPLETED
+   manifest exists (`L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_
+   WINDOWS`); the export acceptance items are NOT RUN / FAILED GATE, not
+   "done". No third date search was made and the 0.30 threshold was not
+   relaxed. A future attempt must predeclare its window/ROI before
+   inspecting it — it must not edit the policy to force a pass. A
+   Sentinel-2 export could later be proposed only as generic
+   transport-pipeline validation, never as a substitute for Landsat
+   scaling validation, and only with explicit approval.
 2. Issue #7 production ROIs (ZJ-HZB / ZJ-SMB / ZJ-YQB) authoritative
    boundaries are still MISSING; the smoke box is not a substitute.
 3. Season/window validation, tide handling (PROXY only), and labels/

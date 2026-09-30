@@ -1,0 +1,194 @@
+{
+  "candidate_rows": [
+    {
+      "accepted": true,
+      "acquisition_date": "2020-06-13",
+      "acquisition_utc": "2020-06-13T02:25:01.898000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.9772,
+      "cloud_cover_land_fraction": 0.9756999999999999,
+      "cloud_probability_available": "NOT_APPLICABLE",
+      "collection_id": "LANDSAT/LC08/C02/T1_L2",
+      "day_of_year": 165,
+      "grid": "landsat_30m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T08:00:32.082027+00:00",
+      "mgrs_tile": "NOT_APPLICABLE",
+      "native_resolution_m": 30.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "NOT_APPLICABLE",
+      "product_id": "LC08_L2SP_118039_20200613_20200824_02_T1",
+      "query_id": "landsat8-HZB_TECH_SMOKE_V1-2020-06-01_2020-08-01-doy182-real_smoke_backup_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 1.0,
+      "roi_cirrus_pixels": 5509,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 5509,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 5509,
+      "roi_valid_pixels": 5509,
+      "scene_bounds": [],
+      "scene_id": "LC08_118039_20200613",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "landsat8",
+      "spacecraft": "LANDSAT_8",
+      "system_index": "LC08_118039_20200613",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": 118,
+      "wrs_row": 39
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-07-31",
+      "acquisition_utc": "2020-07-31T02:25:20.994000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.5977,
+      "cloud_cover_land_fraction": 0.6198,
+      "cloud_probability_available": "NOT_APPLICABLE",
+      "collection_id": "LANDSAT/LC08/C02/T1_L2",
+      "day_of_year": 213,
+      "grid": "landsat_30m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T08:00:32.082027+00:00",
+      "mgrs_tile": "NOT_APPLICABLE",
+      "native_resolution_m": 30.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "NOT_APPLICABLE",
+      "product_id": "LC08_L2SP_118039_20200731_20200908_02_T1",
+      "query_id": "landsat8-HZB_TECH_SMOKE_V1-2020-06-01_2020-08-01-doy182-real_smoke_backup_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.9961880559085133,
+      "roi_cirrus_pixels": 5488,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 5509,
+      "roi_cloud_shadow_pixels": 77,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.01397712833545108,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 5509,
+      "roi_valid_pixels": 5509,
+      "scene_bounds": [],
+      "scene_id": "LC08_118039_20200731",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "landsat8",
+      "spacecraft": "LANDSAT_8",
+      "system_index": "LC08_118039_20200731",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": 118,
+      "wrs_row": 39
+    }
+  ],
+  "catalog_fingerprint_sha256": "f9a9c0b4241fc0932535c21b408872db8054e62bf2bd4d7ce4de31ac63423109",
+  "collections": {
+    "landsat8": "LANDSAT/LC08/C02/T1_L2"
+  },
+  "counts": {
+    "landsat8": {
+      "candidate_count": 2,
+      "eligible_count": 0,
+      "selected_count": 0
+    }
+  },
+  "description": "Frozen snapshot of the Issue #6 M1.6b PREDECLARED seasonal-fallback real GEE catalog retrieval (Landsat 8 only) over HZB_TECH_SMOKE_V1, window 2020-06-01T00:00:00Z..2020-08-01T00:00:00Z (end exclusive), target DOY 182. The backup window was fixed BEFORE this query ran (documented seasonal policy DOY 152-212); it is not a post-result window widening. Result: 2 L8 candidates, BOTH rejected by the unchanged ROI cloud threshold (<=0.30); zero policy-eligible scenes -> L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS; export gate CLOSED; no third search, no threshold relaxation, no S2 substitution. Offline replay verifies deterministic selection and fingerprints without any Earth Engine calls.",
+  "fixture_version": "gee_real_smoke_backup_catalog_v1",
+  "gate_outcome": "L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS",
+  "policy": {
+    "max_cloud_fraction": 0.3,
+    "min_footprint_coverage": 0.99,
+    "min_valid_pixel_fraction": 0.95,
+    "target_doy": 182
+  },
+  "project_id": "project-795fc21c-e217-47f3-adb",
+  "rerun_identical": true,
+  "rerun_scene_id_sets_equal": true,
+  "retrieval_date_utc": "2026-09-30T08:00:32.082027+00:00",
+  "roi_crs_epsg": 4326,
+  "roi_geometry": {
+    "coordinates": [
+      [
+        [
+          121.1,
+          30.3
+        ],
+        [
+          121.12,
+          30.3
+        ],
+        [
+          121.12,
+          30.32
+        ],
+        [
+          121.1,
+          30.32
+        ],
+        [
+          121.1,
+          30.3
+        ]
+      ]
+    ],
+    "type": "Polygon"
+  },
+  "roi_geometry_sha256": "b72d475976e4ff3e775defb467ec4a62f880a5df1bc42aa0c0a882be7d9da43f",
+  "roi_id": "HZB_TECH_SMOKE_V1",
+  "selected_scenes": {
+    "landsat8": []
+  },
+  "selection_fingerprint_sha256": "8c2d37cab34a6252b1edfe97cda5552a1a133abb21b1c5ba2990b8e0d8fac14b",
+  "sensors": [
+    "landsat8"
+  ],
+  "window": {
+    "end_utc": "2020-08-01T00:00:00Z",
+    "start_utc": "2020-06-01T00:00:00Z",
+    "target_doy": 182
+  },
+  "window_declared_rationale": "predeclared seasonal fallback DOY 152-212, fixed in the Issue #6 M1.6b protocol BEFORE any backup-window retrieval; not a post-result window widening",
+  "window_profile": "backup_v1"
+}

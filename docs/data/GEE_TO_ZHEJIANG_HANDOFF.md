@@ -14,10 +14,13 @@ is implied.
 | Real authenticated Initialize (project from `SPARTINA_GEE_PROJECT`) | VERIFIED (`ee.Number(1)=1`) | `pytest -m gee_integration` |
 | Real metadata catalog, all candidates retained | VERIFIED (30 scenes, fixed ROI/window) | [GEE_REAL_QUERY_SMOKE.md](GEE_REAL_QUERY_SMOKE.md) |
 | Server-side ROI pixel-QA counts (valid/cloud/shadow/cirrus/snow/saturated/clear) | VERIFIED | `pixelqa.counts_*` |
-| Deterministic predeclared selection + fingerprints | VERIFIED across two live retrievals | fingerprints in §4 of the smoke doc |
+| Deterministic predeclared selection + fingerprints | VERIFIED across two live retrievals in BOTH windows (autumn + M1.6b backup) | fingerprints in §5/§8 of the smoke doc |
 | SAR pass separation (ASCENDING/DESCENDING) | VERIFIED (15 ascending / 0 descending) | frozen fixture |
+| Predeclared M1.6b summer backup window, L8 only | VERIFIED metadata — 2020-06-01..08-01, DOY 182, 2 scenes, double-run identical | [GEE_REAL_QUERY_SMOKE.md](GEE_REAL_QUERY_SMOKE.md) §8 |
 | Export chain code (Drive → atomic land → grid/reflection/sha256 → manifest → chain assertion) | Implemented + reviewed; **not yet exercised with pixels** | `real_export_smoke.py`, `provenance.py` |
-| One real L8 pixel export | **FAILED GATE** — 0/3 L8 eligible (ROI cloud 0.78/1.0/1.0) | NO_ELIGIBLE_LANDSAT8_SCENE |
+| One real L8 pixel export | **NOT VERIFIED — FAILED GATE in both predeclared windows**: 0/3 autumn (ROI cloud 0.78/1.0/1.0) and 0/2 summer backup (ROI cloud 1.0/1.0); token `L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`; Issue #6 OPEN | NO_ELIGIBLE_LANDSAT8_SCENE |
+| Authoritative three-bay ROI geometries (ZJ-HZB/ZJ-SMB/ZJ-YQB) | NOT VERIFIED — still MISSING | [ZHEJIANG_DATA_PREPARATION_V0.md](ZHEJIANG_DATA_PREPARATION_V0.md) |
+| GOLD labels / GoldSet for the bay ROIs | NOT VERIFIED — no GOLD labels exist | [SPARTINA_GOLDSET_PROTOCOL.md](SPARTINA_GOLDSET_PROTOCOL.md) |
 
 ## 2. Supported inputs and their semantics
 
@@ -55,8 +58,10 @@ is implied.
   source scene → UTC → product id → selection/processing config →
   COMPLETED task → fixed grid → landed file re-hash → project/code/
   environment. A manifest cannot silently claim an unverified export.
-* Frozen regression evidence (`tests/fixtures/gee/real_smoke_catalog_v1.json`)
-  that locks the QA-counting and ranking behaviour offline.
+* Frozen regression evidence
+  (`tests/fixtures/gee/real_smoke_catalog_v1.json`,
+  `tests/fixtures/gee/real_smoke_backup_catalog_v1.json`) that locks the
+  QA-counting and ranking behaviour offline for both predeclared windows.
 
 ## 4. Blockers that must be resolved before Issue #7 production
 
@@ -65,17 +70,28 @@ is implied.
    ([ZHEJIANG_DATA_PREPARATION_V0.md](ZHEJIANG_DATA_PREPARATION_V0.md)).
    The 0.02° HZB_TECH_SMOKE_V1 plumbing box must never be promoted to a
    production ROI. Each ROI needs a real source, date and license.
-2. **First real pixel export is unproven**: the gate closed on cloud
-   cover for the fixed window. Before trusting the Drive/GeoTIFF path at
-   scale, one eligible L8 scene must pass the entire chain under a
-   **predeclared** window/ROI (chosen before inspection), producing a
-   tracked manifest and verified checksums.
+2. **First real pixel export is unproven (Issue #6 OPEN)**: the gate
+   closed on ROI cloud cover in BOTH predeclared windows — 0/3 autumn
+   (2020-09-01..11-01) and 0/2 in the documented summer backup
+   (2020-06-01..08-01, DOY 182). The predeclared fallback is therefore
+   exhausted; outcome token
+   `L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`, no third
+   search made. Before trusting the Drive/GeoTIFF path at scale, one
+   eligible L8 scene must pass the entire chain under a NEW, explicitly
+   approved and **predeclared** window/ROI (chosen before inspection),
+   producing a tracked manifest and verified checksums. A Sentinel-2
+   real export may be proposed only as generic transport-pipeline
+   validation and must not be presented as Landsat scaling validation.
 3. **Season/window validation**: planning assumes primary DOY 260–305
    with a DOY 152–212 backup and same-season cross-year comparisons;
    these are hypotheses until validated with real per-year availability
    (the v0 availability matrix uses MISSING/UNKNOWN, not interpolation).
-4. **Cloud-free L8 frequency**: even a small coastal box showed 0/3
-   clean L8 scenes in Sep–Oct 2020, whereas S2 had 5/12 eligible. Bay-
+   First evidence at this one ROI in 2020: BOTH windows yielded zero
+   L8-eligible scenes, which weakens (but does not disprove) the
+   assumed summer-backup availability — more ROIs/years are required.
+4. **Cloud-free L8 frequency**: this small coastal box showed 0/3 clean
+   L8 scenes in Sep–Oct 2020 AND 0/2 in Jun–Jul 2020 (all five scenes
+   ROI-cloud 0.78–1.0), whereas S2 had 5/12 eligible in autumn. Bay-
    scale L8 yield may be lower; per-year/per-ROI eligibility statistics
    are required before promising dense Stream L time series.
 5. **Tide/inundation**: no observed-tide source; keep PROXY semantics.
@@ -89,9 +105,12 @@ is implied.
 
 1. Freeze authoritative geometries + provenance for the three ROIs
    (replace MISSING entries under `docs/data/rois/`).
-2. Predeclare, **before viewing results**, one small eligible-scene
-   window/ROI to clear the single-scene L8 export gate; run the full
-   manifest/provenance chain once and archive the tracked manifest.
+2. Both predeclared smoke windows are now exhausted (0/3 autumn, 0/2
+   summer backup). Predeclare and obtain explicit approval for a NEW
+   small window/ROI **before viewing results** to clear the single-scene
+   L8 export gate; run the full manifest/provenance chain once and
+   archive the tracked manifest. Any S2 export in the interim is
+   transport validation only, not an L8 scaling substitute.
 3. Generate metadata-only availability (no pixels) per ROI/year/sensor
    from 1985/1990→2026, keeping MISSING/UNKNOWN/NOT_ASSESSED states.
 4. Aggregate per-year eligibility statistics (candidate/eligible counts

@@ -36,6 +36,7 @@ import argparse
 import json
 import sys
 import time
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -84,11 +85,43 @@ SR_BANDS: tuple[str, ...] = (
 DEFAULT_CANDIDATES = (
     REPO_ROOT / "artifacts" / "gee" / "real_smoke"
     / "candidate_scenes_real_smoke_v1.json")
+BACKUP_CANDIDATES = (
+    REPO_ROOT / "artifacts" / "gee" / "real_smoke"
+    / "candidate_scenes_real_smoke_backup_v1.json")
 DEFAULT_OUT_DIR = REPO_ROOT / "work" / "gee" / "real_smoke"
 DEFAULT_TASKS = DEFAULT_OUT_DIR / "tasks" / "task_store.json"
 TRACKED_MANIFEST = (
     REPO_ROOT / "datasets" / "manifests" / "gee_real_smoke_v1.json")
 WINDOW = ("2020-09-01T00:00:00Z", "2020-11-01T00:00:00Z")
+BACKUP_WINDOW = ("2020-06-01T00:00:00Z", "2020-08-01T00:00:00Z")
+BACKUP_TARGET_DOY = 182
+
+
+@dataclass(frozen=True)
+class GateProfile:
+    """Predeclared query profile behind the export gate.
+
+    The profile selects ONLY the candidate table / window used by the
+    eligibility gate. It changes no threshold and no ranking rule; under
+    both fixed 2020 windows the real L8 gate is closed (zero eligible),
+    so the export code below the gate never executes for these profiles.
+    """
+
+    name: str
+    default_candidates: Path
+    window: tuple[str, str]
+    target_doy: int
+
+
+AUTUMN_PROFILE = GateProfile(
+    name="autumn_v1", default_candidates=DEFAULT_CANDIDATES,
+    window=WINDOW, target_doy=275)
+BACKUP_PROFILE = GateProfile(
+    name="backup_v1", default_candidates=BACKUP_CANDIDATES,
+    window=BACKUP_WINDOW, target_doy=BACKUP_TARGET_DOY)
+GATE_PROFILES: dict[str, GateProfile] = {
+    AUTUMN_PROFILE.name: AUTUMN_PROFILE,
+    BACKUP_PROFILE.name: BACKUP_PROFILE}
 
 
 def _now_iso() -> str:
@@ -226,10 +259,17 @@ def _gate_selected_scene(candidates: list[dict[str, Any]]
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--candidates", default=str(DEFAULT_CANDIDATES))
+    parser.add_argument(
+        "--window-profile", choices=sorted(GATE_PROFILES),
+        default=AUTUMN_PROFILE.name,
+        help="predeclared gate profile (autumn_v1 primary window; "
+             "backup_v1 is the Issue #6 M1.6b predeclared seasonal "
+             "fallback -- threshold/ranking identical)")
+    parser.add_argument("--candidates", default=None)
     parser.add_argument("--out-dir", default=str(DEFAULT_OUT_DIR))
     parser.add_argument("--tasks", default=str(DEFAULT_TASKS))
     args = parser.parse_args()
+    profile = GATE_PROFILES[str(args.window_profile)]
 
     if __import__("os").environ.get("SPARTINA_GEE_SMOKE_EXPORT") != "1":
         raise SystemExit(
@@ -240,7 +280,9 @@ def main() -> None:
     initialize()
     import ee
 
-    candidates_path = Path(args.candidates)
+    candidates_path = (
+        Path(args.candidates) if args.candidates
+        else profile.default_candidates)
     candidates = json.loads(candidates_path.read_text(encoding="utf-8"))
     chosen = _gate_selected_scene(candidates)
     scene_id = str(chosen["scene_id"])
@@ -285,7 +327,7 @@ def main() -> None:
         request_id=f"smoke-l8-{scene_date}-{short_id}",
         sensor_name="landsat8",
         tile_id=EXPORT_ROI_ID,
-        start_date=WINDOW[0], end_date=WINDOW[1],
+        start_date=profile.window[0], end_date=profile.window[1],
         destination_uri=f"gdrive://{GDRIVE_FOLDER}/{prefix_sr}",
         bands=SR_BANDS,
         crs_epsg=grid.crs_epsg,
@@ -358,8 +400,10 @@ def main() -> None:
         notes="Issue #6 first real export: single L8 scene, ~500 m ROI, "
               "7-band float32 SR + byte VALID, Drive roundtrip.")
     manifest["query"] = {
-        "window_start_utc": WINDOW[0], "window_end_utc": WINDOW[1],
-        "target_doy": 275,
+        "window_profile": profile.name,
+        "window_start_utc": profile.window[0],
+        "window_end_utc": profile.window[1],
+        "target_doy": profile.target_doy,
         "candidate_table": str(candidates_path),
     }
     manifest["source_product"] = {
