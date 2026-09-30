@@ -153,11 +153,18 @@ class EarthEngineCatalogClient:
         ee = self._ee_module()
         mapper = _sensor_mapper(query.sensor_name)
         roi = self._region_geometry(ee, query.region)
-        kwargs: dict[str, object] = {}
-        if query.sensor_name != "sentinel1":
-            kwargs["max_cloud_cover"] = query.max_cloud_cover
-        collection = mapper.load_collection(
-            ee, roi, query.start_date, query.end_date, **kwargs)
+        if query.sensor_name.startswith("landsat"):
+            # The Landsat mapper dispatches L5/L7/L8/L9 collections by name.
+            collection = mapper.load_collection(
+                ee, query.sensor_name, roi,
+                query.start_date, query.end_date,
+                max_cloud_cover=query.max_cloud_cover)
+        else:
+            kwargs: dict[str, object] = {}
+            if query.sensor_name != "sentinel1":
+                kwargs["max_cloud_cover"] = query.max_cloud_cover
+            collection = mapper.load_collection(
+                ee, roi, query.start_date, query.end_date, **kwargs)
         if self.compute_footprint_coverage:
             roi_area = roi.area(self.max_error_m)
             collection = collection.map(

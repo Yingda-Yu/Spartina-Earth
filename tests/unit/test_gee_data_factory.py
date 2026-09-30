@@ -364,7 +364,13 @@ def test_no_gee_module_imports_earth_engine_at_top_level() -> None:
                 f"{path.name}:{lineno} imports ee at module level")
 
 
-def test_real_catalog_client_is_blocked_without_auth() -> None:
+def test_real_catalog_client_is_blocked_without_auth(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Simulate a credential-less machine deterministically; this unit test
+    # must not depend on whether the developer happens to be authenticated.
+    monkeypatch.setattr(
+        "spartina.data.gee.auth.credentials_available", lambda: False)
     client = EarthEngineCatalogClient()
     query = SceneQuery(
         sensor_name="landsat8", start_date="2015-06-01",
