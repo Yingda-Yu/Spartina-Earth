@@ -1,0 +1,88 @@
+{
+  "collapsed_runs_retained_in_means": [
+    {
+      "classification": "SMALL_DATA_STOCHASTIC_COLLAPSE",
+      "run_id": "segformer_b0_full_seed-42_20260927T082125Z",
+      "seed": 42,
+      "variant": "full"
+    },
+    {
+      "classification": "SMALL_DATA_STOCHASTIC_COLLAPSE",
+      "run_id": "segformer_b0_optical_seed-17_20260927T081450Z",
+      "seed": 17,
+      "variant": "optical"
+    },
+    {
+      "classification": "SMALL_DATA_STOCHASTIC_COLLAPSE",
+      "run_id": "segformer_b0_optical_seed-42_20260927T081450Z",
+      "seed": 42,
+      "variant": "optical"
+    },
+    {
+      "classification": "SMALL_DATA_STOCHASTIC_COLLAPSE",
+      "run_id": "segformer_b0_optical_sar_seed-42_20260927T081817Z",
+      "seed": 42,
+      "variant": "optical_sar"
+    }
+  ],
+  "created_utc": "2026-09-30T02:10:21.183182+00:00",
+  "engineering_status": "ENGINEERING_VERIFIED",
+  "evaluation_v1_1_recommendations": [
+    "persist stitched TEST probability + hard prediction rasters",
+    "persist per-component match table with component IDs",
+    "log gradient norms, AMP scaler events, per-batch loss",
+    "expand test geography across spatially disjoint patches"
+  ],
+  "evidence_not_persisted_in_issue5_engine": [
+    "TEST stitched probability rasters (per-component/LOCO analysis therefore NOT_PERSISTED; required for eval v1.1)",
+    "per-component SILVER match lists",
+    "per-step gradient norms",
+    "AMP GradScaler events",
+    "per-batch losses and per-epoch validation loss"
+  ],
+  "fingerprints": {
+    "final_eval_lock_sha256": "b80e86abf65fbafb00e2d5d669164430a7619bca124e497051eec1b36b7769a5",
+    "metrics_table_sha256": "da9747698eeae31b2a33b54982f93770ca56e523342c3842ac616bcf593acea3",
+    "model_means_table_sha256": "14671408c6dd8fe317ff0e5ed0e167223b84fd4048e1cfdd384cf11e433195a9",
+    "normalization_sha256": "864c86e571585614da7d96e8aa11e8869cb1585229ecefa9b825b9d173db0e8d",
+    "official_registry_sha256": "ebcba9052239be5f463dc4e050a94c507983888aa4b8e9f40f90ae4b60daf60a",
+    "split_logical_fingerprint_sha256": "1d178352fad0b08f4dcc5dfb86b8be7050f4a6ae8d94bdc1ddbaf9284421dd80",
+    "variant_deltas_table_sha256": "65f07c158d1d11aa55d77d6838f14f63902113fc2cfa90fdba91f0ca9ad93661"
+  },
+  "freeze_id": "PILOT0_BASELINE_FREEZE_V1",
+  "freeze_sha256": "7dc9da76b7b2d720d302d41e853ddf957ea66816d55b64885783adad586ee614",
+  "git_commit": "f694a118145e62507e7fb8b011e8d642ebd04197",
+  "integrity_gates_passed": [
+    "exact 49-run official matrix (SAI 1, RF 12, U-Net 12, DeepLabV3+ 12, SegFormer 12)",
+    "run manifests == FINAL_EVAL_LOCK == registry == stored TEST metrics (checksums verified)",
+    "no diagnostic/smoke run carries TEST metrics",
+    "SegFormer inflation/head/state-dict/target-entry checks pass; zero IMPLEMENTATION_DEFECT",
+    "RF positive-class column verified (classes_==1); no class or label inversion",
+    "mean/SD denominators include all three seeds, collapsed runs retained",
+    "tables rebuilt from raw artifacts with hard-fail validation"
+  ],
+  "known_report_corrections": [
+    "Issue #5 report phrase 'RF 14/14 thresholds at 0.05 (all Random Forest)' mislabels two neural runs: the 14 runs are 12 RF + U-Net optical_sar seed 2026 + DeepLabV3+ optical_sar seed 2026."
+  ],
+  "n_official_runs": 49,
+  "official_counts": {
+    "deeplabv3plus": 12,
+    "random_forest": 12,
+    "sai": 1,
+    "segformer_b0": 12,
+    "unet": 12
+  },
+  "scientific_limitations": [
+    "NO GOLD labels: all targets are SILVER (government/peer product, not field/UAV verified)",
+    "single region (Hangzhou Bay pilot), single nominal year 2015",
+    "exact S1/L8 acquisition dates of the legacy composite are UNKNOWN \u2014 SAR/index effects reported only 'under the current legacy composite', never as sensor-intrinsic conclusions",
+    "TEST geography: 7 windows; 5 full-grid SILVER ecological patches (12 coverage-fragmented reference pieces, 8 >= 10 px, 4 small); one large patch dominates the pixel support",
+    "no spatial confidence interval is claimed at n=5 patches",
+    "missing-modality stress is deployment-robustness evidence, not causal feature importance"
+  ],
+  "scientific_status": "SCIENTIFICALLY_LIMITED",
+  "segformer_classification_counts": {
+    "NO_COLLAPSE": 8,
+    "SMALL_DATA_STOCHASTIC_COLLAPSE": 4
+  }
+}

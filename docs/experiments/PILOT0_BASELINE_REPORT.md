@@ -4,6 +4,9 @@ Generated from frozen run manifests; split **Pilot-0 v1** was not modified. Labe
 
 Spatial CI note: TEST contains 7 windows / 5 SILVER components, so spatial block-level confidence intervals are not estimable; the 3 seeds cover initialization/training randomness only, not geographic uncertainty.
 
+> **Issue #10 audit status (2026-09-30): ENGINEERING_VERIFIED / SCIENTIFICALLY_LIMITED.**
+> All 49 official runs are reconciled and frozen under `PILOT0_BASELINE_FREEZE_V1.json`; see `PILOT0_BASELINE_INTEGRITY_AUDIT.md`. Collapsed SegFormer seeds remain in every mean/SD; the "14/14 thresholds" note in §11 has been corrected (12 RF + 2 neural runs). Audit-generated companion tables: `pilot0_metrics_audit.csv`, `pilot0_variant_deltas.csv`, `pilot0_model_means.csv`, `pilot0_stress_audit.csv`, `pilot0_rf_audit.csv`, `pilot0_collapse_forensics.csv`, `pilot0_component_sensitivity.csv`.
+
 ## 1. Baseline main table
 
 | Model | Variant | TEST core IoU | TEST core F1 | TEST core AUPRC |
@@ -231,7 +234,7 @@ _This is a candidate-response diagnostic, NOT accuracy or recall: there is no GO
 ## 11. Failure cases and notable observations
 
 - Official runs FAILED: **0** of 49; retained early smoke failures: 2 (registry keeps both for traceability; they never entered the official matrix).
-- VAL thresholds at the grid floor (0.05): 14 official runs (all Random Forest) — low probability scale under class imbalance; threshold protocol was not altered.
+- VAL thresholds at the grid floor (0.05): 14 official runs = **12 Random Forest + U-Net optical_sar/seed 2026 + DeepLabV3+ optical_sar/seed 2026** (an earlier version of this report incorrectly attributed all 14 to Random Forest; corrected by Issue #10 audit) — low probability scale under class imbalance / RF vote distribution; positive-class column and label polarity were code-verified, threshold protocol was not altered.
 - TEST core IoU < 0.10 (seed-level collapse, reported as run, not averaged away):
   - SegFormer-B0 / full / seed 42: TEST core IoU 0.028
   - SegFormer-B0 / optical / seed 17: TEST core IoU 0.029
