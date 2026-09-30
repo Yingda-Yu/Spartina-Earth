@@ -1,10 +1,14 @@
 # GEE EO Data Factory v1 — Issue #6 (M1.6)
 
-Status: **code + mocked tests complete; real exports BLOCKED_BY_AUTH** on
-this server (no `earthengine-api`, no GEE credentials at build time).
-Nothing here performs a nationwide download; the first real run targets
-one small Hangzhou Bay ROI and is exercised only via
-`pytest -m gee_integration`.
+Status (updated 2026-09-30 after real authentication): **real catalog
+retrieval VERIFIED** against Earth Engine with project
+`project-795fc21c-e217-47f3-adb` (L8/S1/S2 over HZB_TECH_SMOKE_V1, double
+retrieval deterministic); **the first real Landsat-8 export is GATE-FAILED
+because all 3 fixed-window L8 scenes exceed the predeclared 0.30 ROI cloud
+threshold** — no bytes were exported. Evidence:
+[GEE_REAL_QUERY_SMOKE.md](../data/GEE_REAL_QUERY_SMOKE.md). Nothing here
+performs a nationwide download; the first real run targets one small
+Hangzhou Bay ROI and is exercised only via `pytest -m gee_integration`.
 
 ## 1. Goals and hard rules
 
@@ -36,6 +40,10 @@ one small Hangzhou Bay ROI and is exercised only via
 | `sentinel1.py` | S1 GRD IW: IW-mode + polarization filters, orbit direction validation, relative orbit / platform / resolution provenance; no scaling (GEE sigma0 dB). |
 | `catalog.py` | `CatalogClient` protocol, `MockCatalogClient`, and the real `EarthEngineCatalogClient` (lazy `ee`, ROI footprint-coverage annotation, ISO UTC conversion). |
 | `quality.py` | Metadata QA filters, `CandidateScene` + `build_candidate_table` (all candidates retained), coverage rule. |
+| `pixelqa.py` | Pure QA bit/SCL decoders **plus server-side ROI pixel COUNTS** (`counts_landsat`/`counts_sentinel2`/`counts_sentinel1`): explicit total denominator via a constant-1 band and `unmask(0)`, yielding valid/cloud/shadow/cirrus/snow/saturated/clear fractions computed inside EE rather than from scene-level metadata. |
+| `selection.py` | Deterministic `best_single_scene` policy; `rank_eligibles` (coverage → valid → cloud → shadow → circular DOY → UTC → id), `best_per_sar_pass` (ASCENDING/DESCENDING ranked separately), multi-key `footprint_coverage` reader, explainable rejection reasons, `canonical_fingerprint` (canonical-JSON SHA-256). |
+| `driveio.py` | Google Drive download of finished exports using the same Earth Engine OAuth credentials (Drive scope included); `download_latest(name_prefix)` skips trashed files. |
+| `provenance.py` | `git_context`, `runtime_environment`, `sha256_file`, `raster_grid_info` + `assert_grid_matches`, `reflectance_sanity` (per-band percentiles + un-scaled-DN screen), and `assert_provenance_chain` — the end-to-end source-scene → landed-file hard assertion. |
 | `grid.py` | `GridSpec` (crs, 6-tuple affine transform, width/height, pixel size, bounds), pixel-snapped covering grids, stream constructors, anti-upsampling guard. |
 | `tide.py` | `TideProxyRecord` — `method="PROXY"` mandatory, `gauge_observed=False` mandatory. |
 | `export.py` | `ExportRequest` (now carries grid, exact source scenes, stream), `NullExporter`, atomic `land_bytes()` with mandatory SHA-256. |
@@ -74,18 +82,44 @@ science stream, full grid spec, export request, selected scene IDs, the
 scene is absent from candidates, the grid spec is incomplete, or a
 landed file lacks checksum provenance.
 
+The real-smoke driver additionally attaches `query` (window, target DOY,
+candidate-table path), `source_product` (scene/product id, UTC,
+WRS/MGRS, selection metrics), `project_id`, `code`
+(`git_commit` + `dirty_tree`) and `environment` (python / earthengine-api
+/ rasterio versions), then calls `assert_provenance_chain`, which
+hard-fails unless all of the following hold: manifest version; selected
+ids equal `export_request.source_scene_ids` and are present in the
+candidate table with real acquisition UTC and a non-`MISSING` product id;
+grid has crs/transform/width/height/pixel_size_m/bounds; export task is
+`COMPLETED`; processing config documents scale/offset/masking/band order/
+composite; every landed file exists on disk, re-hashes to its recorded
+SHA-256, has positive `size_bytes` and `grid_verified is true`; and the
+project/code/environment sections are present. Raster grid agreement is
+checked separately by `assert_grid_matches` (CRS, dimensions, transform,
+pixel size) and float32 reflectance by `reflectance_sanity`.
+
 ## 4. Quality metadata
 
-* Optical: catalog cloud fraction (CLOUD_COVER / CLOUDY_PIXEL_PERCENTAGE),
-  Landsat per-pixel clear decision (fill, dilated cloud, cirrus, cloud,
-  shadow, snow excluded; Clear bit required; `QA_RADSAT == 0`; water
-  allowed), S2 SCL clear classes plus optional cloud-probability mask.
+* Optical: catalog cloud fraction (CLOUD_COVER / CLOUDY_PIXEL_PERCENTAGE)
+  is retained as a feature but never removes a candidate. The real smoke
+  uses **ROI-level raster pixel counts computed server-side**
+  (`pixelqa.counts_*`): Landsat per-pixel decision (fill, dilated cloud,
+  cirrus, cloud, shadow, snow excluded; Clear bit required;
+  `QA_RADSAT == 0`; water allowed), S2 SCL classes (cloud family 8/9/10,
+  shadow 3, cirrus 10, snow 11, invalid 0/1; water 6 valid) with a
+  recorded `cloud_probability_available` flag for `MSK_CLDPRB`.
 * ROI coverage: footprint intersection fraction annotated server-side;
-  pixel-valid fraction is attached by the raster QC pass and stays
-  `None` until computed (never guessed).
+  valid-pixel fraction comes from the same counted denominator; values
+  are never guessed (a missing property is `None`/`UNKNOWN`, not 0).
 * Sentinel-1: orbit direction, relative orbit number, platform, IW mode,
-  polarization, nominal resolution; `angle` band available for incidence
-  statistics.
+  polarization, nominal resolution, and per-band availability flags
+  (VV/VH/HH/HV/angle); no cloud fields (scored neutral). The raw
+  collection is queried **unfiltered** so non-IW / non-VV-VH scenes stay
+  visible as rejected candidates.
+* Selection thresholds are predeclared (`SingleScenePolicy`: coverage
+  ≥0.99, valid ≥0.95, cloud ≤0.30) and frozen before inspection; a fixed
+  window with zero eligible scenes is reported as a closed gate, never
+  fixed by widening the window after looking.
 
 ## 5. Async execution semantics
 
@@ -99,30 +133,54 @@ backend translates `READY/RUNNING/COMPLETED/FAILED/CANCELLED`.
 
 ## 6. Testing
 
-* `tests/unit/test_gee_data_factory.py` (20 tests, standard library +
-  optional sklearn-style deps; runs on system Python 3.10): grids, QA
-  bit decoders, SCL decoding, S1 property mapping, candidate-table
-  invariants, PROXY tide enforcement, task retry/resume/persistence,
-  checksum landing, manifest guards, lazy-`ee` source scan,
-  BLOCKED_BY_AUTH behaviour.
+* `tests/unit/test_gee_data_factory.py` — offline unit tests (run on
+  system Python 3.10): grids, QA bit decoders, SCL decoding, S1 property
+  mapping, candidate-table invariants, PROXY tide enforcement, task
+  retry/resume/persistence, checksum landing, manifest guards, lazy-`ee`
+  source scan, and a deterministically monkeypatched BLOCKED_BY_AUTH
+  behaviour (independent of whether the dev machine is authenticated).
+* `tests/unit/test_gee_real_smoke_fixture.py` — replays the selection
+  code on the 30 frozen real candidate rows **with no network and no
+  credentials**: counts, exact selected ids/ranks, the S1
+  15-ascending/0-descending split, L8 zero-eligibility, ROI hash, and
+  recomputation of both frozen SHA-256 fingerprints.
 * `tests/unit/test_gee_interfaces_mock.py` (M0 contracts) remains green.
-* `tests/integration/test_gee_integration.py` — real init smoke, a real
-  L8 small-ROI candidate-provenance query, and an operator-opt-in tiny
-  export; all skip without credentials
-  (`SPARTINA_GEE_SMOKE_EXPORT=1` additionally gates bytes). No fake
-  success is possible.
+* `tests/integration/test_gee_integration.py` — real init smoke; real
+  per-sensor candidate-provenance queries (S1 null `productIdentifier`
+  accepted as MISSING evidence); the real catalog driver evidence test
+  (double retrieval, fingerprints, exact S1/S2 selections); and an
+  operator-opt-in test proving the export gate **closes with
+  `NO_ELIGIBLE_LANDSAT8_SCENE`** and creates no tif/manifest/task store.
+  All skip without credentials/project; the gate test additionally
+  requires `SPARTINA_GEE_SMOKE_EXPORT=1`. No fake success is possible.
 
-## 7. Current blockers (this server)
+## 7. Real-run status and remaining blockers
 
-1. No GEE credentials (`GOOGLE_APPLICATION_CREDENTIALS`,
-   `EE_SERVICE_ACCOUNT_JSON`, `~/.config/earthengine/*` all absent).
-2. `earthengine-api` not installed in either Python environment.
+Resolved on 2026-09-30:
 
-Therefore real small-ROI export status is **BLOCKED_BY_AUTH**, not
-"done". Once credentials are provisioned outside Git: install the
-`gee` extra, run `pytest -m gee_integration`, then drive one small ROI
-through the pipeline and commit only its manifest/candidate table (bytes
-stay out of Git per `.gitignore`).
+1. `earthengine-api==1.7.46` installed in the `spartina-earth` conda
+   environment only; real OAuth credentials provisioned by the operator;
+   project id supplied via `SPARTINA_GEE_PROJECT` (never hard-coded).
+2. Real catalog retrieval VERIFIED (two independent runs, identical
+   fingerprints) — 3 L8 / 15 S1 / 12 S2 candidates over the small ROI.
+
+Still open:
+
+1. **Export gate FAILED for the fixed 2020 window**: all three L8 scenes
+   have ROI cloud fraction 0.783 / 1.0 / 1.0 > 0.30, so no
+   policy-eligible scene exists. No Drive task, GeoTIFF, checksum or
+   COMPLETED manifest exists; the export acceptance items are NOT RUN /
+   FAILED GATE, not "done". A future attempt must predeclare a different
+   window/ROI before inspecting it — it must not edit the policy to
+   force a pass.
+2. Issue #7 production ROIs (ZJ-HZB / ZJ-SMB / ZJ-YQB) authoritative
+   boundaries are still MISSING; the smoke box is not a substitute.
+3. Season/window validation, tide handling (PROXY only), and labels/
+   GoldSet for Zhejiang remain open (see
+   [GEE_TO_ZHEJIANG_HANDOFF.md](../data/GEE_TO_ZHEJIANG_HANDOFF.md)).
+
+Bytes stay out of Git per `.gitignore`; only manifests, the frozen JSON
+fixture, code and documents are tracked.
 
 ## 8. Out of scope for v1
 
