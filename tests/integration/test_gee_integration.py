@@ -345,11 +345,19 @@ def test_real_backup_export_gate_blocks_zero_eligible_l8(
 # M1.6c: Sentinel-2 real byte-pipeline closure (Issue #6, 2026-10-01 auth)
 # ---------------------------------------------------------------------------
 
-S2_FROZEN_FIXTURE = (
+# M1.6d: current replay/evidence target is the s2_scl_qa_v1_1 corrected
+# fixture/manifest; the v1 paths are retained for the historical audit.
+S2_V1_FROZEN_FIXTURE = (
     REPO_ROOT / "tests" / "fixtures" / "gee" / "real_smoke_catalog_v1.json")
-S2_TRACKED_MANIFEST = (
+S2_FROZEN_FIXTURE = (
+    REPO_ROOT / "tests" / "fixtures" / "gee"
+    / "real_smoke_catalog_scl_v1_1.json")
+S2_V1_TRACKED_MANIFEST = (
     REPO_ROOT / "datasets" / "manifests"
     / "gee_real_s2_export_smoke_v1.json")
+S2_TRACKED_MANIFEST = (
+    REPO_ROOT / "datasets" / "manifests"
+    / "gee_real_s2_export_smoke_v1_1.json")
 
 
 def test_s2_selection_replays_frozen_fixture_live() -> None:
@@ -376,20 +384,73 @@ def test_s2_selection_replays_frozen_fixture_live() -> None:
     assert all(checks.values())  # pragma: no cover
 
 
+def test_s2_scl_qa_semantics_correction_live() -> None:
+    """M1.6d live recheck (metadata-only; NO export tasks are created).
+
+    Re-reads the frozen scene SCL on the locked GridSpec, proves class 11
+    is absent and corrected VALID membership equals the landed bytes, and
+    re-runs the corrected 12-candidate catalog QA to verify selection
+    stability against the recorded corrected fingerprints.
+    """
+    correction = _load_driver("real_s2_scl_qa_correction")  # type: ignore[arg-type]
+    import ee  # type: ignore[import-not-found]
+
+    v1_manifest = json.loads(  # pragma: no cover
+        S2_V1_TRACKED_MANIFEST.read_text(encoding="utf-8"))
+    lock_path = Path(v1_manifest["lock_path"])  # pragma: no cover
+    if not lock_path.is_file():  # pragma: no cover
+        pytest.skip("landed S2 lock/bytes absent on this machine")
+    lock = json.loads(lock_path.read_text(encoding="utf-8"))  # pragma: no cover
+    for record in v1_manifest["landed_files"]:  # pragma: no cover
+        if not Path(record["local_uri"]).is_file():
+            pytest.skip("landed S2 GeoTIFFs absent on this machine")
+
+    histogram = correction.live_scl_subroi(  # pragma: no cover
+        ee, lock["source"]["scene_id"], lock)
+    assert histogram["snow_ice_class_11_pixel_count"] == 0  # pragma: no cover
+    assert histogram["qa_policy_version"] == "s2_scl_qa_v1_1"  # pragma: no cover
+
+    identity = correction.pixel_identity_check(  # pragma: no cover
+        histogram, lock, v1_manifest)
+    assert identity["branch"] == "A_NO_SNOW_ICE_PIXELS"  # pragma: no cover
+    assert identity["pixel_identical"] is True  # pragma: no cover
+    assert identity["byte_identical"] is True  # pragma: no cover
+    assert identity["new_export_tasks_created"] == []  # pragma: no cover
+
+    catalog = correction.corrected_catalog_evidence(ee)  # pragma: no cover
+    assert catalog["candidate_count"] == 12  # pragma: no cover
+    assert catalog["selection_stable_after_qa_fix"] is True  # pragma: no cover
+    assert catalog["qa_numeric_fields_identical"] is True  # pragma: no cover
+    assert catalog["double_retrieval_identical"] is True  # pragma: no cover
+    assert set(catalog["snow_pixels_all_candidates"].values()) == {0}  # pragma: no cover
+    fixture = json.loads(S2_FROZEN_FIXTURE.read_text(  # pragma: no cover
+        encoding="utf-8"))
+    mapping = catalog["fingerprint_mapping"]  # pragma: no cover
+    assert mapping["corrected_s2_catalog_fingerprint_sha256"] == (  # pragma: no cover
+        fixture["s2_catalog_fingerprint_sha256"])
+    assert mapping["corrected_global_catalog_fingerprint_sha256"] == (  # pragma: no cover
+        fixture["catalog_fingerprint_sha256"])
+    # Selection fingerprints are provably unchanged by the QA fix.
+    assert mapping["corrected_s2_selection_fingerprint_sha256"] == (  # pragma: no cover
+        mapping["old_s2_selection_fingerprint_sha256"])
+    assert mapping["corrected_global_selection_fingerprint_sha256"] == (  # pragma: no cover
+        mapping["old_global_selection_fingerprint_sha256"])
+
+
 @pytest.mark.skipif(
     os.environ.get("SPARTINA_GEE_SMOKE_EXPORT") != "1",
     reason="operator must opt in (SPARTINA_GEE_SMOKE_EXPORT=1); the S2 byte "
            "evidence bundle is only audited in an authorised real run.",
 )
-def test_s2_real_byte_evidence_bundle_recorded() -> None:
-    """Audit the RECORDED S2 byte bundle without creating new exports.
+def test_s2_corrected_byte_evidence_bundle_recorded() -> None:
+    """Audit the RECORDED s2_scl_qa_v1_1 bundle without new exports.
 
     The successful export must never be repeated. This test re-validates
-    the committed manifest, the lock and the landed GeoTIFFs in work/
-    (skipped on a fresh checkout where the bytes are not present - they
-    are git-ignored by policy).
+    the corrected committed manifest, the immutable v1 lock and the
+    landed GeoTIFFs in work/ (skipped on a fresh checkout where the bytes
+    are not present - they are git-ignored by policy). M1.6d Branch A:
+    the same tasks/files/SHA256 are reused, nothing is re-exported.
     """
-    s2 = _load_driver("real_s2_export_smoke")
     from spartina.data.gee.provenance import assert_provenance_chain
     from spartina.data.gee.selection import canonical_fingerprint
 
@@ -410,9 +471,25 @@ def test_s2_real_byte_evidence_bundle_recorded() -> None:
     lock = json.loads(lock_path.read_text(encoding="utf-8"))
     assert manifest["lock_sha256"] == canonical_fingerprint(lock)
 
-    # Generic + S2-specific hard provenance assertions.
+    # Generic provenance assertions (the v1 lock is immutable history;
+    # its processing_config_sha256 intentionally records s2_scl_qa_v1, so
+    # the strict v1 bundle-chain equality is replaced by correction-aware
+    # assertions).
     assert_provenance_chain(manifest)
-    s2.assert_s2_bundle_chain(manifest, lock)
+    assert manifest["lock_sha256"] == canonical_fingerprint(lock)
+    assert manifest["bundle"]["fingerprint_sha256"] == (
+        canonical_fingerprint(manifest["bundle"]["payload"]))
+    correction = manifest["qa_policy_correction"]
+    assert correction["semantic_policy_corrected"] is True
+    assert correction["pixel_membership_changed"] is False
+    assert correction["byte_identical"] is True
+    assert correction["new_export_tasks_created"] == []
+    assert correction["reflectance_reexported"] is False
+    assert (manifest["processing_config"]["scl_qa_policy_version"]
+            == "s2_scl_qa_v1_1")
+    import hashlib
+    assert correction["superseded_manifest_sha256"] == (
+        hashlib.sha256(S2_V1_TRACKED_MANIFEST.read_bytes()).hexdigest())
 
     # One distinct COMPLETED backend task per file; READY->...->COMPLETED.
     for task in manifest["export_tasks"]:

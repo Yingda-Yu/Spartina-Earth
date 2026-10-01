@@ -216,8 +216,11 @@ def test_catalog_fingerprint_reproduces(
     replayed: dict[str, list[dict[str, Any]]],
 ) -> None:
     ordered = [row for sensor in SENSORS for row in replayed[sensor]]
+    # Historical v1 fingerprint predates the scl_qa_policy_version
+    # traceability column; reproduce it with the v1 field set.
     fingerprint = driver.canonical_fingerprint(
-        driver._fingerprint_payload(ordered))
+        driver._fingerprint_payload(
+            ordered, fields=driver.FINGERPRINT_FIELDS_V1))
     assert fingerprint == fixture["catalog_fingerprint_sha256"]
     assert fingerprint == FROZEN_CATALOG_FP
 

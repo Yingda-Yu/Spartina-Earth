@@ -28,6 +28,7 @@ from spartina.data.gee.landsat import (
     QA_FILL,
     QA_SNOW,
 )
+from spartina.data.gee.sentinel2 import S2_SCL_QA_POLICY
 
 #: Fraction of the ROI observed by the sensor (mask present / SCL nonzero).
 VALID_KEY: str = "valid_pixel_fraction"
@@ -218,17 +219,25 @@ def with_s2_band_flags(ee: Any, image: Any) -> Any:
 
 
 def sentinel2_qa_count_bands(ee: Any, image: Any) -> Any:
-    """SCL-class count bands. Water (6) stays a valid surface observation."""
+    """SCL-class count bands derived from the versioned SCL QA contract.
+
+    Water (SCL 6) stays a valid surface observation; snow/ice (SCL 11) is
+    counted separately and is NOT clear.
+    """
     scl = image.select("SCL")
     observed = scl.mask()
-    cloud_family = scl.eq(8).Or(scl.eq(9)).Or(scl.eq(10))
-    shadow = scl.eq(3)
-    cirrus = scl.eq(10)
-    snow = scl.eq(11)
+    cloud_family = S2_SCL_QA_POLICY.ee_any_classes(
+        ee, scl, S2_SCL_QA_POLICY.cloud_family_classes)
+    shadow = S2_SCL_QA_POLICY.ee_any_classes(
+        ee, scl, S2_SCL_QA_POLICY.cloud_shadow_classes)
+    cirrus = S2_SCL_QA_POLICY.ee_any_classes(
+        ee, scl, S2_SCL_QA_POLICY.cirrus_classes)
+    snow = S2_SCL_QA_POLICY.ee_any_classes(
+        ee, scl, S2_SCL_QA_POLICY.snow_ice_classes)
     # SCL 0 = no data, 1 = saturated/defective -> sensor-side invalidity.
-    saturated = scl.eq(0).Or(scl.eq(1))
-    clear = (
-        scl.eq(4).Or(scl.eq(5)).Or(scl.eq(6)).Or(scl.eq(11)))
+    saturated = S2_SCL_QA_POLICY.ee_any_classes(
+        ee, scl, S2_SCL_QA_POLICY.sensor_invalid_classes)
+    clear = S2_SCL_QA_POLICY.ee_valid_surface(ee, scl)
     return ee.Image.cat([
         ee.Image.constant(1).rename(TOTAL_PIXELS),
         observed.rename(VALID_PIXELS),
@@ -245,8 +254,11 @@ def sentinel2_mask_bands(ee: Any, image: Any) -> Any:
     """SCL-based 0/1 bands: observed / cloud-flagged / clear-surface."""
     scl = image.select("SCL")
     observed = scl.mask()
-    cloud = scl.eq(3).Or(scl.eq(8)).Or(scl.eq(9)).Or(scl.eq(10))
-    clear = scl.eq(4).Or(scl.eq(5)).Or(scl.eq(6)).Or(scl.eq(11))
+    cloud = S2_SCL_QA_POLICY.ee_any_classes(
+        ee, scl,
+        S2_SCL_QA_POLICY.cloud_shadow_classes
+        | S2_SCL_QA_POLICY.cloud_family_classes)
+    clear = S2_SCL_QA_POLICY.ee_valid_surface(ee, scl)
     return ee.Image.cat([
         observed.rename(VALID_KEY),
         cloud.rename(CLOUD_KEY),

@@ -1,0 +1,140 @@
+{
+  "corrected_policy_valid_classes": [
+    4,
+    5,
+    6
+  ],
+  "old_policy_valid_classes": [
+    4,
+    5,
+    6,
+    11
+  ],
+  "qa_policy_version": "s2_scl_qa_v1_1",
+  "retrieval_utc": "2026-10-01T07:18:59.261120+00:00",
+  "roi": {
+    "geometry_sha256": "d8dfa0580eea7520f46774c93e4c5a1215cd9949abd317aaa3a77ef62062a812",
+    "grid_crs": "EPSG:32651",
+    "grid_sha256": "c234d51e699abce0a1e458e816c3ba0d236b12b9eb91a59a00073c0ae3b09bb7",
+    "grid_transform": [
+      10.0,
+      0.0,
+      318010.0,
+      0.0,
+      -10.0,
+      3354900.0
+    ],
+    "height": 51,
+    "roi_id": "HZB_TECH_SMOKE_EXPORT_V1",
+    "sampling": "SCL.unmask(0).reproject(locked GridSpec).sampleRectangle(identical export region); categorical nearest-neighbour; no export task created",
+    "width": 51
+  },
+  "scl_class_histogram": [
+    {
+      "category": "sensor_invalid",
+      "class": 0,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "no_data",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "sensor_invalid",
+      "class": 1,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "saturated_or_defective",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "dark_area",
+      "class": 2,
+      "fraction": 0.2825836216839677,
+      "pixel_count": 735,
+      "semantic_name": "dark_area",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "cloud_shadow",
+      "class": 3,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "cloud_shadow",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "valid_surface",
+      "class": 4,
+      "fraction": 0.00461361014994233,
+      "pixel_count": 12,
+      "semantic_name": "vegetation",
+      "valid_under_s2_scl_qa_v1_1": true
+    },
+    {
+      "category": "valid_surface",
+      "class": 5,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "bare_soils",
+      "valid_under_s2_scl_qa_v1_1": true
+    },
+    {
+      "category": "valid_surface",
+      "class": 6,
+      "fraction": 0.7012687427912342,
+      "pixel_count": 1824,
+      "semantic_name": "water",
+      "valid_under_s2_scl_qa_v1_1": true
+    },
+    {
+      "category": "unclassified",
+      "class": 7,
+      "fraction": 0.011534025374855825,
+      "pixel_count": 30,
+      "semantic_name": "unclassified",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "cloud",
+      "class": 8,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "cloud_medium_probability",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "cloud",
+      "class": 9,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "cloud_high_probability",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "cloud",
+      "class": 10,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "thin_cirrus",
+      "valid_under_s2_scl_qa_v1_1": false
+    },
+    {
+      "category": "snow_or_ice",
+      "class": 11,
+      "fraction": 0.0,
+      "pixel_count": 0,
+      "semantic_name": "snow_or_ice",
+      "valid_under_s2_scl_qa_v1_1": false
+    }
+  ],
+  "snow_ice_class_11_fraction": 0.0,
+  "snow_ice_class_11_pixel_count": 0,
+  "source": {
+    "acquisition_utc": "2020-09-05T02:49:21.773000+00:00",
+    "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+    "product_id": "S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156",
+    "scene_id": "20200905T023549_20200905T024731_T51RUP",
+    "scl_band": "SCL"
+  },
+  "total_pixel_count": 2601
+}

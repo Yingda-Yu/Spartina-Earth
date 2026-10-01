@@ -107,10 +107,13 @@ def test_landsat_sensor_config_and_export_bands() -> None:
 
 
 def test_sentinel2_scl_decoder_and_bands() -> None:
-    for cls in (4, 5, 6, 11):
-        assert sentinel2.scl_is_clear(cls)
-    for cls in (0, 1, 2, 3, 7, 8, 9, 10):
-        assert not sentinel2.scl_is_clear(cls)
+    # M1.6d s2_scl_qa_v1_1: valid coastal surface classes are 4/5/6.
+    for cls in (4, 5, 6):
+        assert sentinel2.scl_is_valid(cls)
+    # 11 = snow/ice is invalid and reported separately; 2 = dark area and
+    # 7 = unclassified are invalid by explicit policy decision.
+    for cls in (0, 1, 2, 3, 7, 8, 9, 10, 11):
+        assert not sentinel2.scl_is_valid(cls)
     assert sentinel2.TEN_M_BANDS == ("B2", "B3", "B4", "B8")
     assert sentinel2.export_bands(include_cloudprob=True)[-2:] == (
         "SCL", "MSK_CLDPRB")

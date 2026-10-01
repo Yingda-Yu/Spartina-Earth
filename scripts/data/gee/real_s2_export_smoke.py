@@ -26,9 +26,11 @@ not the Zhejiang dataset, not a science stack, not training data.
 Single source scene only -- never median/mean/mosaic/qualityMosaic.
 Native 10 m bands only (B2/B3/B4/B8) as float32 reflectance = DN/10000;
 B11/B12 (native 20 m) are excluded and never resampled to 10 m. VALID
-lands as a separate uint8 0/1 file driven by the existing frozen SCL
-policy (clear classes 4/5/6/11 -- water and snow stay valid; the
-catalog-stage QA fractions were computed with the identical rule).
+lands as a separate uint8 0/1 file driven by the versioned SCL QA
+contract in spartina.data.gee.sentinel2 (s2_scl_qa_v1_1: valid classes
+{4,5,6}; water stays valid; SCL 11 snow/ice is invalid and is counted
+separately; the post-acceptance M1.6d correction superseded the original
+{4,5,6,11} rule).
 """
 
 from __future__ import annotations
@@ -75,7 +77,12 @@ from spartina.data.gee.selection import (  # noqa: E402
     SingleScenePolicy,
     canonical_fingerprint,
 )
-from spartina.data.gee.sentinel2 import REFLECTANCE_SCALE, TEN_M_BANDS  # noqa: E402
+from spartina.data.gee.sentinel2 import (  # noqa: E402
+    REFLECTANCE_SCALE,
+    S2_SCL_QA_POLICY,
+    S2_SCL_QA_POLICY_VERSION,
+    TEN_M_BANDS,
+)
 from spartina.data.gee.tasks import STATE_COMPLETED, STATE_RUNNING, TaskStore  # noqa: E402
 
 PRODUCT_ID = "S2_REAL_BYTE_SMOKE_V1"
@@ -91,43 +98,24 @@ DRIVE_PROPAGATION_S = 90
 GEE_DONE = "COMPLETED"
 GEE_FAILED = {"FAILED", "CANCELLED", "CANCEL_REQUESTED"}
 
+#: Frozen catalog fixture under the corrected s2_scl_qa_v1_1 policy.
+#: The historical s2_scl_qa_v1 fixture (real_smoke_catalog_v1.json) is
+#: retained unchanged for audit; its snow_pixel counts were zero for all
+#: S2 candidates, so the corrected rows differ only by the recorded QA
+#: policy version.
 FROZEN_FIXTURE = (
-    REPO_ROOT / "tests" / "fixtures" / "gee" / "real_smoke_catalog_v1.json")
+    REPO_ROOT / "tests" / "fixtures" / "gee"
+    / "real_smoke_catalog_scl_v1_1.json")
 DEFAULT_OUT_DIR = REPO_ROOT / "work" / "gee" / "real_smoke" / "s2"
 DEFAULT_TASKS = DEFAULT_OUT_DIR / "tasks" / "task_store.json"
 TRACKED_MANIFEST = (
-    REPO_ROOT / "datasets" / "manifests" / "gee_real_s2_export_smoke_v1.json")
+    REPO_ROOT / "datasets" / "manifests"
+    / "gee_real_s2_export_smoke_v1_1.json")
 
-#: Frozen SCL VALID policy, identical to
+#: SCL VALID contract record, identical to
 #: pixelqa.sentinel2_qa_count_bands CLEAR_PIXELS used at catalog time.
-SCL_QA_POLICY: dict[str, Any] = {
-    "source_band": "SCL",
-    "valid_classes": {
-        "4": "vegetation", "5": "bare_soils",
-        "6": "water", "11": "snow_or_ice"},
-    "not_valid_classes": {
-        "0": "no_data", "1": "saturated_or_defective", "2": "dark_area",
-        "3": "cloud_shadow", "7": "unclassified",
-        "8": "cloud_medium_probability", "9": "cloud_high_probability",
-        "10": "thin_cirrus"},
-    "category_mapping": {
-        "cloud_family_classes": [8, 9, 10],
-        "cirrus_class": 10,
-        "cloud_shadow_class": 3,
-        "snow_or_ice_class": 11,
-        "water_class": 6,
-        "sensor_invalid_classes": [0, 1],
-    },
-    "water_remains_valid": True,
-    "snow_or_ice_remains_valid": True,
-    "byte_encoding": (
-        "1 = VALID (SCL in {4,5,6,11}); 0 = not valid; masked footprint "
-        "unmasked to 0"),
-    "identity_with_catalog": (
-        "VALID == CLEAR_PIXELS rule in "
-        "spartina.data.gee.pixelqa.sentinel2_qa_count_bands; the catalog "
-        "clear_pixel_fraction and this export VALID share one definition"),
-}
+#: Single source of truth: spartina.data.gee.sentinel2.S2_SCL_QA_POLICY.
+SCL_QA_POLICY: dict[str, Any] = S2_SCL_QA_POLICY.to_manifest_dict()
 
 #: White-listed task-status keys persisted from the live GEE status payload
 #: (the status object contains no credentials; we still whitelist).
@@ -272,9 +260,12 @@ def replay_s2_selection(ee: Any, fixture: dict[str, Any]) -> dict[str, Any]:
         "s2_catalog_fingerprint_matches_fixture": s2_fp_a == s2_fp_fx,
         "s2_selection_fingerprint_rerun": sel_fp_a == sel_fp_b,
         "s2_selection_fingerprint_matches_fixture": sel_fp_a == sel_fp_fx,
+        # s2_scl_qa_v1_1 corrected frozen fixture; historical v1 values
+        # (ddf6f158... / b659c68b...) are retained in the correction
+        # manifest fingerprint mapping and must never be overwritten.
         "global_catalog_fingerprint_matches_fixture":
             fixture["catalog_fingerprint_sha256"]
-            == "ddf6f158eff85dbc74b7be5f2780319da44cc2910f3ca930917bbc7df6692f28",
+            == "db9d29bb735e3a6cfb6852b239d30e525c82672a991e741d56a5fefb13c3b55b",
         "global_selection_fingerprint_matches_fixture":
             fixture["selection_fingerprint_sha256"]
             == "b659c68b0018b09328b61a5cbaf64ad21a282594e81834173815db7bdc9d4f4e",
@@ -322,7 +313,7 @@ def load_s2_images(ee: Any, scene_id: str) -> tuple[Any, Any]:
         .toFloat()
         .updateMask(observed))
     valid = (
-        scl.eq(4).Or(scl.eq(5)).Or(scl.eq(6)).Or(scl.eq(11))
+        S2_SCL_QA_POLICY.ee_valid_surface(ee, scl)
         .unmask(0).toByte().rename("VALID"))
     return reflectance, valid
 
@@ -345,6 +336,7 @@ def _processing_config(grid: GridSpec,
             "NONE; native 10 m bands only; 20 m bands are excluded and "
             "never resampled to 10 m"),
         "native_resolution_m": 10.0,
+        "scl_qa_policy_version": S2_SCL_QA_POLICY_VERSION,
         "scl_qa_policy": SCL_QA_POLICY,
         "valid_mask_band_order": ["VALID"],
         "valid_mask_unmasked_to": 0,
@@ -400,6 +392,7 @@ def build_lock(
         },
         "band_order": list(TEN_M_BANDS),
         "reflectance_scale": 1e-4,
+        "scl_qa_policy_version": S2_SCL_QA_POLICY_VERSION,
         "scl_qa_policy": SCL_QA_POLICY,
         "grid": grid.to_dict(),
         "grid_sha256": grid_hash,
@@ -708,8 +701,9 @@ def run_pipeline(
                 selected.get("roi_saturated_fraction"),
             "valid_pixel_fraction_observed":
                 selected.get("valid_pixel_fraction"),
-            "clear_pixel_fraction_scl_4_5_6_11":
+            "clear_pixel_fraction_scl_4_5_6":
                 selected.get("clear_pixel_fraction"),
+            "scl_qa_policy_version": S2_SCL_QA_POLICY_VERSION,
             "roi_coverage_fraction": selected.get("roi_coverage_fraction"),
         },
         "export_sub_roi_qa": {

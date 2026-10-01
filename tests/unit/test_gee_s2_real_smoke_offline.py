@@ -17,7 +17,10 @@ from pathlib import Path
 import pytest
 
 from spartina.data.gee.provenance import ProvenanceError
-from spartina.data.gee.sentinel2 import SCL_CLEAR_CLASSES
+from spartina.data.gee.sentinel2 import (
+    S2_SCL_QA_POLICY_VERSION,
+    S2_VALID_SCL_CLASSES,
+)
 from spartina.data.gee.tasks import TaskStore
 
 SCRIPTS = Path(__file__).resolve().parents[2] / "scripts" / "data" / "gee"
@@ -70,14 +73,27 @@ def test_export_roi_is_deterministic_10m_500m() -> None:
 def test_scl_valid_policy_matches_frozen_catalog_code() -> None:
     policy = driver.SCL_QA_POLICY
     valid = {int(k) for k in policy["valid_classes"]}
-    assert valid == set(SCL_CLEAR_CLASSES) == {4, 5, 6, 11}
+    # M1.6d corrected contract s2_scl_qa_v1_1: valid = {4,5,6}.
+    assert valid == set(S2_VALID_SCL_CLASSES) == {4, 5, 6}
+    assert policy["version"] == S2_SCL_QA_POLICY_VERSION == "s2_scl_qa_v1_1"
     assert policy["water_remains_valid"] is True
-    assert policy["category_mapping"]["cloud_family_classes"] == [8, 9, 10]
-    assert policy["category_mapping"]["cloud_shadow_class"] == 3
-    assert policy["category_mapping"]["cirrus_class"] == 10
-    # Snow/ice is a separately reported category; the frozen CLEAR rule
-    # (and therefore this binary VALID) keeps class 11 valid.
-    assert policy["snow_or_ice_remains_valid"] is True
+    categories = policy["category_mapping"]
+    assert categories["cloud_family_classes"] == [8, 9, 10]
+    assert categories["cloud_shadow_classes"] == [3]
+    assert categories["cirrus_classes"] == [10]
+    assert categories["snow_ice_classes"] == [11]
+    assert categories["sensor_invalid_classes"] == [0, 1]
+    assert categories["dark_area_classes"] == [2]
+    assert categories["unclassified_classes"] == [7]
+    # Snow/ice (11), dark area (2) and unclassified (7) are explicitly
+    # NOT valid; snow/ice is reported via the separate snow statistic.
+    assert policy["snow_or_ice_remains_valid"] is False
+    assert policy["dark_area_class_2_decision"] == (
+        "NOT_VALID_EXPLICIT_POLICY_DECISION")
+    assert policy["unclassified_class_7_decision"] == (
+        "NOT_VALID_EXPLICIT_POLICY_DECISION")
+    assert policy["supersedes"] == "s2_scl_qa_v1"
+    assert policy["superseded_valid_classes"] == [4, 5, 6, 11]
 
 
 def test_task_store_persists_every_poll_state(tmp_path: Path) -> None:

@@ -162,8 +162,11 @@ def test_backup_gate_counts_and_empty_selection(
 def test_backup_catalog_fingerprint_reproduces(
     fixture: dict[str, Any], driver: Any, replayed: list[dict[str, Any]],
 ) -> None:
+    # Historical backup fixture predates scl_qa_policy_version: reproduce
+    # its fingerprint with the frozen v1 fingerprint field set.
     fingerprint = driver.canonical_fingerprint(
-        driver._fingerprint_payload(replayed))
+        driver._fingerprint_payload(
+            replayed, fields=driver.FINGERPRINT_FIELDS_V1))
     assert fingerprint == fixture["catalog_fingerprint_sha256"]
     assert fingerprint == FROZEN_CATALOG_FP
 

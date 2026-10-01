@@ -149,6 +149,7 @@ CANDIDATE_COLUMNS: tuple[str, ...] = (
     "polarizations", "platform_number",
     "vv_available", "vh_available", "hh_available", "hv_available",
     "angle_available", "cloud_probability_available",
+    "scl_qa_policy_version",
     "roi_total_pixels", "roi_valid_pixels", "roi_cloud_pixels",
     "roi_cloud_shadow_pixels", "roi_cirrus_pixels", "roi_snow_pixels",
     "roi_saturated_pixels", "roi_clear_pixels",
@@ -160,9 +161,10 @@ CANDIDATE_COLUMNS: tuple[str, ...] = (
     "rejection_reasons", "metadata_retrieval_timestamp",
 )
 
-# Fields that define the stable catalog fingerprint (timestamps of the
-# retrieval itself and derived annotations are deliberately excluded).
-FINGERPRINT_FIELDS: tuple[str, ...] = (
+# Fields that defined the ORIGINAL s2_scl_qa_v1 catalog fingerprint.
+# Retained so the frozen v1 historical fixture stays reproducible after
+# the M1.6d correction added the scl_qa_policy_version column.
+FINGERPRINT_FIELDS_V1: tuple[str, ...] = (
     "sensor", "collection_id", "scene_id", "product_id",
     "acquisition_utc", "wrs_path", "wrs_row", "mgrs_tile",
     "orbit_direction", "relative_orbit_number", "polarizations",
@@ -174,6 +176,13 @@ FINGERPRINT_FIELDS: tuple[str, ...] = (
     "roi_saturated_pixels", "roi_clear_pixels",
     "vv_available", "vh_available", "hh_available", "hv_available",
     "angle_available", "cloud_probability_available",
+)
+
+#: Current stable catalog fingerprint fields (s2_scl_qa_v1_1 onward):
+#: adds the versioned SCL QA policy column for provenance.
+FINGERPRINT_FIELDS: tuple[str, ...] = (
+    *FINGERPRINT_FIELDS_V1,
+    "scl_qa_policy_version",
 )
 
 OPTICAL_QA_FRACTIONS: tuple[str, ...] = (
@@ -314,6 +323,11 @@ def _optical_row(sensor: str, query_id: str, feature: dict[str, Any],
         "cloud_probability_available": (
             bool(qa.get("cloud_probability_available"))
             if sensor == "sentinel2" else NOT_APPLICABLE),
+        # Versioned SCL QA contract (M1.6d provenance requirement);
+        # NOT_APPLICABLE for non-S2 optical sensors.
+        "scl_qa_policy_version": (
+            sentinel2.S2_SCL_QA_POLICY_VERSION if sensor == "sentinel2"
+            else NOT_APPLICABLE),
     })
     for key in OPTICAL_QA_COUNTS:
         row[key] = qa.get(key)
@@ -350,6 +364,7 @@ def _sentinel1_row(query_id: str, feature: dict[str, Any],
         "hv_available": bool(qa.get("hv_available")),
         "angle_available": bool(qa.get("angle_available")),
         "cloud_probability_available": NOT_APPLICABLE,
+        "scl_qa_policy_version": NOT_APPLICABLE,
         "roi_total_pixels": qa.get("roi_total_pixels"),
         "roi_valid_pixels": qa.get("roi_valid_pixels"),
         "valid_pixel_fraction": qa.get("valid_pixel_fraction"),
@@ -466,8 +481,11 @@ def _rank_sar(rows: list[dict[str, Any]],
             row["policy_eligible"] = True
 
 
-def _fingerprint_payload(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    return [{k: row.get(k) for k in FINGERPRINT_FIELDS}
+def _fingerprint_payload(
+    rows: list[dict[str, Any]],
+    fields: tuple[str, ...] = FINGERPRINT_FIELDS,
+) -> list[dict[str, Any]]:
+    return [{k: row.get(k) for k in fields}
             for row in sorted(rows, key=lambda r: str(r.get("scene_id")))]
 
 
