@@ -83,12 +83,15 @@ GAP_NO_SCENES: Final[str] = "NO_SCENES_FOUND"
 GAP_NO_QUALITY: Final[str] = "NO_QUALITY_SCENES"
 GAP_QUERY_NOT_RUN: Final[str] = "QUERY_NOT_RUN"
 GAP_UNKNOWN: Final[str] = "UNKNOWN"
+#: Not a gap: at least one usable scene exists this year.
+GAP_NONE: Final[str] = "NONE"
 GAP_STATUSES: Final[tuple[str, ...]] = (
     GAP_NOT_OPERATIONAL,
     GAP_NO_SCENES,
     GAP_NO_QUALITY,
     GAP_QUERY_NOT_RUN,
     GAP_UNKNOWN,
+    GAP_NONE,
 )
 
 SLC_PRE_FAILURE: Final[str] = "PRE_SLC_FAILURE"

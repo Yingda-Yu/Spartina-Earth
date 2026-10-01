@@ -404,4 +404,4 @@ census:
   scene_cloud_max: 0.30
   footprint_coverage_min: 0.99
   s1_orbits_kept_separate: [ASCENDING, DESCENDING]
-  scene_table_path: work/zhejiang_m21a/zhejiang_eo_scene_census_v0.parquet
+  scene_table_path: datasets/manifests/zhejiang_eo_scene_census_v0.parquet

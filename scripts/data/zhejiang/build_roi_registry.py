@@ -16,6 +16,7 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT / "src"))
@@ -51,7 +52,7 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def write_csv(path: Path, rows: list[dict], columns: tuple[str, ...]) -> None:
+def write_csv(path: Path, rows: list[dict[str, Any]], columns: tuple[str, ...]) -> None:
     with path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(columns),
                                 extrasaction="ignore")
@@ -102,11 +103,10 @@ def main() -> int:
     rings = polygon_rings(list(coast.geometry))
 
     projection = config["analysis_crs"]
-    source_by_id = {s["id"]: s for s in config["sources"]}
 
-    registry_rows: list[dict] = []
-    snap_rows: list[dict] = []
-    features: list[dict] = []
+    registry_rows: list[dict[str, Any]] = []
+    snap_rows: list[dict[str, Any]] = []
+    features: list[dict[str, Any]] = []
     for spec in specs:
         geom = construct_bay(spec, land_union, rings, projection)
         src_ids = sorted({

@@ -25,6 +25,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from typing import Any  # noqa: E402
+
 import geopandas as gpd  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
@@ -32,6 +34,7 @@ import pyproj  # noqa: E402
 import rasterio  # noqa: E402
 from rasterio.mask import raster_geometry_mask  # noqa: E402
 from shapely.geometry import box, shape  # noqa: E402
+from shapely.geometry.base import BaseGeometry  # noqa: E402
 from shapely.ops import transform as shp_transform  # noqa: E402
 
 from spartina.data.gee.selection import canonical_fingerprint  # noqa: E402
@@ -50,12 +53,14 @@ TO_32651 = pyproj.Transformer.from_crs(4326, 32651, always_xy=True).transform
 TO_4326 = pyproj.Transformer.from_crs(32651, 4326, always_xy=True).transform
 
 # Static audit metadata from M0/M1.1 reviews (docs/audit/LABEL_*.md).
-ASSETS: list[dict] = [
+ASSETS: list[dict[str, Any]] = [
     {
         "asset_id": "L1-china2015-raster30m",
         "asset_name": "30m中国互花米草空间分布数据集(2015)",
         "asset_kind": "RASTER_LABEL",
-        "relpath": "30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
+        "relpath": ("30mSpartinaChina/30m分辨率中国互花米草空间分布数据集"
+                    "(2015年)-数据实体/30m中国互花米草空间分布数据集"
+                    "(2015年)-数据实体.tif"),
         "nominal_year": 2015,
         "verified_acquisition_date": "UNKNOWN",
         "source_owner": "中国科学院东北地理与农业生态研究所 王宗明团队（geodata.cn）",
@@ -296,7 +301,7 @@ for yr in range(2019, 2026):
     })
 
 
-def load_rois(geojson_path: Path) -> dict[str, object]:
+def load_rois(geojson_path: Path) -> dict[str, BaseGeometry]:
     fc = json.loads(geojson_path.read_text(encoding="utf-8"))
     return {
         f["properties"]["roi_id"]: shape(f["geometry"])
@@ -304,11 +309,11 @@ def load_rois(geojson_path: Path) -> dict[str, object]:
     }
 
 
-def area_km2_32651(geom: object) -> float:
-    return shp_transform(TO_32651, geom).area / 1_000_000.0
+def area_km2_32651(geom: BaseGeometry) -> float:
+    return float(shp_transform(TO_32651, geom).area) / 1_000_000.0
 
 
-def vector_overlap(path: Path, roi_geoms: dict[str, object]) -> dict[str, tuple[int, float]]:
+def vector_overlap(path: Path, roi_geoms: dict[str, BaseGeometry]) -> dict[str, tuple[int, float]]:
     result: dict[str, tuple[int, float]] = {}
     for roi_id, roi in roi_geoms.items():
         minx, miny, maxx, maxy = roi.bounds
@@ -334,10 +339,10 @@ def vector_overlap(path: Path, roi_geoms: dict[str, object]) -> dict[str, tuple[
 
 
 def raster_label_overlap(
-    path: Path, roi_geoms: dict[str, object]
+    path: Path, roi_geoms: dict[str, BaseGeometry]
 ) -> tuple[dict[str, tuple[int, float]], str]:
     counts: dict[str, tuple[int, float]] = {}
-    values_seen: set = set()
+    values_seen: set[float] = set()
     with rasterio.open(path) as ds:
         for roi_id, roi_geog in roi_geoms.items():
             # reproject ROI into raster CRS
@@ -375,7 +380,7 @@ def raster_label_overlap(
 
 
 def raster_footprint_overlap(
-    path: Path, roi_geoms: dict[str, object]
+    path: Path, roi_geoms: dict[str, BaseGeometry]
 ) -> dict[str, tuple[float, float, float]]:
     """Return (footprint_area_km2, intersection_km2, roi_covered_frac)."""
     out: dict[str, tuple[float, float, float]] = {}
@@ -405,10 +410,10 @@ def main() -> int:
     args = parser.parse_args()
 
     roi_geoms = load_rois(Path(args.rois))
-    rows: list[dict] = []
+    rows: list[dict[str, Any]] = []
     for asset in ASSETS:
         path = OLD / asset["relpath"]
-        row = {k: "" for k in LABEL_INVENTORY_COLUMNS}
+        row: dict[str, Any] = {k: "" for k in LABEL_INVENTORY_COLUMNS}
         row["resolution_m"] = None
         row.update({
             "asset_id": asset["asset_id"],
@@ -440,11 +445,13 @@ def main() -> int:
             rows.append(row)
             continue
 
+        ov: Any
+        vals = ""
         if asset["asset_kind"] == "VECTOR_LABEL":
             ov = vector_overlap(path, roi_geoms)
             row["crs"] = gpd.read_file(path, rows=0).crs.to_string() \
                 if gpd.read_file(path, rows=0).crs else "UNKNOWN"
-            for bid, (n, area) in ov.items():
+            for bid, (n, _area) in ov.items():
                 row[f"overlap_{bid.lower().replace('-', '_')}"] = n
             row["overlap_units"] = "FEATURES"
             row["overlap_area_km2"] = round(
@@ -456,7 +463,7 @@ def main() -> int:
                     abs(ds.transform.a) if ds.crs.is_projected else
                     abs(ds.transform.a) * 111_320.0, 2)
             ov, vals = raster_label_overlap(path, roi_geoms)
-            for bid, (n, area) in ov.items():
+            for bid, (n, _area) in ov.items():
                 row[f"overlap_{bid.lower().replace('-', '_')}"] = n
             row["overlap_units"] = "POSITIVE_PIXELS"
             row["overlap_area_km2"] = round(

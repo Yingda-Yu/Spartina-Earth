@@ -19,10 +19,11 @@ Everything here is pure geometry over explicit inputs; the driver
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, Iterable
+from typing import Any
 
-from shapely.geometry import Point, Polygon, mapping, shape
+from shapely.geometry import Point, Polygon, mapping
 from shapely.ops import transform as shp_transform
 from shapely.ops import unary_union
 from shapely.validation import make_valid
@@ -281,7 +282,7 @@ def _round_recursive(obj: Any) -> Any:
         return round(obj, COORDINATE_DECIMALS)
     if isinstance(obj, dict):
         return {k: _round_recursive(obj[k]) for k in sorted(obj)}
-    if isinstance(obj, (list, tuple)):
+    if isinstance(obj, list | tuple):
         return [_round_recursive(v) for v in obj]
     return obj
 
