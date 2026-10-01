@@ -1,0 +1,407 @@
+# Zhejiang three-bay multi-sensor sampling frame — M2.1a (Issue #7)
+#
+# STAGE BOUNDARY: scientific sampling frame only. This config drives ROI
+# provenance derivation, the legacy-label inventory and the metadata-only
+# EO observational census. It MUST NOT trigger bulk imagery export,
+# bay-wide GeoTIFF downloads, model training or dataset freeze.
+#
+# Evidence labels:
+#   VERIFIED     - source text/data actually fetched and read on 2026-10-01
+#   PROVISIONAL  - derived / approximate, kept under explicit parameters
+#   BLOCKED      - access not possible through compliant public channels
+#   UNKNOWN      - no evidence found; never guessed
+#
+# Every bay geometry here is a Tier-C DETERMINISTIC DERIVATION from the
+# GSHHG v2.3.7 coastline (LGPL v3+) plus named closing-section anchors.
+# It is NOT an official government polygon.
+
+version: v0
+dataset_id: zhejiang_multibay_m21a
+stage: M2.1a
+issue: 7
+generated_for_access_date: "2026-10-01"
+analysis_crs: EPSG:32651     # UTM zone 51N; all three bays sit in 120-122E
+
+time_axis:
+  start_year: 1985
+  end_year: 2026
+
+# ---------------------------------------------------------------------------
+# Base coastline for the Tier-C derivation (pinned; bytes live outside Git)
+# ---------------------------------------------------------------------------
+base_coastline:
+  id: gshhg_v2_3_7_h_l1
+  title: GSHHG high-resolution shoreline, level 1 (land/ocean boundary)
+  version: "2.3.7"
+  resolution_level: h
+  url: http://www.soest.hawaii.edu/pwessel/gshhg/gshhg-shp-2.3.7.zip
+  archive_sha256: 8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41
+  shp_relpath: GSHHS_shp/h/GSHHS_h_L1.shp
+  shp_sha256: d870bdbc90a074f87a8c09a9630abb5f18916314b9a196dba2e6866fd51ef325
+  source_crs: EPSG:4326
+  license: LGPL-3.0-or-later (with GSHHG attribution notice; see LICENSE.TXT)
+  citation: Wessel, P. & Smith, W.H.F. (1996), JGR Solid Earth,
+            DOI 10.1029/96JB00104; GSHHG v2.3.7 (2017 release)
+  shoreline_meaning: MEAN_SHORELINE_APPROXIMATION
+  local_path: work/sources/GSHHS_shp/h/GSHHS_h_L1.shp
+  notes: >
+    Mean-shoreline product: in macrotidal embayments the instantaneous
+    shoreline deviates by kilometres across the tidal cycle. Derived bay
+    water areas are therefore NOT chart-datum sea areas.
+
+# ---------------------------------------------------------------------------
+# Bay anchors. kind=SECTION_POINT snaps to the nearest GSHHG coastline
+# vertex within snap_radius_m (largest deviation is logged, never silent).
+# kind=CONSTRUCTION_CORNER is an onshore envelope corner used as-is; the
+# builder asserts it falls on land. Coordinates are approximate place
+# locations in WGS84 decimal degrees (PROVISIONAL by definition).
+# ---------------------------------------------------------------------------
+rois:
+  - roi_id: ZJ-HZB
+    name_zh: 杭州湾
+    name_en: Hangzhou Bay
+    onshore_belt_m: 2000
+    envelope_order: [hzb_en_nanhui, hzb_es_zhenhai, hzb_ws_xisan, hzb_wn_ganpu]
+    anchors:
+      - id: hzb_en_nanhui
+        kind: SECTION_POINT
+        place_zh: 南汇嘴（芦潮港），湾口线北端
+        lon: 121.970
+        lat: 30.870
+        snap_radius_m: 9000
+        # GSHHG shoreline here predates recent Nanhui reclamation; the
+        # snapped vertex lies ~8 km west of the present cape tip.
+        source_id: src_hzb_text_igsnrr
+      - id: hzb_es_zhenhai
+        kind: SECTION_POINT
+        place_zh: 镇海口（甬江口·扬子角），湾口线南端
+        lon: 121.740
+        lat: 29.970
+        snap_radius_m: 2000
+        source_id: src_hzb_text_igsnrr
+      - id: hzb_ws_xisan
+        kind: SECTION_POINT
+        place_zh: 西三闸，湾-钱塘江口区分界断面南岸
+        lon: 120.870
+        lat: 30.335
+        snap_radius_m: 5000
+        source_id: src_hzb_section_yu1994
+      - id: hzb_wn_ganpu
+        kind: SECTION_POINT
+        place_zh: 澉浦（长山闸），分界断面北岸
+        lon: 120.905
+        lat: 30.385
+        snap_radius_m: 2000
+        source_id: src_hzb_section_yu1994
+    published_area_km2: 5000
+    published_area_source_id: src_hzb_text_igsnrr
+    published_area_note: >
+      Often-quoted ~5000 km2 book figure; definition/datum not documented
+      in the accessible text. Sanity check only, not a validation target.
+
+  - roi_id: ZJ-SMB
+    name_zh: 三门湾
+    name_en: Sanmen Bay
+    onshore_belt_m: 2000
+    envelope_order: [smb_head_nw, smb_head_sw, smb_mouth_s_jinqimen,
+                     smb_mouth_island_sanmendao, smb_mouth_n_niutoushan]
+    anchors:
+      - id: smb_head_nw
+        kind: CONSTRUCTION_CORNER
+        place_zh: 湾顶包络西北角（陆上闭合点，非地名锚点）
+        lon: 121.400
+        lat: 29.405
+        snap_radius_m: 0
+      - id: smb_head_sw
+        kind: CONSTRUCTION_CORNER
+        place_zh: 湾顶包络西南角（陆上闭合点，非地名锚点）
+        lon: 121.400
+        lat: 28.945
+        snap_radius_m: 0
+      - id: smb_mouth_s_jinqimen
+        kind: SECTION_POINT
+        place_zh: 金柒门，湾口线南端
+        lon: 121.930
+        lat: 28.990
+        snap_radius_m: 5000
+        source_id: src_smb_gov_geography
+      - id: smb_mouth_island_sanmendao
+        kind: SECTION_POINT
+        place_zh: 三门岛，湾口线链中岛
+        lon: 121.955
+        lat: 29.060
+        snap_radius_m: 1500
+        source_id: src_smb_gov_geography
+      - id: smb_mouth_n_niutoushan
+        kind: SECTION_POINT
+        place_zh: 牛头山，湾口线北端
+        lon: 121.970
+        lat: 29.160
+        snap_radius_m: 1500
+        source_id: src_smb_gov_geography
+    published_area_km2: 775
+    published_area_source_id: src_smb_gov_geography
+    published_area_note: >
+      Sanmen county government page: sea area 775 km2, mouth width 22 km,
+      mouth-to-head length 42 km, low-tide total area 390+ km2, shoreline
+      303 km. Independent encyclopedia figure ~14 nmi (~26 km) mouth width
+      is RETAINED as disagreement, not resolved.
+
+  - roi_id: ZJ-YQB
+    name_zh: 乐清湾
+    name_en: Yueqing Bay
+    onshore_belt_m: 2000
+    envelope_order: [yqb_head_n, yqb_west, yqb_mouth_s_xiaomen,
+                     yqb_mouth_island_damen, yqb_mouth_island_luxi]
+    anchors:
+      - id: yqb_head_n
+        kind: CONSTRUCTION_CORNER
+        place_zh: 湾顶（北端近温岭）包络角（陆上闭合点）
+        lon: 121.200
+        lat: 28.405
+        snap_radius_m: 0
+      - id: yqb_west
+        kind: CONSTRUCTION_CORNER
+        place_zh: 西岸包络角（陆上闭合点）
+        lon: 120.940
+        lat: 28.000
+        snap_radius_m: 0
+      - id: yqb_mouth_s_xiaomen
+        kind: SECTION_POINT
+        place_zh: 小门岛附近，湾口链南端
+        lon: 121.060
+        lat: 27.990
+        snap_radius_m: 1500
+        source_id: src_yqb_ywyc2021
+      - id: yqb_mouth_island_damen
+        kind: SECTION_POINT
+        place_zh: 大门岛，湾口链中岛
+        lon: 121.110
+        lat: 27.960
+        snap_radius_m: 2000
+        source_id: src_yqb_ywyc2021
+      - id: yqb_mouth_island_luxi
+        kind: SECTION_POINT
+        place_zh: 鹿西岛，湾口链东北端
+        lon: 121.200
+        lat: 28.070
+        snap_radius_m: 2000
+        source_id: src_yqb_ywyc2021
+    published_area_km2: 463.6
+    published_area_source_id: src_yqb_published_463
+    published_area_note: >
+      Published whole-bay figure ~463.6 km2 (bibliographic detail
+      TODO_VERIFY). The Yueqing one-bay-one-policy document bbox
+      (27 58'56"-28 23'16"N, 120 57'29"-121 12'22"E) covers ONLY the
+      Yueqing-administered slice, explicitly NOT the whole bay.
+
+# ---------------------------------------------------------------------------
+# Provenance source audit records (VERIFIED = fetched/read on access date)
+# ---------------------------------------------------------------------------
+sources:
+  - id: src_hzb_text_igsnrr
+    applies_to: [ZJ-HZB]
+    publisher: 中国科学院地理科学与资源研究所等（《中国的海湾》文献系统）
+    title: 杭州湾口门与面积文字定义（南汇嘴-镇海口口门；面积约5000 km2）
+    url: UNKNOWN
+    doi: UNKNOWN
+    publication_date: UNKNOWN
+    access_date: "2026-10-01"
+    geometry_type: TEXT_DEFINITION_ONLY
+    crs: NOT_APPLICABLE
+    boundary_meaning: 湾口东西口门连线；文字定义，无矢量
+    license: PROPRIETARY_TEXT
+    status: VERIFIED
+    notes: 教科书/百科级文字定义；未发现可下载官方矢量。
+  - id: src_hzb_section_yu1994
+    applies_to: [ZJ-HZB]
+    publisher: 海洋学报（余祈文等，1994）
+    title: 杭州湾与钱塘江河口区分界断面（澉浦-西三断面）
+    url: UNKNOWN
+    doi: UNKNOWN
+    publication_date: "1994"
+    access_date: "2026-10-01"
+    geometry_type: TEXT_DEFINITION_ONLY
+    crs: NOT_APPLICABLE
+    boundary_meaning: 湾-河口区分界断面
+    license: PROPRIETARY_TEXT
+    status: PROVISIONAL
+    notes: 卷期/页码 TODO_VERIFY；断面地点文字为二手文献转引核对。
+  - id: src_smb_gov_geography
+    applies_to: [ZJ-SMB]
+    publisher: 三门县人民政府办公室
+    title: 三门县政府门户网站-自然地理（2026-04-13更新）
+    url: https://www.sanmen.gov.cn/art/2025/6/26/art_1229679902_59040617.html
+    doi: NOT_APPLICABLE
+    publication_date: "2026-04-13"
+    access_date: "2026-10-01"
+    geometry_type: TEXT_DEFINITION_ONLY
+    crs: NOT_APPLICABLE
+    boundary_meaning: 湾口面向东南，以金柒门-三门岛-牛头山连线为界
+    license: GOVERNMENT_WEB_TEXT
+    status: VERIFIED
+    notes: 口宽22 km、纵长42 km、海域775 km2、低潮390+ km2、岸线303 km原文核对。
+  - id: src_smb_sihan2019
+    applies_to: [ZJ-SMB]
+    publisher: Polish Journal of Environmental Studies
+    title: Si Han et al. (2019) Sanmen Bay study (research bbox 28 57'-29 22'N,
+           121 25'-121 58'E)
+    url: https://doi.org/10.15244/pjoes/87106
+    doi: 10.15244/pjoes/87106
+    publication_date: "2018-11-09"
+    access_date: "2026-10-01"
+    geometry_type: RESEARCH_BBOX_TEXT
+    crs: NOT_APPLICABLE
+    boundary_meaning: 研究区经纬度范围，非官方边界
+    license: PUBLISHER_OPEN_ACCESS
+    status: VERIFIED
+    notes: Pol. J. Environ. Stud. 28(3), 1355-1365.
+  - id: src_yqb_ywyc2021
+    applies_to: [ZJ-YQB]
+    publisher: 乐清市人民政府办公室
+    title: 乐清湾“一湾一策”污染整治行动方案（乐政办发〔2021〕20号）
+    url: https://www.yueqing.gov.cn/col/col1229276916/index.html
+    doi: NOT_APPLICABLE
+    publication_date: "2021"
+    access_date: "2026-10-01"
+    geometry_type: TEXT_SCOPE_WITH_BBOX
+    crs: NOT_APPLICABLE
+    boundary_meaning: 乐清市管辖片范围（非全湾）；含片内坐标范围
+    license: GOVERNMENT_WEB_TEXT
+    status: VERIFIED
+    notes: 目录列表URL；正文页未独立定位。bbox 仅乐清市管辖片。
+  - id: src_yqb_published_463
+    applies_to: [ZJ-YQB]
+    publisher: UNKNOWN
+    title: 乐清湾海域面积约463.6 km2（通行文献数值）
+    url: UNKNOWN
+    doi: UNKNOWN
+    publication_date: UNKNOWN
+    access_date: "2026-10-01"
+    geometry_type: TEXT_FIGURE
+    crs: NOT_APPLICABLE
+    boundary_meaning: 全湾海域面积（定义/基准未明）
+    license: UNKNOWN
+    status: PROVISIONAL
+    notes: 通行数值但未核到一手出处；仅作 sanity check。
+  - id: src_mnr_forecast_units
+    applies_to: [ZJ-SMB, ZJ-YQB]
+    publisher: 自然资源部（原国家海洋局）
+    title: 海预减字[2017]7号 预报海区单元（E44三门湾、E52乐清湾）
+    url: https://gc.mnr.gov.cn/201806/t20180614_1795770.html
+    doi: NOT_APPLICABLE
+    publication_date: "2017"
+    access_date: "2026-10-01"
+    geometry_type: TEXT_DEFINITION_ONLY
+    crs: NOT_APPLICABLE
+    boundary_meaning: 海湾口连线向湾内一侧封闭海域；无矢量
+    license: GOVERNMENT_WEB_TEXT
+    status: VERIFIED
+    notes: 杭州湾在该体系中无单一海区单元（拆分），作为负证据保留。
+  - id: src_bay_method_li2020
+    applies_to: [ZJ-HZB, ZJ-SMB, ZJ-YQB]
+    publisher: 地理学报 ACTA GEOGRAPHICA SINICA
+    title: 李加林等(2020)围填海影响下东海区海岸格局演变；引《中国海湾志》海湾边界方法
+    url: https://doi.org/10.11821/dlxb202001010
+    doi: 10.11821/dlxb202001010
+    publication_date: "2020-01"
+    access_date: "2026-10-01"
+    geometry_type: METHOD_TEXT
+    crs: NOT_APPLICABLE
+    boundary_meaning: 对应两角（岬角）连线；角间有岛时顺岛屿向海一侧岸线连接
+    license: PUBLISHER
+    status: VERIFIED
+    notes: 75(1):126-142。v0 岛链用直线段简化，未沿岛屿岸线（已在文档声明）。
+  - id: src_gshhg
+    applies_to: [ZJ-HZB, ZJ-SMB, ZJ-YQB]
+    publisher: University of Hawaii / NOAA (Wessel & Smith)
+    title: GSHHG v2.3.7 high-resolution shoreline
+    url: http://www.soest.hawaii.edu/pwessel/gshhg/gshhg-shp-2.3.7.zip
+    doi: NOT_APPLICABLE
+    publication_date: "2017"
+    access_date: "2026-10-01"
+    geometry_type: VECTOR_SHORELINE_POLYGONS
+    crs: EPSG:4326
+    boundary_meaning: 平均岸线近似
+    license: LGPL-3.0-or-later
+    status: VERIFIED
+    notes: 允许附版权声明再分发；派生 GeoJSON 含 GSHHG attribution。
+  - id: src_zj_marine_function_2012r2018
+    applies_to: [ZJ-HZB, ZJ-SMB, ZJ-YQB]
+    publisher: 浙江省人民政府
+    title: 浙江省海洋功能区划（2011-2020年，2018年9月修订）
+    url: UNKNOWN
+    doi: NOT_APPLICABLE
+    publication_date: "2018-09"
+    access_date: "2026-10-01"
+    geometry_type: PLAN_TEXT_AND_MAPS
+    crs: UNKNOWN
+    boundary_meaning: 管理分区；文本含各湾管理范围描述，图件未获可重分发矢量
+    license: GOVERNMENT_PLAN
+    status: VERIFIED
+    notes: PDF/文本已读；无公开矢量，登记/下载渠道 UNKNOWN。
+  - id: src_zj_coastline_protection_2016
+    applies_to: [ZJ-HZB, ZJ-SMB, ZJ-YQB]
+    publisher: 浙江省海洋与渔业局
+    title: 浙江省海岸线保护与利用规划（2016-2020年）
+    url: UNKNOWN
+    doi: NOT_APPLICABLE
+    publication_date: UNKNOWN
+    access_date: "2026-10-01"
+    geometry_type: PLAN_TEXT_AND_TABLES
+    crs: CGCS2000 (文本声明)
+    boundary_meaning: 保护岸线/严格控制岸线等管理分类
+    license: GOVERNMENT_PLAN
+    status: VERIFIED
+    notes: 文本/登记表已读；矢量未公开。
+
+# ---------------------------------------------------------------------------
+# Season / acquisition windows.
+# v0 = pre-literature hypothesis. evidence_verdict is the verdict recorded
+# in docs/data/ZHEJIANG_PHENOLOGY_AND_SEASON_POLICY_V0.md. v1 candidates are
+# NOT frozen this stage; they await user acceptance.
+# ---------------------------------------------------------------------------
+season_windows:
+  - id: autumn_v0
+    doy_start: 260
+    doy_end: 305
+    drift_days: 20
+    evidence_verdict: MODIFY
+    v1_candidate_doy_range: [260, 320]
+    policy_status: PROPOSED_NOT_FROZEN
+  - id: summer_v0
+    doy_start: 152
+    doy_end: 212
+    drift_days: 20
+    evidence_verdict: REGION_DEPENDENT
+    v1_candidate_doy_range: [110, 150]
+    policy_status: PROPOSED_NOT_FROZEN
+    note: >
+      Species separation evidence actually points to late spring
+      (~DOY110-150); mid-summer is spectrally convergent and cloudiest.
+      If summer imagery is used it must pair with late-autumn/winter.
+
+# ---------------------------------------------------------------------------
+# Sensors and GEE collections (pinned to existing factory COLLECTIONS)
+# Operational years denote where the pinned GEE collection actually carries
+# data; years outside are SENSOR_NOT_OPERATIONAL, never zero.
+# ---------------------------------------------------------------------------
+sensors:
+  landsat5:  {gee_collection: LANDSAT/LT05/C02/T1_L2, operational_years: [1984, 2012]}
+  landsat7:  {gee_collection: LANDSAT/LE07/C02/T1_L2, operational_years: [1999, 2026],
+              slc_failure_date: "2003-05-31"}
+  landsat8:  {gee_collection: LANDSAT/LC08/C02/T1_L2, operational_years: [2013, 2026]}
+  landsat9:  {gee_collection: LANDSAT/LC09/C02/T1_L2, operational_years: [2022, 2026]}
+  sentinel1: {gee_collection: COPERNICUS/S1_GRD,         operational_years: [2014, 2026]}
+  sentinel2: {gee_collection: COPERNICUS/S2_SR_HARMONIZED, operational_years: [2017, 2026],
+              scl_qa_policy: s2_scl_qa_v1_1}
+
+census:
+  qa_stages: [SCENE_METADATA, ROI_PIXEL_QA]
+  default_stage: SCENE_METADATA
+  export_guard: true
+  metadata_coverage_scale_m: 30
+  scene_cloud_max: 0.30
+  footprint_coverage_min: 0.99
+  s1_orbits_kept_separate: [ASCENDING, DESCENDING]
+  scene_table_path: work/zhejiang_m21a/zhejiang_eo_scene_census_v0.parquet
