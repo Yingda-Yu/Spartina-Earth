@@ -34,8 +34,14 @@ def _credentials() -> Any:
             "google-api client / oauth libraries missing; real Drive "
             "retrieval is part of the 'gee' install (earthengine-api)."
         ) from exc
-    args = ee.oauth.get_credentials_arguments()
-    creds = Credentials(**args)  # type: ignore[no-untyped-call]
+    # get_credentials_arguments() returns refresh_token/client/scopes but
+    # never a live access token; google's Credentials constructor still
+    # requires the (possibly-None) positional "token", which refresh()
+    # below exchanges for. This path was exercised for the first time by
+    # the M1.6c real Sentinel-2 byte export.
+    args = dict(ee.oauth.get_credentials_arguments())
+    args.pop("token", None)
+    creds = Credentials(token=None, **args)  # type: ignore[no-untyped-call]
     creds.refresh(Request())  # type: ignore[no-untyped-call]
     return creds
 

@@ -1,4 +1,4 @@
-# GEE Real Query Smoke — Issue #6 (M1.6 / M1.6b)
+# GEE Real Query Smoke — Issue #6 (M1.6 / M1.6b / M1.6c)
 
 Status: **real, authenticated catalog retrieval PASSED for both
 predeclared windows; the real Landsat-8 pixel-export gate is FAILED in
@@ -10,6 +10,18 @@ of the predeclared rules. The M1.6b closure token is
 owner protocol no third date search was made, no threshold was relaxed,
 and no Sentinel-2 export was substituted. **Issue #6 remains OPEN; the
 real byte-export/provenance chain is NOT YET VERIFIED.**
+
+**M1.6c update (2026-10-01): the generic real byte chain — EE batch
+export -> Google Drive -> server landing -> GeoTIFF validation ->
+SHA256 -> full provenance — is now VERIFIED ON SENTINEL-2** using the
+single scene already selected by the frozen autumn catalog
+(`20200905T023549_20200905T024731_T51RUP`), per the owner's
+2026-10-01 authorisation. Closure token:
+**`PASS_WITH_SCOPED_SENSOR_CAVEAT`**. This is NOT a Landsat byte
+validation (`L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`
+stands) and NOT a Sentinel-1 byte validation (`NOT_YET_VERIFIED`). See
+section 11 for the full evidence; machine record:
+[datasets/manifests/gee_real_s2_export_smoke_v1.json](../../datasets/manifests/gee_real_s2_export_smoke_v1.json).
 
 This document is the tracked human-readable evidence. The machine
 evidence is frozen at
@@ -295,9 +307,11 @@ Outcome: **`L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`**.
 
 ## 9. Known limitations
 
-1. **Zero export evidence** — the L8 cloud reality on this 0.02° box
-   closes the gate in both predeclared windows; real byte export is
-   NOT YET VERIFIED. Any future attempt must predeclare its window/ROI
+1. **L8 export evidence remains absent** — the L8 cloud reality on this
+   0.02° box closes the gate in both predeclared windows; a Landsat real
+   byte export is NOT OBSERVED / NOT VERIFIED. The generic export/Drive/
+   checksum/provenance machinery itself is verified on Sentinel-2 only
+   (section 11). Any future L8 attempt must predeclare its window/ROI
    **before** inspecting it; the fixed policy code must not be edited to
    force a pass.
 2. One tiny ROI, two fixed 61-day windows in 2020 — no cross-year,
@@ -325,6 +339,10 @@ python scripts/data/gee/real_catalog_smoke.py
 # M1.6b predeclared summer backup, Landsat 8 only, two retrievals:
 python scripts/data/gee/real_catalog_smoke.py --window-profile backup_v1 \
     --sensors landsat8
+# M1.6c real Sentinel-2 byte pipeline (exports only with the opt-in;
+# re-running after a COMPLETED task resumes instead of re-exporting):
+SPARTINA_GEE_SMOKE_EXPORT=1 PYTHONPATH=src:scripts/data/gee \
+    python scripts/data/gee/real_s2_export_smoke.py
 # real integration suite (catalog + honest gate-closure tests, both
 # windows; export tests require the explicit operator opt-in):
 SPARTINA_GEE_SMOKE_EXPORT=1 pytest -m gee_integration -v
@@ -332,3 +350,144 @@ SPARTINA_GEE_SMOKE_EXPORT=1 pytest -m gee_integration -v
 pytest tests/unit/test_gee_real_smoke_fixture.py \
     tests/unit/test_gee_real_smoke_backup_fixture.py -v
 ```
+
+## 11. M1.6c — Sentinel-2 real byte pipeline (2026-10-01): VERIFIED ON S2
+
+Authorisation: owner comment on Issue #6 (2026-10-01T02:07:29Z,
+"L8 predeclared windows exhausted; authorize S2 generic byte-pipeline
+closure"). Goal was strictly the **generic transport/provenance
+pipeline** on the already-frozen selected S2 scene — no new scene
+selection, no compositing, native 10 m bands only.
+
+### 11.1 Frozen source (replay gate passed before any export)
+
+- Collection: `COPERNICUS/S2_SR_HARMONIZED`; single source scene,
+  no median/mean/mosaic/qualityMosaic.
+- Scene: `20200905T023549_20200905T024731_T51RUP`
+  (product `S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156`,
+  2020-09-05T02:49:21.773Z, MGRS tile 51RUP, Sentinel-2B).
+- Catalog QA on the technical ROI: cloud 0.0, clear (SCL 4/5/6/11)
+  0.8627, coverage 1.0.
+- Two live S2 retrievals reproduced the frozen fixture exactly
+  (12 candidates, exactly one selected, all fingerprints match):
+  S2 catalog `369a672b…1924c`, S2 selection `dddea77b…c1e38`,
+  global catalog `ddf6f158…92f28`, global selection `b659c68b…d4f4e`.
+  Evidence: `artifacts/gee/real_smoke/s2_replay_gate.json`.
+
+### 11.2 Deterministic export ROI and grid (never moved after viewing)
+
+Technical ROI bbox centroid (121.11°E, 30.31°N) projected to EPSG:32651
+(318266.80, 3354649.74 m), ±250 m fixed metric box, outward-snapped to
+the 10 m lattice by `covering_grid`:
+
+| item | value |
+|---|---|
+| CRS | EPSG:32651 |
+| transform | `[10, 0, 318010, 0, -10, 3354900]` |
+| width × height | 51 × 51 px (510 m × 510 m landed footprint) |
+| bounds (m) | 318010, 3354390, 318520, 3354900 |
+| export-ROI geometry hash | `d8dfa0580eea7520f46774c93e4c5a1215cd9949abd317aaa3a77ef62062a812` |
+| grid hash | `c234d51e699abce0a1e458e816c3ba0d236b12b9eb91a59a00073c0ae3b09bb7` |
+
+### 11.3 Product contract
+
+- **Reflectance file**: native 10 m B2/B3/B4/B8 only; scaled-integer SR
+  `/10000 -> float32`; S2 scene mask retained (fill stays masked, never
+  faked to 0). B11/B12 excluded and never resampled to 10 m.
+- **VALID mask file**: separate single-band `uint8`, `SCL in
+  {4,5,6,11} -> 1` (vegetation, bare soils, **water**, snow/ice),
+  everything else (incl. fill/shadow/cloud/cirrus) unmasked to `0`.
+  Same definition as catalog `clear_pixel_fraction`; water stays valid.
+- GEE shard rule: `fileDimensions` is omitted (GEE requires multiples of
+  256); dimensions are derived from region + `crsTransform`, and the
+  landed raster is hard-checked against the locked 51×51 GridSpec.
+- Processing config hash:
+  `1ddadb7e02324365f4c9301218106a286f5a93395f2885bd5cfd960f6213975c`.
+
+### 11.4 Real tasks, exact state histories, landed bytes
+
+Both files exported to Google Drive folder `SpartinaEarthSmoke` and
+landed atomically (`.part` → rename) into `work/gee/real_smoke/s2/`.
+
+| role | GEE task id | state history (UTC 2026-10-01) | file | bytes | SHA256 |
+|---|---|---|---|---|---|
+| surface_reflectance_float32 | `33GGZVKXKEJZE2BMWIBIALVC` | READY 03:13:19.7 → READY 03:13:20.3 → RUNNING 03:13:30.9 → RUNNING 03:13:41.3 → COMPLETED 03:13:51.7 | `spartina_s2_smoke_20200905_T51RUP_reflectance.tif` | 33,278 | `19767fcd692a2627dfb54bc322b5169fd6378cc49d63053bb729c455a35e014d` |
+| valid_mask_byte | `GDA6VJPTFVGJO6MMMFV6WXO4` | READY 03:13:52.4 → READY 03:13:53.0 → RUNNING 03:14:03.4 → COMPLETED 03:14:13.8 | `spartina_s2_smoke_20200905_T51RUP_validmask.tif` | 1,377 | `2a19ae754bd47a0ac27925936e29840feb7757f204a6c2f786d9f2c607b663df` |
+
+A resume verification poll (COMPLETED) was appended to each history at
+03:23 after the post-completion download crash described in 11.6; no
+second export was created (idempotent resume). Bundle fingerprint:
+`3b009c7991a201e0e14197ba0a1684a46c52e6b4079401015639a104d1983bff`;
+lock hash `7fa6704ec874fa52652abc5145a6d2ced8263ccb751b351a51f381783609ede6`.
+
+### 11.5 Raster and science sanity (all PASS)
+
+- Reflectance GTiff: GTiff, EPSG:32651, transform exactly
+  `[10,0,318010,0,-10,3354900]`, 51×51, 4 bands float32, descriptions
+  `(B2,B3,B4,B8)`; VALID GTiff: same grid, 1 band uint8, unique values
+  subset of {0,1} (`0`: 765 px, `1`: 1836 px; valid fraction
+  0.7059 of 2601).
+- Reflectance stats computed **only on VALID==1 finite pixels**
+  (n = 1836 in every band), mean / median / p01 / p99:
+  B2 0.0585 / 0.0582 / 0.0497 / 0.0734;
+  B3 0.0702 / 0.0699 / 0.0578 / 0.0877;
+  B4 0.0502 / 0.0505 / 0.0364 / 0.0713;
+  B8 0.0368 / 0.0346 / 0.0238 / 0.1016.
+  Negative fraction, >1 fraction, DN-like fraction and |x|>1.5
+  fraction are all 0.0; scaling sanity PASS (no raw-DN/10000 mix-up).
+  The weak NIR / blue-green dominance is consistent with the turbid
+  coastal-water sub-ROI; this is an engineering smoke, not a habitat
+  classification.
+- Logical QA consistency (NOT an equality test — the two geometries
+  differ): catalog scene-ROI cloud fraction is 0.0 with clear 0.8627;
+  the sub-ROI VALID mask is non-trivial and non-empty (1836 px), which
+  is consistent with a cloud-free scene. No cross-geometry fraction
+  equality is claimed.
+- Both hard provenance assertions pass: the generic
+  `assert_provenance_chain` and the S2-specific one-task-per-file
+  `assert_s2_bundle_chain`. Tracked manifest:
+  [datasets/manifests/gee_real_s2_export_smoke_v1.json](../../datasets/manifests/gee_real_s2_export_smoke_v1.json)
+  (status COMPLETED, `manifest_version = GEE_DATA_FACTORY_V1`).
+
+### 11.6 Honest failure log (four runs; one real task failed, zero hidden retries)
+
+1. Run 1 — zero GEE tasks created: ee 1.7.46 rejected a raw GeoJSON
+   dict as `region` ("Invalid format for region property"). Fixed by
+   passing `ee.Geometry(region, "EPSG:4326", False)` while keeping the
+   dict as the hashed geometry.
+2. Run 2 — one task (`WI6QIIGK2AO7GJDJIGZMOBV4`) FAILED:
+   "Dimensions must be a positive multiple of the shard size (256)"
+   (51 px with `fileDimensions`). Fixed by omitting
+   `fileDimensions`; its full record incl. READY→FAILED history is
+   archived at
+   `work/gee/real_smoke/s2/tasks/attempt_shard256_failed_task_store.json`.
+3. Run 3 — the two tasks of the evidence (11.4) were created and both
+   COMPLETED, but the run crashed at Drive retrieval: (a) the Drive
+   credential wrapper required an explicit `token=None`
+   (`ee.oauth.get_credentials_arguments()` carries no access token);
+   (b) Google Drive API returned 403 `accessNotConfigured` for the
+   OAuth client project. The API was enabled through the Service Usage
+   API with the existing authenticated session; after propagation the
+   two completed files were visible in Drive.
+4. Run 4 — idempotent resume reused the two COMPLETED tasks (verified
+   terminal state with GEE, required the Drive files to be present),
+   downloaded, landed and validated everything; result PASS. No scene
+   swap, ROI move, threshold change or duplicate export occurred.
+
+### 11.7 Scope and test status
+
+- **VERIFIED**: generic real byte pipeline on Sentinel-2 (task
+  submission + persisted per-poll state history incl. repeated states,
+  Drive landing, atomic write, SHA256, GridSpec/dtype/band checks,
+  masked reflectance sanity, manifest + lock + bundle provenance).
+- **NOT OBSERVED / NOT VERIFIED**: Landsat real byte export (M1.6b
+  closure token unchanged).
+- **NOT YET VERIFIED**: Sentinel-1 real byte export.
+- Opt-in gate: real exports run only with `SPARTINA_GEE_SMOKE_EXPORT=1`;
+  default CI never creates EE tasks. The opt-in integration test
+  (`test_s2_real_byte_evidence_bundle_recorded`) only re-audits the
+  recorded manifest/lock/bytes — it never re-exports. Offline unit
+  coverage: `tests/unit/test_gee_s2_real_smoke_offline.py` (deterministic
+  ROI/grid, frozen SCL policy, task state history, binary-mask and
+  masked-scaling audits, env gate). Live replay:
+  `test_s2_selection_replays_frozen_fixture_live`.

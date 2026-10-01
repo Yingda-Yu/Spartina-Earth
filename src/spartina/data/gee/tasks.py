@@ -61,6 +61,11 @@ class TaskRecord:
     enqueue_spec: dict[str, Any] = field(default_factory=dict)
     created_utc: str = field(default_factory=_utc_now)
     updated_utc: str = field(default_factory=_utc_now)
+    #: Raw GEE state observed at EVERY poll (repeated states kept), each
+    #: entry {"utc", "state"} -- the Issue #6 real-byte protocol requires
+    #: a timestamped READY -> RUNNING -> COMPLETED/FAILED history, not
+    #: only the final state.
+    state_history: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -118,6 +123,13 @@ class TaskStore:
         except KeyError:
             raise TaskError(f"unknown task {task_id!r}") from None
 
+    def get_by_request_id(self, request_id: str) -> TaskRecord | None:
+        """Look up a record by its deterministic request id (resume)."""
+        for record in self._records.values():
+            if record.request_id == request_id:
+                return record
+        return None
+
     def list_non_terminal(self) -> list[TaskRecord]:
         """Resume entry point: everything not COMPLETED/FAILED."""
         return [r for r in self._records.values()
@@ -136,6 +148,23 @@ class TaskStore:
         rec = self.get(task_id)
         rec.state = STATE_RUNNING
         rec.updated_utc = _utc_now()
+        self.save()
+
+    def record_poll_state(self, task_id: str, gee_state: str,
+                          *, detail: str | None = None) -> None:
+        """Append one raw GEE poll observation (never deduped).
+
+        Every status poll is persisted with its own UTC timestamp so the
+        store keeps a READY -> RUNNING -> COMPLETED/FAILED history rather
+        than only the terminal state (Issue #6 real-byte protocol).
+        """
+        rec = self.get(task_id)
+        entry: dict[str, str] = {"utc": _utc_now(),
+                                 "state": str(gee_state)}
+        if detail is not None:
+            entry["detail"] = detail
+        rec.state_history.append(entry)
+        rec.updated_utc = entry["utc"]
         self.save()
 
     def record_attempt_error(self, task_id: str, message: str) -> None:

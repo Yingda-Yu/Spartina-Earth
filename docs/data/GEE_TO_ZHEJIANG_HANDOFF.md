@@ -6,6 +6,15 @@ consume. This document plans only — **no Issue #7 batch production has
 started**, no nationwide/bay-wide export has run, and no model training
 is implied.
 
+**Update 2026-10-01 (M1.6c):** the generic real byte pipeline (EE batch
+export → Google Drive → atomic landing → GridSpec/dtype/band checks →
+SHA256 → GEE_DATA_FACTORY_V1 manifest + hard provenance assertions) is
+**VERIFIED ON SENTINEL-2** for one frozen single scene, with full
+task state histories; closure token `PASS_WITH_SCOPED_SENSOR_CAVEAT`.
+Landsat real byte export remains NOT OBSERVED / NOT VERIFIED and
+Sentinel-1 real byte export NOT YET VERIFIED; authoritative bay ROIs
+and GOLD labels remain MISSING. Issue #7 has not started.
+
 ## 1. What is real and verified today
 
 | Capability | State | Evidence |
@@ -17,8 +26,9 @@ is implied.
 | Deterministic predeclared selection + fingerprints | VERIFIED across two live retrievals in BOTH windows (autumn + M1.6b backup) | fingerprints in §5/§8 of the smoke doc |
 | SAR pass separation (ASCENDING/DESCENDING) | VERIFIED (15 ascending / 0 descending) | frozen fixture |
 | Predeclared M1.6b summer backup window, L8 only | VERIFIED metadata — 2020-06-01..08-01, DOY 182, 2 scenes, double-run identical | [GEE_REAL_QUERY_SMOKE.md](GEE_REAL_QUERY_SMOKE.md) §8 |
-| Export chain code (Drive → atomic land → grid/reflection/sha256 → manifest → chain assertion) | Implemented + reviewed; **not yet exercised with pixels** | `real_export_smoke.py`, `provenance.py` |
-| One real L8 pixel export | **NOT VERIFIED — FAILED GATE in both predeclared windows**: 0/3 autumn (ROI cloud 0.78/1.0/1.0) and 0/2 summer backup (ROI cloud 1.0/1.0); token `L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`; Issue #6 OPEN | NO_ELIGIBLE_LANDSAT8_SCENE |
+| Generic export chain (Drive → atomic land → grid/mask/sha256 → manifest → chain assertions) | **VERIFIED ON SENTINEL-2 (M1.6c)**: 2 real Drive tasks COMPLETED with persisted READY→RUNNING→COMPLETED histories; 4-band float32 B2/B3/B4/B8 + uint8 SCL VALID on the locked 51×51/10 m GridSpec; checksums + both provenance assertions PASS | [GEE_REAL_QUERY_SMOKE.md](GEE_REAL_QUERY_SMOKE.md) §11; `real_s2_export_smoke.py`; `gee_real_s2_export_smoke_v1.json` |
+| One real L8 pixel export | **NOT OBSERVED / NOT VERIFIED — FAILED GATE in both predeclared windows**: 0/3 autumn (ROI cloud 0.78/1.0/1.0) and 0/2 summer backup (ROI cloud 1.0/1.0); token `L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS` unchanged by M1.6c | NO_ELIGIBLE_LANDSAT8_SCENE |
+| One real S1 pixel export | **NOT YET VERIFIED** — no SAR byte export attempted; the S2 closure makes no SAR claim | — |
 | Authoritative three-bay ROI geometries (ZJ-HZB/ZJ-SMB/ZJ-YQB) | NOT VERIFIED — still MISSING | [ZHEJIANG_DATA_PREPARATION_V0.md](ZHEJIANG_DATA_PREPARATION_V0.md) |
 | GOLD labels / GoldSet for the bay ROIs | NOT VERIFIED — no GOLD labels exist | [SPARTINA_GOLDSET_PROTOCOL.md](SPARTINA_GOLDSET_PROTOCOL.md) |
 
@@ -70,18 +80,20 @@ is implied.
    ([ZHEJIANG_DATA_PREPARATION_V0.md](ZHEJIANG_DATA_PREPARATION_V0.md)).
    The 0.02° HZB_TECH_SMOKE_V1 plumbing box must never be promoted to a
    production ROI. Each ROI needs a real source, date and license.
-2. **First real pixel export is unproven (Issue #6 OPEN)**: the gate
-   closed on ROI cloud cover in BOTH predeclared windows — 0/3 autumn
-   (2020-09-01..11-01) and 0/2 in the documented summer backup
-   (2020-06-01..08-01, DOY 182). The predeclared fallback is therefore
-   exhausted; outcome token
+2. **Generic byte plumbing proven; sensor-specific L8 acceptance still
+   open**: the Drive/GeoTIFF/manifest path is now VERIFIED end to end on
+   Sentinel-2 (M1.6c, token `PASS_WITH_SCOPED_SENSOR_CAVEAT`) — task
+   submission, per-poll state histories, Drive landing, atomic writes,
+   checksums, GridSpec/dtype/band checks, masked reflectance sanity and
+   provenance assertions all passed on real bytes. The L8 gate itself
+   remains CLOSED: 0/3 autumn (2020-09-01..11-01) and 0/2 summer backup
+   (2020-06-01..08-01, DOY 182), token
    `L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS`, no third
-   search made. Before trusting the Drive/GeoTIFF path at scale, one
-   eligible L8 scene must pass the entire chain under a NEW, explicitly
-   approved and **predeclared** window/ROI (chosen before inspection),
-   producing a tracked manifest and verified checksums. A Sentinel-2
-   real export may be proposed only as generic transport-pipeline
-   validation and must not be presented as Landsat scaling validation.
+   search made. One eligible L8 scene must still pass the entire chain
+   under a NEW, explicitly approved and **predeclared** window/ROI
+   (chosen before inspection) before Landsat scaling/availability is
+   considered verified; the S2 evidence must never be presented as that
+   validation. Sentinel-1 byte export is likewise still unverified.
 3. **Season/window validation**: planning assumes primary DOY 260–305
    with a DOY 152–212 backup and same-season cross-year comparisons;
    these are hypotheses until validated with real per-year availability
@@ -105,12 +117,15 @@ is implied.
 
 1. Freeze authoritative geometries + provenance for the three ROIs
    (replace MISSING entries under `docs/data/rois/`).
-2. Both predeclared smoke windows are now exhausted (0/3 autumn, 0/2
-   summer backup). Predeclare and obtain explicit approval for a NEW
-   small window/ROI **before viewing results** to clear the single-scene
-   L8 export gate; run the full manifest/provenance chain once and
-   archive the tracked manifest. Any S2 export in the interim is
-   transport validation only, not an L8 scaling substitute.
+2. The generic transport/provenance chain is already proven on
+   Sentinel-2 (M1.6c §11). Separately, both predeclared L8 smoke
+   windows are exhausted (0/3 autumn, 0/2 summer backup): predeclare
+   and obtain explicit approval for a NEW small window/ROI **before
+   viewing results** to clear the single-scene L8 export gate; run the
+   full manifest/provenance chain once and archive the tracked
+   manifest. That L8 run — not the S2 smoke — is what validates
+   Landsat scaling/availability. A predeclared S1 byte smoke is also
+   still owed before SAR exports are trusted.
 3. Generate metadata-only availability (no pixels) per ROI/year/sensor
    from 1985/1990→2026, keeping MISSING/UNKNOWN/NOT_ASSESSED states.
 4. Aggregate per-year eligibility statistics (candidate/eligible counts

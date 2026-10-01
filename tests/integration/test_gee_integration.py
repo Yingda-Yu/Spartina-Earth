@@ -339,3 +339,110 @@ def test_real_backup_export_gate_blocks_zero_eligible_l8(
     assert not list(tmp_path.glob("*.tif"))  # pragma: no cover
     assert not list(tmp_path.glob("*.manifest.json"))  # pragma: no cover
     assert not (tmp_path / "task_store_backup.json").exists()  # pragma: no cover
+
+
+# ---------------------------------------------------------------------------
+# M1.6c: Sentinel-2 real byte-pipeline closure (Issue #6, 2026-10-01 auth)
+# ---------------------------------------------------------------------------
+
+S2_FROZEN_FIXTURE = (
+    REPO_ROOT / "tests" / "fixtures" / "gee" / "real_smoke_catalog_v1.json")
+S2_TRACKED_MANIFEST = (
+    REPO_ROOT / "datasets" / "manifests"
+    / "gee_real_s2_export_smoke_v1.json")
+
+
+def test_s2_selection_replays_frozen_fixture_live() -> None:
+    """Two live S2 retrievals must reproduce the frozen selection exactly.
+
+    Metadata-only: creates NO export tasks and does not need
+    SPARTINA_GEE_SMOKE_EXPORT.
+    """
+    s2 = _load_driver("real_s2_export_smoke")
+    fixture = json.loads(S2_FROZEN_FIXTURE.read_text(encoding="utf-8"))
+    import ee  # type: ignore[import-not-found]  # pragma: no cover
+
+    replay = s2.replay_s2_selection(ee, fixture)  # pragma: no cover
+    assert replay["pass"] is True  # pragma: no cover
+    assert replay["candidate_count"] == 12  # pragma: no cover
+    checks = replay["checks"]  # pragma: no cover
+    assert checks["exactly_one_selected"]  # pragma: no cover
+    assert checks["selected_scene_id_matches"]  # pragma: no cover
+    assert checks["selected_mgrs_matches"]  # pragma: no cover
+    assert checks["selected_product_id_matches"]  # pragma: no cover
+    assert checks["selected_utc_matches"]  # pragma: no cover
+    assert checks["double_retrieval_ids_identical"]  # pragma: no cover
+    # Every individual replay check must be true, not just the summary.
+    assert all(checks.values())  # pragma: no cover
+
+
+@pytest.mark.skipif(
+    os.environ.get("SPARTINA_GEE_SMOKE_EXPORT") != "1",
+    reason="operator must opt in (SPARTINA_GEE_SMOKE_EXPORT=1); the S2 byte "
+           "evidence bundle is only audited in an authorised real run.",
+)
+def test_s2_real_byte_evidence_bundle_recorded() -> None:
+    """Audit the RECORDED S2 byte bundle without creating new exports.
+
+    The successful export must never be repeated. This test re-validates
+    the committed manifest, the lock and the landed GeoTIFFs in work/
+    (skipped on a fresh checkout where the bytes are not present - they
+    are git-ignored by policy).
+    """
+    s2 = _load_driver("real_s2_export_smoke")
+    from spartina.data.gee.provenance import assert_provenance_chain
+    from spartina.data.gee.selection import canonical_fingerprint
+
+    assert S2_TRACKED_MANIFEST.is_file(), "tracked S2 manifest missing"
+    manifest = json.loads(S2_TRACKED_MANIFEST.read_text(encoding="utf-8"))
+    assert manifest["manifest_version"] == "GEE_DATA_FACTORY_V1"
+    assert manifest["status"] == "COMPLETED"
+    assert manifest["selected_scene_ids"] == [S2_SELECTED]
+
+    lock_path = Path(manifest["lock_path"])
+    if not lock_path.is_file():
+        pytest.skip("landed S2 lock/bytes absent on this machine "
+                    "(work/ artefacts are git-ignored)")
+    for record in manifest["landed_files"]:
+        if not Path(record["local_uri"]).is_file():
+            pytest.skip("landed S2 GeoTIFFs absent on this machine")
+
+    lock = json.loads(lock_path.read_text(encoding="utf-8"))
+    assert manifest["lock_sha256"] == canonical_fingerprint(lock)
+
+    # Generic + S2-specific hard provenance assertions.
+    assert_provenance_chain(manifest)
+    s2.assert_s2_bundle_chain(manifest, lock)
+
+    # One distinct COMPLETED backend task per file; READY->...->COMPLETED.
+    for task in manifest["export_tasks"]:
+        history = [h["state"] for h in task["state_history"]]
+        assert history[0] == "READY"
+        assert history[-1] == "COMPLETED"
+        assert "FAILED" not in history
+
+    # Raster contract: exact GridSpec, 4x float32 B2/B3/B4/B8; uint8 mask.
+    rv = manifest["raster_verification"]
+    assert rv["reflectance"]["count"] == 4
+    assert rv["reflectance"]["dtypes"] == ["float32"] * 4
+    assert rv["reflectance"]["band_names"] == ["B2", "B3", "B4", "B8"]
+    assert (rv["reflectance"]["width"], rv["reflectance"]["height"]) == (
+        51, 51)
+    assert rv["reflectance"]["crs_epsg"] == 32651
+    assert rv["valid_mask"]["dtypes"] == ["uint8"]
+    assert set(rv["valid_mask"]["unique_values"]) <= {0, 1}
+    assert rv["valid_mask"]["valid_pixel_count"] > 0
+    # Mask and reflectance share one pixel population.
+    sane = manifest["reflectance_sanity"]
+    assert sane["scaling_check_pass"] is True
+    for stats in sane["bands"].values():
+        assert stats["valid_pixel_count"] == \
+            rv["valid_mask"]["valid_pixel_count"]
+        assert stats["fraction_dn_like"] == 0.0
+        assert stats["fraction_abs_gt_1_5"] == 0.0
+
+    # Scope discipline: this evidence is S2-only.
+    scope = manifest["product_scope"]
+    assert scope["landsat_real_byte_status"] == \
+        "L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS"
+    assert scope["sentinel1_real_byte_status"] == "NOT_YET_VERIFIED"

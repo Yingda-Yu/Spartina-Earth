@@ -172,6 +172,135 @@ def reflectance_sanity(
     return stats
 
 
+def valid_mask_info(path: str | Path) -> dict[str, Any]:
+    """Audit a byte VALID mask raster and its grid.
+
+    Hard-fails unless the mask is one uint8 band whose only values are
+    0/1 (Issue #6 M1.6c raster contract). Returns grid metadata, unique
+    values/counts and the valid fraction for manifest recording.
+    """
+    import numpy as np
+    import rasterio
+
+    with rasterio.open(path) as dataset:
+        arr = dataset.read(1)
+        info: dict[str, Any] = {
+            "driver": dataset.driver,
+            "crs_epsg": dataset.crs.to_epsg(),
+            "transform": list(dataset.transform)[:6],
+            "bounds": list(dataset.bounds),
+            "width": dataset.width,
+            "height": dataset.height,
+            "count": dataset.count,
+            "dtypes": list(dataset.dtypes),
+            "nodata": dataset.nodata,
+            "band_names": list(dataset.descriptions),
+        }
+    total = int(arr.size)
+    values, counts = np.unique(arr, return_counts=True)
+    unique = [int(value) for value in values]
+    valid_count = int((arr == 1).sum())
+    info.update({
+        "unique_values": unique,
+        "unique_value_counts": {
+            int(value): int(count)
+            for value, count in zip(values, counts, strict=True)},
+        "total_pixel_count": total,
+        "valid_pixel_count": valid_count,
+        "valid_fraction": valid_count / total if total else None,
+        "binary_values_only": all(value in (0, 1) for value in unique),
+    })
+    if info["dtypes"][0] != "uint8":
+        raise ProvenanceError(
+            f"VALID mask must be uint8, got {info['dtypes']} ({path})")
+    if info["count"] != 1:
+        raise ProvenanceError(
+            f"VALID mask must have exactly 1 band, got {info['count']}")
+    if not info["binary_values_only"]:
+        raise ProvenanceError(
+            f"VALID mask values must be subset of {{0, 1}}, got {unique}")
+    return info
+
+
+def reflectance_sanity_masked(
+    sr_path: str | Path, valid_path: str | Path,
+    band_names: tuple[str, ...] | list[str],
+) -> dict[str, Any]:
+    """Per-band reflectance statistics restricted to VALID==1 pixels.
+
+    Used by the Sentinel-2 real-byte smoke, where reflectance and VALID
+    land as separate files. For every band reports min, P01, P05, median,
+    P95, P99, max, mean, std and the negative / >1 fractions. Reflectance
+    is not required to lie inside [0, 1] (small negatives and slight
+    over-unity values are physical residual-atmosphere effects and are
+    REPORTED ONLY), but a bulk at DN scale (~1000/10000) or |v|>>1 means
+    the explicit 1e-4 scale was not applied and FAILS.
+    """
+    import numpy as np
+    import rasterio
+
+    stats: dict[str, Any] = {
+        "pixel_selection": "VALID==1 AND finite (nodata excluded)",
+        "bands": {}}
+    scale_failures: list[str] = []
+    with rasterio.open(valid_path) as valid_dataset:
+        valid = valid_dataset.read(1) == 1
+    expected_valid_count = int(valid.sum())
+    with rasterio.open(sr_path) as dataset:
+        if dataset.count != len(band_names):
+            raise ProvenanceError(
+                f"expected {len(band_names)} reflectance bands, "
+                f"got {dataset.count}")
+        nodata = float(dataset.nodata) if dataset.nodata is not None else None
+        for index, name in enumerate(band_names, start=1):
+            band = dataset.read(index).astype("float64")
+            selected = valid & np.isfinite(band)
+            if nodata is not None:
+                selected &= band != nodata
+            values = band[selected]
+            count = int(values.size)
+            entry: dict[str, Any] = {"valid_pixel_count": count}
+            if count != expected_valid_count:
+                raise ProvenanceError(
+                    f"band {name}: {count} finite VALID pixels != mask "
+                    f"{expected_valid_count}")
+            if count:
+                percentiles = np.percentile(
+                    values, [0, 1, 5, 50, 95, 99, 100])
+                entry.update(dict(zip(
+                    ("min", "p01", "p05", "median", "p95", "p99", "max"),
+                    [float(v) for v in percentiles], strict=True)))
+                entry["mean"] = float(values.mean())
+                entry["std"] = float(values.std(ddof=0))
+                entry["negative_fraction"] = float((values < 0).mean())
+                entry["over_one_fraction"] = float((values > 1).mean())
+                dn_like = float(((values > 500) & (values < 65535)).mean())
+                abs_over = float((np.abs(values) > 1.5).mean())
+                entry["fraction_abs_gt_1_5"] = abs_over
+                entry["fraction_dn_like"] = dn_like
+                median = entry["median"]
+                if (dn_like > 0.5 or abs_over > 0.25
+                        or abs(median) > 1.5):
+                    scale_failures.append(
+                        f"band {name}: median={median}, "
+                        f"fraction_|v|>1.5={abs_over:.3f}, "
+                        f"fraction_DN_like={dn_like:.3f}")
+            else:
+                for key in ("min", "p01", "p05", "median", "p95", "p99",
+                            "max", "mean", "std", "negative_fraction",
+                            "over_one_fraction", "fraction_abs_gt_1_5",
+                            "fraction_dn_like"):
+                    entry[key] = None
+            stats["bands"][name] = entry
+    stats["valid_pixel_count"] = expected_valid_count
+    stats["scaling_check_pass"] = not scale_failures
+    stats["scaling_failures"] = scale_failures
+    if scale_failures:
+        raise ProvenanceError(
+            "reflectance scaling sanity failed: " + "; ".join(scale_failures))
+    return stats
+
+
 def assert_provenance_chain(manifest: dict[str, Any]) -> None:
     """Verify every link of the source-scene -> landed-file chain.
 
@@ -251,6 +380,8 @@ __all__ = [
     "git_context",
     "raster_grid_info",
     "reflectance_sanity",
+    "reflectance_sanity_masked",
     "runtime_environment",
     "sha256_file",
+    "valid_mask_info",
 ]

@@ -1,0 +1,1746 @@
+{
+  "bundle": {
+    "fingerprint_sha256": "3b009c7991a201e0e14197ba0a1684a46c52e6b4079401015639a104d1983bff",
+    "payload": {
+      "acquisition_utc": "2020-09-05T02:49:21.773000+00:00",
+      "files": [
+        {
+          "drive_file_name": "spartina_s2_smoke_20200905_51RUP_reflectance.tif",
+          "role": "surface_reflectance_float32",
+          "sha256": "19767fcd692a2627dfb54bc322b5169fd6378cc49d63053bb729c455a35e014d",
+          "size_bytes": 33278
+        },
+        {
+          "drive_file_name": "spartina_s2_smoke_20200905_51RUP_validmask.tif",
+          "role": "valid_mask_byte",
+          "sha256": "2a19ae754bd47a0ac27925936e29840feb7757f204a6c2f786d9f2c607b663df",
+          "size_bytes": 1377
+        }
+      ],
+      "grid": {
+        "bounds": [
+          318010.0,
+          3354390.0,
+          318520.0,
+          3354900.0
+        ],
+        "crs": "EPSG:32651",
+        "height": 51,
+        "pixel_size_m": [
+          10.0,
+          10.0
+        ],
+        "transform": [
+          10.0,
+          0.0,
+          318010.0,
+          0.0,
+          -10.0,
+          3354900.0
+        ],
+        "width": 51
+      },
+      "processing_config_sha256": "1ddadb7e02324365f4c9301218106a286f5a93395f2885bd5cfd960f6213975c",
+      "product_id": "S2_REAL_BYTE_SMOKE_V1",
+      "product_id_scene": "S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156",
+      "scene_id": "20200905T023549_20200905T024731_T51RUP"
+    }
+  },
+  "candidate_scenes": [
+    {
+      "accepted": true,
+      "acquisition_date": "2020-09-05",
+      "acquisition_utc": "2020-09-05T02:49:21.773000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.8627170252666815,
+      "cloud_cover_fraction": 0.089685,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 249,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": true,
+      "processing_baseline": "02.14",
+      "product_id": "S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 42783,
+      "roi_cloud_fraction": 0.0,
+      "roi_cloud_pixels": 0,
+      "roi_cloud_shadow_pixels": 639,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.012885402593212478,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20200905T023549_20200905T024731_T51RUP",
+      "selected": true,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": 1,
+      "selection_reason": "rank order: coverage > valid_pixel_fraction > roi_cloud_fraction > roi_shadow_fraction > circular DOY 275 > acquisition_utc > scene_id",
+      "selection_score": [
+        1.0,
+        1.0,
+        -0.0,
+        -0.012885,
+        -26.0,
+        "2020-09-05T02:49:21.773000+00:00",
+        "20200905T023549_20200905T024731_T51RUP"
+      ],
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2B",
+      "system_index": "20200905T023549_20200905T024731_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-09-10",
+      "acquisition_utc": "2020-09-10T02:49:22.608000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.5990836900000001,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 254,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2A_MSIL2A_20200910T023551_N0214_R089_T51RUP_20200910T052528",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 49591,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20200910T023551_20200910T024450_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2A",
+      "system_index": "20200910T023551_20200910T024450_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-09-15",
+      "acquisition_utc": "2020-09-15T02:49:20.764000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.9911390400000001,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 259,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2B_MSIL2A_20200915T023549_N0214_R089_T51RUP_20200915T052309",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 49591,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20200915T023549_20200915T024730_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2B",
+      "system_index": "20200915T023549_20200915T024730_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-09-20",
+      "acquisition_utc": "2020-09-20T02:49:23.725000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.9786960299999999,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 264,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2A_MSIL2A_20200920T023551_N0214_R089_T51RUP_20200920T052837",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 49591,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20200920T023551_20200920T024338_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2A",
+      "system_index": "20200920T023551_20200920T024338_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-09-25",
+      "acquisition_utc": "2020-09-25T02:49:21.452000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.5687120646891574,
+      "cloud_cover_fraction": 0.30835179,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 269,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": true,
+      "processing_baseline": "02.14",
+      "product_id": "S2B_MSIL2A_20200925T023549_N0214_R089_T51RUP_20200925T052527",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.19338186364461293,
+      "roi_cirrus_pixels": 9590,
+      "roi_clear_pixels": 28203,
+      "roi_cloud_fraction": 0.19443044100744086,
+      "roi_cloud_pixels": 9642,
+      "roi_cloud_shadow_pixels": 5503,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.11096771591619448,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20200925T023549_20200925T024420_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": 5,
+      "selection_reason": "rank order: coverage > valid_pixel_fraction > roi_cloud_fraction > roi_shadow_fraction > circular DOY 275 > acquisition_utc > scene_id",
+      "selection_score": [
+        1.0,
+        1.0,
+        -0.19443,
+        -0.110968,
+        -6.0,
+        "2020-09-25T02:49:21.452000+00:00",
+        "20200925T023549_20200925T024420_T51RUP"
+      ],
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2B",
+      "system_index": "20200925T023549_20200925T024420_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-09-30",
+      "acquisition_utc": "2020-09-30T02:49:24.490000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.495835937972616,
+      "cloud_cover_fraction": 0.29312234,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 274,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": true,
+      "processing_baseline": "02.14",
+      "product_id": "S2A_MSIL2A_20200930T023551_N0214_R089_T51RUP_20200930T130259",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 24589,
+      "roi_cloud_fraction": 0.10493839607993385,
+      "roi_cloud_pixels": 5204,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20200930T023551_20200930T023909_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": 4,
+      "selection_reason": "rank order: coverage > valid_pixel_fraction > roi_cloud_fraction > roi_shadow_fraction > circular DOY 275 > acquisition_utc > scene_id",
+      "selection_score": [
+        1.0,
+        1.0,
+        -0.104938,
+        -0.0,
+        -1.0,
+        "2020-09-30T02:49:24.490000+00:00",
+        "20200930T023551_20200930T023909_T51RUP"
+      ],
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2A",
+      "system_index": "20200930T023551_20200930T023909_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-10-05",
+      "acquisition_utc": "2020-10-05T02:49:22.386000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.7768496899999999,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 279,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2B_MSIL2A_20201005T023549_N0214_R089_T51RUP_20201005T052045",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 49591,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20201005T023549_20201005T024732_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2B",
+      "system_index": "20201005T023549_20201005T024732_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-10-10",
+      "acquisition_utc": "2020-10-10T02:49:24.685000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.8042790022383094,
+      "cloud_cover_fraction": 0.27626501000000003,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 284,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": true,
+      "processing_baseline": "02.14",
+      "product_id": "S2A_MSIL2A_20201010T023631_N0214_R089_T51RUP_20201010T052529",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 39885,
+      "roi_cloud_fraction": 0.007077897199088544,
+      "roi_cloud_pixels": 351,
+      "roi_cloud_shadow_pixels": 3284,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.06622169345244097,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20201010T023631_20201010T024205_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": 3,
+      "selection_reason": "rank order: coverage > valid_pixel_fraction > roi_cloud_fraction > roi_shadow_fraction > circular DOY 275 > acquisition_utc > scene_id",
+      "selection_score": [
+        1.0,
+        1.0,
+        -0.007078,
+        -0.066222,
+        -9.0,
+        "2020-10-10T02:49:24.685000+00:00",
+        "20201010T023631_20201010T024205_T51RUP"
+      ],
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2A",
+      "system_index": "20201010T023631_20201010T024205_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-10-15",
+      "acquisition_utc": "2020-10-15T02:49:22.612000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.0,
+      "cloud_cover_fraction": 0.97761193,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 289,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2B_MSIL2A_20201015T023659_N0214_R089_T51RUP_20201015T052227",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 0,
+      "roi_cloud_fraction": 1.0,
+      "roi_cloud_pixels": 49591,
+      "roi_cloud_shadow_pixels": 0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20201015T023659_20201015T024837_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2B",
+      "system_index": "20201015T023659_20201015T024837_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-10-20",
+      "acquisition_utc": "2020-10-20T02:49:24.356000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.1512371196386441,
+      "cloud_cover_fraction": 0.2359084,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 294,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2A_MSIL2A_20201020T023731_N0214_R089_T51RUP_20201020T043947",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 8.06597971406102e-05,
+      "roi_cirrus_pixels": 4,
+      "roi_clear_pixels": 7500,
+      "roi_cloud_fraction": 0.6235607267447723,
+      "roi_cloud_pixels": 30923,
+      "roi_cloud_shadow_pixels": 5038,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.10159101449859853,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20201020T023731_20201020T024907_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2A",
+      "system_index": "20201020T023731_20201020T024907_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-10-25",
+      "acquisition_utc": "2020-10-25T02:49:22.246000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.04583492972515174,
+      "cloud_cover_fraction": 0.6836143,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 299,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": false,
+      "processing_baseline": "02.14",
+      "product_id": "S2B_MSIL2A_20201025T023759_N0214_R089_T51RUP_20201025T052332",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [
+        "high_roi_cloud_fraction"
+      ],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.7862313726280978,
+      "roi_cirrus_pixels": 38990,
+      "roi_clear_pixels": 2273,
+      "roi_cloud_fraction": 0.9153878727995,
+      "roi_cloud_pixels": 45395,
+      "roi_cloud_shadow_pixels": 8,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.0001613195942812204,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20201025T023759_20201025T024630_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": null,
+      "selection_reason": null,
+      "selection_score": null,
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2B",
+      "system_index": "20201025T023759_20201025T024630_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    },
+    {
+      "accepted": true,
+      "acquisition_date": "2020-10-30",
+      "acquisition_utc": "2020-10-30T02:49:24.020000+00:00",
+      "angle_available": "NOT_APPLICABLE",
+      "clear_pixel_fraction": 0.7938133935593152,
+      "cloud_cover_fraction": 0.07402713,
+      "cloud_cover_land_fraction": null,
+      "cloud_probability_available": true,
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "day_of_year": 304,
+      "grid": "sentinel_10m",
+      "hh_available": "NOT_APPLICABLE",
+      "hv_available": "NOT_APPLICABLE",
+      "instrument_mode": "NOT_APPLICABLE",
+      "metadata_retrieval_timestamp": "2026-09-30T06:44:50.500112+00:00",
+      "mgrs_tile": "51RUP",
+      "native_resolution_m": 10.0,
+      "orbit_direction": "NOT_APPLICABLE",
+      "platform_number": "NOT_APPLICABLE",
+      "polarizations": "NOT_APPLICABLE",
+      "policy_eligible": true,
+      "processing_baseline": "02.14",
+      "product_id": "S2A_MSIL2A_20201030T023831_N0214_R089_T51RUP_20201030T052254",
+      "query_id": "sentinel2-HZB_TECH_SMOKE_V1-2020-09-01_2020-11-01-doy275-real_smoke_v1",
+      "rejection_reasons": [],
+      "relative_orbit_number": "NOT_APPLICABLE",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cirrus_pixels": 0,
+      "roi_clear_pixels": 39366,
+      "roi_cloud_fraction": 0.0011090722106833902,
+      "roi_cloud_pixels": 55,
+      "roi_cloud_shadow_pixels": 489,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_intersection_fraction": 1.0,
+      "roi_saturated_fraction": 0.0,
+      "roi_saturated_pixels": 0,
+      "roi_shadow_fraction": 0.009860660200439596,
+      "roi_snow_fraction": 0.0,
+      "roi_snow_pixels": 0,
+      "roi_total_pixels": 49591,
+      "roi_valid_pixels": 49591,
+      "scene_bounds": [],
+      "scene_id": "20201030T023831_20201030T023833_T51RUP",
+      "selected": false,
+      "selected_orbit": "NOT_APPLICABLE",
+      "selection_rank": 2,
+      "selection_reason": "rank order: coverage > valid_pixel_fraction > roi_cloud_fraction > roi_shadow_fraction > circular DOY 275 > acquisition_utc > scene_id",
+      "selection_score": [
+        1.0,
+        1.0,
+        -0.001109,
+        -0.009861,
+        -29.0,
+        "2020-10-30T02:49:24.020000+00:00",
+        "20201030T023831_20201030T023833_T51RUP"
+      ],
+      "sensor": "sentinel2",
+      "spacecraft": "Sentinel-2A",
+      "system_index": "20201030T023831_20201030T023833_T51RUP",
+      "valid_pixel_fraction": 1.0,
+      "vh_available": "NOT_APPLICABLE",
+      "vv_available": "NOT_APPLICABLE",
+      "wrs_path": "NOT_APPLICABLE",
+      "wrs_row": "NOT_APPLICABLE"
+    }
+  ],
+  "code": {
+    "dirty_tree": true,
+    "git_commit": "0e81567c198dd3fb615116ac506722196c285a39"
+  },
+  "created_utc": "2026-10-01T03:23:43.915371+00:00",
+  "environment": {
+    "earthengine_api": "1.7.46",
+    "python": "3.11.16",
+    "rasterio": "1.4.3"
+  },
+  "export_request": {
+    "bands": [
+      "B2",
+      "B3",
+      "B4",
+      "B8"
+    ],
+    "crs_epsg": 32651,
+    "destination_uri": "gdrive://SpartinaEarthSmoke/spartina_s2_smoke_20200905_51RUP_reflectance",
+    "end_date": "2020-11-01T00:00:00Z",
+    "request_id": "smoke-s2-2020-09-05-51RUP",
+    "resolution_m": 10.0,
+    "sensor": "sentinel2",
+    "source_scene_ids": [
+      "20200905T023549_20200905T024731_T51RUP"
+    ],
+    "start_date": "2020-09-01T00:00:00Z",
+    "tile_id": "HZB_TECH_SMOKE_EXPORT_V1"
+  },
+  "export_task": {
+    "completion_utc": "2026-10-01T03:23:36.281158+00:00",
+    "creation_utc": "2026-10-01T03:13:19.129364+00:00",
+    "messages": [
+      "ee.batch.Export.image.toDrive reflectance -> SpartinaEarthSmoke (task 33GGZVKXKEJZE2BMWIBIALVC)",
+      "ee.batch.Export.image.toDrive validmask -> SpartinaEarthSmoke (task GDA6VJPTFVGJO6MMMFV6WXO4)"
+    ],
+    "per_file_tasks": "see export_tasks for full state histories",
+    "state": "COMPLETED",
+    "task_id": "33GGZVKXKEJZE2BMWIBIALVC",
+    "task_id_valid_mask": "GDA6VJPTFVGJO6MMMFV6WXO4"
+  },
+  "export_tasks": [
+    {
+      "completion_utc": "2026-10-01T03:23:34.051068+00:00",
+      "creation_utc": "2026-10-01T03:13:19.129364+00:00",
+      "description": "spartina_s2_smoke_20200905_51RUP_reflectance",
+      "drive_file_name": "spartina_s2_smoke_20200905_51RUP_reflectance.tif",
+      "drive_folder": "SpartinaEarthSmoke",
+      "request_id": "smoke-s2-reflectance-2020-09-05-51RUP",
+      "role": "surface_reflectance_float32",
+      "state": "COMPLETED",
+      "state_history": [
+        {
+          "detail": "observed immediately after task.start()",
+          "state": "READY",
+          "utc": "2026-10-01T03:13:19.727855+00:00"
+        },
+        {
+          "state": "READY",
+          "utc": "2026-10-01T03:13:20.326233+00:00"
+        },
+        {
+          "state": "RUNNING",
+          "utc": "2026-10-01T03:13:30.929879+00:00"
+        },
+        {
+          "state": "RUNNING",
+          "utc": "2026-10-01T03:13:41.284831+00:00"
+        },
+        {
+          "state": "COMPLETED",
+          "utc": "2026-10-01T03:13:51.693613+00:00"
+        },
+        {
+          "detail": "resume verification poll after post-completion crash",
+          "state": "COMPLETED",
+          "utc": "2026-10-01T03:23:34.051068+00:00"
+        }
+      ],
+      "task_id": "33GGZVKXKEJZE2BMWIBIALVC",
+      "terminal_result": {
+        "attempt": 1,
+        "creation_timestamp_ms": 1790824576100,
+        "description": "spartina_s2_smoke_20200905_51RUP_reflectance",
+        "start_timestamp_ms": 1790824579784,
+        "state": "COMPLETED",
+        "task_type": "EXPORT_IMAGE",
+        "update_timestamp_ms": 1790824605329
+      }
+    },
+    {
+      "completion_utc": "2026-10-01T03:23:36.281158+00:00",
+      "creation_utc": "2026-10-01T03:13:51.694850+00:00",
+      "description": "spartina_s2_smoke_20200905_51RUP_validmask",
+      "drive_file_name": "spartina_s2_smoke_20200905_51RUP_validmask.tif",
+      "drive_folder": "SpartinaEarthSmoke",
+      "request_id": "smoke-s2-validmask-2020-09-05-51RUP",
+      "role": "valid_mask_byte",
+      "state": "COMPLETED",
+      "state_history": [
+        {
+          "detail": "observed immediately after task.start()",
+          "state": "READY",
+          "utc": "2026-10-01T03:13:52.353857+00:00"
+        },
+        {
+          "state": "READY",
+          "utc": "2026-10-01T03:13:53.013690+00:00"
+        },
+        {
+          "state": "RUNNING",
+          "utc": "2026-10-01T03:14:03.379659+00:00"
+        },
+        {
+          "state": "COMPLETED",
+          "utc": "2026-10-01T03:14:13.845708+00:00"
+        },
+        {
+          "detail": "resume verification poll after post-completion crash",
+          "state": "COMPLETED",
+          "utc": "2026-10-01T03:23:36.281158+00:00"
+        }
+      ],
+      "task_id": "GDA6VJPTFVGJO6MMMFV6WXO4",
+      "terminal_result": {
+        "attempt": 1,
+        "creation_timestamp_ms": 1790824608726,
+        "description": "spartina_s2_smoke_20200905_51RUP_validmask",
+        "start_timestamp_ms": 1790824613849,
+        "state": "COMPLETED",
+        "task_type": "EXPORT_IMAGE",
+        "update_timestamp_ms": 1790824624771
+      }
+    }
+  ],
+  "grid": {
+    "bounds": [
+      318010.0,
+      3354390.0,
+      318520.0,
+      3354900.0
+    ],
+    "crs": "EPSG:32651",
+    "height": 51,
+    "pixel_size_m": [
+      10.0,
+      10.0
+    ],
+    "transform": [
+      10.0,
+      0.0,
+      318010.0,
+      0.0,
+      -10.0,
+      3354900.0
+    ],
+    "width": 51
+  },
+  "grid_sha256": "c234d51e699abce0a1e458e816c3ba0d236b12b9eb91a59a00073c0ae3b09bb7",
+  "label_quality": "UNLABELED",
+  "landed_files": [
+    {
+      "band_order": [
+        "B2",
+        "B3",
+        "B4",
+        "B8"
+      ],
+      "drive_file_name": "spartina_s2_smoke_20200905_51RUP_reflectance.tif",
+      "drive_folder": "SpartinaEarthSmoke",
+      "format": "GeoTIFF",
+      "grid_verified": true,
+      "local_uri": "/data/yingda/Spartina-Earth/work/gee/real_smoke/s2/spartina_s2_smoke_20200905_51RUP_reflectance.tif",
+      "role": "surface_reflectance_float32",
+      "sha256": "19767fcd692a2627dfb54bc322b5169fd6378cc49d63053bb729c455a35e014d",
+      "size_bytes": 33278,
+      "task_id": "33GGZVKXKEJZE2BMWIBIALVC"
+    },
+    {
+      "band_order": [
+        "VALID"
+      ],
+      "drive_file_name": "spartina_s2_smoke_20200905_51RUP_validmask.tif",
+      "drive_folder": "SpartinaEarthSmoke",
+      "format": "GeoTIFF",
+      "grid_verified": true,
+      "local_uri": "/data/yingda/Spartina-Earth/work/gee/real_smoke/s2/spartina_s2_smoke_20200905_51RUP_validmask.tif",
+      "role": "valid_mask_byte",
+      "sha256": "2a19ae754bd47a0ac27925936e29840feb7757f204a6c2f786d9f2c607b663df",
+      "size_bytes": 1377,
+      "task_id": "GDA6VJPTFVGJO6MMMFV6WXO4"
+    }
+  ],
+  "license": "UNKNOWN",
+  "lock": {
+    "band_order": [
+      "B2",
+      "B3",
+      "B4",
+      "B8"
+    ],
+    "catalog_fingerprint_sha256": "ddf6f158eff85dbc74b7be5f2780319da44cc2910f3ca930917bbc7df6692f28",
+    "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+    "composite": "NONE_SINGLE_SOURCE_SCENE",
+    "created_utc": "2026-10-01T03:23:31.439146+00:00",
+    "drive_file_prefixes": {
+      "reflectance": "spartina_s2_smoke_20200905_51RUP_reflectance",
+      "validmask": "spartina_s2_smoke_20200905_51RUP_validmask"
+    },
+    "export_roi": {
+      "construction_rule": {
+        "centroid_utm51n_m": [
+          318266.8046650288,
+          3354649.738909041
+        ],
+        "construction": "bbox centroid of HZB_TECH_SMOKE_V1 (EPSG:4326) -> project to EPSG:32651 -> fixed +/-250 m metric box (500 m nominal) -> covering_grid outward snap to the 10 m lattice -> region is the grid footprint back-transformed to WGS84; ROI is never moved after inspecting imagery",
+        "grid_bounds_utm51n_m": [
+          318010.0,
+          3354390.0,
+          318520.0,
+          3354900.0
+        ],
+        "grid_height_m": 510.0,
+        "grid_width_m": 510.0,
+        "metric_box_bounds_utm51n_m": [
+          318016.8046650288,
+          3354399.738909041,
+          318516.8046650288,
+          3354899.738909041
+        ],
+        "metric_half_width_m": 250.0,
+        "metric_nominal_width_m": 500.0,
+        "snap_note": "covering_grid snaps outward to the 10 m lattice; the landed footprint is exactly 500-520 m per side, never hand-edited",
+        "technical_roi_centroid_lonlat": [
+          121.11,
+          30.310000000000002
+        ]
+      },
+      "crs_epsg": 4326,
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              121.10737551505783,
+              30.30761875077548
+            ],
+            [
+              121.11267689724322,
+              30.307695348844547
+            ],
+            [
+              121.11258872998911,
+              30.31229517670824
+            ],
+            [
+              121.10728710050688,
+              30.312218564595554
+            ],
+            [
+              121.10737551505783,
+              30.30761875077548
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "geometry_sha256": "d8dfa0580eea7520f46774c93e4c5a1215cd9949abd317aaa3a77ef62062a812",
+      "grid_crs_epsg": 32651,
+      "roi_id": "HZB_TECH_SMOKE_EXPORT_V1"
+    },
+    "freeze_rule": "once written, scene / ROIs / bands / grid are immutable for this session; a failed task is recorded, never bypassed by a scene swap",
+    "gdrive_folder": "SpartinaEarthSmoke",
+    "grid": {
+      "bounds": [
+        318010.0,
+        3354390.0,
+        318520.0,
+        3354900.0
+      ],
+      "crs": "EPSG:32651",
+      "height": 51,
+      "pixel_size_m": [
+        10.0,
+        10.0
+      ],
+      "transform": [
+        10.0,
+        0.0,
+        318010.0,
+        0.0,
+        -10.0,
+        3354900.0
+      ],
+      "width": 51
+    },
+    "grid_sha256": "c234d51e699abce0a1e458e816c3ba0d236b12b9eb91a59a00073c0ae3b09bb7",
+    "lock_id": "S2_SMOKE_EXPORT_LOCK_V1",
+    "lock_version": 1,
+    "processing_config_sha256": "1ddadb7e02324365f4c9301218106a286f5a93395f2885bd5cfd960f6213975c",
+    "product_id": "S2_REAL_BYTE_SMOKE_V1",
+    "reflectance_scale": 0.0001,
+    "s2_catalog_fingerprint_sha256": "369a672bcf70c14db9a845e53d21652054460e9027a68079d3c3c4829f91924c",
+    "s2_selection_fingerprint_sha256": "dddea77bc45148db495fec45e5353c32b1ab913ee00f5b0d3713147fbadc1e38",
+    "scl_qa_policy": {
+      "byte_encoding": "1 = VALID (SCL in {4,5,6,11}); 0 = not valid; masked footprint unmasked to 0",
+      "category_mapping": {
+        "cirrus_class": 10,
+        "cloud_family_classes": [
+          8,
+          9,
+          10
+        ],
+        "cloud_shadow_class": 3,
+        "sensor_invalid_classes": [
+          0,
+          1
+        ],
+        "snow_or_ice_class": 11,
+        "water_class": 6
+      },
+      "identity_with_catalog": "VALID == CLEAR_PIXELS rule in spartina.data.gee.pixelqa.sentinel2_qa_count_bands; the catalog clear_pixel_fraction and this export VALID share one definition",
+      "not_valid_classes": {
+        "0": "no_data",
+        "1": "saturated_or_defective",
+        "10": "thin_cirrus",
+        "2": "dark_area",
+        "3": "cloud_shadow",
+        "7": "unclassified",
+        "8": "cloud_medium_probability",
+        "9": "cloud_high_probability"
+      },
+      "snow_or_ice_remains_valid": true,
+      "source_band": "SCL",
+      "valid_classes": {
+        "11": "snow_or_ice",
+        "4": "vegetation",
+        "5": "bare_soils",
+        "6": "water"
+      },
+      "water_remains_valid": true
+    },
+    "selection_fingerprint_sha256": "b659c68b0018b09328b61a5cbaf64ad21a282594e81834173815db7bdc9d4f4e",
+    "source": {
+      "acquisition_utc": "2020-09-05T02:49:21.773000+00:00",
+      "mgrs_tile": "51RUP",
+      "product_id": "S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156",
+      "scene_id": "20200905T023549_20200905T024731_T51RUP"
+    },
+    "technical_roi": {
+      "crs_epsg": 4326,
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              121.1,
+              30.3
+            ],
+            [
+              121.12,
+              30.3
+            ],
+            [
+              121.12,
+              30.32
+            ],
+            [
+              121.1,
+              30.32
+            ],
+            [
+              121.1,
+              30.3
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "geometry_sha256": "b72d475976e4ff3e775defb467ec4a62f880a5df1bc42aa0c0a882be7d9da43f",
+      "roi_id": "HZB_TECH_SMOKE_V1"
+    }
+  },
+  "lock_path": "/data/yingda/Spartina-Earth/work/gee/real_smoke/s2/S2_SMOKE_EXPORT_LOCK_V1.json",
+  "lock_sha256": "7fa6704ec874fa52652abc5145a6d2ced8263ccb751b351a51f381783609ede6",
+  "manifest_version": "GEE_DATA_FACTORY_V1",
+  "notes": "Issue #6 M1.6c: first REAL Sentinel-2 byte pipeline (generic EE transport/provenance validation). Single previously-selected scene, native 10 m B2/B3/B4/B8 float32 /10000 + byte SCL VALID, ~500 m deterministic export ROI. NOT a Landsat byte validation (L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS) and NOT a Sentinel-1 byte validation.",
+  "processing_config": {
+    "band_order": [
+      "B2",
+      "B3",
+      "B4",
+      "B8"
+    ],
+    "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+    "composite": "NONE_SINGLE_SOURCE_SCENE",
+    "crs_transform": [
+      10.0,
+      0.0,
+      318010.0,
+      0.0,
+      -10.0,
+      3354900.0
+    ],
+    "dimensions_source": "derived by GEE from the region polygon + crsTransform; fileDimensions omitted because GEE requires multiples of the shard size (256); landed raster must equal the locked GridSpec dimensions",
+    "drive_file_prefixes": {
+      "reflectance": "spartina_s2_smoke_20200905_51RUP_reflectance",
+      "validmask": "spartina_s2_smoke_20200905_51RUP_validmask"
+    },
+    "excluded_native_20m_bands": [
+      "B11",
+      "B12"
+    ],
+    "expected_dimensions_px": [
+      51,
+      51
+    ],
+    "gdrive_folder": "SpartinaEarthSmoke",
+    "masking": "B2/B3/B4/B8 scaled integer SR divided by 10000 -> float32; reflectance keeps the S2 scene mask (fill stays masked, never a fake 0); the separate uint8 VALID file carries the SCL clear decision",
+    "native_resolution_m": 10.0,
+    "reflectance_dtype": "float32",
+    "reflectance_offset": 0.0,
+    "reflectance_scale": 0.0001,
+    "resampling": "NONE; native 10 m bands only; 20 m bands are excluded and never resampled to 10 m",
+    "scl_qa_policy": {
+      "byte_encoding": "1 = VALID (SCL in {4,5,6,11}); 0 = not valid; masked footprint unmasked to 0",
+      "category_mapping": {
+        "cirrus_class": 10,
+        "cloud_family_classes": [
+          8,
+          9,
+          10
+        ],
+        "cloud_shadow_class": 3,
+        "sensor_invalid_classes": [
+          0,
+          1
+        ],
+        "snow_or_ice_class": 11,
+        "water_class": 6
+      },
+      "identity_with_catalog": "VALID == CLEAR_PIXELS rule in spartina.data.gee.pixelqa.sentinel2_qa_count_bands; the catalog clear_pixel_fraction and this export VALID share one definition",
+      "not_valid_classes": {
+        "0": "no_data",
+        "1": "saturated_or_defective",
+        "10": "thin_cirrus",
+        "2": "dark_area",
+        "3": "cloud_shadow",
+        "7": "unclassified",
+        "8": "cloud_medium_probability",
+        "9": "cloud_high_probability"
+      },
+      "snow_or_ice_remains_valid": true,
+      "source_band": "SCL",
+      "valid_classes": {
+        "11": "snow_or_ice",
+        "4": "vegetation",
+        "5": "bare_soils",
+        "6": "water"
+      },
+      "water_remains_valid": true
+    },
+    "valid_mask_band_order": [
+      "VALID"
+    ],
+    "valid_mask_dtype": "uint8",
+    "valid_mask_unmasked_to": 0
+  },
+  "processing_config_sha256": "1ddadb7e02324365f4c9301218106a286f5a93395f2885bd5cfd960f6213975c",
+  "product_scope": {
+    "landsat_real_byte_status": "L8_REAL_EXPORT_NOT_OBSERVED_UNDER_PREDECLARED_WINDOWS",
+    "not_for": [
+      "final Zhejiang dataset",
+      "Sentinel science stack",
+      "training data",
+      "benchmark sample",
+      "Landsat byte/scaling/availability validation",
+      "Sentinel-1 byte validation"
+    ],
+    "product_id": "S2_REAL_BYTE_SMOKE_V1",
+    "purpose": "generic real EE batch export / Drive landing / raster / checksum / provenance infrastructure validation",
+    "sentinel1_real_byte_status": "NOT_YET_VERIFIED"
+  },
+  "project_id": "project-795fc21c-e217-47f3-adb",
+  "qa_consistency": {
+    "catalog_qa_roi": {
+      "clear_pixel_fraction_scl_4_5_6_11": 0.8627170252666815,
+      "crs_epsg": 4326,
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              121.1,
+              30.3
+            ],
+            [
+              121.12,
+              30.3
+            ],
+            [
+              121.12,
+              30.32
+            ],
+            [
+              121.1,
+              30.32
+            ],
+            [
+              121.1,
+              30.3
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "geometry_sha256": "b72d475976e4ff3e775defb467ec4a62f880a5df1bc42aa0c0a882be7d9da43f",
+      "roi_cirrus_fraction": 0.0,
+      "roi_cloud_fraction": 0.0,
+      "roi_coverage_fraction": 1.0,
+      "roi_id": "HZB_TECH_SMOKE_V1",
+      "roi_saturated_fraction": 0.0,
+      "roi_shadow_fraction": 0.012885402593212478,
+      "roi_snow_fraction": 0.0,
+      "roi_total_pixels": 49591,
+      "valid_pixel_fraction_observed": 1.0
+    },
+    "equality_test": "NOT_PERFORMED: catalog QA ROI (0.02 deg box) and the export sub-ROI (deterministic ~500 m grid footprint) are different geometries; per-scene fractions are never compared with an equality test",
+    "export_sub_roi_qa": {
+      "crs_epsg": 4326,
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              121.10737551505783,
+              30.30761875077548
+            ],
+            [
+              121.11267689724322,
+              30.307695348844547
+            ],
+            [
+              121.11258872998911,
+              30.31229517670824
+            ],
+            [
+              121.10728710050688,
+              30.312218564595554
+            ],
+            [
+              121.10737551505783,
+              30.30761875077548
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "geometry_sha256": "d8dfa0580eea7520f46774c93e4c5a1215cd9949abd317aaa3a77ef62062a812",
+      "grid_crs_epsg": 32651,
+      "roi_id": "HZB_TECH_SMOKE_EXPORT_V1",
+      "total_pixel_count": 2601,
+      "unique_value_counts": {
+        "0": 765,
+        "1": 1836
+      },
+      "unique_values": [
+        0,
+        1
+      ],
+      "valid_fraction": 0.7058823529411765,
+      "valid_pixel_count": 1836
+    },
+    "logical_check": "catalog scene ROI cloud_fraction == 0 (clear 0.8627); a fully-zero VALID mask in the sub-ROI would contradict the cloud-free scene; valid_pixel_count must be > 0",
+    "logical_check_pass": true
+  },
+  "query": {
+    "frozen_fixture": "/data/yingda/Spartina-Earth/tests/fixtures/gee/real_smoke_catalog_v1.json",
+    "pre_export_replay": {
+      "candidate_count": 12,
+      "checks": {
+        "candidate_count_matches_fixture": true,
+        "double_retrieval_ids_identical": true,
+        "exactly_one_selected": true,
+        "global_catalog_fingerprint_matches_fixture": true,
+        "global_selection_fingerprint_matches_fixture": true,
+        "live_ids_match_fixture": true,
+        "s2_catalog_fingerprint_matches_fixture": true,
+        "s2_catalog_fingerprint_rerun": true,
+        "s2_selection_fingerprint_matches_fixture": true,
+        "s2_selection_fingerprint_rerun": true,
+        "selected_mgrs_matches": true,
+        "selected_product_id_matches": true,
+        "selected_scene_id_matches": true,
+        "selected_utc_matches": true
+      },
+      "global_catalog_fingerprint_sha256": "ddf6f158eff85dbc74b7be5f2780319da44cc2910f3ca930917bbc7df6692f28",
+      "global_selection_fingerprint_sha256": "b659c68b0018b09328b61a5cbaf64ad21a282594e81834173815db7bdc9d4f4e",
+      "pass": true,
+      "retrieval_timestamps_utc": [
+        "2026-10-01T03:23:27.571714+00:00",
+        "2026-10-01T03:23:29.692997+00:00"
+      ],
+      "s2_catalog_fingerprint_sha256": "369a672bcf70c14db9a845e53d21652054460e9027a68079d3c3c4829f91924c",
+      "s2_selection_fingerprint_sha256": "dddea77bc45148db495fec45e5353c32b1ab913ee00f5b0d3713147fbadc1e38",
+      "window": {
+        "end_utc": "2020-11-01T00:00:00Z",
+        "name": "autumn_v1",
+        "start_utc": "2020-09-01T00:00:00Z",
+        "target_doy": 275
+      }
+    },
+    "window": {
+      "end_utc": "2020-11-01T00:00:00Z",
+      "name": "autumn_v1",
+      "start_utc": "2020-09-01T00:00:00Z",
+      "target_doy": 275
+    }
+  },
+  "raster_verification": {
+    "reflectance": {
+      "band_names": [
+        "B2",
+        "B3",
+        "B4",
+        "B8"
+      ],
+      "bounds": [
+        318010.0,
+        3354390.0,
+        318520.0,
+        3354900.0
+      ],
+      "count": 4,
+      "crs_epsg": 32651,
+      "driver": "GTiff",
+      "dtypes": [
+        "float32",
+        "float32",
+        "float32",
+        "float32"
+      ],
+      "height": 51,
+      "nodata": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "transform": [
+        10.0,
+        0.0,
+        318010.0,
+        0.0,
+        -10.0,
+        3354900.0
+      ],
+      "width": 51
+    },
+    "valid_mask": {
+      "band_names": [
+        "VALID"
+      ],
+      "binary_values_only": true,
+      "bounds": [
+        318010.0,
+        3354390.0,
+        318520.0,
+        3354900.0
+      ],
+      "count": 1,
+      "crs_epsg": 32651,
+      "driver": "GTiff",
+      "dtypes": [
+        "uint8"
+      ],
+      "height": 51,
+      "nodata": null,
+      "total_pixel_count": 2601,
+      "transform": [
+        10.0,
+        0.0,
+        318010.0,
+        0.0,
+        -10.0,
+        3354900.0
+      ],
+      "unique_value_counts": {
+        "0": 765,
+        "1": 1836
+      },
+      "unique_values": [
+        0,
+        1
+      ],
+      "valid_fraction": 0.7058823529411765,
+      "valid_pixel_count": 1836,
+      "width": 51
+    }
+  },
+  "reflectance_sanity": {
+    "bands": {
+      "B2": {
+        "fraction_abs_gt_1_5": 0.0,
+        "fraction_dn_like": 0.0,
+        "max": 0.09000000357627869,
+        "mean": 0.05851568627802245,
+        "median": 0.05820000171661377,
+        "min": 0.046799998730421066,
+        "negative_fraction": 0.0,
+        "over_one_fraction": 0.0,
+        "p01": 0.04969999939203262,
+        "p05": 0.05187499988824129,
+        "p95": 0.06859999895095825,
+        "p99": 0.07342999875545504,
+        "std": 0.004888043409685185,
+        "valid_pixel_count": 1836
+      },
+      "B3": {
+        "fraction_abs_gt_1_5": 0.0,
+        "fraction_dn_like": 0.0,
+        "max": 0.12300000339746475,
+        "mean": 0.0701894880513902,
+        "median": 0.06989999860525131,
+        "min": 0.055399999022483826,
+        "negative_fraction": 0.0,
+        "over_one_fraction": 0.0,
+        "p01": 0.05783499926328659,
+        "p05": 0.06129999831318855,
+        "p95": 0.0821249969303608,
+        "p99": 0.0877000018954277,
+        "std": 0.006006411186113048,
+        "valid_pixel_count": 1836
+      },
+      "B4": {
+        "fraction_abs_gt_1_5": 0.0,
+        "fraction_dn_like": 0.0,
+        "max": 0.1080000028014183,
+        "mean": 0.050193137288385745,
+        "median": 0.05050000175833702,
+        "min": 0.03420000150799751,
+        "negative_fraction": 0.0,
+        "over_one_fraction": 0.0,
+        "p01": 0.036400001496076584,
+        "p05": 0.03887499962002039,
+        "p95": 0.06530000269412994,
+        "p99": 0.07129999995231628,
+        "std": 0.007696663874161347,
+        "valid_pixel_count": 1836
+      },
+      "B8": {
+        "fraction_abs_gt_1_5": 0.0,
+        "fraction_dn_like": 0.0,
+        "max": 0.29980000853538513,
+        "mean": 0.03684602405526929,
+        "median": 0.03460000082850456,
+        "min": 0.022299999371170998,
+        "negative_fraction": 0.0,
+        "over_one_fraction": 0.0,
+        "p01": 0.023800000548362732,
+        "p05": 0.026000000536441803,
+        "p95": 0.053300000727176666,
+        "p99": 0.1016299985349184,
+        "std": 0.018491297534139847,
+        "valid_pixel_count": 1836
+      }
+    },
+    "pixel_selection": "VALID==1 AND finite (nodata excluded)",
+    "scaling_check_pass": true,
+    "scaling_failures": [],
+    "valid_pixel_count": 1836
+  },
+  "roi": {
+    "export_roi": {
+      "construction_rule": {
+        "centroid_utm51n_m": [
+          318266.8046650288,
+          3354649.738909041
+        ],
+        "construction": "bbox centroid of HZB_TECH_SMOKE_V1 (EPSG:4326) -> project to EPSG:32651 -> fixed +/-250 m metric box (500 m nominal) -> covering_grid outward snap to the 10 m lattice -> region is the grid footprint back-transformed to WGS84; ROI is never moved after inspecting imagery",
+        "grid_bounds_utm51n_m": [
+          318010.0,
+          3354390.0,
+          318520.0,
+          3354900.0
+        ],
+        "grid_height_m": 510.0,
+        "grid_width_m": 510.0,
+        "metric_box_bounds_utm51n_m": [
+          318016.8046650288,
+          3354399.738909041,
+          318516.8046650288,
+          3354899.738909041
+        ],
+        "metric_half_width_m": 250.0,
+        "metric_nominal_width_m": 500.0,
+        "snap_note": "covering_grid snaps outward to the 10 m lattice; the landed footprint is exactly 500-520 m per side, never hand-edited",
+        "technical_roi_centroid_lonlat": [
+          121.11,
+          30.310000000000002
+        ]
+      },
+      "crs_epsg": 4326,
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              121.10737551505783,
+              30.30761875077548
+            ],
+            [
+              121.11267689724322,
+              30.307695348844547
+            ],
+            [
+              121.11258872998911,
+              30.31229517670824
+            ],
+            [
+              121.10728710050688,
+              30.312218564595554
+            ],
+            [
+              121.10737551505783,
+              30.30761875077548
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "geometry_sha256": "d8dfa0580eea7520f46774c93e4c5a1215cd9949abd317aaa3a77ef62062a812",
+      "roi_id": "HZB_TECH_SMOKE_EXPORT_V1"
+    },
+    "technical_roi": {
+      "crs_epsg": 4326,
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              121.1,
+              30.3
+            ],
+            [
+              121.12,
+              30.3
+            ],
+            [
+              121.12,
+              30.32
+            ],
+            [
+              121.1,
+              30.32
+            ],
+            [
+              121.1,
+              30.3
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "geometry_sha256": "b72d475976e4ff3e775defb467ec4a62f880a5df1bc42aa0c0a882be7d9da43f",
+      "roi_id": "HZB_TECH_SMOKE_V1"
+    }
+  },
+  "science_stream": "sentinel_10m",
+  "scl_qa_policy": {
+    "byte_encoding": "1 = VALID (SCL in {4,5,6,11}); 0 = not valid; masked footprint unmasked to 0",
+    "category_mapping": {
+      "cirrus_class": 10,
+      "cloud_family_classes": [
+        8,
+        9,
+        10
+      ],
+      "cloud_shadow_class": 3,
+      "sensor_invalid_classes": [
+        0,
+        1
+      ],
+      "snow_or_ice_class": 11,
+      "water_class": 6
+    },
+    "identity_with_catalog": "VALID == CLEAR_PIXELS rule in spartina.data.gee.pixelqa.sentinel2_qa_count_bands; the catalog clear_pixel_fraction and this export VALID share one definition",
+    "not_valid_classes": {
+      "0": "no_data",
+      "1": "saturated_or_defective",
+      "10": "thin_cirrus",
+      "2": "dark_area",
+      "3": "cloud_shadow",
+      "7": "unclassified",
+      "8": "cloud_medium_probability",
+      "9": "cloud_high_probability"
+    },
+    "snow_or_ice_remains_valid": true,
+    "source_band": "SCL",
+    "valid_classes": {
+      "11": "snow_or_ice",
+      "4": "vegetation",
+      "5": "bare_soils",
+      "6": "water"
+    },
+    "water_remains_valid": true
+  },
+  "selected_scene_ids": [
+    "20200905T023549_20200905T024731_T51RUP"
+  ],
+  "source_product": {
+    "acquisition_date": "2020-09-05",
+    "acquisition_utc": "2020-09-05T02:49:21.773000+00:00",
+    "mgrs_tile": "51RUP",
+    "processing_baseline": "02.14",
+    "product_id": "S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156",
+    "relative_orbit_number": "NOT_APPLICABLE",
+    "scene_id": "20200905T023549_20200905T024731_T51RUP",
+    "selection_metrics": {
+      "clear_pixel_fraction": 0.8627170252666815,
+      "roi_cloud_fraction": 0.0,
+      "roi_coverage_fraction": 1.0,
+      "selection_rank": 1,
+      "selection_reason": "rank order: coverage > valid_pixel_fraction > roi_cloud_fraction > roi_shadow_fraction > circular DOY 275 > acquisition_utc > scene_id",
+      "selection_score": [
+        1.0,
+        1.0,
+        -0.0,
+        -0.012885,
+        -26.0,
+        "2020-09-05T02:49:21.773000+00:00",
+        "20200905T023549_20200905T024731_T51RUP"
+      ],
+      "valid_pixel_fraction": 1.0
+    },
+    "spacecraft": "Sentinel-2B"
+  },
+  "status": "COMPLETED",
+  "tide_inundation": []
+}
