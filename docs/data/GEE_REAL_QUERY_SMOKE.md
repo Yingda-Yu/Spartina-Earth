@@ -366,8 +366,10 @@ selection, no compositing, native 10 m bands only.
 - Scene: `20200905T023549_20200905T024731_T51RUP`
   (product `S2B_MSIL2A_20200905T023549_N0214_R089_T51RUP_20200905T053156`,
   2020-09-05T02:49:21.773Z, MGRS tile 51RUP, Sentinel-2B).
-- Catalog QA on the technical ROI: cloud 0.0, clear (SCL 4/5/6/11)
-  0.8627, coverage 1.0.
+- Catalog QA on the technical ROI under the then-policy
+  `s2_scl_qa_v1`: cloud 0.0, clear (SCL 4/5/6/11, which erroneously
+  admitted snow/ice class 11) 0.8627, coverage 1.0. Numerically
+  identical under the corrected `s2_scl_qa_v1_1` policy — see 11.8.
 - Two live S2 retrievals reproduced the frozen fixture exactly
   (12 candidates, exactly one selected, all fingerprints match):
   S2 catalog `369a672b…1924c`, S2 selection `dddea77b…c1e38`,
@@ -394,10 +396,13 @@ the 10 m lattice by `covering_grid`:
 - **Reflectance file**: native 10 m B2/B3/B4/B8 only; scaled-integer SR
   `/10000 -> float32`; S2 scene mask retained (fill stays masked, never
   faked to 0). B11/B12 excluded and never resampled to 10 m.
-- **VALID mask file**: separate single-band `uint8`, `SCL in
-  {4,5,6,11} -> 1` (vegetation, bare soils, **water**, snow/ice),
-  everything else (incl. fill/shadow/cloud/cirrus) unmasked to `0`.
-  Same definition as catalog `clear_pixel_fraction`; water stays valid.
+- **VALID mask file** — M1.6c historical definition (`s2_scl_qa_v1`):
+  separate single-band `uint8`, `SCL in {4,5,6,11} -> 1` (vegetation,
+  bare soils, **water**, and — incorrectly — snow/ice), everything
+  else (incl. fill/shadow/cloud/cirrus) unmasked to `0`. Official SCL
+  class 11 is snow/ice and must never be valid coastal surface; the
+  corrected `s2_scl_qa_v1_1` definition is `SCL in {4,5,6} -> 1`
+  (see 11.8). Water (6) remains valid under both policies.
 - GEE shard rule: `fileDimensions` is omitted (GEE requires multiples of
   256); dimensions are derived from region + `crsTransform`, and the
   landed raster is hard-checked against the locked 51×51 GridSpec.
@@ -485,9 +490,109 @@ lock hash `7fa6704ec874fa52652abc5145a6d2ced8263ccb751b351a51f381783609ede6`.
 - **NOT YET VERIFIED**: Sentinel-1 real byte export.
 - Opt-in gate: real exports run only with `SPARTINA_GEE_SMOKE_EXPORT=1`;
   default CI never creates EE tasks. The opt-in integration test
-  (`test_s2_real_byte_evidence_bundle_recorded`) only re-audits the
-  recorded manifest/lock/bytes — it never re-exports. Offline unit
-  coverage: `tests/unit/test_gee_s2_real_smoke_offline.py` (deterministic
+  (`test_s2_corrected_byte_evidence_bundle_recorded` after the M1.6d
+  rename in 11.8) only re-audits the recorded manifest/lock/bytes — it
+  never re-exports. Offline unit coverage:
+  `tests/unit/test_gee_s2_real_smoke_offline.py` (deterministic
   ROI/grid, frozen SCL policy, task state history, binary-mask and
-  masked-scaling audits, env gate). Live replay:
-  `test_s2_selection_replays_frozen_fixture_live`.
+  masked-scaling audits, env gate) plus
+  `tests/unit/test_s2_scl_qa_correction.py` (class-by-class s2_scl_qa_v1_1
+  contract and correction-evidence regression tests). Live replay:
+  `test_s2_selection_replays_frozen_fixture_live`; live M1.6d recheck:
+  `test_s2_scl_qa_semantics_correction_live`.
+
+### 11.8 Post-acceptance QA correction — SCL snow/ice semantics (M1.6d, `s2_scl_qa_v1_1`)
+
+Post-acceptance review found that the M1.6c VALID/clear policy used
+`SCL in {4,5,6,11}`. In `COPERNICUS/S2_SR_HARMONIZED` the official SCL
+class **11 is snow / ice**, not valid coastal surface; the project QA
+contract requires snow/ice to be recorded separately rather than
+silently merged into valid. Issue #6 was reopened and M1.6d repaired
+**semantics only**: no scene reselection, no ROI/GridSpec/date/threshold
+change, no new training, and (Branch A below) no re-export.
+
+**Single source of truth.** `src/spartina/data/gee/sentinel2.py` now
+exports one frozen policy object `S2_SCL_QA_POLICY`
+(`S2_SCL_QA_POLICY_VERSION = "s2_scl_qa_v1_1"`), consumed by
+`pixelqa.py` (catalog counts and export masks) and the export driver;
+the legacy incorrect set survives only as the audit-only constant
+`S2_LEGACY_V1_VALID_SCL_CLASSES = frozenset({4,5,6,11})`. Official
+classes and decisions:
+
+| SCL | official name | v1_1 decision |
+|---|---|---|
+| 0 | No data | invalid (sensor) |
+| 1 | Saturated / defective | invalid (sensor) |
+| 2 | Dark area pixels | **invalid — explicit decision (not assumed valid)** |
+| 3 | Cloud shadows | invalid |
+| 4 | Vegetation | valid |
+| 5 | Bare soils | valid |
+| 6 | Water | **valid (coastal guard; can never be dropped for cloud masking)** |
+| 7 | Unclassified / low-probability cloud | invalid — explicit decision |
+| 8 | Cloud medium probability | invalid (cloud) |
+| 9 | Cloud high probability | invalid (cloud) |
+| 10 | Cirrus | invalid (cloud/cirrus) |
+| 11 | Snow / ice | **invalid; reported separately as snow** |
+
+**Live frozen-ROI histogram.** The frozen scene SCL was re-read live on
+the *same* locked 51×51 GridSpec (EPSG:32651, transform
+`[10,0,318010,0,-10,3354900]`, identical WGS84 sample region); evidence:
+[tests/fixtures/gee/real_s2_smoke_scl_histogram_v1_1.json](../../tests/fixtures/gee/real_s2_smoke_scl_histogram_v1_1.json).
+
+| SCL | name | pixels | fraction | valid v1_1 |
+|---|---|---:|---:|---|
+| 2 | dark area | 735 | 0.282584 | no |
+| 4 | vegetation | 12 | 0.004614 | yes |
+| 6 | water | 1824 | 0.701269 | yes |
+| 7 | unclassified | 30 | 0.011534 | no |
+| all other classes (0,1,3,5,8,9,10,11) | — | 0 | 0.0 | — |
+| **total** | | **2601** | 1.0 | |
+
+**SCL 11 snow/ice count = 0 px (fraction 0.0) → Branch A.** The old
+policy was semantically wrong but the frozen sub-ROI membership was
+unaffected: old valid count 1836 = corrected valid count 1836; the
+corrected VALID array equals the old computed array *and* the landed v1
+validmask GeoTIFF pixel-for-pixel (`array_equal = true`); the landed
+file SHA256 is unchanged
+(`2a19ae754bd47a0ac27925936e29840feb7757f204a6c2f786d9f2c607b663df`):
+`pixel_identical = true`, `byte_identical = true`. No new EE task was
+created (`new_export_tasks_created = []`), reflectance B2/B3/B4/B8 was
+not re-exported, and both v1 task IDs/files/SHA256 are reused.
+
+**Catalog QA over the frozen 12 S2 candidates** was recomputed live
+twice with v1_1: every count/fraction is identical to the frozen v1
+numbers (all scenes have `snow_pixels = 0`) and the selected scene is
+unchanged (`selection_stable_after_qa_fix = true`;
+`SELECTION_CHANGED_AFTER_QA_POLICY_FIX` did not occur). Fingerprints
+were not overwritten: old values are retained in the corrected fixture
+envelope. The *catalog* fingerprints changed solely because the QA
+policy version joined the fingerprint payload; the *selection*
+fingerprints are byte-unchanged:
+
+| fingerprint | old (`s2_scl_qa_v1`) | corrected (`s2_scl_qa_v1_1`) |
+|---|---|---|
+| S2 catalog | `369a672b…1924c` | `8836755e…ddf7d5` |
+| global catalog | `ddf6f158…92f28` | `db9d29bb…3b55b` |
+| S2 selection | `dddea77b…c1e38` | `dddea77b…c1e38` (unchanged) |
+| global selection | `b659c68b…d4f4e` | `b659c68b…d4f4e` (unchanged) |
+
+**Versioning and provenance.** The v1 manifest, fixture, lock and
+GeoTIFFs are immutable audit history and were not modified. The
+corrected manifest
+[datasets/manifests/gee_real_s2_export_smoke_v1_1.json](../../datasets/manifests/gee_real_s2_export_smoke_v1_1.json)
+and corrected fixture
+[tests/fixtures/gee/real_smoke_catalog_scl_v1_1.json](../../tests/fixtures/gee/real_smoke_catalog_scl_v1_1.json)
+carry a `qa_policy_correction` / envelope block with `supersedes`
+(v1 manifest), `superseded_manifest_sha256 =
+d06e7a060b1a489785dab72f473f602afc5ec7799695cae6d94840a057eeb9c4`,
+`correction_reason =
+S2_SCL_CLASS_11_SNOW_ICE_WAS_INCORRECTLY_INCLUDED_IN_VALID_SET`,
+`semantic_policy_corrected = true`, `pixel_membership_changed = false`,
+`pixel_identical = byte_identical = true`. The QA policy version is now
+part of provenance (`processing_config.scl_qa_policy_version`,
+`query.scl_qa_policy_version`, catalog rows): every future dataset
+sample records which SCL QA policy produced it. The read-only evidence
+driver is
+[scripts/data/gee/real_s2_scl_qa_correction.py](../../scripts/data/gee/real_s2_scl_qa_correction.py);
+its run evidence is archived in
+`artifacts/gee/real_smoke/scl_qa_correction_v1_1_evidence.json`.

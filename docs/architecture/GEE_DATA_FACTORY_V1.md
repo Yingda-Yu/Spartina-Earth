@@ -47,7 +47,7 @@ byte export is NOT YET VERIFIED.
 | `sensors/registry.py` | Identity-based `SensorSpec` for L5/7/8/9, S1, S2 (bands, wavelengths, native resolution, scale/offset, QA bands, valid period, modality). |
 | `collections.py` | Central GEE collection-ID map + C2/S2 scaling constants. |
 | `landsat.py` | L5/7/8/9 collection filtering, pure `QA_PIXEL`/`QA_RADSAT` decoders, EE clear-mask and per-family scaling (SR 2.75e-5−0.2; ST ×0.00341802+149 K), scene-property mapping. |
-| `sentinel2.py` | S2 SR Harmonized: pure SCL class decoder (valid 4/5/6/11), `MSK_CLDPRB` mask, ÷10000 scaling, MGRS tile / product / cloud metadata. |
+| `sentinel2.py` | S2 SR Harmonized: single source of truth for the frozen SCL QA policy `s2_scl_qa_v1_1` (valid 4/5/6; snow/ice 11 invalid; water 6 valid — see §4.1), `MSK_CLDPRB` mask, ÷10000 scaling, MGRS tile / product / cloud metadata. |
 | `sentinel1.py` | S1 GRD IW: IW-mode + polarization filters, orbit direction validation, relative orbit / platform / resolution provenance; no scaling (GEE sigma0 dB). |
 | `catalog.py` | `CatalogClient` protocol, `MockCatalogClient`, and the real `EarthEngineCatalogClient` (lazy `ee`, ROI footprint-coverage annotation, ISO UTC conversion). |
 | `quality.py` | Metadata QA filters, `CandidateScene` + `build_candidate_table` (all candidates retained), coverage rule. |
@@ -116,9 +116,11 @@ pixel size) and float32 reflectance by `reflectance_sanity`.
   uses **ROI-level raster pixel counts computed server-side**
   (`pixelqa.counts_*`): Landsat per-pixel decision (fill, dilated cloud,
   cirrus, cloud, shadow, snow excluded; Clear bit required;
-  `QA_RADSAT == 0`; water allowed), S2 SCL classes (cloud family 8/9/10,
-  shadow 3, cirrus 10, snow 11, invalid 0/1; water 6 valid) with a
-  recorded `cloud_probability_available` flag for `MSK_CLDPRB`.
+  `QA_RADSAT == 0`; water allowed), S2 SCL classes under the versioned
+  policy `s2_scl_qa_v1_1` (valid 4 vegetation / 5 bare soils / 6 water;
+  invalid 0 no-data, 1 saturated, 2 dark area, 3 shadow, 7 unclassified,
+  8/9 cloud, 10 cirrus, 11 snow/ice — see §4.1) with a recorded
+  `cloud_probability_available` flag for `MSK_CLDPRB`.
 * ROI coverage: footprint intersection fraction annotated server-side;
   valid-pixel fraction comes from the same counted denominator; values
   are never guessed (a missing property is `None`/`UNKNOWN`, not 0).
@@ -131,6 +133,40 @@ pixel size) and float32 reflectance by `reflectance_sanity`.
   ≥0.99, valid ≥0.95, cloud ≤0.30) and frozen before inspection; a fixed
   window with zero eligible scenes is reported as a closed gate, never
   fixed by widening the window after looking.
+
+### 4.1 Sentinel-2 SCL QA policy version (`s2_scl_qa_v1_1`)
+
+The SCL surface-valid decision has exactly one implementation and one
+version string. `src/spartina/data/gee/sentinel2.py` defines the frozen
+dataclass singleton `S2_SCL_QA_POLICY`
+(`S2_SCL_QA_POLICY_VERSION = "s2_scl_qa_v1_1"`); catalog pixel counts
+(`pixelqa.sentinel2_qa_count_bands`) and export masks
+(`pixelqa.sentinel2_mask_bands`, `S2_SCL_QA_POLICY.ee_valid_surface`)
+derive their Earth Engine expressions from its class sets. No module may
+redeclare a valid-SCL set. The earlier `s2_scl_qa_v1` set
+`{4,5,6,11}` was incorrect (official SCL 11 = snow/ice); it survives
+only as the audit-only constant `S2_LEGACY_V1_VALID_SCL_CLASSES` and in
+immutable historical manifests/fixtures.
+
+| version | valid surface | key change |
+|---|---|---|
+| `s2_scl_qa_v1` (historical, M1.6c) | `{4,5,6,11}` | incorrectly counted snow/ice as valid |
+| `s2_scl_qa_v1_1` (current, M1.6d) | `{4,5,6}` | 11 snow/ice invalid and reported separately; 2 dark area and 7 unclassified explicitly invalid; 6 water guaranteed valid |
+
+Policy rules: (i) all 12 official classes 0-11 have an explicit
+decision; (ii) water (6) must remain valid — it must never be removed as
+a side effect of cloud masking in this coastal project; (iii) snow/ice
+(11) is invalid and counted into its own `snow_pixels` /
+`roi_snow_fraction` channel; (iv) the version string is part of
+provenance — `processing_config.scl_qa_policy_version`,
+`query.scl_qa_policy_version`, catalog rows and catalog fingerprint
+payloads — so every dataset sample can identify the QA policy that
+produced it. Semantics-only corrections are versioned as superseding
+manifests (`supersedes`, `superseded_manifest_sha256`,
+`correction_reason`) without rewriting v1 history; see
+[GEE_REAL_QUERY_SMOKE.md](../data/GEE_REAL_QUERY_SMOKE.md) §11.8 for the
+frozen-smoke correction (Branch A: zero snow/ice pixels, pixel- and
+byte-identical VALID mask, selection stable).
 
 ## 5. Async execution semantics
 
@@ -164,12 +200,17 @@ with GEE, requires the Drive artefact, and records a resume poll).
   the 2 frozen L8 rows from the predeclared M1.6b backup window:
   2/0/0 counts, both scenes rejected solely for ROI cloud, unchanged ROI
   hash, and both backup fingerprints recomputed.
-* `tests/unit/test_gee_s2_real_smoke_offline.py` — offline M1.6c
+* `tests/unit/test_gee_s2_real_smoke_offline.py` — offline S2 smoke
   coverage: deterministic +/-250 m / 10 m export GridSpec (51x51),
-  frozen SCL {4,5,6,11} policy identity with the catalog code, persisted
+  `s2_scl_qa_v1_1` policy identity with the catalog code, persisted
   poll state history (incl. backward compat with pre-history stores),
   binary-mask accept/reject, masked-reflectance stats and DN-scale
   rejection, and the `SPARTINA_GEE_SMOKE_EXPORT` gate.
+* `tests/unit/test_s2_scl_qa_correction.py` (M1.6d) — class-by-class
+  regression pinning of `s2_scl_qa_v1_1` (4/5/6 valid; 11 snow/ice
+  invalid; 2/7 explicitly invalid; 3/8/9/10/0/1 invalid; water 6 valid)
+  plus the frozen Branch-A correction evidence (SCL histogram, corrected
+  catalog fixture, v1_1 supersession manifest).
 * `tests/unit/test_gee_interfaces_mock.py` (M0 contracts) remains green.
 * `tests/integration/test_gee_integration.py` — real init smoke; real
   per-sensor candidate-provenance queries (S1 null `productIdentifier`
