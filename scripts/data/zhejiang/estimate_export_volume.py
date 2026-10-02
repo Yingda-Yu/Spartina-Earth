@@ -94,7 +94,7 @@ def estimate(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> int:
-    pairs = pd.read_parquet(REPO_ROOT / "work/derived/zhejiang_cell_observations_v0.parquet")
+    pairs = pd.read_parquet(REPO_ROOT / "work/derived/zhejiang_cell_observations_v0_1.parquet")
     d = pairs[(pairs.cell_size_m == 10_000)].copy()
 
     tiers = {
@@ -125,8 +125,8 @@ def main() -> int:
     out["estimate_basis"] = (
         "cell_event_pairs x pixels_per_cell x bytes_per_pixel; "
         "PLANNING_ESTIMATE_NOT_MEASURED; no export executed")
-    out.to_csv(mdir / "zhejiang_export_volume_estimate_v0.csv", index=False)
-    print("\n-> datasets/manifests/zhejiang_export_volume_estimate_v0.csv")
+    out.to_csv(mdir / "zhejiang_export_volume_estimate_v0_1.csv", index=False)
+    print("\n-> datasets/manifests/zhejiang_export_volume_estimate_v0_1.csv")
     return 0
 
 

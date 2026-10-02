@@ -40,6 +40,14 @@ from shapely.strtree import STRtree  # noqa: E402
 from spartina.data.zhejiang.acquisition import (  # noqa: E402
     ACQUISITION_GROUP_COLUMNS,
     CELL_OBSERVATION_COLUMNS,
+    CLOUD_GATE_BASIS_CONTRIBUTING,
+    CLOUD_GATE_BASIS_NA,
+    CLOUD_GATE_FAIL,
+    CLOUD_GATE_MISSING,
+    CLOUD_GATE_NA,
+    CLOUD_GATE_PASS,
+    QA_BASIS,
+    frame_key,
     group_footprint,
     group_scenes,
 )
@@ -166,6 +174,7 @@ def main() -> int:
             cand = tree.query(fp, predicate="intersects")
             if len(cand) == 0:
                 continue
+            # group-wide (legacy v0) cloud verdict, diagnostic only
             member_clouds = [
                 scenes_by_id[sid].get("scene_cloud_fraction")
                 for sid in g.member_scene_ids
@@ -175,32 +184,61 @@ def main() -> int:
                       if isinstance(c, int | float)]
             cloud_max = max(clouds) if clouds else None
             if g.sensor == "sentinel1":
-                cloud_gate = "NOT_APPLICABLE_SAR"
+                gw_gate = CLOUD_GATE_NA
             elif cloud_max is None:
-                cloud_gate = "FAIL_CLOUD_METADATA_MISSING"
+                gw_gate = CLOUD_GATE_MISSING
             elif cloud_max <= cld_max:
-                cloud_gate = "PASS"
+                gw_gate = CLOUD_GATE_PASS
             else:
-                cloud_gate = "FAIL_SCENE_CLOUD"
+                gw_gate = CLOUD_GATE_FAIL
+            # member scene -> own frame geometry (R1 contributing gate)
+            member_frames: list[tuple[str, BaseGeometry]] = []
+            for _sid in g.member_scene_ids:
+                _sc = scenes_by_id.get(_sid)
+                if _sc is None:
+                    continue
+                _fg = frames.get(frame_key(_sc))
+                if _fg is not None:
+                    member_frames.append((_sid, _fg))
             doy = pd.Timestamp(g.event_date).dayofyear
             win_ids = [w["id"] for w in windows
                        if int(w["doy_start"]) <= doy <= int(w["doy_end"])]
+            win_layer = "|".join(sorted({
+                w.get("layer", "season") for w in windows
+                if w["id"] in win_ids}))
+            cloudpass_by_cell: dict[int, str] = {}
             for ci in cand:
                 cell = cell_records[int(ci)]
                 geom = cell_geoms[int(ci)]
                 inter = geom.intersection(fp)
                 coverage = float(inter.area / geom.area)
-                # single-frame best coverage (diagnose multi-tile gain)
+                # contributing member scenes = own frame intersects cell
+                contributing: list[str] = []
                 single_cov = 0.0
-                for fk in g.footprint_frame_keys:
-                    fg = frames.get(fk)
-                    if fg is not None and fg.intersects(geom):
+                for _sid, _fg in member_frames:
+                    if _fg.intersects(geom):
+                        contributing.append(_sid)
                         single_cov = max(
                             single_cov,
-                            float(geom.intersection(fg).area / geom.area))
+                            float(geom.intersection(_fg).area / geom.area))
+                cclouds = [
+                    scenes_by_id[_sid].get("scene_cloud_fraction")
+                    for _sid in contributing if _sid in scenes_by_id]
+                cnum = [c for c in cclouds if isinstance(c, int | float)]
+                cmax = max(cnum) if cnum else None
+                if g.sensor == "sentinel1":
+                    cloud_gate = CLOUD_GATE_NA
+                elif cmax is None:
+                    cloud_gate = CLOUD_GATE_MISSING
+                elif cmax <= cld_max:
+                    cloud_gate = CLOUD_GATE_PASS
+                else:
+                    cloud_gate = CLOUD_GATE_FAIL
+                cloudpass_by_cell[int(ci)] = cloud_gate
                 cov_gate = coverage >= cov_min
-                quality = bool(cov_gate and cloud_gate in ("PASS",
-                                                           "NOT_APPLICABLE_SAR"))
+                quality = bool(
+                    cov_gate and cloud_gate in (CLOUD_GATE_PASS,
+                                                CLOUD_GATE_NA))
                 pair_buf.append({
                     "cell_id": cell["cell_id"],
                     "bay_id": cell["bay_id"],
@@ -211,23 +249,28 @@ def main() -> int:
                     "event_date": g.event_date,
                     "day_of_year": doy,
                     "n_member_scenes": g.n_scenes,
+                    "contributing_n_scenes": len(contributing),
+                    "contributing_scene_ids": "|".join(sorted(contributing)),
                     "coverage_fraction": round(coverage, 6),
                     "single_frame_max_coverage": round(single_cov, 6),
                     "member_scene_cloud_max": (
-                        round(cloud_max, 6) if cloud_max is not None else None),
+                        round(cloud_max, 6)
+                        if cloud_max is not None else None),
+                    "contributing_cloud_max": (
+                        round(cmax, 6) if cmax is not None else None),
                     "cloud_gate": cloud_gate,
+                    "groupwide_cloud_gate": gw_gate,
+                    "cloud_gate_basis": (
+                        CLOUD_GATE_BASIS_NA if g.sensor == "sentinel1"
+                        else CLOUD_GATE_BASIS_CONTRIBUTING),
                     "coverage_gate": bool(cov_gate),
                     "window_ids": "|".join(win_ids),
-                    "window_layer": "|".join(sorted({
-                        w.get("layer", "season") for w in windows
-                        if w["id"] in win_ids})),
+                    "window_layer": win_layer,
                     "quality_pass": quality,
                     "geometry_regime": g.geometry_regime,
                     "qa_thresholds": (
                         f"coverage>={cov_min};scene_cloud<={cld_max}"),
-                    "qa_basis": (
-                        "CELLxEVENT_GEOMETRY_COVERAGE_PLUS_MEMBER_SCENE_"
-                        "CLOUD_METADATA;PIXEL_SCL_QA_DEFERRED_TO_M21B"),
+                    "qa_basis": QA_BASIS,
                 })
             if size == 10_000 and len(cand):
                 month = int(g.event_date[5:7])
@@ -237,7 +280,8 @@ def main() -> int:
                         "groups": set(), "cloudpass_groups": set(),
                         "quality_cells": set(), "observed": False})
                     agg["groups"].add(g.group_id)
-                    if cloud_gate == "PASS" or cloud_gate == "NOT_APPLICABLE_SAR":
+                    _gate = cloudpass_by_cell[int(ci)]
+                    if _gate in (CLOUD_GATE_PASS, CLOUD_GATE_NA):
                         agg["cloudpass_groups"].add(g.group_id)
         dfp = pd.DataFrame(pair_buf)
         if len(dfp):
@@ -312,10 +356,9 @@ def main() -> int:
               f"quality pairs")
 
     pairs_df = pd.DataFrame(all_pairs, columns=list(
-        CELL_OBSERVATION_COLUMNS) + ["single_frame_max_coverage"]) \
-        if all_pairs else pd.DataFrame()
-    # column order: append single-frame column
-    pairs_path = wdir / "zhejiang_cell_observations_v0.parquet"
+        CELL_OBSERVATION_COLUMNS)) if all_pairs else pd.DataFrame()
+    # M2.1a2-R1: contributing-scene cloud gate; v0 pairs superseded
+    pairs_path = wdir / "zhejiang_cell_observations_v0_1.parquet"
     pairs_df.to_parquet(pairs_path, index=False)
 
     # --- group manifest: groups intersecting >=1 10 km coastal cell ------
@@ -330,16 +373,17 @@ def main() -> int:
                    index=False)
 
     stats_df = pd.DataFrame(stats_rows)
-    stats_df.to_csv(mdir / "zhejiang_cell_observation_stats_v0.csv",
+    stats_df.to_csv(mdir / "zhejiang_cell_observation_stats_v0_1.csv",
                     index=False)
     mdf = pd.DataFrame(monthly_rows)
-    mdf.to_csv(mdir / "zhejiang_monthly_availability_v0.csv", index=False)
+    mdf.to_csv(mdir / "zhejiang_monthly_availability_v0_1.csv",
+               index=False)
 
     # --- S2 recovery table (section 19) -----------------------------------
     recovery = build_s2_recovery(
         census, pairs_df, stats_df, windows)
     pd.DataFrame(recovery).to_csv(
-        mdir / "zhejiang_s2_recovery_v0.csv", index=False)
+        mdir / "zhejiang_s2_recovery_v0_1.csv", index=False)
 
     # --- tiny SIMULATED coastal-state example -----------------------------
     write_coastal_example(cells_df, mdir)

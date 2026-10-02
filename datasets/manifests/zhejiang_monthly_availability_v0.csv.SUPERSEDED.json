@@ -1,0 +1,10 @@
+{
+  "artifact": "zhejiang_monthly_availability_v0.csv",
+  "sha256": "e74ab465eea8ac7f3976a71a37fee43df591a525313af4758e31b23f05a5512e",
+  "status": "SUPERSEDED_BY_CONTRIBUTING_SCENE_CLOUD_GATE",
+  "superseded_by": "zhejiang_monthly_availability_v0_1.csv",
+  "superseded_sha256": "77dd813e76a8543e28746828078fa44483d12de886beeac6fd3a06473e79d0a7",
+  "defect_marker": "S2_2022_ZERO_WAS_GROUPWIDE_CLOUD_BUG",
+  "detail": "v0 pair cloud gate took max(scene_cloud_fraction) over ALL members of the datatake group, including adjacent tiles that never cover the cell. v0_1 gates with only scenes whose frame geometry intersects the cell. Thresholds unchanged (coverage>=0.99, scene_cloud<=0.30).",
+  "note": "Bytes preserved for traceability; do not delete."
+}

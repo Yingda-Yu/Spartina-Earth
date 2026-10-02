@@ -48,6 +48,11 @@ S1_GROUP_RULE: str = "same_platform_pass_relorbit_mode_pol_date"
 SINGLE_SCENE_RULE: str = "single_scene"
 
 QA_BASIS: str = (
+    "CELLxEVENT_GEOMETRY_COVERAGE_PLUS_CONTRIBUTING_MEMBER_SCENE_CLOUD_"
+    "METADATA;PIXEL_SCL_QA_DEFERRED_TO_M21B"
+)
+# Legacy (v0) basis string kept for provenance checks on superseded files.
+QA_BASIS_V0_GROUPWIDE: str = (
     "CELLxEVENT_GEOMETRY_COVERAGE_PLUS_MEMBER_SCENE_CLOUD_METADATA;"
     "PIXEL_SCL_QA_DEFERRED_TO_M21B"
 )
@@ -56,6 +61,13 @@ CLOUD_GATE_PASS: str = "PASS"
 CLOUD_GATE_FAIL: str = "FAIL_SCENE_CLOUD"
 CLOUD_GATE_NA: str = "NOT_APPLICABLE_SAR"
 CLOUD_GATE_MISSING: str = "FAIL_CLOUD_METADATA_MISSING"
+
+# M2.1a2-R1: the pair-level cloud gate uses only member scenes whose own
+# frame geometry actually intersects that cell. A cloudy adjacent tile in
+# the same datatake group that never covers the cell must not poison that
+# cell's event (marker S2_2022_ZERO_WAS_GROUPWIDE_CLOUD_BUG).
+CLOUD_GATE_BASIS_CONTRIBUTING: str = "CONTRIBUTING_MEMBER_SCENES"
+CLOUD_GATE_BASIS_NA: str = "NA_SAR"
 
 # Frame-geometry regimes. Landsat 7 kept acquiring nominal science images
 # until 2024-01-19 after the April 2022 disposal burns lowered its orbit by
@@ -412,9 +424,15 @@ CELL_OBSERVATION_COLUMNS: tuple[str, ...] = (
     "event_date",
     "day_of_year",
     "n_member_scenes",
+    "contributing_n_scenes",
+    "contributing_scene_ids",
     "coverage_fraction",
+    "single_frame_max_coverage",
     "member_scene_cloud_max",
+    "contributing_cloud_max",
     "cloud_gate",
+    "groupwide_cloud_gate",
+    "cloud_gate_basis",
     "coverage_gate",
     "window_ids",
     "window_layer",
@@ -463,8 +481,12 @@ def simulate_cell_observations(
     """One QA row per cell x intersecting group.
 
     Coverage is group-footprint coverage of the fixed cell (>= 0.99 gate).
-    For optical sensors every member scene contributing geometry must pass
-    the (unchanged) scene-level cloud threshold; S1 has no cloud gate.
+    The optical cloud gate (unchanged scene-level threshold) is evaluated
+    per pair over ONLY the member scenes whose own frame geometry actually
+    intersects that cell (``contributing_scene_ids``); non-covering cloudy
+    tiles in the same datatake group cannot poison the pair. The pre-R1
+    group-wide verdict is retained in ``groupwide_cloud_gate`` for audit.
+    S1 has no cloud gate.
     """
     cell_geoms: dict[str, BaseGeometry] = {}
     from spartina.data.zhejiang.cells import cell_polygon, grid_spec
@@ -476,36 +498,72 @@ def simulate_cell_observations(
     # bucket cells by size for STRtree-free linear scan (few hundred cells)
     rows: list[dict[str, Any]] = []
     thresholds = f"coverage>={coverage_min};scene_cloud<={scene_cloud_max}"
+
+    def _gate(max_cloud: float | None) -> str:
+        if group.sensor == "sentinel1":
+            return CLOUD_GATE_NA
+        if max_cloud is None:
+            return CLOUD_GATE_MISSING
+        if max_cloud <= scene_cloud_max:
+            return CLOUD_GATE_PASS
+        return CLOUD_GATE_FAIL
+
     for group in groups:
         footprint = group_footprint(group, frames)
         fp_prep = prep(footprint)
-        member_clouds = [
+        # group-wide (legacy v0) cloud verdict — diagnostic only
+        groupwide_clouds = [
             scenes_by_id[sid].get("scene_cloud_fraction")
             for sid in group.member_scene_ids
             if sid in scenes_by_id
         ]
-        clouds = [c for c in member_clouds
-                  if isinstance(c, int | float)]
-        cloud_max = max(clouds) if clouds else None
-        if group.sensor == "sentinel1":
-            cloud_gate = CLOUD_GATE_NA
-        elif cloud_max is None:
-            cloud_gate = CLOUD_GATE_MISSING
-        elif cloud_max <= scene_cloud_max:
-            cloud_gate = CLOUD_GATE_PASS
-        else:
-            cloud_gate = CLOUD_GATE_FAIL
+        gw_numeric = [c for c in groupwide_clouds
+                      if isinstance(c, int | float)]
+        cloud_max = max(gw_numeric) if gw_numeric else None
+        groupwide_cloud_gate = _gate(cloud_max)
+
+        # per-member own frame geometry
+        member_frames: list[tuple[str, BaseGeometry]] = []
+        for sid in group.member_scene_ids:
+            scene = scenes_by_id.get(sid)
+            if scene is None:
+                continue
+            fgeom = frames.get(frame_key(scene))
+            if fgeom is not None:
+                member_frames.append((sid, fgeom))
 
         event_dt = parse_utc(group.event_utc_start)
         doy = event_dt.timetuple().tm_yday if event_dt else None
         window_ids = windows_from_scene(doy, windows)
+        window_layer = "|".join(sorted({
+            w.get("layer", "season") for w in windows
+            if w["id"] in (window_ids.split("|") if window_ids else [])
+        }))
         for cell in cells:
             geom = cell_geoms[cell.cell_id]
             if not fp_prep.intersects(geom):
                 continue
-            coverage = float(
-                geom.intersection(footprint).area / geom.area)
+            cell_area = geom.area
+            coverage = float(geom.intersection(footprint).area / cell_area)
             coverage_gate = coverage >= coverage_min
+            single_cov = 0.0
+            contributing_ids: list[str] = []
+            for sid, fgeom in member_frames:
+                if fgeom.intersects(geom):
+                    contributing_ids.append(sid)
+                    single_cov = max(
+                        single_cov,
+                        float(geom.intersection(fgeom).area / cell_area))
+            contrib_clouds = [
+                scenes_by_id[sid].get("scene_cloud_fraction")
+                for sid in contributing_ids
+                if sid in scenes_by_id
+            ]
+            contrib_numeric = [c for c in contrib_clouds
+                               if isinstance(c, int | float)]
+            contributing_cloud_max = (
+                max(contrib_numeric) if contrib_numeric else None)
+            cloud_gate = _gate(contributing_cloud_max)
             quality = bool(
                 coverage_gate
                 and cloud_gate in (CLOUD_GATE_PASS, CLOUD_GATE_NA))
@@ -519,16 +577,23 @@ def simulate_cell_observations(
                 "event_date": group.event_date,
                 "day_of_year": doy,
                 "n_member_scenes": group.n_scenes,
+                "contributing_n_scenes": len(contributing_ids),
+                "contributing_scene_ids": "|".join(sorted(contributing_ids)),
                 "coverage_fraction": round(coverage, 6),
+                "single_frame_max_coverage": round(single_cov, 6),
                 "member_scene_cloud_max": (
                     round(cloud_max, 6) if cloud_max is not None else None),
+                "contributing_cloud_max": (
+                    round(contributing_cloud_max, 6)
+                    if contributing_cloud_max is not None else None),
                 "cloud_gate": cloud_gate,
+                "groupwide_cloud_gate": groupwide_cloud_gate,
+                "cloud_gate_basis": (
+                    CLOUD_GATE_BASIS_NA if group.sensor == "sentinel1"
+                    else CLOUD_GATE_BASIS_CONTRIBUTING),
                 "coverage_gate": bool(coverage_gate),
                 "window_ids": window_ids,
-                "window_layer": "|".join(sorted({
-                    w.get("layer", "season") for w in windows
-                    if w["id"] in (window_ids.split("|") if window_ids else [])
-                })),
+                "window_layer": window_layer,
                 "quality_pass": quality,
                 "geometry_regime": group.geometry_regime,
                 "qa_thresholds": thresholds,

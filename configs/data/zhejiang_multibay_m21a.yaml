@@ -505,10 +505,16 @@ m21a2_manifests:
   analysis_cells: datasets/manifests/zhejiang_analysis_cells_v0.csv
   frame_registry: datasets/manifests/zhejiang_eo_frame_footprints_v0.geojson
   acquisition_groups: datasets/manifests/zhejiang_acquisition_group_simulation_v0.parquet
-  cell_observations: work/derived/zhejiang_cell_observations_v0.parquet
-  s2_recovery: datasets/manifests/zhejiang_s2_recovery_v0.csv
-  label_cell_overlap: datasets/manifests/zhejiang_label_cell_overlap_v0.csv
-  hzb_label_disagreement: datasets/manifests/zhejiang_hzb_label_disagreement_v0.csv
-  export_volume_estimate: datasets/manifests/zhejiang_export_volume_estimate_v0.csv
+  cell_observations: work/derived/zhejiang_cell_observations_v0_1.parquet  # M2.1a2-R1 contributing-scene gate; v0 superseded
+  cell_observation_stats: datasets/manifests/zhejiang_cell_observation_stats_v0_1.csv
+  monthly_availability: datasets/manifests/zhejiang_monthly_availability_v0_1.csv
+  s2_recovery: datasets/manifests/zhejiang_s2_recovery_v0_1.csv
+  label_cell_overlap: datasets/manifests/zhejiang_label_cell_overlap_v0_1.csv  # bay-scoped; v0 (full-square) superseded
+  label_bay_reconciliation: datasets/manifests/zhejiang_label_bay_reconciliation_v0_1.csv
+  hzb_label_disagreement: datasets/manifests/zhejiang_hzb_label_disagreement_v0_1.csv
+  s2_2022_funnel_audit: datasets/manifests/zhejiang_s2_2022_funnel_audit_v0.csv
+  s2_2022_spotcheck: datasets/manifests/zhejiang_s2_2022_spotcheck_v0.csv
+  s1_footprint_audit: datasets/manifests/zhejiang_s1_footprint_audit_v0.csv
+  export_volume_estimate: datasets/manifests/zhejiang_export_volume_estimate_v0_1.csv
   label_rights: datasets/manifests/zhejiang_label_rights_v0.csv
   coastal_state_example: datasets/manifests/zhejiang_coastal_state_example_v0.csv
