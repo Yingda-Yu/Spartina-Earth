@@ -405,3 +405,110 @@ census:
   footprint_coverage_min: 0.99
   s1_orbits_kept_separate: [ASCENDING, DESCENDING]
   scene_table_path: datasets/manifests/zhejiang_eo_scene_census_v0.parquet
+
+# ---------------------------------------------------------------------------
+# M2.1a2 (Issue #12): fixed observation units + acquisition groups.
+# Metadata/geometry/policy/simulation only; no pixel production.
+# ---------------------------------------------------------------------------
+m21a2:
+  stage: M2.1a2
+  issue: 12
+  envelope_status: PROVISIONAL_BAY_ENVELOPE_V0
+  grid:
+    grid_id: ZJ_U51_FIXED_V0
+    crs: EPSG:32651
+    anchor_easting_m: 0        # UTM zone origin; one Zhejiang-wide anchor
+    anchor_northing_m: 0
+    candidate_cell_sizes_m: [5000, 10000, 20000]
+    recommended_cell_size_m: 10000
+    recommendation_status: RECOMMENDED_NOT_FROZEN
+  # Target-independent relevance: GSHHG land/ocean interface buffered by
+  # this half-width. Labels never decide the sampling frame (section 7-8).
+  coastal_relevance:
+    method: coastline_interface_buffer
+    evidence: GSHHG_v2.3.7_L1_mean_shoreline
+    belt_half_width_m: 5000
+    intertidal_product: NOT_INVENTORIED_AT_M21A2
+    wetland_product: NOT_INVENTORIED_AT_M21A2
+    dem_inundation_product: NOT_INVENTORIED_AT_M21A2
+  cell_qa:
+    # QA unit is cell x observation_event; thresholds UNCHANGED from M2.1a.
+    coverage_min: 0.99
+    scene_cloud_max: 0.30
+    threshold_status: UNCHANGED_NOT_RELAXED
+    s2_scl_qa_policy: s2_scl_qa_v1_1
+    pixel_qa_status: DEFERRED_TO_M21B
+  s2_grouping:
+    primary_key: DATATAKE_IDENTIFIER
+    fallback: same_spacecraft_same_utc_date_same_relative_orbit
+    cross_date_mosaic: FORBIDDEN
+  landsat_grouping:
+    rule: same_sensor_same_utc_date_wrs_adjacent_manhattan1
+    cross_date_mosaic: FORBIDDEN
+  s1_grouping:
+    keep_separate: [platform, orbit_direction, relative_orbit,
+                    instrument_mode, polarization, utc_date]
+    asc_desc_mixing: FORBIDDEN
+  frame_registry:
+    # representative scene geometry per fixed frame key; metadata-only.
+    status: PROVISIONAL_REPRESENTATIVE_FRAME_GEOMETRY
+    path: datasets/manifests/zhejiang_eo_frame_footprints_v0.geojson
+  s2_datatake_supplement:
+    path: datasets/manifests/zhejiang_s2_datatake_supplement_v0.parquet
+    retrieval_note: >
+      region-wide annual metadata getInfo only (10 calls); property
+      availability verified before use; census scene table itself is not
+      modified.
+  production_estimate_tiers: [minimal, standard, full_candidate_archive]
+
+# Season windows used for the M2.1a2 cell-level replay. v0 windows are the
+# predeclared M2.1a windows; v1 candidates are the biology-led
+# PROPOSED_NOT_FROZEN windows from the phenology revisit. The layer tag
+# separates BIOLOGICAL_TARGET_PHASE from SENSOR_AVAILABILITY_WINDOW.
+season_windows_m21a2:
+  - {id: autumn_v0, doy_start: 260, doy_end: 305, layer: v0_predeclared}
+  - {id: summer_v0, doy_start: 152, doy_end: 212, layer: v0_predeclared}
+  - {id: autumn_primary_v1, doy_start: 260, doy_end: 320,
+     layer: biological_target_phase, status: PROPOSED_NOT_FROZEN}
+  - {id: early_season_v1, doy_start: 110, doy_end: 150,
+     layer: biological_target_phase, status: PROPOSED_NOT_FROZEN}
+# Sensor availability windows from the REAL census monthly replay
+# (zhejiang_monthly_availability_v0.csv, 10 km cells, cloud/SAR-pass
+# acquisition groups summed 2017-2026). S2 cloud-pass groups per bay are
+# highest Nov-Mar (Dec 32-37, Jan 26-32 summed over 10 years) and lowest
+# Jun-Jul (2-4). These windows describe DATA AVAILABILITY only; the
+# biological target phase decides scientific timing. Layer separation is
+# mandatory; availability never redefines the phenological target.
+sensor_availability_windows_m21a2:
+  climatology_role: CONTEXT_ONLY_NOT_GATE  # CERES demoted
+  windows:
+    - {id: clear_optimal_early_v1, doy_start: 1, doy_end: 90,
+       layer: sensor_availability_window, status: PROPOSED_NOT_FROZEN,
+       evidence: zhejiang_monthly_availability_v0.csv}
+    - {id: clear_optimal_late_v1, doy_start: 305, doy_end: 365,
+       layer: sensor_availability_window, status: PROPOSED_NOT_FROZEN,
+       evidence: zhejiang_monthly_availability_v0.csv}
+    - {id: cloudy_constrained_v1, doy_start: 121, doy_end: 212,
+       layer: sensor_availability_window, status: PROPOSED_NOT_FROZEN,
+       note: "May-Jul optical scarcity; SAR bridge required; early_season_v1
+         biological window (DOY 110-150) sits at the edge of this trough"}
+
+landsat7_extended_science_mission:
+  nominal_wrs_end_inclusive: 2022-03-31
+  lower_orbit_start: 2022-04-01
+  last_nominal_science_image: 2024-01-19
+  geometry_regime_tag: L7_EXTENDED_SCIENCE_MISSION_LOWER_ORBIT_WRS_APPROXIMATION
+  production_policy: EXCLUDE_FROM_M21B_NOMINAL_PRODUCTION_PENDING_REVIEW
+  source: usgs.gov/centers/eros EROS Landsat 7 C2 L1 page, retrieved 2026-10-02
+
+m21a2_manifests:
+  analysis_cells: datasets/manifests/zhejiang_analysis_cells_v0.csv
+  frame_registry: datasets/manifests/zhejiang_eo_frame_footprints_v0.geojson
+  acquisition_groups: datasets/manifests/zhejiang_acquisition_group_simulation_v0.parquet
+  cell_observations: work/derived/zhejiang_cell_observations_v0.parquet
+  s2_recovery: datasets/manifests/zhejiang_s2_recovery_v0.csv
+  label_cell_overlap: datasets/manifests/zhejiang_label_cell_overlap_v0.csv
+  hzb_label_disagreement: datasets/manifests/zhejiang_hzb_label_disagreement_v0.csv
+  export_volume_estimate: datasets/manifests/zhejiang_export_volume_estimate_v0.csv
+  label_rights: datasets/manifests/zhejiang_label_rights_v0.csv
+  coastal_state_example: datasets/manifests/zhejiang_coastal_state_example_v0.csv
