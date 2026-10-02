@@ -161,3 +161,27 @@ HZB 同期 SILVER/WEAK 分歧、YQB 2015 SILVER vs 2019–2021 CMSA WEAK 时间
 - 不把信封重标为权威边界、不派生真实岸线、不部署潮汐模型；
 - 不把 UNLABELED 当负样本、不把任何标签晋升 GOLD；
 - 不据模拟结果回头放宽 0.99 / 0.30 阈值（阈值未改，仅改 QA 空间单元）。
+
+---
+
+## 9. M2.1a2-R1 修订（2026-10-03）：cell_geometry vs bay_clip_geometry
+
+Issue #12 三 blocker 之 SMB 标签矛盾闭合（标记
+`M21A_SMB_ZERO_WAS_MASK_FAILURE`、`CELL_EDGE_BLEED_CONFIRMED`）。详见
+`ZHEJIANG_M21A2_R1_AUDIT.md`。
+
+1. **两种几何、两个用途**
+   - `cell_geometry`：完整固定方格，承担稳定身份、归档、空间不相交
+     split / leakage 控制、观测记账。
+   - `bay_clip_geometry = cell_geometry n PROVISIONAL_BAY_ENVELOPE_V0`：
+     湾域标签统计与归属的权威几何
+     （`cell_label_status_bay_scoped`）。信封外部分记为
+     `*_outside_bay_in_cell`，不静默丢弃。
+2. 标签计数以 v0_1 为准（10 km，SILVER-bearing：HZB 13 / SMB 17 /
+   YQB 11）；v0 全方格产物字节保留并挂 SUPERSEDED sidecar。
+3. 每个独立格网（5/10/20 km）各自铺满信封，跨尺寸求和等于重复计数；
+   对账按尺寸分别进行，54/54 行在 1% 栅格化容差内 MATCH。
+4. **10 km cell 不是训练 chip**。M2.1b 的 256/512 patch 必须带
+   `parent_cell_id`；split 归属在 cell 层决定，patch 不得跨组泄漏。
+5. 信封仍为 PROVISIONAL；信封修订时 clip 产品重新版本化。
+   UNLABELED 永不写为 NEGATIVE；分歧层仅诊断；本轮零 GOLD 晋升。

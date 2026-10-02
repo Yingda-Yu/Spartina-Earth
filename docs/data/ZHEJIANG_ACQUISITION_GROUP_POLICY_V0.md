@@ -141,3 +141,42 @@ minimal/standard 生产估算排除这些场景，full 档保留。所有 2003-0
 - 不用场景级云量替代像元 SCL QA（M2.1b 才做）；
 - 不在 M2.1a2 冻结 split、不导出像素、不排除 SLC-off/扩展任务数据
   出档（只标记，生产档策略单列且待验收）。
+
+---
+
+## 9. M2.1a2-R1 修订（2026-10-03）
+
+### 9.1 光学云门限：仅计入实际贡献该 cell 的成员景
+
+Issue #12 blocker 2 判定：`ZERO_WAS_PIPELINE_BUG`
+（`S2_2022_ZERO_WAS_GROUPWIDE_CLOUD_BUG`）。v0 对 datatake 组内**全部**
+成员景取 `max(scene_cloud_fraction)`，包括几何上根本不覆盖该 cell 的
+邻瓦片，污染整个组。修正后（v0_1，阈值 0.99 / 0.30 不变）：
+
+- 对每个 cell x group 对，仅对自身帧几何与该 cell 相交的成员景
+  （`contributing_scene_ids`）取云量 max；
+- 保留全组口径诊断列 `member_scene_cloud_max` /
+  `groupwide_cloud_gate`，`cloud_gate_basis=CONTRIBUTING_MEMBER_SCENES`；
+- 覆盖该 cell 的景缺云量仍判 `FAIL_CLOUD_METADATA_MISSING`，不得被
+  邻瓦清晰所救；S1 为 `NOT_APPLICABLE_SAR`。
+
+影响范围：全部多帧光学组、全部年份（1986–2026 共 31,135 个 10 km
+对被误拒；10 km 质量对 56,096 -> 87,231）。stats / monthly / recovery /
+export-volume / cell-observations 均重算为 v0_1，v0 挂 SUPERSEDED
+sidecar；acquisition group manifest 字节不变（分组本身未变）。
+
+像元 SCL QA 仍 DEFERRED 到 M2.1b；它无法解释也不会消除本次几何误归属。
+
+### 9.2 Sentinel-1 双几何政策
+
+`S1_REPRESENTATIVE_FOOTPRINT_NOT_PRODUCTION_GEOMETRY`。60 景 IW 确定性
+抽样（1,301 个 cell 对）实测：coverage MAE 0.559、P95/max 1.0、
+false eligible 207、false rejected 474；代表性多边形存在数十至约
+200 km 偏移（ASC171）及 ~179,000 km2 的异常大框（DESC105）。
+
+- 代表性帧（`S1:<direction>:<relorbit>`）：仅作 planning / prefilter
+  估算，不得静默作为最终对几何；
+- **实际逐景 GEE 足迹：M2.1b 生产资格与 QA 的唯一几何依据**；
+- EW 模式（洋区超宽幅，16 行）不纳入沿岸生产规划，审计只抽 IW。
+
+证据与指纹见 `ZHEJIANG_M21A2_R1_AUDIT.md`。
