@@ -1,0 +1,18 @@
+{
+  "audit": "zhejiang_s1_footprint_audit_v0",
+  "marker": "S1_REPRESENTATIVE_FOOTPRINT_NOT_PRODUCTION_GEOMETRY",
+  "sample_n_scenes": 60,
+  "cell_size_m": 10000,
+  "coverage_gate_unchanged": 0.99,
+  "overall": {
+    "coverage_mae": 0.558536,
+    "coverage_p95_abs_error": 1.0,
+    "coverage_max_abs_error": 1.0,
+    "false_eligible_approx_only": 207,
+    "false_rejected_actual_only": 474
+  },
+  "production_footprint_policy": "Actual per-scene GEE geometry is the production eligibility geometry: the representative-frame approximation disagrees with the 0.99 coverage decision on at least one sampled cell. Representative frames remain a cheap planning / prefilter estimate only and must never be silently used as the final pair geometry.",
+  "approx_status": "PLANNING_PREFILTER_ONLY",
+  "actual_status": "PRODUCTION_ELIGIBILITY_AND_QA",
+  "metadata_only": true
+}
