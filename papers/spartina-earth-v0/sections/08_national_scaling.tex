@@ -49,19 +49,22 @@ hash, and coastal-relevance metadata; label-derived entry conditions
 are forbidden.
 
 \subsection{Label-overlay flags and exclusive strata}
-Labels enter the domain strictly as overlays. Each cell carries five
-\emph{independent boolean flags}---2015 SILVER positive, 2015 nearby
-(one fixed 10\,km lattice ring), CM-SSM 2020 positive, CMSA history
-available (not built: the archive is registration-gated), and
-unlabeled in the products obtained---so overlapping evidence is not
-collapsed. An exclusive priority stratum is derived from the flags for
-sampling design; at the provisional width 406 cells intersect the 2015
-raster, 812 additional cells are 2015-nearby-only, 385 cells intersect
-CM-SSM 2020, and 482 cells are positive in at least one obtained
-product. The remaining 2{,}913 cells are unlabeled coastal cells: this
-is absence of evidence in the products obtained, never an ecological
-negative. Management-evidence and GOLD strata remain designed but not
-built (no verifiable spatial management ledger exists; GOLD\,=\,0).
+Labels enter the domain strictly as overlays. Each cell carries seven
+\emph{orthogonal boolean flags}---2015 SILVER positive (406 cells),
+CM-SSM 2020 positive (385), 2015 nearby (one fixed 10\,km lattice band;
+812), multi-product positive (both products; 309), plus three
+schema-reserved flags that are empty at v0: GOLD evidence, CMSA history
+(the archive is registration-gated), and management evidence---so
+overlapping evidence is never collapsed. For sampling we additionally
+derive one \emph{exclusive priority stratum} per cell, whose counts
+partition the 3{,}319-cell domain exactly: 309 multi-product positive,
+97 positive only in 2015, 76 positive only in 2020, 742 near-positive
+unlabeled, and 2{,}095 other coastal unlabeled cells (482 cells are
+positive in at least one obtained product). The 2{,}837 cells without
+positive evidence are absence of evidence in the products obtained,
+never an ecological negative. Management-evidence and GOLD strata
+remain designed but not built (no verifiable spatial management ledger
+exists; GOLD\,=\,0).
 
 \subsection{Metadata census through footprint indexing}
 The national census is metadata-only by construction and forbids

@@ -1,18 +1,38 @@
 {
   "artifact": "china_national_cell_strata",
   "version": "v0",
-  "generated_utc": "2026-10-03T10:53:56+00:00",
-  "git_commit": "2a0b35cc107fb0b8eb95711dcb0e98fb0da3886b",
+  "schema": "orthogonal_boolean_flags_plus_exclusive_priority_strata",
+  "generated_utc": "2026-10-03T13:55:27+00:00",
+  "git_commit": "266ed6bf66b5eb7b8cb20d610e1eaf2c56a01433",
+  "priority_order": [
+    "GOLD_EVIDENCE",
+    "MULTI_PRODUCT_SILVER_POSITIVE",
+    "SILVER_2015_POSITIVE_ONLY",
+    "CMSSM_2020_POSITIVE_ONLY",
+    "NEAR_SILVER_UNLABELED",
+    "UNLABELED_COASTAL"
+  ],
+  "boolean_flags": [
+    "gold_evidence",
+    "silver_2015_positive",
+    "cmssm_2020_positive",
+    "silver_2015_nearby",
+    "multi_product_positive",
+    "cmsa_positive_history",
+    "management_evidence_available"
+  ],
+  "designed_not_build_flags": {
+    "gold_evidence": "requires field/UAV/expert-verified campaign data",
+    "cmsa_positive_history": "CMSA archive not obtained (6.16 GB, purpose-declaration download)",
+    "management_evidence_available": "no management source registry yet"
+  },
   "tier_discipline": {
-    "SILVER_2015_POSITIVE": "SILVER: published 30 m map product, not field-verified by us",
-    "CMSSM_2020_POSITIVE": "SILVER: published sub-meter map, official archive byte-verified",
-    "SILVER_2015_NEARBY": "derived flag, one 10 km lattice ring, fixed a priori",
+    "MULTI_PRODUCT_SILVER_POSITIVE": "SILVER in two products (2015 30 m raster and 2020 CM-SSM); not field-verified by us",
+    "SILVER_2015_POSITIVE_ONLY": "SILVER: published 30 m map product, not field-verified by us",
+    "CMSSM_2020_POSITIVE_ONLY": "SILVER: published sub-meter map, official archive byte-verified",
+    "NEAR_SILVER_UNLABELED": "one 10 km lattice ring from a 2015-positive cell; no positive evidence in either obtained product",
     "UNLABELED_COASTAL": "absence of evidence in obtained products; NOT an ecological negative",
-    "CMSA_POSITIVE_HISTORY": "DESIGNED_NOT_BUILD: CMSA archive not obtained (6.16 GB, purpose-declaration download)",
-    "MANAGEMENT_EVIDENCE_AVAILABLE": [
-      "DESIGNED_NOT_BUILD: no management source registry yet"
-    ],
-    "GOLD_EVIDENCE_TARGET": "DESIGNED_NOT_BUILD: requires field/UAV/verified campaign data"
+    "GOLD_EVIDENCE": "DESIGNED_NOT_BUILD at v0"
   },
   "sources": {
     "silver2015_raster": "old datasets/30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
@@ -28,39 +48,86 @@
     "windows_checked_W20000": 3314
   },
   "nearby_radius_m": 10000,
+  "nearby_ring_cells_by_width": {
+    "5000": 2,
+    "10000": 1,
+    "20000": 1
+  },
   "widths": [
     {
       "width_m": 5000,
       "coastal_cells": 2542,
-      "silver_2015_positive_cells": 394,
-      "silver_2015_nearby_only_cells": 642,
-      "cmssm_2020_positive_cells": 375,
+      "priority_stratum_counts": {
+        "GOLD_EVIDENCE": 0,
+        "MULTI_PRODUCT_SILVER_POSITIVE": 303,
+        "SILVER_2015_POSITIVE_ONLY": 91,
+        "CMSSM_2020_POSITIVE_ONLY": 72,
+        "NEAR_SILVER_UNLABELED": 888,
+        "UNLABELED_COASTAL": 1188
+      },
+      "orthogonal_flag_cells": {
+        "gold_evidence": 0,
+        "silver_2015_positive": 394,
+        "cmssm_2020_positive": 375,
+        "silver_2015_nearby": 958,
+        "multi_product_positive": 303,
+        "cmsa_positive_history": 0,
+        "management_evidence_available": 0
+      },
       "silver_or_cmssm_positive_cells": 466,
-      "unlabeled_coastal_cells": 2148,
+      "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
       "strata_csv": "strata_china_albers_W5000.csv",
-      "strata_csv_sha256": "8b7344653097cd141011a8f53f3564f7d29d7bc074840e8f7372d234bb40e8fd"
+      "strata_csv_sha256": "7b828b6d7ab52c43e820f163f1dd25b640a2ba9c4f21e026b10d7d606c901c82"
     },
     {
       "width_m": 10000,
       "coastal_cells": 3319,
-      "silver_2015_positive_cells": 406,
-      "silver_2015_nearby_only_cells": 812,
-      "cmssm_2020_positive_cells": 385,
+      "priority_stratum_counts": {
+        "GOLD_EVIDENCE": 0,
+        "MULTI_PRODUCT_SILVER_POSITIVE": 309,
+        "SILVER_2015_POSITIVE_ONLY": 97,
+        "CMSSM_2020_POSITIVE_ONLY": 76,
+        "NEAR_SILVER_UNLABELED": 742,
+        "UNLABELED_COASTAL": 2095
+      },
+      "orthogonal_flag_cells": {
+        "gold_evidence": 0,
+        "silver_2015_positive": 406,
+        "cmssm_2020_positive": 385,
+        "silver_2015_nearby": 812,
+        "multi_product_positive": 309,
+        "cmsa_positive_history": 0,
+        "management_evidence_available": 0
+      },
       "silver_or_cmssm_positive_cells": 482,
-      "unlabeled_coastal_cells": 2913,
+      "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
       "strata_csv": "strata_china_albers_W10000.csv",
-      "strata_csv_sha256": "a78362e5caee518458fc83d9325d62f23f697c1754462a4ad0582f8625defcd9"
+      "strata_csv_sha256": "998d5f61f160b57406c4933e8120837e505ece7def69d47c29fbbacdf579a430"
     },
     {
       "width_m": 20000,
       "coastal_cells": 4767,
-      "silver_2015_positive_cells": 411,
-      "silver_2015_nearby_only_cells": 812,
-      "cmssm_2020_positive_cells": 387,
+      "priority_stratum_counts": {
+        "GOLD_EVIDENCE": 0,
+        "MULTI_PRODUCT_SILVER_POSITIVE": 311,
+        "SILVER_2015_POSITIVE_ONLY": 100,
+        "CMSSM_2020_POSITIVE_ONLY": 76,
+        "NEAR_SILVER_UNLABELED": 817,
+        "UNLABELED_COASTAL": 3463
+      },
+      "orthogonal_flag_cells": {
+        "gold_evidence": 0,
+        "silver_2015_positive": 411,
+        "cmssm_2020_positive": 387,
+        "silver_2015_nearby": 887,
+        "multi_product_positive": 311,
+        "cmsa_positive_history": 0,
+        "management_evidence_available": 0
+      },
       "silver_or_cmssm_positive_cells": 487,
-      "unlabeled_coastal_cells": 4356,
+      "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
       "strata_csv": "strata_china_albers_W20000.csv",
-      "strata_csv_sha256": "d996c76292d65beec5161d370e1b248e379fb4db5661be2c24a5d24be4c9ce92"
+      "strata_csv_sha256": "191473e2c8dabe43e7b3b1015df2568f038a1ba000c97c91c34e81f103a8f19b"
     }
   ]
 }

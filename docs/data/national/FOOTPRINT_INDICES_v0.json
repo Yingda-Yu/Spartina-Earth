@@ -1,0 +1,76 @@
+{
+  "artifact": "wrs2_descending_footprint_index",
+  "version": "v0",
+  "generated_utc": "2026-10-03T14:05:07+00:00",
+  "git_commit": "266ed6bf66b5eb7b8cb20d610e1eaf2c56a01433",
+  "role": "nominal cheap spatial prefilter for Landsat cell joins",
+  "source": {
+    "publisher": "U.S. Geological Survey (USGS) Landsat Missions",
+    "page": "https://www.usgs.gov/landsat-missions/landsat-shapefiles-and-kml-files",
+    "download_url": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/WRS2_descending_0.zip",
+    "file": "WRS2_descending.zip",
+    "zip_sha256": "9e6467f7709999683a41a71f9b0e388b6b84a5f59732ca797c5266c72eb9ce76",
+    "license": "USGS Public Domain"
+  },
+  "sensor_era_rules": {
+    "nominal_windows": {
+      "landsat5": {
+        "start": "1984-03-01",
+        "end": "2013-06-05",
+        "note": "Landsat 5 TM: launch 1984-03-01; decommissioned 2013-06-05; acquisition gap ~2011-11-18 to 2012-05-10 (X-band transmitter)"
+      },
+      "landsat7": {
+        "start": "1999-04-15",
+        "end": "2024-01-19",
+        "note": "Landsat 7 ETM+: launch 1999-04-15; WRS-2 nominal science until 2022-04-05; Extended Science Mission from 2022-05-05; imaging suspended 2024-01-19; decommissioned 2025-06-04"
+      },
+      "landsat8": {
+        "start": "2013-02-11",
+        "end": null,
+        "note": "Landsat 8 OLI: launch/first light 2013-02-11; operational"
+      },
+      "landsat9": {
+        "start": "2021-09-27",
+        "end": null,
+        "note": "Landsat 9 OLI-2: launch 2021-09-27; public products from 2022-02"
+      },
+      "sentinel1": {
+        "start": "2014-10-03",
+        "end": null,
+        "note": "Sentinel-1A IW GRD on GEE from ~2014-10; 1B 2016-2021"
+      },
+      "sentinel2": {
+        "start": "2015-06-27",
+        "end": null,
+        "note": "Sentinel-2A from 2015-06-27; 2B from 2017-07; L1C/L2A on GEE"
+      }
+    },
+    "l7_slc_failure_utc": "2003-05-31",
+    "l7_nominal_wrs2_end_utc": "2022-04-05",
+    "l7_extended_science_mission_resume_utc": "2022-05-05",
+    "l7_extended_note": "from 2022-05-05 L7 acquired at 697 km off the WRS-2 ground track; nominal polygons must not gate those scenes"
+  },
+  "corridor": "work/national/domain/corridor_W10000.gpkg",
+  "n_frames_intersecting_corridor": 66,
+  "paths": [
+    114,
+    115,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126
+  ],
+  "rings_nok_frames": [],
+  "outputs": {
+    "index_csv": "wrs2_china_coast_index.csv",
+    "index_csv_sha256": "10d0966c3dbda73e8c9d7918d537d988aeb95e83b64ea82182cf5b276cbe0256",
+    "footprint_gpkg": "wrs2_china_coast.gpkg",
+    "footprint_gpkg_sha256": "365636c051a667b0754fe14b5352c7ab6a120ae62457f641cc2f2c1ab63c15d8"
+  }
+}

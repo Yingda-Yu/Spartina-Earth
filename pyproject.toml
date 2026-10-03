@@ -42,6 +42,7 @@ geo = [
     "geopandas>=1.0",
     "fiona>=1.10",
     "pyarrow>=17",
+    "mgrs>=1.5",
 ]
 # CUDA wheels come from https://download.pytorch.org/whl/cu118; see
 # environment/environment.yml (torch 2.5.1+cu118 is the frozen build).
@@ -81,5 +82,5 @@ warn_return_any = true
 # Third-party geo/ML libraries ship no type stubs in the frozen env;
 # missing imports are ignored per-module rather than weakening strictness.
 [[tool.mypy.overrides]]
-module = ["rasterio.*", "fiona.*", "geopandas.*", "shapely.*", "pandas.*", "osgeo.*", "scipy.*", "yaml.*", "sklearn.*", "joblib.*", "segmentation_models_pytorch.*", "transformers.*", "timm.*", "ee.*", "google.*", "googleapiclient.*"]
+module = ["rasterio.*", "fiona.*", "geopandas.*", "shapely.*", "pandas.*", "osgeo.*", "scipy.*", "yaml.*", "sklearn.*", "joblib.*", "segmentation_models_pytorch.*", "transformers.*", "timm.*", "ee.*", "google.*", "googleapiclient.*", "mgrs.*"]
 ignore_missing_imports = true

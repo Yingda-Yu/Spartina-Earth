@@ -57,3 +57,5 @@ dependencies:
       - huggingface-hub==0.36.2
       # M1.6 real GEE integration (Issue #6): official Earth Engine API
       - earthengine-api==1.7.46
+      # Issue #16 national footprint indices (MGRS standard geometry)
+      - mgrs==1.5.4
