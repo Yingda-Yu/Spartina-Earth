@@ -43,6 +43,7 @@ from spartina.data.national.scene_events import event_id
 WRS2_BASIS = "WRS2_NOMINAL_FRAME"
 MGRS_BASIS = "MGRS_NOMINAL_100KM_TILE"
 S1_BASIS = "S1_GRD_ACTUAL_GEE_FOOTPRINT"
+L7_EXTENDED_BASIS = "L7_EXTENDED_ACTUAL_FOOTPRINT"
 FULL_COVER = "FULL_CELL_COVERED"
 PARTIAL_COVER = "PARTIAL_CELL_OVERLAP"
 EXTENDED_L7 = "L7_EXTENDED_EXCLUDED_NO_NATIVE_GEOMETRY"
@@ -116,11 +117,18 @@ def join_landsat_family(
     scenes: pd.DataFrame,
     frames: gpd.GeoDataFrame,
     cells: gpd.GeoDataFrame,
+    extended_scenes: gpd.GeoDataFrame | None = None,
 ) -> tuple[pd.DataFrame, int]:
     """Join Landsat scenes via nominal WRS-2 frame polygons.
 
+    R1: when ``extended_scenes`` (L7 Extended Science Mission rows with
+    ACTUAL footprints) is supplied, those scenes are preserved and joined
+    to cells with their own geometry (``L7_EXTENDED_ACTUAL_FOOTPRINT``)
+    instead of being dropped. When it is ``None`` the v0 behaviour is
+    retained and the returned count is the number of excluded scenes.
+
     Returns the cell-event pairs and the number of L7 extended-mission
-    scenes excluded (their native geometry was not fetched).
+    scenes present in the input metadata.
     """
     frame_lookup = cast(
         pd.DataFrame, frames[["path", "row", "geometry"]].copy()
@@ -133,7 +141,13 @@ def join_landsat_family(
         is_l7 = cast(pd.Series, scenes["sensor"]) == "landsat7"
         nominal = cast(pd.Series, utc.map(lambda t: l7_footprint_is_nominal_wrs2(t)))
         extended = int((is_l7 & ~nominal).sum())
-        scenes = scenes[~(is_l7 & ~nominal)].copy()
+        if extended_scenes is None:
+            # v0 behaviour: extended rows have no native geometry here.
+            scenes = scenes[~(is_l7 & ~nominal)].copy()
+        else:
+            # R1: nominal frames join nominal scenes only; the extended
+            # rows reach cells through their actual geometry below.
+            scenes = scenes[~(is_l7 & ~nominal)].copy()
     merged = scenes.merge(frame_lookup, on=["path", "row"], how="inner")
     scene_gdf = gpd.GeoDataFrame(
         merged.drop(columns=["geometry_y"], errors="ignore"),
@@ -142,7 +156,7 @@ def join_landsat_family(
     )
     pairs = _pairwise_join(cast(gpd.GeoDataFrame, scene_gdf), cells)
     enriched = pairs.merge(
-        scenes[
+        scene_gdf[
             [
                 "event_id",
                 "sensor",
@@ -158,6 +172,29 @@ def join_landsat_family(
     )
     enriched["geometry_basis"] = WRS2_BASIS
     enriched["member_scene_count"] = 1
+    pair_frames: list[pd.DataFrame] = [enriched]
+
+    if extended_scenes is not None and len(extended_scenes) > 0:
+        ext = cast(gpd.GeoDataFrame, extended_scenes.to_crs("EPSG:4326"))
+        ext_pairs = _pairwise_join(
+            cast(
+                gpd.GeoDataFrame,
+                ext[["event_id", "geometry"]].copy(),
+            ),
+            cells,
+        )
+        ext_enriched = ext_pairs.merge(
+            ext[["event_id", "sensor", "utc", "year", "doy", "season_tag"]],
+            on="event_id",
+            how="left",
+        )
+        ext_enriched["frame_id"] = None
+        ext_enriched["geometry_basis"] = L7_EXTENDED_BASIS
+        ext_enriched["member_scene_count"] = 1
+        pair_frames.append(ext_enriched)
+
+    if len(pair_frames) > 1:
+        enriched = pd.concat(pair_frames, ignore_index=True, sort=False)
     return enriched, extended
 
 
@@ -245,8 +282,17 @@ def build_availability(
     year_start: int,
     year_end: int,
     failed_scopes: set[str],
+    partial_years: frozenset[int] = frozenset(),
+    cutoff_utc: str | None = None,
 ) -> pd.DataFrame:
-    """Cell x year x sensor availability over each sensor's operational span."""
+    """Cell x year x sensor availability over each sensor's operational span.
+
+    R1: years in ``partial_years`` (the frozen 2026 YTD census) are
+    emitted with ``year_status = PARTIAL_YEAR`` and the cutoff is
+    recorded; non-operational sensors in a partial year are emitted as
+    explicit ``SENSOR_NOT_OPERATIONAL`` rows (never conflated with zero
+    observations). Partial-year rows are excluded from chronic-gap logic.
+    """
     sensors = sorted(NOMINAL_WINDOWS)
     records: list[dict[str, Any]] = []
     events = cast(pd.DataFrame, cell_events).copy()
@@ -268,13 +314,27 @@ def build_availability(
     for sensor in sensors:
         for year in range(year_start, year_end + 1):
             scope = f"{sensor}:{year}"
+            is_partial = year in partial_years
+            year_status = "PARTIAL_YEAR" if is_partial else "FULL_YEAR"
             if not sensor_operational(sensor, year):
-                status = SENSOR_NOT_OPERATIONAL
-            elif scope in failed_scopes:
-                status = "QUERY_FAILED"
-            else:
-                status = None
-            if status == SENSOR_NOT_OPERATIONAL:
+                if not is_partial:
+                    continue
+                for cell_id in cells_list:
+                    records.append(
+                        {
+                            "cell_id": cell_id,
+                            "year": year,
+                            "sensor": sensor,
+                            "status": SENSOR_NOT_OPERATIONAL,
+                            "year_status": year_status,
+                            "census_cutoff_utc": cutoff_utc,
+                            "n_events": 0,
+                            "n_full_cover": 0,
+                            "n_autumn_events": 0,
+                            "first_utc": None,
+                            "last_utc": None,
+                        }
+                    )
                 continue
             for cell_id in cells_list:
                 record = lookup.get((cell_id, year, sensor))
@@ -284,7 +344,11 @@ def build_availability(
                             "cell_id": cell_id,
                             "year": year,
                             "sensor": sensor,
-                            "status": status or NO_SCENES_FOUND,
+                            "status": "QUERY_FAILED"
+                            if scope in failed_scopes
+                            else NO_SCENES_FOUND,
+                            "year_status": year_status,
+                            "census_cutoff_utc": cutoff_utc if is_partial else None,
                             "n_events": 0,
                             "n_full_cover": 0,
                             "n_autumn_events": 0,
@@ -301,6 +365,8 @@ def build_availability(
                             "status": "QUERY_FAILED"
                             if scope in failed_scopes
                             else METADATA_AVAILABLE,
+                            "year_status": year_status,
+                            "census_cutoff_utc": cutoff_utc if is_partial else None,
                             "n_events": int(cast(Any, record).n_events),
                             "n_full_cover": int(cast(Any, record).n_full_cover),
                             "n_autumn_events": int(cast(Any, record).n_autumn),
@@ -316,11 +382,23 @@ def chronic_gap_flags(
 ) -> pd.DataFrame:
     """Per cell x sensor: zero-event years, longest dry run, chronic flag."""
     rows: list[dict[str, Any]] = []
-    for (cell_id, sensor), group in availability.groupby(["cell_id", "sensor"]):
+    for (cell_id, sensor), group0 in availability.groupby(["cell_id", "sensor"]):
+        # R1: partial-year rows (2026 YTD) and non-operational years never
+        # count as zero-observation evidence.
+        group = cast(pd.DataFrame, group0)
+        if "year_status" in group.columns:
+            group = cast(
+                pd.DataFrame,
+                group[cast(pd.Series, group["year_status"]) != "PARTIAL_YEAR"],
+            )
+        group = cast(
+            pd.DataFrame,
+            group[cast(pd.Series, group["status"]) != SENSOR_NOT_OPERATIONAL],
+        )
         years = cast(pd.Series, group["year"]).tolist()
         zero_years = [
             int(y)
-            for y, n in zip(years, cast(pd.Series, group["n_events"]).tolist(), strict=False)
+            for y, n in zip(years, cast(pd.Series, group["n_events"]).tolist(), strict=True)
             if int(n) == 0
         ]
         longest = 0

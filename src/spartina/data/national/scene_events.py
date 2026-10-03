@@ -256,6 +256,8 @@ def _platform_s1(platform_number: object) -> str | None:
         return "Sentinel-1B"
     if platform_number == "C":
         return "Sentinel-1C"
+    if platform_number == "D":
+        return "Sentinel-1D"
     if isinstance(platform_number, str) and platform_number.startswith("Sentinel-1"):
         return platform_number
     return None

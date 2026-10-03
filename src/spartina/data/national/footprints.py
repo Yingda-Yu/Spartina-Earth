@@ -129,6 +129,42 @@ def l7_footprint_is_nominal_wrs2(when: datetime | date) -> bool:
     return l7_era(when) in L7_NOMINAL_WRS2_ERAS
 
 
+# --- mission phase / default-production eligibility (R1, Issue #16) ------
+
+NOMINAL_REPEAT_ORBIT: Final[str] = "NOMINAL_REPEAT_ORBIT"
+NOMINAL_OPERATIONAL: Final[str] = "NOMINAL_OPERATIONAL"
+OFF_NOMINAL_EXTENDED_MISSION: Final[str] = "OFF_NOMINAL_EXTENDED_MISSION"
+STANDBY_ORBIT_LOWERING_PHASE: Final[str] = "STANDBY_ORBIT_LOWERING"
+
+
+def mission_phase(sensor: str, when: datetime | date) -> str:
+    """R1 mission-phase tag carried by every scene-census row."""
+    if sensor == "landsat7":
+        era = l7_era(when)
+        if era == L7_EXTENDED_SCIENCE_MISSION:
+            return OFF_NOMINAL_EXTENDED_MISSION
+        if era == L7_STANDBY_ORBIT_LOWERING:
+            return STANDBY_ORBIT_LOWERING_PHASE
+        return NOMINAL_REPEAT_ORBIT
+    return NOMINAL_OPERATIONAL
+
+
+def default_production_eligible(sensor: str, when: datetime | date) -> bool:
+    """Whether the scene may enter the default production candidate pool.
+
+    Nominal-repeat-orbit sensors and nominal L7 eras are eligible.
+    Drifted Extended Science Mission scenes are not (off-nominal
+    geometry). The short 2022 standby/orbit-lowering gap is also not
+    eligible: WRS-2 alignment was no longer guaranteed and no native
+    geometry was fetched for those dates. Ineligible scenes remain in
+    the census with full provenance.
+    """
+    return mission_phase(sensor, when) in (
+        NOMINAL_REPEAT_ORBIT,
+        NOMINAL_OPERATIONAL,
+    )
+
+
 # --- sensor-era status for cell x year x sensor census -------------------
 
 SENSOR_NOT_OPERATIONAL: Final[str] = "SENSOR_NOT_OPERATIONAL"
