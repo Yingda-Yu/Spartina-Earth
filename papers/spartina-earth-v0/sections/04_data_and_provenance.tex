@@ -7,9 +7,10 @@ Level-2 surface reflectance (30\,m native; the long-term stream),
 Sentinel-2 \texttt{COPERNICUS/S2\_SR\_HARMONIZED}: only the four
 10\,m native bands (B2/B3/B4/B8) enter the pilot products, while 20\,m
 bands are excluded pending an explicit resampling policy. Sentinel-1
-\texttt{COPERNICUS/S1\_GRD} IW products (C-band, VV/VH; already
-calibrated to decibels by the product---a second $10\log_{10}$
-conversion is forbidden). Two streams are maintained deliberately: a
+\texttt{COPERNICUS/S1\_GRD} IW products (C-band, VV/VH; the
+collection's backscatter bands are already calibrated to decibels per
+GEE product documentation, so a second $10\log_{10}$ conversion is
+forbidden; peer-reviewed technical reference TODO\_CITATION). Two streams are maintained deliberately: a
 30\,m Landsat-era truth stream and a 10\,m Sentinel-era stream, with
 overlap years carrying both; historical Landsat pixels are never
 presented as 10\,m products. Harmonized Landsat--Sentinel data
@@ -18,26 +19,54 @@ justification. Sensor-quality references include Fmask-family cloud
 screening \citep{zhu2015fmask} and the Sentinel-2 scene-classification
 (SCL) layer.
 
-\subsection{National label evidence: the 2015 raster and 2020 CM-SSM}
-The principal national label is a packaged 30\,m raster nominally dated
-2015 (int16, EPSG:32650, nodata 255, value set $\{1\}$). Independent
-windowed recounts reproduce its value-attribute-table count:
-608{,}287 positive pixels, i.e.\ 547.4583\,km$^2$ in the product's
-UTM-50N planar convention. A second, vector product for nominal 2020
-(CM-SSM; 148{,}072 single-part polygons; 593.710\,km$^2$; documented
-OBIA/dissolve lineage) is not comparable to the raster: minimum mapping
-units differ (900\,m$^2$ pixel floor versus sub-100\,m$^2$ slivers,
-67.8\% of features below 100\,m$^2$; 2{,}402 self-intersecting rings),
-class definitions are undocumented, and province coverage differs. The
-headline difference of 46.25\,km$^2$ is therefore descriptive only; no
-change map is produced between them. Both products are classified
-\textsc{silver}: credible mapping products with known provenance gaps,
-not field-verified truth. Producer, class legend, exact acquisition
-dates, and redistribution terms for the 2015 raster are undocumented and
-remain open verification items; local rule/index-derived masks are
+\subsection{National label evidence: a heterogeneous product family}
+National Spartina labels are audited as a family of ten verified
+products rather than as a single truth layer
+(Table~\ref{tab:labelproducts}). The family spans the GEODATA 30\,m
+series (1990 and 2000 exist as order-gated portal records; 2015 is held
+locally; a 2020 30\,m record carries a title-versus-abstract metadata
+contradiction; no 2010 product was verified and none is fabricated),
+five annual 10\,m CMSA DeepLabv3+ layers for 2017--2021 available only
+behind purpose registration under CC BY-NC 4.0, and one sub-meter 2020
+product (CM-SSM). Each product is assigned an intended role---SILVER
+reference, external label, or high-resolution validation
+reference---and no product is promoted to GOLD.
+
+The principal local SILVER label remains the packaged 30\,m raster
+nominally dated 2015 (int16, EPSG:32650, nodata 255, value set
+$\{1\}$). Independent windowed recounts reproduce its
+value-attribute-table count: 608{,}287 positive pixels, i.e.\
+547.4583\,km$^2$ in the product's UTM-50N planar convention; its
+producer, class legend, exact acquisition dates, and redistribution
+terms remain undocumented open items. The CM-SSM vector product for
+2020 (148{,}072 single-part polygons; 59{,}370.98\,ha = 593.710\,km$^2$
+recomputed from geometry, matching the paper's 59{,}371\,ha) now has
+\emph{verified provenance}: all eight shapefile components of the local
+copy are byte-identical (SHA256) to the official Zenodo archive
+(10.5281/zenodo.16296823), and identity was established at file level,
+not from the coincidental area match. The archive's rights are
+recorded as a source-level conflict---CC BY 4.0 on Zenodo/DataCite
+versus CC BY-NC 4.0 on the NESDC mirror---and the more permissive term
+is not assumed.
+
+The 2015 raster and the 2020 CM-SSM vector must not be differenced into
+a 2015$\rightarrow$2020 expansion. Their resolution (30\,m versus
+0.9\,m), mapping method (OBIA/SVM with expert editing versus
+multi-scale OSPPF object-based segmentation, Random Forest and manual
+refinement on 0.9\,m Google Earth RGB plus 15 Sentinel-2 phenological
+bands), minimum mapping units (900\,m$^2$ pixel floor versus
+sub-100\,m$^2$ slivers; 67.8\,\% of CM-SSM features are below
+100\,m$^2$ and 2{,}402 rings self-intersect), reference data, and
+province coverage all differ. The descriptive difference of
+46.25\,km$^2$ is therefore not a change estimate; harmonization would
+be required before any temporal interpretation. Both products are
+\textsc{silver}: credible mapping products with documented provenance
+gaps, not field-verified truth. Local rule/index-derived masks are
 \textsc{weak}. GOLD field, UAV, or expert-verified labels do not yet
 exist in the project (GOLD\,=\,0), and unlabeled cells are recorded as
 \textsc{unlabeled}, never as negatives.
+
+\input{tables/tab_label_products}
 
 \subsection{Label rights separation}
 Redistribution rights and internal model-training rights are audited

@@ -11,7 +11,8 @@ Status vocabulary (Issue #15):
 
 Every evidence path is relative to the repository root. Manifests carry
 row-level fingerprints; file-level SHA-256 live in the cited fingerprint
-CSVs. Ledger last updated: 2026-10-03 (M2.1b/Issue #13 closure pass).
+CSVs. Ledger last updated: 2026-10-03 (Phase 3: Issue #14 foundation
+verified; #16 census pending).
 
 | ID | Claim (short) | Status | Evidence |
 |---|---|---|---|
@@ -46,15 +47,21 @@ CSVs. Ledger last updated: 2026-10-03 (M2.1b/Issue #13 closure pass).
 | C29 | Spatial splits must be group-disjoint (coastal segments + projected buffer, same-site cross-date grouping); leakage utility provided | VERIFIED_METHOD | src/spartina/evaluation/splits.py; AGENTS.md §7 |
 | C30 | 10 km cell is archive/observation/provenance/split unit; it is not a training chip; future patches carry parent_cell_id | VERIFIED_METHOD | docs/data/ZHEJIANG_OBSERVATION_UNIT_DESIGN_V0.md §9 |
 | C31 | M2.1b pilot executed as planned: 8 deterministic stratified HZB 10 km cells; 13 products / 24 files / 127,253,613 B (121.4 MiB; cap 10 GiB); export guard, resume and per-file SHA-256; no label bytes copied, GOLD = 0, no training | VERIFIED_RESULT | datasets/manifests/zhejiang_m21b_pilot_v0.json; docs/data/ZHEJIANG_M21B_PILOT_V0.md |
-| C32 | National coastal domain independent of Spartina labels; 2015 map used as SILVER stratification only | PLANNED | Issue #14 |
+| C32 | Mainland China coastal domain v0 built target-independent (NE admin0 + GSHHS, no Taiwan); Albers W10 canonical, 3,319 coastal cells, PROVISIONAL_NOT_FROZEN; UTM seam double-cover quantified; 2015 map is SILVER stratification only | VERIFIED_METHOD | docs/data/national/DOMAIN_BUILD_v0.json; docs/audit/source_passports/ |
+| C45 | National label family audited as 10 products: GEODATA 1990/2000 BLOCKED_BY_ORDER, no 2010 verified, 2015 local SILVER, 2020-30m metadata contradiction, CMSA 2017-2021 registration-gated CC-BY-NC, CM-SSM byte-verified; no GOLD | VERIFIED_RESULT | datasets/manifests/china_spartina_label_products_v0.csv; papers Table tab_label_products |
+| C46 | Local CM-SSM is byte-identical (8 shapefile components, SHA256) to official Zenodo archive = VERIFIED_CM_SSM_2020; rights SOURCE_LICENSE_CONFLICT (CC BY 4.0 vs CC BY-NC 4.0), permissive term not assumed | VERIFIED_RESULT | docs/audit/vector_reports/30mSpartinaChina__2020__CM-SSM__OFFICIAL_IDENTITY.json; docs/audit/source_passports/cm_ssm_2020_zenodo.json |
+| C47 | 2015 raster (547.4583 km2) vs CM-SSM 2020 (593.710 km2) difference is descriptive, not change: resolution, method, MMU, reference data and coverage all differ | VERIFIED_METHOD | docs/data/CHINA_NATIONAL_ASSET_AUDIT.md §6; manifest rows |
+| C48 | Strata carried as orthogonal boolean flags plus exclusive priority taxonomy; W10: 406 2015-positive, 385 CM-SSM-positive, 482 positive in either obtained product, 2,913 unlabeled coastal (absence of evidence) | VERIFIED_RESULT | docs/data/national/CELL_STRATA_v0.json |
+| C49 | Multimodal registry: 13 sources with CORE/OPTIONAL/OPTIONAL_CONTEXT/VALIDATION_ONLY/BLOCKED roles; tide modeled never observed; management blocked | VERIFIED_METHOD | datasets/manifests/china_multimodal_sources_v0.csv |
+| C50 | Tier 0-3 estimates (0.53 GiB / 83 GiB / 572 GiB / ~134 TiB; task-hours) are model estimates under M2.1b-calibrated byte assumptions, not measurements | VERIFIED_METHOD | docs/data/national/NATIONAL_TIER_MODEL_v0.json |
 | C39 | M2.1b cell strata are a fixed-order function of tracked manifests: HIGH/MED/LOW/VERY-LOW SILVER fraction (0.0755/0.0457/0.0323/0.0299/0.0003), two SILVER/WEAK disagreement cells (J 0.0435, 0.5942), one UNLABELED coastal control (never negative) | VERIFIED_RESULT | datasets/manifests/zhejiang_m21b_pilot_cells_v0.csv; docs/data/ZHEJIANG_M21B_PILOT_V0.md §1 |
 | C40 | Ten S2 products span THREE datatakes (2022-10-02 n=5; 2022-10-10 n=4; 2022-10-15 n=1) = 8 primary + 2 EXTRA; 4 genuine same-datatake two-tile merges (RTP+RUP, RUP+RUQ, RUQ+RVQ); server assert pins one DATATAKE_IDENTIFIER/UTC date; r5 VALID = SCL {4,5,6} ∩ four-band observation mask; primary VALID 0.9610–1.0000; 20 m excluded, no resampling | VERIFIED_RESULT | aggregate s2_datatake_audit; work/m21b/manifests/ZJ_M21B_S2_001..010.json; docs/data/ZHEJIANG_M21B_PILOT_V0.md §2–3 |
 | C41 | The 2022-10-15 EXTRA event (cloud 0.2869 ≤ 0.30 gate, VALID 0.9458) is PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY: counts in storage/product inventory, never in primary-event quality statistics or scaling estimates; it is not a gate-failing diagnostic and not a primary | VERIFIED_METHOD | aggregate s2_datatake_audit.extra_event_classification; micro-audit commit 4b9c67d |
 | C42 | Nominal MGRS tile-frame polygons undercovered 5/8 selected pilot cells although real datatake footprints covered them fully; nominal frames (SAR representative polygons AND nominal MGRS polygons) are planning prefilters only; production eligibility requires actual contributing geometry | VERIFIED_RESULT | aggregate simulation_discrepancies (V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE ×5); ZHEJIANG_M21B_PILOT_V0.md §6 |
 | C43 | Observed tide MISSING and FES2022b NOT_DEPLOYED on every M2.1b scene; no modeled/proxy value is presented as observed; 303-pair standard batch and all training unexecuted | VERIFIED_METHOD | aggregate tide_policy; ZJ_M21B_PILOT_V0.md §8 |
 | C44 | M2.1b verifies observation-chain integrity only: it supports no mapping-accuracy, cross-region/national-generalization, SOTA, or foundation-model claim (GOLD = 0, 8 single-bay single-season cells, no model trained) | VERIFIED_METHOD | CLAIM_EVIDENCE_LEDGER cross-checks; ZHEJIANG_M21B_PILOT_V0.md header; manuscript §§7–10 |
-| C33 | National metadata-only EO census via footprint indexing (no per-cell brute force) | PLANNED | Issue #14 §D |
-| C34 | National multimodal registry with CORE/OPTIONAL/VALIDATION_ONLY/BLOCKED roles and storage tiers T0–T3 | PLANNED | Issue #14 §E–F |
+| C33 | National metadata-only EO census via footprint indexing (no per-cell brute force; actual S1 geometry; nominal MGRS prefilter only) | PLANNED (design frozen; execution is Issue #16) | docs/data/national/EO_CENSUS_DESIGN_v0.json |
+| C34 | National multimodal registry built with CORE/OPTIONAL/OPTIONAL_CONTEXT/VALIDATION_ONLY/BLOCKED roles and storage tiers T0–T3 (see C49, C50) | VERIFIED_METHOD | datasets/manifests/china_multimodal_sources_v0.csv; NATIONAL_TIER_MODEL_v0.json |
 | C35 | Sensor-agnostic multimodal temporal representation (SpartinaFM) can stably monitor across sensor generations | PLANNED (flagship hypothesis; no results) | docs/models/SPARTINAFM_DESIGN.md; RESEARCH_CONTEXT.md |
 | C36 | National Atlas completed / global monitoring / real-time recurrence detection | UNKNOWN (do not claim) | — |
 | C37 | Any management-event aligned before/after result for Zhejiang | BLOCKED: 0 verifiable management events with spatial ledgers | ZHEJIANG_M21A_ACCEPTANCE_REPORT.md §7.1 |

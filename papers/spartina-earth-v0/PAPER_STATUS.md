@@ -1,6 +1,7 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-03 (M2.1b/Issue #13 evidence absorbed). Issue: #15.
+Updated: 2026-10-03 (Phase 3: Issue #14 foundation + #16 census
+preparation, Issue #15).
 
 ## Draft status by section
 
@@ -9,17 +10,57 @@ Updated: 2026-10-03 (M2.1b/Issue #13 evidence absorbed). Issue: #15.
 | sections/01_introduction.tex | Introduction | **Full prose drafted** |
 | sections/02_related_work.tex | Related work | **Full v0 drafted** (3 subsections, 37 verified refs available) |
 | sections/03_study_design.tex | Study design and data provenance | **Full prose drafted** |
-| sections/04_data_and_provenance.tex | Data sources, tiers, rights | **Full prose drafted** |
+| sections/04_data_and_provenance.tex | Data sources, tiers, rights, national label family | **Full prose + Table tab_label_products (10 audited products)**; CM-SSM byte-identity integrated |
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
-| sections/08_national_scaling.tex | National scaling design | **Methods/design subsection drafted**; all results TODO_EVIDENCE (Issue #14) |
+| sections/08_national_scaling.tex | National scaling (mainland China coastal domain v0) | **Drafted with built foundation artifacts**: 3,319 provisional Albers cells, strata, registry, tier estimates; national census explicitly pending (#16) |
 | sections/09_discussion.tex | Discussion | **Skeleton + verified discussion points**; pending-result paragraphs marked |
 | sections/10_limitations.tex | Limitations | **Full prose drafted** |
 | sections/11_conclusion.tex | Conclusion | **Skeleton drafted** |
 
 Abstract: not drafted yet (per writing workflow, abstract follows
 stable introduction/methods); placeholder in main.tex.
+
+
+## Phase 3 evidence status (2026-10-03)
+
+**VERIFIED (may be stated in manuscript):**
+- Zhejiang real-byte controlled pilot (8 cells / 13 products; Issue #13,
+  closed): 3 S2 datatakes (5/4/1), 2022-10-15 =
+  PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY.
+- Provenance architecture and executed correction audits (false-zero
+  labels; group-wide cloud-gate bug; S1 representative-frame errors).
+- National label-family audit: 10 verified products, 2010 not found and
+  not fabricated, GEODATA 1990/2000 order-blocked, CMSA registration-
+  gated (CC BY-NC 4.0), CM-SSM byte-identical to official Zenodo.
+- CM-SSM official/local identity (8 shapefile components, SHA256) with
+  SOURCE_LICENSE_CONFLICT preserved.
+- Mainland China coastal domain v0: target-independent corridor,
+  Albers-vs-UTM comparison, 3,319 provisional W10 cells, flags/strata,
+  13-source multimodal registry, Tier 0-3 model estimates.
+
+**PENDING (must not be presented as results):**
+- National EO metadata census and actual-footprint indices (Issue #16):
+  national scene/event counts do not exist yet.
+- National pixel archive at any tier.
+- GOLD field/UAV labels (GOLD = 0).
+- Management-event geometry ledgers (0 events).
+- Tide deployment (FES2022b selected, not deployed; observed tide
+  missing).
+- Nationwide accuracy, cross-region generalization, recurrence
+  experiments, SpartinaFM representation results.
+
+## Claim-to-source support audit (Phase 3)
+
+`CLAIM_SUPPORT_AUDIT.md` — 18 highest-impact external claims audited
+claim -> citation -> source support (DOI existence is not treated as
+support). Two claims were narrowed (1979-introduction citations;
+dieback vs post-treatment regrowth), one wording softened (single SAR +
+optical study "illustrates" not "confirms"), one verified citation
+added (wang2018soilcarbon), and the S1 dB product fact is explicitly
+marked as platform documentation with TODO_CITATION.
+
 
 ## Figures (see figures/FIGURE_MANIFEST.md)
 
@@ -40,6 +81,9 @@ design schematic, never a fabricated national result map.
 - `tables/tab_s1footprint.tex` — S1 representative-vs-actual audit.
 - `tables/tab_m21b.tex` — M2.1b 13-product real-pixel inventory
   (source: zhejiang_m21b_pilot_v0.json + per-product manifests).
+- `tables/tab_label_products.tex` — 10 audited national label products
+  (source: china_spartina_label_products_v0.csv; rotated page; no GOLD,
+  2010 absent by verification, roles and license conflict explicit).
 
 ## Claim ledger counts (as of this draft)
 

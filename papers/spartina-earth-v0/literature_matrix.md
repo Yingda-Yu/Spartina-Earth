@@ -28,6 +28,7 @@ provenance; platforms and auxiliary datasets.
 | yan2023monitoring | 2023 | Remote Sensing | Expansion mode and dieback monitoring, Yancheng — recurrence/dieback precedent | DOI CrossRef |
 | yuan2011cutting | 2011 | Estuar. Coast. Shelf Sci. | Cutting + waterlogging control efficacy — management intervention precedent | DOI CrossRef |
 | zheng2018productivity | 2018 | Ecological Engineering | Meta-analysis of invasive saltmarsh productivity along China's coast | DOI CrossRef |
+| wang2018soilcarbon | 2018 | Scientific Reports | Open-access statement of the 1979 introduction to China; soil-carbon invasion effects (added in Phase 3 claim-support audit) | DOI CrossRef |
 
 ## B. Platforms, sensors, analysis-ready data and QA
 
