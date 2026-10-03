@@ -1,0 +1,66 @@
+{
+  "artifact": "china_national_cell_strata",
+  "version": "v0",
+  "generated_utc": "2026-10-03T10:53:56+00:00",
+  "git_commit": "2a0b35cc107fb0b8eb95711dcb0e98fb0da3886b",
+  "tier_discipline": {
+    "SILVER_2015_POSITIVE": "SILVER: published 30 m map product, not field-verified by us",
+    "CMSSM_2020_POSITIVE": "SILVER: published sub-meter map, official archive byte-verified",
+    "SILVER_2015_NEARBY": "derived flag, one 10 km lattice ring, fixed a priori",
+    "UNLABELED_COASTAL": "absence of evidence in obtained products; NOT an ecological negative",
+    "CMSA_POSITIVE_HISTORY": "DESIGNED_NOT_BUILD: CMSA archive not obtained (6.16 GB, purpose-declaration download)",
+    "MANAGEMENT_EVIDENCE_AVAILABLE": [
+      "DESIGNED_NOT_BUILD: no management source registry yet"
+    ],
+    "GOLD_EVIDENCE_TARGET": "DESIGNED_NOT_BUILD: requires field/UAV/verified campaign data"
+  },
+  "sources": {
+    "silver2015_raster": "old datasets/30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
+    "cmssm_shapefile": "old datasets/30mSpartinaChina/2020/CM-SSM/CM-SSM.shp",
+    "cmssm_identity_audit": "docs/audit/vector_reports/30mSpartinaChina__2020__CM-SSM__OFFICIAL_IDENTITY.json"
+  },
+  "raster_meta": {
+    "raster": "old datasets/30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
+    "positive_value": 1,
+    "dtype": "int16",
+    "windows_checked": 2383,
+    "windows_checked_W5000": 1874,
+    "windows_checked_W20000": 3314
+  },
+  "nearby_radius_m": 10000,
+  "widths": [
+    {
+      "width_m": 5000,
+      "coastal_cells": 2542,
+      "silver_2015_positive_cells": 394,
+      "silver_2015_nearby_only_cells": 642,
+      "cmssm_2020_positive_cells": 375,
+      "silver_or_cmssm_positive_cells": 466,
+      "unlabeled_coastal_cells": 2148,
+      "strata_csv": "strata_china_albers_W5000.csv",
+      "strata_csv_sha256": "8b7344653097cd141011a8f53f3564f7d29d7bc074840e8f7372d234bb40e8fd"
+    },
+    {
+      "width_m": 10000,
+      "coastal_cells": 3319,
+      "silver_2015_positive_cells": 406,
+      "silver_2015_nearby_only_cells": 812,
+      "cmssm_2020_positive_cells": 385,
+      "silver_or_cmssm_positive_cells": 482,
+      "unlabeled_coastal_cells": 2913,
+      "strata_csv": "strata_china_albers_W10000.csv",
+      "strata_csv_sha256": "a78362e5caee518458fc83d9325d62f23f697c1754462a4ad0582f8625defcd9"
+    },
+    {
+      "width_m": 20000,
+      "coastal_cells": 4767,
+      "silver_2015_positive_cells": 411,
+      "silver_2015_nearby_only_cells": 812,
+      "cmssm_2020_positive_cells": 387,
+      "silver_or_cmssm_positive_cells": 487,
+      "unlabeled_coastal_cells": 4356,
+      "strata_csv": "strata_china_albers_W20000.csv",
+      "strata_csv_sha256": "d996c76292d65beec5161d370e1b248e379fb4db5661be2c24a5d24be4c9ce92"
+    }
+  ]
+}

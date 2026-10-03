@@ -1,0 +1,69 @@
+{
+  "audit_type": "OFFICIAL_ARCHIVE_IDENTITY",
+  "subject": "Local CM-SSM 2020 shapefile vs official Zenodo archive 10.5281/zenodo.16296823",
+  "audited_utc": "2026-10-03T09:55:00+00:00",
+  "official_archive": {
+    "url": "https://zenodo.org/api/records/16296823/files/CM-SSM.zip/content",
+    "size_bytes": 77339180,
+    "md5": "f1f2592ca5d965fa8bf6a008a3fa1a73",
+    "sha256": "93411e765d185b5ae48a84850a1773776e6308bd56a433fa553c23dc49b66238",
+    "md5_source": "Zenodo record 16296823 file metadata"
+  },
+  "local_path": "old datasets/30mSpartinaChina/2020/CM-SSM/CM-SSM.shp",
+  "official_extracted_path": "work/external/cm_ssm_2020_official/extracted/CM-SSM/CM-SSM.shp",
+  "components": [
+    {
+      "file": "CM-SSM.CPG",
+      "size_bytes": 5,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.dbf",
+      "size_bytes": 10365170,
+      "sha256": "8a74dcd9f1039c06fcf7a3a1102a0e8568ad600c6f1f1ef25af885ea07aced4a",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.prj",
+      "size_bytes": 402,
+      "sha256": "0cb13e6fc96091963305c3afcbb024fb464f80e014bf154433c6c5b343fdc1ef",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.sbn",
+      "size_bytes": 1460596,
+      "sha256": "e9cd8c5da2d1b56e03846212ea36c402693edef4becfbe35ce102be46f760594",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.sbx",
+      "size_bytes": 14004,
+      "sha256": "5c88db52bea6badbce90af7ea837b303748a8abe92cefc50075f32431d5b70b1",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.shp",
+      "size_bytes": 357998720,
+      "sha256": "8f28c0f20f1dc8c5872a06db57621808dc737d602f8521387075dc39302cea54",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.shp.xml",
+      "size_bytes": 41474,
+      "sha256": "e540f30706bb50cd259ccd26abd4c2fbbcfe3d47489db0ebe3c91d039c243fed",
+      "byte_identical": true
+    },
+    {
+      "file": "CM-SSM.shx",
+      "size_bytes": 1184676,
+      "sha256": "ce7c01f77f946647f426da4da9198b15250ffef050bc60c2861bd070dcbc42f2",
+      "byte_identical": true
+    }
+  ],
+  "verdict": "VERIFIED_CM_SSM_2020",
+  "verdict_detail": "All 8 shapefile components are byte-identical (SHA256) between the pre-existing local copy and the official archive downloaded from Zenodo, whose MD5 matches Zenodo file metadata. The local copy is therefore an unaltered copy of the published CM-SSM dataset, not a derived or altered variant. Geometry/schema/area audit (148,072 polygons, EPSG:32650, fields Id/name/area, 59,370.98 ha) applies identically and is recorded in 30mSpartinaChina__2020__CM-SSM__CM-SSM.json.",
+  "license_note": "CC-BY-4.0 per Zenodo + DataCite; NESDC mirror declares CC-BY-NC-4.0 (SOURCE_LICENSE_CONFLICT, recorded in SOURCE_PASSPORT.json); commercial use status must remain UNVERIFIED pending contributor confirmation.",
+  "related_paper": "10.5194/essd-17-6601-2025",
+  "passport": "work/external/cm_ssm_2020_official/SOURCE_PASSPORT.json"
+}

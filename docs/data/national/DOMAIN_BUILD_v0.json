@@ -1,0 +1,156 @@
+{
+  "artifact": "china_national_coastal_domain",
+  "version": "v0",
+  "generated_utc": "2026-10-03T10:48:52+00:00",
+  "git_commit": "2a0b35cc107fb0b8eb95711dcb0e98fb0da3886b",
+  "parameters": {
+    "bbox_wgs84": [
+      105.0,
+      15.0,
+      132.0,
+      43.0
+    ],
+    "cell_size_m": 10000,
+    "widths_m": [
+      5000,
+      10000,
+      20000
+    ],
+    "island_near_m": 25000,
+    "island_max_area_m2": 100000000,
+    "zone_band_margin_deg": 0.25,
+    "min_cell_intersection_fraction": 0.01,
+    "corridor_definition": "seaward=buffer(china,W)-all_land; onshore=china intersect buffer(seaward,W); corridor=union"
+  },
+  "sources": {
+    "gshhs_shp": "work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+    "admin0_shp": "work/external/naturalearth_10m_admin0/extracted/ne_10m_admin_0_countries.shp",
+    "gshhs_passport": "work/external/gshhg_2_3_7/SOURCE_PASSPORT.json",
+    "natural_earth_passport": "work/external/naturalearth_10m_admin0/SOURCE_PASSPORT.json"
+  },
+  "china_land_diagnostics": {
+    "land_area_km2": 9371502.46,
+    "added_island_count": 3093,
+    "added_island_area_km2": 1898.07
+  },
+  "widths": [
+    {
+      "width_m": 5000,
+      "corridor_area_km2": 142047.95,
+      "china_albers_cells": 2542,
+      "utm_zone_aware_cells": 2771,
+      "utm_cells_by_zone": {
+        "49": 719,
+        "50": 792,
+        "51": 1250,
+        "52": 10
+      },
+      "files": {
+        "albers_cells_csv": "cells_china_albers_W5000.csv",
+        "albers_cells_csv_sha256": "99d77c7301472b99f06d22b22c20985f0efff1e7cd3734bee9867425436aca5a",
+        "utm_cells_csv": "cells_utm_zone_aware_W5000.csv",
+        "utm_cells_csv_sha256": "35326ccfecd17ab292613ec1a70b61c8a790e2139b2869aab017d0c4e9face2a",
+        "corridor_gpkg": "corridor_W5000.gpkg"
+      }
+    },
+    {
+      "width_m": 10000,
+      "corridor_area_km2": 235983.63,
+      "china_albers_cells": 3319,
+      "utm_zone_aware_cells": 3670,
+      "utm_cells_by_zone": {
+        "49": 963,
+        "50": 1058,
+        "51": 1630,
+        "52": 19
+      },
+      "files": {
+        "albers_cells_csv": "cells_china_albers_W10000.csv",
+        "albers_cells_csv_sha256": "144acb7a328692e871487f8ed58d50015800a70f91b64133d5e7cc950d5e6b25",
+        "utm_cells_csv": "cells_utm_zone_aware_W10000.csv",
+        "utm_cells_csv_sha256": "b75663af4d5b5deb2d5b1d746565cf881288375cc9c469871d3d86c91295ffec",
+        "corridor_gpkg": "corridor_W10000.gpkg"
+      }
+    },
+    {
+      "width_m": 20000,
+      "corridor_area_km2": 388139.05,
+      "china_albers_cells": 4767,
+      "utm_zone_aware_cells": 5341,
+      "utm_cells_by_zone": {
+        "49": 1423,
+        "50": 1571,
+        "51": 2304,
+        "52": 43
+      },
+      "files": {
+        "albers_cells_csv": "cells_china_albers_W20000.csv",
+        "albers_cells_csv_sha256": "0e68a2f177a2017a304cb5359c519b9151e2cd46a3fcfc5c2fe027b7b8bed744",
+        "utm_cells_csv": "cells_utm_zone_aware_W20000.csv",
+        "utm_cells_csv_sha256": "73acca3c7126ef8611b6e4da7122f3254b110c88fe555b9ee4f86876bb2198aa",
+        "corridor_gpkg": "corridor_W20000.gpkg"
+      }
+    }
+  ],
+  "strategy_comparison_at_10000m": {
+    "china_albers": {
+      "cells": 3319,
+      "cell_union_area_km2": 331900.0
+    },
+    "utm_zone_aware": {
+      "cells": 3670,
+      "cell_union_area_km2": 332212.4
+    },
+    "grid_ground_intersection_km2": 307245.55,
+    "grid_ground_symmetric_difference_km2": 49621.3,
+    "seams": [
+      {
+        "seam_longitude": 114.0,
+        "left_zone": 49,
+        "right_zone": 50,
+        "left_cells_in_strip": 22,
+        "right_cells_in_strip": 23,
+        "overlapping_cell_pairs": 75,
+        "pairwise_overlap_area_m2": 2038127327.5,
+        "note": "two lattices overlap inside the +-0.12 degree seam strip; a single production grid must deduplicate these cells (Albers strategy has no seams)"
+      },
+      {
+        "seam_longitude": 120.0,
+        "left_zone": 50,
+        "right_zone": 51,
+        "left_cells_in_strip": 97,
+        "right_cells_in_strip": 96,
+        "overlapping_cell_pairs": 301,
+        "pairwise_overlap_area_m2": 8025924718.8,
+        "note": "two lattices overlap inside the +-0.12 degree seam strip; a single production grid must deduplicate these cells (Albers strategy has no seams)"
+      },
+      {
+        "seam_longitude": 126.0,
+        "left_zone": 51,
+        "right_zone": 52,
+        "left_cells_in_strip": 0,
+        "right_cells_in_strip": 0,
+        "overlapping_cell_pairs": 0,
+        "pairwise_overlap_area_m2": 0.0,
+        "note": "two lattices overlap inside the +-0.12 degree seam strip; a single production grid must deduplicate these cells (Albers strategy has no seams)"
+      }
+    ]
+  },
+  "sensitivity": {
+    "aea_cells_without_added_islands": 2912,
+    "full_resolution_aea_cells_previous_rule": {
+      "W5000": 2550,
+      "W10000": 3323,
+      "W20000": 4777
+    },
+    "resolution_note": "canonical build uses GSHHS high resolution (h); full resolution (f) re-run under the same island rule gives W5 2546 (+4), W10 3320 (+1), W20 4773 (+6) vs h: <=0.16%, so the lattice is resolution-insensitive",
+    "island_rule_note": "without recovered small islands the W10 Albers count is 2912 vs 3319 (see aea_cells_without_added_islands); recovered islands are real Chinese archipelago coast omitted by 1:10m admin data",
+    "utm_seam_note": "UTM double-counts cells at the 114E and 120E seams (see strategy_comparison seams); Albers is seam-free and canonical",
+    "full_resolution_aea_cells": {
+      "W5000": 2546,
+      "W10000": 3320,
+      "W20000": 4773
+    },
+    "full_resolution_build_dir": "work/national/domain_f (ignored bytes)"
+  }
+}

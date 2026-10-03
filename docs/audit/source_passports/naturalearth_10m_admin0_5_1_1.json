@@ -1,0 +1,21 @@
+{
+  "dataset_id": "NATURALEARTH-10M-ADMIN0-COUNTRIES-5.1.1",
+  "source_url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
+  "download_utc": "2026-10-03T09:40:57+00:00",
+  "license": "Public domain (Natural Earth Terms of Use, captured 2026-10-03 from https://www.naturalearthdata.com/about/terms-of-use/: 'All versions of Natural Earth raster + vector map data found on this website are in the public domain.'); attribution not required, citation 'Made with Natural Earth' appreciated",
+  "files": [
+    {"name": "ne_10m_admin_0_countries.zip", "size_bytes": 4930492, "sha256": "ce1ac7036499a0edd641fbc093cd209a98f96a49d2eca8480aaacad35138a7f6"},
+    {"name": "ne_10m_admin_0_countries.shp", "size_bytes": 8806224, "sha256": "7ce119ef6342e43cff7c0c3004e0911ab7ec1988a14734372031d2012180e7bc"},
+    {"name": "ne_10m_admin_0_countries.dbf", "size_bytes": 878482, "sha256": "c5dbd3dd5fd7e2ef49051fc88562c03819e8ea63a382642df6eadd1243bf4b49"},
+    {"name": "ne_10m_admin_0_countries.shx", "size_bytes": 2164, "sha256": "ca19ec112d054c77bc8f7ac00e3b110d5dff32cc9bcf4cd1b8b66bdd0f611d32"},
+    {"name": "ne_10m_admin_0_countries.prj", "size_bytes": 145, "sha256": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"}
+  ],
+  "citation": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com (Admin 0 - Countries, 1:10m cultural, version 5.1.1).",
+  "doi": "",
+  "publisher": "Natural Earth (NACIS CDN distribution)",
+  "archive_name": "ne_10m_admin_0_countries.zip",
+  "archive_size_bytes": 4930492,
+  "archive_sha256": "ce1ac7036499a0edd641fbc093cd209a98f96a49d2eca8480aaacad35138a7f6",
+  "verified_by": "VERSION.txt reports 5.1.1; sha256 computed 2026-10-03",
+  "notes": "Used solely to select the ADMIN=='China' land polygon that masks GSHHG polygons to China-administered coastline. Hong Kong/Macao rows are separate Natural Earth features and are covered by GSHHG sea/land logic; Taiwan is a separate ADMIN row and is excluded from the China domain by design (documented sensitivity)."
+}

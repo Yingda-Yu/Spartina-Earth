@@ -1,0 +1,138 @@
+{
+  "artifact": "national_eo_metadata_census_design",
+  "version": "v0",
+  "status": "DESIGNED_NOT_RUN",
+  "generated_utc": "2026-10-03T10:54:32+00:00",
+  "git_commit": "2a0b35cc107fb0b8eb95711dcb0e98fb0da3886b",
+  "reason_not_run": "M0/M1 metadata-only phase; no GEE credentials exercised and no bulk server interaction. Live execution must be added behind the gee_integration pytest marker.",
+  "scope": {
+    "grid": "China Albers 10 km, W10000 coastal cells",
+    "cells_csv": "work/national/domain/cells_china_albers_W10000.csv",
+    "cells_csv_sha256": "144acb7a328692e871487f8ed58d50015800a70f91b64133d5e7cc950d5e6b25",
+    "n_cells": 3319,
+    "census_years": "1984-2026"
+  },
+  "hard_rules": [
+    "metadata properties only; zero pixel export; ee.batch.Export forbidden",
+    "static nominal-frame prefilter: intersect cell union with MGRS tile (S1/S2) and WRS-2 descending path/row (Landsat) footprints once, offline",
+    "one batched getInfo per (nominal_frame, year, sensor); never per cell",
+    "nominal frame membership is a PREFILTER only; actual scene geometry is gated at census time (S1 mandatory; S2 retains the M2.1b lesson that MGRS nominal membership is not true ground coverage)",
+    "no cloud/quality filtering in the census: report candidate counts, VALID/SCL status is a downstream production gate, not inferred",
+    "S1 DN vs gamma0 collections are never mixed; ALOS L-band gap 2011-2014 is reported, not filled"
+  ],
+  "sensor_contracts": [
+    {
+      "sensor": "L5",
+      "gee_collection": "LANDSAT/LT05/C02/T1_L2",
+      "start_year": 1984,
+      "end_year": 2012,
+      "nominal_frame_system": "WRS2_DESCENDING",
+      "nominal_frame_key_property": "WRS_PATH+WRS_ROW",
+      "batch_aggregated_properties": [
+        "LANDSAT_SCENE_ID",
+        "DATE_ACQUIRED",
+        "WRS_PATH",
+        "WRS_ROW"
+      ],
+      "actual_geometry_required": false,
+      "notes": "Level-2 Collection 2; path/row footprints via WRS-2 index"
+    },
+    {
+      "sensor": "L7",
+      "gee_collection": "LANDSAT/LE07/C02/T1_L2",
+      "start_year": 1999,
+      "end_year": 2026,
+      "nominal_frame_system": "WRS2_DESCENDING",
+      "nominal_frame_key_property": "WRS_PATH+WRS_ROW",
+      "batch_aggregated_properties": [
+        "LANDSAT_SCENE_ID",
+        "DATE_ACQUIRED",
+        "WRS_PATH",
+        "WRS_ROW"
+      ],
+      "actual_geometry_required": false,
+      "notes": "SLC-off after May 2003 must be flagged as a quality status"
+    },
+    {
+      "sensor": "L8",
+      "gee_collection": "LANDSAT/LC08/C02/T1_L2",
+      "start_year": 2013,
+      "end_year": 2026,
+      "nominal_frame_system": "WRS2_DESCENDING",
+      "nominal_frame_key_property": "WRS_PATH+WRS_ROW",
+      "batch_aggregated_properties": [
+        "LANDSAT_SCENE_ID",
+        "DATE_ACQUIRED",
+        "WRS_PATH",
+        "WRS_ROW"
+      ],
+      "actual_geometry_required": false,
+      "notes": "Collection 2 Tier 1 Level-2"
+    },
+    {
+      "sensor": "L9",
+      "gee_collection": "LANDSAT/LC09/C02/T1_L2",
+      "start_year": 2022,
+      "end_year": 2026,
+      "nominal_frame_system": "WRS2_DESCENDING",
+      "nominal_frame_key_property": "WRS_PATH+WRS_ROW",
+      "batch_aggregated_properties": [
+        "LANDSAT_SCENE_ID",
+        "DATE_ACQUIRED",
+        "WRS_PATH",
+        "WRS_ROW"
+      ],
+      "actual_geometry_required": false,
+      "notes": "Operational from late 2021; national coverage from 2022"
+    },
+    {
+      "sensor": "S1",
+      "gee_collection": "COPERNICUS/S1_GRD",
+      "start_year": 2014,
+      "end_year": 2026,
+      "nominal_frame_system": "S1_NOMINAL_FRAME",
+      "nominal_frame_key_property": "relativeOrbitNumber_start",
+      "batch_aggregated_properties": [
+        "system:index",
+        "relativeOrbitNumber_start",
+        "orbitProperties_pass"
+      ],
+      "actual_geometry_required": true,
+      "notes": "No MGRS/WRS equivalent; nominal frames biased (the #13 171/105 finding). Per-frame actual footprint cache required before per-cell eligibility."
+    },
+    {
+      "sensor": "S2",
+      "gee_collection": "COPERNICUS/S2_SR_HARMONIZED",
+      "start_year": 2015,
+      "end_year": 2026,
+      "nominal_frame_system": "MGRS_TILE",
+      "nominal_frame_key_property": "MGRS_TILE",
+      "batch_aggregated_properties": [
+        "PRODUCT_ID",
+        "DATATAKE_IDENTIFIER",
+        "MGRS_TILE",
+        "GENERATION_TIME"
+      ],
+      "actual_geometry_required": true,
+      "notes": "MGRS tile is a prefilter; multi-tile datatakes join on DATATAKE_IDENTIFIER (the #13 3-datatake finding); actual contributing tile geometry required for eligibility"
+    }
+  ],
+  "batch_contract_checks": {
+    "L5": "PASS",
+    "L7": "PASS",
+    "L8": "PASS",
+    "L9": "PASS",
+    "S1": "PASS",
+    "S2": "PASS"
+  },
+  "frame_prefilter": {
+    "status": "DESIGNED_NOT_RUN",
+    "method": "1) load static MGRS tile polygons and WRS-2 descending scene footprints; 2) spatial-intersect the union of coastal cell polygons; 3) persist deterministic frame lists (frame_id, system, intersecting_cell_ids) in work/national/census/; 4) frame x year x sensor query matrix derived from those lists.",
+    "frame_count": "UNKNOWN (computed only when the static indexes are added)"
+  },
+  "query_scale": {
+    "upper_bound_naive_cell_queries": "FORBIDDEN (would be cells x years x sensors)",
+    "batched_query_units": "frame x year x sensor; exact count UNKNOWN until prefilter runs"
+  },
+  "linked_cost_model": "docs/data/national/NATIONAL_TIER_MODEL_v0.json"
+}
