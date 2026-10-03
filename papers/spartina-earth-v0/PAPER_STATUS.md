@@ -1,7 +1,7 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-03 (Phase 3: Issue #14 foundation + #16 census
-preparation, Issue #15).
+Updated: 2026-10-04 (Issue #16 metadata census executed;
+first-pixel pilot designed, not executed).
 
 ## Draft status by section
 
@@ -14,7 +14,7 @@ preparation, Issue #15).
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
-| sections/08_national_scaling.tex | National scaling (mainland China coastal domain v0) | **Drafted with built foundation artifacts**: 3,319 provisional Albers cells, strata, registry, tier estimates; national census explicitly pending (#16) |
+| sections/08_national_scaling.tex | National scaling (mainland China coastal domain v0) | **Full prose with executed metadata census**: 3,319 provisional Albers cells, strata, registry, tier estimates, and executed Issue #16 census results (184,051 scenes; 23 chronic-zero far-NE cells; S1 ascending-only); first-pixel panel designed not executed |
 | sections/09_discussion.tex | Discussion | **Skeleton + verified discussion points**; pending-result paragraphs marked |
 | sections/10_limitations.tex | Limitations | **Full prose drafted** |
 | sections/11_conclusion.tex | Conclusion | **Skeleton drafted** |
@@ -40,9 +40,12 @@ stable introduction/methods); placeholder in main.tex.
   Albers-vs-UTM comparison, 3,319 provisional W10 cells, flags/strata,
   13-source multimodal registry, Tier 0-3 model estimates.
 
-**PENDING (must not be presented as results):**
 - National EO metadata census and actual-footprint indices (Issue #16):
-  national scene/event counts do not exist yet.
+  EXECUTED metadata-only (184,051 scenes, 79,265 events,
+  10,058,703 cell-event pairs; EO_CENSUS_RUN_MANIFEST_v0.json).
+
+**PENDING (must not be presented as results):**
+- First-pixel pilot pixel download (20-cell panel designed, not executed).
 - National pixel archive at any tier.
 - GOLD field/UAV labels (GOLD = 0).
 - Management-event geometry ledgers (0 events).
@@ -100,7 +103,7 @@ including the integrity≠accuracy boundary C44)
    products, first eligible L8/L9/S1 byte validations, S2 three-datatake
    accounting, and the nominal-MGRS-frame finding (5/8). Remaining:
    archive-scale pixel QA, 303-pair batch, cross-bay/season replication.
-2. National domain, 2015 cell stratification and metadata census
+2. (DONE) National domain, 2015 cell stratification and metadata census
    (Issue #14) — all national quantitative statements.
 3. GOLD reference (Issue #11): currently GOLD = 0; accuracy claims
    beyond SILVER-reproduction are impossible.

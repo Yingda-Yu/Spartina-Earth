@@ -12,7 +12,7 @@ Status vocabulary (Issue #15):
 Every evidence path is relative to the repository root. Manifests carry
 row-level fingerprints; file-level SHA-256 live in the cited fingerprint
 CSVs. Ledger last updated: 2026-10-03 (Phase 3: Issue #14 foundation
-verified; #16 census pending).
+verified; #16 metadata census executed, pixels not authorized).
 
 | ID | Claim (short) | Status | Evidence |
 |---|---|---|---|
@@ -60,7 +60,7 @@ verified; #16 census pending).
 | C42 | Nominal MGRS tile-frame polygons undercovered 5/8 selected pilot cells although real datatake footprints covered them fully; nominal frames (SAR representative polygons AND nominal MGRS polygons) are planning prefilters only; production eligibility requires actual contributing geometry | VERIFIED_RESULT | aggregate simulation_discrepancies (V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE ×5); ZHEJIANG_M21B_PILOT_V0.md §6 |
 | C43 | Observed tide MISSING and FES2022b NOT_DEPLOYED on every M2.1b scene; no modeled/proxy value is presented as observed; 303-pair standard batch and all training unexecuted | VERIFIED_METHOD | aggregate tide_policy; ZJ_M21B_PILOT_V0.md §8 |
 | C44 | M2.1b verifies observation-chain integrity only: it supports no mapping-accuracy, cross-region/national-generalization, SOTA, or foundation-model claim (GOLD = 0, 8 single-bay single-season cells, no model trained) | VERIFIED_METHOD | CLAIM_EVIDENCE_LEDGER cross-checks; ZHEJIANG_M21B_PILOT_V0.md header; manuscript §§7–10 |
-| C33 | National metadata-only EO census via footprint indexing (no per-cell brute force; actual S1 geometry; nominal MGRS prefilter only) | PLANNED (design frozen; execution is Issue #16) | docs/data/national/EO_CENSUS_DESIGN_v0.json |
+| C33 | National metadata-only EO census via footprint indexing (no per-cell brute force; actual S1 geometry; nominal MGRS prefilter only); executed 1984-2025: 184,051 scenes, 79,265 events, 10,058,703 cell-event pairs, 3,296/3,319 cells observed 2015-2025, 0 query failures, zero pixel exports under Export guard | VERIFIED_RESULT | docs/data/national/EO_CENSUS_RUN_MANIFEST_v0.json; EO_CENSUS_DESIGN_v0.json |
 | C34 | National multimodal registry built with CORE/OPTIONAL/OPTIONAL_CONTEXT/VALIDATION_ONLY/BLOCKED roles and storage tiers T0–T3 (see C49, C50) | VERIFIED_METHOD | datasets/manifests/china_multimodal_sources_v0.csv; NATIONAL_TIER_MODEL_v0.json |
 | C35 | Sensor-agnostic multimodal temporal representation (SpartinaFM) can stably monitor across sensor generations | PLANNED (flagship hypothesis; no results) | docs/models/SPARTINAFM_DESIGN.md; RESEARCH_CONTEXT.md |
 | C36 | National Atlas completed / global monitoring / real-time recurrence detection | UNKNOWN (do not claim) | — |

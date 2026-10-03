@@ -1,0 +1,275 @@
+{
+  "product": "domain_coverage_audit_v0",
+  "git_commit": "45ec8ed62aaf079e246f4d40e83374c18c2f75f1",
+  "domain_term": "mainland China coastal domain v0",
+  "island_rule": "cell intersects added islands (GSHHS within 25 km of China, area <= 100 km2, not in another admin polygon); MAINLAND vs ISLAND_ONLY vs mixed",
+  "w10_land_classes": {
+    "ISLAND_ONLY": {
+      "n_cells": 1190,
+      "n_observed_2015_2025": 1170,
+      "fraction_observed": 0.9832
+    },
+    "MAINLAND": {
+      "n_cells": 1570,
+      "n_observed_2015_2025": 1567,
+      "fraction_observed": 0.9981
+    },
+    "MAINLAND_AND_ISLAND": {
+      "n_cells": 559,
+      "n_observed_2015_2025": 559,
+      "fraction_observed": 1.0
+    }
+  },
+  "never_observed_w10_cells": {
+    "n": 23,
+    "cell_ids": [
+      "CNA10K-R00481-C00204",
+      "CNA10K-R00481-C00205",
+      "CNA10K-R00481-C00206",
+      "CNA10K-R00482-C00204",
+      "CNA10K-R00482-C00205",
+      "CNA10K-R00482-C00206",
+      "CNA10K-R00483-C00206",
+      "CNA10K-R00483-C00207",
+      "CNA10K-R00484-C00206",
+      "CNA10K-R00484-C00207",
+      "CNA10K-R00484-C00208",
+      "CNA10K-R00485-C00204",
+      "CNA10K-R00485-C00205",
+      "CNA10K-R00485-C00207",
+      "CNA10K-R00485-C00208",
+      "CNA10K-R00486-C00204",
+      "CNA10K-R00486-C00205",
+      "CNA10K-R00486-C00207",
+      "CNA10K-R00486-C00208",
+      "CNA10K-R00486-C00209",
+      "CNA10K-R00487-C00207",
+      "CNA10K-R00487-C00208",
+      "CNA10K-R00487-C00209"
+    ],
+    "centers": [
+      {
+        "cell_id": "CNA10K-R00481-C00204",
+        "center_lon": 130.389857,
+        "center_lat": 42.236417,
+        "intersection_area_m2": 13020034.943
+      },
+      {
+        "cell_id": "CNA10K-R00481-C00205",
+        "center_lon": 130.508633,
+        "center_lat": 42.2139,
+        "intersection_area_m2": 39121321.003
+      },
+      {
+        "cell_id": "CNA10K-R00481-C00206",
+        "center_lon": 130.627334,
+        "center_lat": 42.191282,
+        "intersection_area_m2": 1921252.301
+      },
+      {
+        "cell_id": "CNA10K-R00482-C00204",
+        "center_lon": 130.42096,
+        "center_lat": 42.322342,
+        "intersection_area_m2": 35225714.82
+      },
+      {
+        "cell_id": "CNA10K-R00482-C00205",
+        "center_lon": 130.539868,
+        "center_lat": 42.299796,
+        "intersection_area_m2": 73187209.449
+      },
+      {
+        "cell_id": "CNA10K-R00482-C00206",
+        "center_lon": 130.658701,
+        "center_lat": 42.277147,
+        "intersection_area_m2": 8692649.453
+      },
+      {
+        "cell_id": "CNA10K-R00483-C00206",
+        "center_lon": 130.690143,
+        "center_lat": 42.363017,
+        "intersection_area_m2": 1666235.055
+      },
+      {
+        "cell_id": "CNA10K-R00483-C00207",
+        "center_lon": 130.809033,
+        "center_lat": 42.340236,
+        "intersection_area_m2": 38239805.297
+      },
+      {
+        "cell_id": "CNA10K-R00484-C00206",
+        "center_lon": 130.721661,
+        "center_lat": 42.448893,
+        "intersection_area_m2": 10780061.851
+      },
+      {
+        "cell_id": "CNA10K-R00484-C00207",
+        "center_lon": 130.840684,
+        "center_lat": 42.426081,
+        "intersection_area_m2": 97423283.854
+      },
+      {
+        "cell_id": "CNA10K-R00484-C00208",
+        "center_lon": 130.95963,
+        "center_lat": 42.403167,
+        "intersection_area_m2": 22821206.109
+      },
+      {
+        "cell_id": "CNA10K-R00485-C00204",
+        "center_lon": 130.514716,
+        "center_lat": 42.580153,
+        "intersection_area_m2": 11424965.993
+      },
+      {
+        "cell_id": "CNA10K-R00485-C00205",
+        "center_lon": 130.634023,
+        "center_lat": 42.557515,
+        "intersection_area_m2": 1404592.667
+      },
+      {
+        "cell_id": "CNA10K-R00485-C00207",
+        "center_lon": 130.87241,
+        "center_lat": 42.511931,
+        "intersection_area_m2": 48848355.475
+      },
+      {
+        "cell_id": "CNA10K-R00485-C00208",
+        "center_lon": 130.991489,
+        "center_lat": 42.488986,
+        "intersection_area_m2": 5443151.438
+      },
+      {
+        "cell_id": "CNA10K-R00486-C00204",
+        "center_lon": 130.546118,
+        "center_lat": 42.666103,
+        "intersection_area_m2": 9004470.618
+      },
+      {
+        "cell_id": "CNA10K-R00486-C00205",
+        "center_lon": 130.665559,
+        "center_lat": 42.643434,
+        "intersection_area_m2": 7436697.46
+      },
+      {
+        "cell_id": "CNA10K-R00486-C00207",
+        "center_lon": 130.904212,
+        "center_lat": 42.597788,
+        "intersection_area_m2": 25728779.158
+      },
+      {
+        "cell_id": "CNA10K-R00486-C00208",
+        "center_lon": 131.023424,
+        "center_lat": 42.574812,
+        "intersection_area_m2": 82575119.936
+      },
+      {
+        "cell_id": "CNA10K-R00486-C00209",
+        "center_lon": 131.142559,
+        "center_lat": 42.551734,
+        "intersection_area_m2": 22547569.231
+      },
+      {
+        "cell_id": "CNA10K-R00487-C00207",
+        "center_lon": 130.936091,
+        "center_lat": 42.683651,
+        "intersection_area_m2": 7141617.451
+      },
+      {
+        "cell_id": "CNA10K-R00487-C00208",
+        "center_lon": 131.055436,
+        "center_lat": 42.660643,
+        "intersection_area_m2": 31179092.749
+      },
+      {
+        "cell_id": "CNA10K-R00487-C00209",
+        "center_lon": 131.174704,
+        "center_lat": 42.637534,
+        "intersection_area_m2": 12706927.459
+      }
+    ]
+  },
+  "width_diagnostics": [
+    {
+      "width_m": 5000,
+      "n_cells": 8192,
+      "l7_extended_excluded_scenes": 1269,
+      "cells_with_any_event_2015_2025": 8171,
+      "cells_never_observed_2015_2025": 21,
+      "per_sensor": {
+        "landsat8": {
+          "cell_event_pairs": 2626083,
+          "cells_ever_observed": 8171,
+          "events_per_cell_year_p50": 20.0,
+          "full_cover_pair_fraction": 0.8938
+        },
+        "sentinel2": {
+          "cell_event_pairs": 7930525,
+          "cells_ever_observed": 8171,
+          "events_per_cell_year_p50": 86.0,
+          "full_cover_pair_fraction": 0.8704
+        },
+        "sentinel1": {
+          "cell_event_pairs": 4253632,
+          "cells_ever_observed": 8171,
+          "events_per_cell_year_p50": 32.0,
+          "full_cover_pair_fraction": 0.8743
+        }
+      }
+    },
+    {
+      "width_m": 10000,
+      "n_cells": 3319,
+      "l7_extended_excluded_scenes": 1269,
+      "cells_with_any_event_2015_2025": 3296,
+      "cells_never_observed_2015_2025": 23,
+      "per_sensor": {
+        "landsat8": {
+          "cell_event_pairs": 1117517,
+          "cells_ever_observed": 3296,
+          "events_per_cell_year_p50": 20.0,
+          "full_cover_pair_fraction": 0.7987
+        },
+        "sentinel2": {
+          "cell_event_pairs": 3291670,
+          "cells_ever_observed": 3296,
+          "events_per_cell_year_p50": 143.0,
+          "full_cover_pair_fraction": 0.7586
+        },
+        "sentinel1": {
+          "cell_event_pairs": 1818959,
+          "cells_ever_observed": 3296,
+          "events_per_cell_year_p50": 38.0,
+          "full_cover_pair_fraction": 0.7807
+        }
+      }
+    },
+    {
+      "width_m": 20000,
+      "n_cells": 1383,
+      "l7_extended_excluded_scenes": 1269,
+      "cells_with_any_event_2015_2025": 1365,
+      "cells_never_observed_2015_2025": 18,
+      "per_sensor": {
+        "landsat8": {
+          "cell_event_pairs": 505233,
+          "cells_ever_observed": 1365,
+          "events_per_cell_year_p50": 23.0,
+          "full_cover_pair_fraction": 0.6394
+        },
+        "sentinel2": {
+          "cell_event_pairs": 1410065,
+          "cells_ever_observed": 1365,
+          "events_per_cell_year_p50": 143.0,
+          "full_cover_pair_fraction": 0.5658
+        },
+        "sentinel1": {
+          "cell_event_pairs": 820733,
+          "cells_ever_observed": 1365,
+          "events_per_cell_year_p50": 49.0,
+          "full_cover_pair_fraction": 0.6326
+        }
+      }
+    }
+  ],
+  "classification_csv": "work/national/census/island_cell_classification_W10000.csv"
+}

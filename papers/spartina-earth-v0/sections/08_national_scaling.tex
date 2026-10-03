@@ -4,10 +4,12 @@ This section describes the \emph{mainland China coastal domain v0}:
 the administrative clip excludes Taiwan and the audited national label
 products are themselves mainland-China products, so the present scope is
 never described as the whole China coast. The domain and the 10\,km
-lattice are built, but both remain \texttt{PROVISIONAL\_NOT\_FROZEN};
-no national pixel export and no national result map exists at the time
-of writing, and the national EO metadata census (Issue \#16) is
-executed separately after this manuscript version.
+lattice remains \texttt{PROVISIONAL\_NOT\_FROZEN}; no national
+pixel export and no national result map exists. The national EO
+metadata census (Issue~\#16) has, however, now been executed as a
+metadata- and geometry-only operation: 184{,}051 physical scene rows
+for six sensors were read from live GEE catalogs with zero pixel
+exports under an installed \texttt{ee.batch.Export} guard.
 The central design rule is that the study domain must be independent of
 the target. Restricting the domain to 2015 positive Spartina cells
 would systematically exclude later expansion, eradicated sites,
@@ -39,14 +41,15 @@ is therefore selected as the canonical archive lattice, while UTM
 remains a sensor-native check only. At the provisional 10\,km corridor
 width the canonical lattice contains 3{,}319 coastal cells over a
 235{,}984\,km$^2$ corridor; the 5\,km and 20\,km a-priori sweeps give
-2{,}542 and 4{,}767 cells. Full-resolution GSHHG changes the counts by
+8{,}192 and 1{,}383 Albers cells (8{,}968 and 1{,}557 UTM-zone-aware
+cells). Full-resolution GSHHG changes the counts by
 at most +6 cells ($\leq$0.16\,\%), and omitting island recovery
 removes 12.3\,\% of cells, so the lattice is coastline-resolution
 insensitive but materially dependent on the island rule, which is kept
 strictly geometric. Each cell carries a deterministic reversible
-identifier (projection, zone where applicable, row, column), geometry
-hash, and coastal-relevance metadata; label-derived entry conditions
-are forbidden.
+identifier (projection, zone where applicable, grid-width token, row,
+column), geometry hash, and coastal-relevance metadata; label-derived
+entry conditions are forbidden.
 
 \subsection{Label-overlay flags and exclusive strata}
 Labels enter the domain strictly as overlays. Each cell carries seven
@@ -77,10 +80,39 @@ Recorded fields cover scene/event counts, UTC, coverage, full-year and
 candidate-season tags, source QA, pass/orbit, datatake/tiles, and
 path/row, with sensor-era status distinguished as not-operational,
 no-scenes, no-cell-intersection, metadata-available, or query-failed.
-The census \emph{design and contracts} are versioned, but national
-scene/event counts do not exist yet: the census is executed under
-Issue~\#16, and no national availability number is anticipated in this
-paper.
+The executed census (1984--2025; S2 from 2017 and S1 from 2014)
+required 85 batched optical and 30 Sentinel-1 metadata calls (no
+per-cell calls; three oversized yearly S1 ascending batches were
+re-fetched as half-year scopes) and returned 184{,}051 unique physical
+scenes: 21{,}022 Landsat~5, 20{,}187 Landsat~7, 13{,}306 Landsat~8,
+4{,}265 Landsat~9, 108{,}232 Sentinel-2 granules and 17{,}039
+Sentinel-1 scenes. Sentinel-2 granules from the same datatake on the
+same day are grouped into one observation event, and local geometric
+joins yield 79{,}265 events, 10{,}058{,}703 cell--event pairs and
+3{,}296 of the 3{,}319 cells observed by at least one sensor in the
+2015--2025 common era; 1{,}269 post-2022-05-05 Landsat~7 scenes from
+the off-nominal extended mission are excluded from the nominal WRS-2
+join. Median observation density at W10 over the common era is 20
+Landsat~8, 143 Sentinel-2 and 38 Sentinel-1 events per cell-year; at
+W10, 80\,\%/76\,\%/78\,\% of cell--event pairs fully cover the
+cell for L8/S2/S1 (89--87\,\% at W5, 64--57\,\% at W20), so the
+nominal-frame prefilter is never treated as full-cover evidence.
+Exactly 23 cells, all in the far northeast (lon~130.4--131.2,
+lat~41.9--42.4; rows~481--487, cols~204--209) and outside the WRS-2
+path-114--126 corridor index, are chronic-zero for every common-era
+sensor; zero scopes returned a query failure. A live point audit at
+three sites confirms GEE \texttt{S1\_GRD} coverage over the domain is
+overwhelmingly ascending, with no descending scenes found for 2023---a
+real acquisition characteristic, not a gap to be filled. Of the 1{,}190
+island-only W10 cells, 98.3\,\% are observed in 2015--2025 (99.8\,\%
+of 1{,}570 mainland cells; all 559 mixed cells). Census contracts,
+checksums, per-call resource ledgers and the full availability/gap
+matrices are versioned as run manifest
+\texttt{EO\_CENSUS\_RUN\_MANIFEST\_v0.json}; no census bytes are
+tracked in Git. A deterministic 20-cell first-pixel panel (five strata
+and four geometry-edge quotas, SHA-256 ranked on cell IDs) is designed
+but explicitly \emph{not executed}: no pixel download has been
+authorized.
 
 \begin{figure}[t]\centering
 \figplaceholder{Figure 5}{National scaling design schematic only:
@@ -107,5 +139,6 @@ Tier~2 one standard monitoring year on all cells ($\approx$572\,GiB,
 $\approx$1{,}991 task-hours); Tier~3 the full candidate archive
 ($\approx$134\,TiB, $\approx$460{,}000 task-hours). These are
 model estimates, not measurements; per-sensor national availability is
-explicitly pending the Issue~\#16 census and is not anticipated here.
-No tier that exports pixels is opened in this study.
+now measured by the Issue~\#16 metadata census (reported above) and
+can later replace the calibrated assumptions, but no tier that exports
+pixels is opened in this study.
