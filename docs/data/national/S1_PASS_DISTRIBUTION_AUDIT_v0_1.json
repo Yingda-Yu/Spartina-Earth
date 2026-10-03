@@ -1,0 +1,394 @@
+{
+  "artifact": "s1_pass_distribution_audit",
+  "version": "v0_1",
+  "generated_utc": "2026-10-03T19:11:21.356666+00:00",
+  "git_commit": "f1c1ea042cd5bf17d70117ac7bb0f1d5fbd1d2af",
+  "audit": "M2.3b-R1 PART B (Issue #16 blocker 2)",
+  "cutoff_utc_2026": "2026-10-03T00:00:00Z",
+  "scope": {
+    "collection": "COPERNICUS/S1_GRD",
+    "server_bbox": [
+      105.0,
+      15.0,
+      132.0,
+      43.0
+    ],
+    "years_full": [
+      2015,
+      2025
+    ],
+    "year_partial": 2026,
+    "pass_prefilter": "NONE (unfiltered; orbitProperties_pass read only)"
+  },
+  "funnel_layer_definitions": {
+    "A_BBOX_RAW": "all scenes returned for bbox+dates, any mode/pol",
+    "B_BBOX_IW": "instrumentMode == IW",
+    "C_BBOX_IW_VVVH": "IW and VV|VH dual polarization",
+    "D_CELL_IW_VVVH": "C plus actual footprint intersects W10 cells",
+    "E_D_AUTUMN": "D plus DOY 260-320",
+    "F_PRODUCTION_STYLE": "D plus known platform/orbit (full year)"
+  },
+  "funnel_totals_2015_2025": {
+    "A_BBOX_RAW": {
+      "ASC": 49812,
+      "DESC": 22926
+    },
+    "B_BBOX_IW": {
+      "ASC": 49712,
+      "DESC": 22834
+    },
+    "C_BBOX_IW_VVVH": {
+      "ASC": 48114,
+      "DESC": 21787
+    },
+    "D_CELL_IW_VVVH": {
+      "ASC": 14491,
+      "DESC": 3145
+    },
+    "E_D_AUTUMN": {
+      "ASC": 2564,
+      "DESC": 562
+    },
+    "F_PRODUCTION_STYLE": {
+      "ASC": 14491,
+      "DESC": 3145
+    }
+  },
+  "funnel_totals_2026_ytd": {
+    "A_BBOX_RAW": {
+      "ASC": 3692,
+      "DESC": 2216
+    },
+    "B_BBOX_IW": {
+      "ASC": 3683,
+      "DESC": 2203
+    },
+    "C_BBOX_IW_VVVH": {
+      "ASC": 3683,
+      "DESC": 2203
+    },
+    "D_CELL_IW_VVVH": {
+      "ASC": 904,
+      "DESC": 351
+    },
+    "E_D_AUTUMN": {
+      "ASC": 49,
+      "DESC": 19
+    },
+    "F_PRODUCTION_STYLE": {
+      "ASC": 626,
+      "DESC": 264
+    }
+  },
+  "funnel_by_year_csv": "work/national/census_r1/s1_pass_funnel_v0_1.csv",
+  "relative_orbit_csv": "work/national/census_r1/s1_relative_orbits_v0_1.csv",
+  "relative_orbit_top_by_segment_pass": {
+    "BOHAI_YELLOW_SEA|ASC": {
+      "98": 1393,
+      "171": 1159,
+      "69": 916,
+      "25": 517,
+      "142": 340,
+      "156": 268,
+      "76": 5,
+      "127": 4
+    },
+    "BOHAI_YELLOW_SEA|DESC": {
+      "76": 753,
+      "3": 589,
+      "149": 489,
+      "61": 214,
+      "105": 213,
+      "134": 198
+    },
+    "EAST_CHINA_SEA|ASC": {
+      "171": 2074,
+      "69": 2009,
+      "98": 103,
+      "142": 56,
+      "76": 1
+    },
+    "EAST_CHINA_SEA|DESC": {
+      "76": 146,
+      "3": 45,
+      "105": 16,
+      "32": 8
+    },
+    "SOUTH_CHINA_SEA_INCL_HAINAN|ASC": {
+      "157": 1151,
+      "55": 1078,
+      "142": 637,
+      "40": 634,
+      "84": 600,
+      "113": 570,
+      "11": 553,
+      "69": 418
+    },
+    "SOUTH_CHINA_SEA_INCL_HAINAN|DESC": {
+      "105": 421,
+      "18": 16,
+      "3": 13,
+      "120": 10,
+      "47": 7,
+      "149": 4,
+      "76": 3
+    }
+  },
+  "platform_breakdown_2015_2025": {
+    "A": {
+      "ASC": 43331,
+      "DESC": 14208
+    },
+    "B": {
+      "ASC": 5813,
+      "DESC": 7700
+    },
+    "C": {
+      "ASC": 668,
+      "DESC": 1018
+    }
+  },
+  "histogram_comparison": {
+    "raw_unfiltered_D_level": {
+      "ASC": 14491,
+      "DESC": 3145
+    },
+    "v0_cache_17039": {
+      "ASC": 14276,
+      "DESC": 2763
+    },
+    "v0_cell_event_pairs": {
+      "ASC": 1562141,
+      "DESC": 256818,
+      "pass_unmatched": 0
+    }
+  },
+  "spot_checks": {
+    "method": "direct ee filterBounds(cell) props-only aggregate, 2014-10-01..2026-10-03, no local index",
+    "csv": "work/national/census_r1/s1_spot_checks_v0_1.csv",
+    "results": [
+      {
+        "region": "BOHAI",
+        "anchor_lon": 118.0,
+        "anchor_lat": 38.3,
+        "cell_id": "CNA10K-R00418-C00111",
+        "cell_lon": 118.023019,
+        "cell_lat": 38.335193,
+        "raw_total": 508,
+        "ASC": 308,
+        "DESC": 200,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 298,
+        "iw_vvvh_desc": 196,
+        "distinct_orbits_asc": [
+          69
+        ],
+        "distinct_orbits_desc": [
+          149
+        ],
+        "query_s": 0.47
+      },
+      {
+        "region": "BOHAI",
+        "anchor_lon": 120.25,
+        "anchor_lat": 37.8,
+        "cell_id": "CNA10K-R00415-C00131",
+        "cell_lon": 120.271451,
+        "cell_lat": 37.821177,
+        "raw_total": 642,
+        "ASC": 324,
+        "DESC": 318,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 323,
+        "iw_vvvh_desc": 318,
+        "distinct_orbits_asc": [
+          76,
+          171
+        ],
+        "distinct_orbits_desc": [
+          3,
+          76
+        ],
+        "query_s": 0.46
+      },
+      {
+        "region": "YANGTZE",
+        "anchor_lon": 121.9,
+        "anchor_lat": 31.4,
+        "cell_id": "CNA10K-R00346-C00157",
+        "cell_lon": 121.884784,
+        "cell_lat": 31.416256,
+        "raw_total": 396,
+        "ASC": 389,
+        "DESC": 7,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 382,
+        "iw_vvvh_desc": 4,
+        "distinct_orbits_asc": [
+          171
+        ],
+        "distinct_orbits_desc": [
+          105
+        ],
+        "query_s": 0.43
+      },
+      {
+        "region": "YANGTZE",
+        "anchor_lon": 121.2,
+        "anchor_lat": 32.1,
+        "cell_id": "CNA10K-R00353-C00150",
+        "cell_lon": 121.269803,
+        "cell_lat": 32.132956,
+        "raw_total": 404,
+        "ASC": 388,
+        "DESC": 16,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 382,
+        "iw_vvvh_desc": 13,
+        "distinct_orbits_asc": [
+          171
+        ],
+        "distinct_orbits_desc": [
+          3,
+          105
+        ],
+        "query_s": 0.41
+      },
+      {
+        "region": "ZHEJIANG_FUJIAN",
+        "anchor_lon": 121.2,
+        "anchor_lat": 28.4,
+        "cell_id": "CNA10K-R00312-C00156",
+        "cell_lon": 121.190568,
+        "cell_lat": 28.441807,
+        "raw_total": 996,
+        "ASC": 990,
+        "DESC": 6,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 983,
+        "iw_vvvh_desc": 4,
+        "distinct_orbits_asc": [
+          69,
+          171
+        ],
+        "distinct_orbits_desc": [
+          105
+        ],
+        "query_s": 0.65
+      },
+      {
+        "region": "ZHEJIANG_FUJIAN",
+        "anchor_lon": 119.7,
+        "anchor_lat": 25.6,
+        "cell_id": "CNA10K-R00278-C00146",
+        "cell_lon": 119.656649,
+        "cell_lat": 25.56546,
+        "raw_total": 665,
+        "ASC": 660,
+        "DESC": 5,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 660,
+        "iw_vvvh_desc": 4,
+        "distinct_orbits_asc": [
+          69,
+          142
+        ],
+        "distinct_orbits_desc": [
+          3
+        ],
+        "query_s": 0.46
+      },
+      {
+        "region": "PEARL_DELTA",
+        "anchor_lon": 113.85,
+        "anchor_lat": 22.5,
+        "cell_id": "CNA10K-R00237-C00091",
+        "cell_lon": 113.829447,
+        "cell_lat": 22.46465,
+        "raw_total": 315,
+        "ASC": 313,
+        "DESC": 2,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 313,
+        "iw_vvvh_desc": 1,
+        "distinct_orbits_asc": [
+          11
+        ],
+        "distinct_orbits_desc": [
+          149
+        ],
+        "query_s": 0.48
+      },
+      {
+        "region": "PEARL_DELTA",
+        "anchor_lon": 113.55,
+        "anchor_lat": 22.25,
+        "cell_id": "CNA10K-R00234-C00088",
+        "cell_lon": 113.516631,
+        "cell_lat": 22.216273,
+        "raw_total": 318,
+        "ASC": 313,
+        "DESC": 5,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 313,
+        "iw_vvvh_desc": 3,
+        "distinct_orbits_asc": [
+          11
+        ],
+        "distinct_orbits_desc": [
+          47,
+          149
+        ],
+        "query_s": 0.43
+      },
+      {
+        "region": "HAINAN",
+        "anchor_lon": 110.3,
+        "anchor_lat": 20.05,
+        "cell_id": "CNA10K-R00208-C00056",
+        "cell_lon": 110.311166,
+        "cell_lat": 20.046399,
+        "raw_total": 726,
+        "ASC": 714,
+        "DESC": 12,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 698,
+        "iw_vvvh_desc": 3,
+        "distinct_orbits_asc": [
+          157
+        ],
+        "distinct_orbits_desc": [
+          120
+        ],
+        "query_s": 0.49
+      },
+      {
+        "region": "HAINAN",
+        "anchor_lon": 110.85,
+        "anchor_lat": 19.55,
+        "cell_id": "CNA10K-R00203-C00062",
+        "cell_lon": 110.846292,
+        "cell_lat": 19.556179,
+        "raw_total": 757,
+        "ASC": 744,
+        "DESC": 13,
+        "pass_unknown": 0,
+        "iw_vvvh_asc": 735,
+        "iw_vvvh_desc": 4,
+        "distinct_orbits_asc": [
+          84,
+          157
+        ],
+        "distinct_orbits_desc": [
+          47,
+          120
+        ],
+        "query_s": 0.49
+      }
+    ],
+    "errors": []
+  },
+  "failed_raw_scopes": [],
+  "diagnosis_token": "DESCENDING_TRULY_ABSENT_OR_RARE",
+  "diagnosis_reason": "2022-2025 national D-level DESC share=4.790%; direct cell checks show DESC<5% in ['HAINAN', 'PEARL_DELTA', 'YANGTZE', 'ZHEJIANG_FUJIAN']; DESC abundant only in {'BOHAI': 0.496}; v0 cache retained DESC (2763 scenes), so no pipeline filter bug -- the rarity is region/era structured (raw-supported), and no blanket 'ascending-only' statement is valid"
+}
