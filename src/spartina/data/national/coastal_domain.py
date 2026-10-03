@@ -189,7 +189,9 @@ def scan_lattice_cells(
                 continue
             hits.append(
                 CellHit(
-                    cell_id=encode_cell_id(kind, row, col, zone),
+                    cell_id=encode_cell_id(
+                        kind, row, col, zone, cell_size_m=cell_size_m
+                    ),
                     kind=kind,
                     zone=zone,
                     row=row,

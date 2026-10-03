@@ -107,7 +107,7 @@ def test_assert_partition_rejects_size_mismatch() -> None:
 
 @pytest.mark.parametrize(
     ("width", "expected_cells"),
-    [("W5000", 2542), ("W10000", 3319), ("W20000", 4767)],
+    [("W5000", 8192), ("W10000", 3319), ("W20000", 1383)],
 )
 def test_built_strata_artifacts_partition_domain(width: str, expected_cells: int) -> None:
     csv_path = STRATA_DIR / f"strata_china_albers_{width}.csv"

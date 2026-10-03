@@ -1,8 +1,8 @@
 {
   "artifact": "china_national_coastal_domain",
   "version": "v0",
-  "generated_utc": "2026-10-03T10:48:52+00:00",
-  "git_commit": "2a0b35cc107fb0b8eb95711dcb0e98fb0da3886b",
+  "generated_utc": "2026-10-03T16:19:08+00:00",
+  "git_commit": "45ec8ed62aaf079e246f4d40e83374c18c2f75f1",
   "parameters": {
     "bbox_wgs84": [
       105.0,
@@ -37,19 +37,19 @@
     {
       "width_m": 5000,
       "corridor_area_km2": 142047.95,
-      "china_albers_cells": 2542,
-      "utm_zone_aware_cells": 2771,
+      "china_albers_cells": 8192,
+      "utm_zone_aware_cells": 8968,
       "utm_cells_by_zone": {
-        "49": 719,
-        "50": 792,
-        "51": 1250,
-        "52": 10
+        "49": 2291,
+        "50": 2584,
+        "51": 4073,
+        "52": 20
       },
       "files": {
         "albers_cells_csv": "cells_china_albers_W5000.csv",
-        "albers_cells_csv_sha256": "99d77c7301472b99f06d22b22c20985f0efff1e7cd3734bee9867425436aca5a",
+        "albers_cells_csv_sha256": "69f371048e5327458bde80135cd7d8d5650444d166dbdd8e5229b10e0752b3c4",
         "utm_cells_csv": "cells_utm_zone_aware_W5000.csv",
-        "utm_cells_csv_sha256": "35326ccfecd17ab292613ec1a70b61c8a790e2139b2869aab017d0c4e9face2a",
+        "utm_cells_csv_sha256": "e2f08789e91d8e6e7f9e34ef6fff0ea102dc86fb92b1fd49543273249bdba901",
         "corridor_gpkg": "corridor_W5000.gpkg"
       }
     },
@@ -75,19 +75,19 @@
     {
       "width_m": 20000,
       "corridor_area_km2": 388139.05,
-      "china_albers_cells": 4767,
-      "utm_zone_aware_cells": 5341,
+      "china_albers_cells": 1383,
+      "utm_zone_aware_cells": 1557,
       "utm_cells_by_zone": {
-        "49": 1423,
-        "50": 1571,
-        "51": 2304,
-        "52": 43
+        "49": 411,
+        "50": 468,
+        "51": 659,
+        "52": 19
       },
       "files": {
         "albers_cells_csv": "cells_china_albers_W20000.csv",
-        "albers_cells_csv_sha256": "0e68a2f177a2017a304cb5359c519b9151e2cd46a3fcfc5c2fe027b7b8bed744",
+        "albers_cells_csv_sha256": "28be6c98300f44d3859a4bbedf1ce3d82c525bb807ad7f8b01a4446c33c73179",
         "utm_cells_csv": "cells_utm_zone_aware_W20000.csv",
-        "utm_cells_csv_sha256": "73acca3c7126ef8611b6e4da7122f3254b110c88fe555b9ee4f86876bb2198aa",
+        "utm_cells_csv_sha256": "f758aa7770bc98346aab22fb53320f1ae24b5a52bfcfefc6cd8154dda5cbc2ca",
         "corridor_gpkg": "corridor_W20000.gpkg"
       }
     }
@@ -137,20 +137,6 @@
     ]
   },
   "sensitivity": {
-    "aea_cells_without_added_islands": 2912,
-    "full_resolution_aea_cells_previous_rule": {
-      "W5000": 2550,
-      "W10000": 3323,
-      "W20000": 4777
-    },
-    "resolution_note": "canonical build uses GSHHS high resolution (h); full resolution (f) re-run under the same island rule gives W5 2546 (+4), W10 3320 (+1), W20 4773 (+6) vs h: <=0.16%, so the lattice is resolution-insensitive",
-    "island_rule_note": "without recovered small islands the W10 Albers count is 2912 vs 3319 (see aea_cells_without_added_islands); recovered islands are real Chinese archipelago coast omitted by 1:10m admin data",
-    "utm_seam_note": "UTM double-counts cells at the 114E and 120E seams (see strategy_comparison seams); Albers is seam-free and canonical",
-    "full_resolution_aea_cells": {
-      "W5000": 2546,
-      "W10000": 3320,
-      "W20000": 4773
-    },
-    "full_resolution_build_dir": "work/national/domain_f (ignored bytes)"
+    "aea_cells_without_added_islands": 2912
   }
 }

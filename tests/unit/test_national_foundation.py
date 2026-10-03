@@ -339,3 +339,24 @@ def test_zone_bands_cover_coast_without_gaps() -> None:
     west50, _, _, _ = zone_band_bounds(50)
     assert west49 < 108.0 < east49
     assert west50 < 114.0 < east49  # bands overlap at the seam
+
+
+def test_cell_ids_carry_width_and_roundtrip_across_lattices() -> None:
+    from spartina.data.national.grid import GridKind, GridSpec, parse_cell_id
+
+    spec5 = GridSpec(GridKind.CHINA_ALBERS, cell_size_m=5000)
+    spec20 = GridSpec(GridKind.CHINA_ALBERS, cell_size_m=20000)
+    cid5 = spec5.cell_id(325, 136)
+    cid20 = spec20.cell_id(80, 30)
+    assert cid5 == "CNA5K-R00325-C00136"
+    assert cid20 == "CNA20K-R00080-C00030"
+    ref5 = parse_cell_id(cid5)
+    assert (ref5.row, ref5.col, ref5.cell_size_m) == (325, 136, 5000)
+    assert parse_cell_id(cid20).cell_size_m == 20000
+    # W10 prefix remains exactly the historical canonical form.
+    spec10 = GridSpec(GridKind.CHINA_ALBERS)
+    assert spec10.cell_id(123, 45) == "CNA10K-R00123-C00045"
+    # Different widths must never collide in the same index space.
+    assert spec5.cell_id(246, 90) != spec10.cell_id(246, 90)
+    utm5 = GridSpec(GridKind.UTM_ZONE_AWARE, cell_size_m=5000).cell_id(1, 2, 51)
+    assert utm5.startswith("CNU5K-Z51N-")

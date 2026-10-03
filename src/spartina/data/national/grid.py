@@ -15,7 +15,7 @@ geometry assembly lives in :mod:`spartina.data.national.geometry`.
 
 ID grammar (no UUIDs; geometry is recoverable from the ID)::
 
-    CNA10K-R{row:05d}-C{col:05d}
+    CNA{size}K-R{row:05d}-C{col:05d}
     CNU10K-Z{zone:02d}N-R{row:06d}-C{col:06d}
 
 Both lattices anchor at projected (easting=0, northing=0).  For UTM the
@@ -49,8 +49,8 @@ Equal-area: every 10 km cell covers exactly 1e8 m**2 in this projection
 anywhere in the country.
 """
 
-_ID_PREFIX_AEA: Final[str] = "CNA10K"
-_ID_PREFIX_UTM: Final[str] = "CNU10K"
+_ID_PREFIX_AEA: Final[str] = "CNA10K"  # default; width-parametric
+_ID_PREFIX_UTM: Final[str] = "CNU10K"  # default; width-parametric
 
 
 class GridKind(str, Enum):
@@ -68,10 +68,13 @@ class CellRef:
     zone: int | None
     row: int
     col: int
+    cell_size_m: int = CELL_SIZE_M
 
     @property
     def cell_id(self) -> str:
-        return encode_cell_id(self.kind, self.row, self.col, self.zone)
+        return encode_cell_id(
+            self.kind, self.row, self.col, self.zone, self.cell_size_m
+        )
 
 
 def utm_epsg(zone: int) -> int:
@@ -81,19 +84,30 @@ def utm_epsg(zone: int) -> int:
     return 32600 + zone
 
 
-def encode_cell_id(kind: GridKind, row: int, col: int, zone: int | None = None) -> str:
-    """Encode a lattice index into its deterministic string ID."""
+def encode_cell_id(
+    kind: GridKind,
+    row: int,
+    col: int,
+    zone: int | None = None,
+    cell_size_m: int = CELL_SIZE_M,
+) -> str:
+    """Encode a lattice index into its deterministic string ID.
+
+    The prefix carries the cell size in km (e.g. ``CNA5K``, ``CNA10K``,
+    ``CNA20K``) so lattices of different widths never share an ID space.
+    """
+    token = f"{cell_size_m // 1000}K"
     if kind is GridKind.CHINA_ALBERS:
         if zone is not None:
             raise ValueError("Albers lattice has no zone component")
-        return f"{_ID_PREFIX_AEA}-R{row:05d}-C{col:05d}"
+        return f"CNA{token}-R{row:05d}-C{col:05d}"
     if kind is GridKind.UTM_ZONE_AWARE:
         if zone is None or zone not in CHINA_COASTAL_UTM_ZONES:
             raise ValueError(
                 f"UTM lattice requires a coastal zone in "
                 f"{CHINA_COASTAL_UTM_ZONES}, got {zone!r}"
             )
-        return f"{_ID_PREFIX_UTM}-Z{zone:02d}N-R{row:06d}-C{col:06d}"
+        return f"CNU{token}-Z{zone:02d}N-R{row:06d}-C{col:06d}"
     raise ValueError(f"unknown grid kind: {kind!r}")
 
 
@@ -104,15 +118,22 @@ def parse_cell_id(cell_id: str) -> CellRef:
     identifiers can never be silently accepted.
     """
     parts = cell_id.split("-")
-    if len(parts) == 3 and parts[0] == _ID_PREFIX_AEA:
+    if len(parts) == 3 and parts[0].startswith("CNA") and parts[0].endswith("K"):
         row, col = _parse_rc(tuple(parts))
-        ref = CellRef(GridKind.CHINA_ALBERS, None, row, col)
-    elif len(parts) == 4 and parts[0] == _ID_PREFIX_UTM and parts[1].endswith("N"):
+        size_m = int(parts[0][3:-1]) * 1000
+        ref = CellRef(GridKind.CHINA_ALBERS, None, row, col, size_m)
+    elif (
+        len(parts) == 4
+        and parts[0].startswith("CNU")
+        and parts[0].endswith("K")
+        and parts[1].endswith("N")
+    ):
         zone = int(parts[1][1:-1])
         row, col = _parse_rc((parts[2], parts[3]))
         if zone not in CHINA_COASTAL_UTM_ZONES:
             raise ValueError(f"cell ID uses a non-coastal UTM zone: {cell_id}")
-        ref = CellRef(GridKind.UTM_ZONE_AWARE, zone, row, col)
+        size_m = int(parts[0][3:-1]) * 1000
+        ref = CellRef(GridKind.UTM_ZONE_AWARE, zone, row, col, size_m)
     else:
         raise ValueError(f"not a national cell ID: {cell_id!r}")
     if ref.cell_id != cell_id:
@@ -135,7 +156,7 @@ class GridSpec:
     cell_size_m: int = CELL_SIZE_M
 
     def cell_id(self, row: int, col: int, zone: int | None = None) -> str:
-        return encode_cell_id(self.kind, row, col, zone)
+        return encode_cell_id(self.kind, row, col, zone, self.cell_size_m)
 
     def cell_bounds_projected(
         self, row: int, col: int, zone: int | None = None

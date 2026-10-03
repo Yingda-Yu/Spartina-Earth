@@ -37,7 +37,7 @@ from shapely.geometry import box
 from shapely.geometry.base import BaseGeometry
 
 from spartina.data.national.geometry import CHINA_ALBERS_CRS
-from spartina.data.national.grid import CELL_SIZE_M, GridKind, parse_cell_id
+from spartina.data.national.grid import GridKind, parse_cell_id
 from spartina.data.national.strata import (
     BOOLEAN_FLAGS,
     assign_priority_stratum,
@@ -56,19 +56,19 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def read_albers_cells(csv_path: Path) -> list[tuple[str, int, int]]:
-    rows: list[tuple[str, int, int]] = []
+def read_albers_cells(csv_path: Path) -> list[tuple[str, int, int, int]]:
+    rows: list[tuple[str, int, int, int]] = []
     with csv_path.open(newline="", encoding="utf-8") as handle:
         for record in csv.DictReader(handle):
             ref = parse_cell_id(record["cell_id"])
             if ref.kind is not GridKind.CHINA_ALBERS:
                 raise ValueError(f"strata build expects Albers cells, got {record['cell_id']}")
-            rows.append((record["cell_id"], ref.row, ref.col))
+            rows.append((record["cell_id"], ref.row, ref.col, ref.cell_size_m))
     return rows
 
 
 def silver_positive_cells(
-    cells: list[tuple[str, int, int]], tif_path: Path
+    cells: list[tuple[str, int, int, int]], tif_path: Path
 ) -> tuple[set[str], dict[str, Any]]:
     """Windowed raster check: cell intersects any value-1 2015 pixel."""
     positives: set[str] = set()
@@ -76,11 +76,11 @@ def silver_positive_cells(
         to_raster = Transformer.from_crs(CHINA_ALBERS_CRS, dataset.crs, always_xy=True)
         value_name = str(dataset.dtypes[0])
         checked = 0
-        for cell_id, row, col in cells:
-            x0 = col * CELL_SIZE_M
-            x1 = x0 + CELL_SIZE_M
-            y0 = row * CELL_SIZE_M
-            y1 = y0 + CELL_SIZE_M
+        for cell_id, row, col, size_m in cells:
+            x0 = col * size_m
+            x1 = x0 + size_m
+            y0 = row * size_m
+            y1 = y0 + size_m
             wx0, wy0 = to_raster.transform(x0, y0)
             wx1, wy1 = to_raster.transform(x1, y1)
             minx, maxx = sorted((wx0, wx1))
@@ -105,17 +105,19 @@ def silver_positive_cells(
 
 
 def nearby_cell_ids(
-    cells: list[tuple[str, int, int]], positives: set[str], ring: int = 1
+    cells: list[tuple[str, int, int, int]], positives: set[str], ring: int = 1
 ) -> set[str]:
     """Lattice dilation of positive cells by ``ring`` cells per side.
 
     The ring width is chosen per grid so the physical band stays ~10 km:
     1 ring at W10000/W20000, 2 rings at W5000.  IDs never cross grid
-    files: each width has its own index space (the shared ``CNA10K``
-    prefix is disambiguated by file/grid width).
+    files: each width has its own index space (``CNA5K``/``CNA10K``/
+    ``CNA20K`` prefixes disambiguate the grid width).
     """
-    index = {(row, col): cell_id for cell_id, row, col in cells}
-    positive_rc = {(row, col) for cell_id, row, col in cells if cell_id in positives}
+    index = {(row, col): cell_id for cell_id, row, col, _ in cells}
+    positive_rc = {
+        (row, col) for cell_id, row, col, _ in cells if cell_id in positives
+    }
     offsets = range(-ring, ring + 1)
     nearby: set[str] = set()
     for row, col in positive_rc:
@@ -133,13 +135,13 @@ NEARBY_RING_CELLS: dict[int, int] = {5000: 2, 10000: 1, 20000: 1}
 
 
 def cmssm_positive_cells(
-    cells: list[tuple[str, int, int]], shp_path: Path
+    cells: list[tuple[str, int, int, int]], shp_path: Path
 ) -> set[str]:
     polys = gpd.read_file(shp_path, engine="pyogrio")
     polys_aea = polys.to_crs(CHINA_ALBERS_CRS)
     geometries: list[BaseGeometry] = [
-        box(col * CELL_SIZE_M, row * CELL_SIZE_M, (col + 1) * CELL_SIZE_M, (row + 1) * CELL_SIZE_M)
-        for _, row, col in cells
+        box(col * size_m, row * size_m, (col + 1) * size_m, (row + 1) * size_m)
+        for _, row, col, size_m in cells
     ]
     cell_frame = gpd.GeoDataFrame(
         {"cell_id": [c[0] for c in cells]}, geometry=geometries, crs=CHINA_ALBERS_CRS
@@ -160,7 +162,7 @@ def main() -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
     widths = (5000, 10000, 20000)
-    cell_sets: dict[int, list[tuple[str, int, int]]] = {}
+    cell_sets: dict[int, list[tuple[str, int, int, int]]] = {}
     for width in widths:
         cell_sets[width] = read_albers_cells(
             args.cells_dir / f"cells_china_albers_W{width}.csv"
@@ -251,7 +253,7 @@ def main() -> int:
         with out_csv.open("w", newline="", encoding="utf-8") as handle:
             writer = csv.writer(handle)
             writer.writerow(["cell_id", *BOOLEAN_FLAGS, "exclusive_stratum"])
-            for cell_id, _, _ in cells:
+            for cell_id, _, _, _ in cells:
                 is_pos = cell_id in positive
                 is_cmssm = cell_id in cmssm_set
                 is_near = cell_id in nearby_set and not is_pos

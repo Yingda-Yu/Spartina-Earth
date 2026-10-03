@@ -233,14 +233,16 @@ def main() -> int:
     for width in args.widths:
         width_key = f"W{width}"
         corridor_aea = build_corridor(china_land.land, all_land_aea, width)
-        aea_hits = scan_lattice_cells(corridor_aea, GridKind.CHINA_ALBERS)
+        aea_hits = scan_lattice_cells(
+            corridor_aea, GridKind.CHINA_ALBERS, cell_size_m=width
+        )
 
         # Deterministic cell lists.
         aea_xy = Transformer.from_crs(aea, 4326, always_xy=True)
         centers: dict[str, tuple[float, float]] = {}
         for hit in aea_hits:
             centers[hit.cell_id] = aea_xy.transform(
-                (hit.col + 0.5) * CELL_SIZE_M, (hit.row + 0.5) * CELL_SIZE_M
+                (hit.col + 0.5) * width, (hit.row + 0.5) * width
             )
 
         utm_hits_by_zone: dict[int, list[CellHit]] = {}
@@ -260,12 +262,17 @@ def main() -> int:
                 .intersection(box(*china_utm.buffer(width + 15_000).bounds))
             )
             corridor_utm = build_corridor(china_utm, all_utm, width)
-            zone_hits = scan_lattice_cells(corridor_utm, GridKind.UTM_ZONE_AWARE, zone)
+            zone_hits = scan_lattice_cells(
+                corridor_utm,
+                GridKind.UTM_ZONE_AWARE,
+                zone,
+                cell_size_m=width,
+            )
             utm_hits_by_zone[zone] = zone_hits
             xy = Transformer.from_crs(utm, 4326, always_xy=True)
             for hit in zone_hits:
                 centers[hit.cell_id] = xy.transform(
-                    (hit.col + 0.5) * CELL_SIZE_M, (hit.row + 0.5) * CELL_SIZE_M
+                    (hit.col + 0.5) * width, (hit.row + 0.5) * width
                 )
             if width == 10_000:
                 utm_all_hits[zone] = zone_hits
@@ -345,7 +352,9 @@ def main() -> int:
         for width in args.widths:
             corridor_f = build_corridor(land_f.land, all_f, width)
             f_counts[f"W{width}"] = len(
-                scan_lattice_cells(corridor_f, GridKind.CHINA_ALBERS)
+                scan_lattice_cells(
+                    corridor_f, GridKind.CHINA_ALBERS, cell_size_m=width
+                )
             )
         stats["sensitivity"]["full_resolution_aea_cells"] = f_counts
 

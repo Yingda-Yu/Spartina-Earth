@@ -2,8 +2,8 @@
   "artifact": "china_national_cell_strata",
   "version": "v0",
   "schema": "orthogonal_boolean_flags_plus_exclusive_priority_strata",
-  "generated_utc": "2026-10-03T13:55:27+00:00",
-  "git_commit": "266ed6bf66b5eb7b8cb20d610e1eaf2c56a01433",
+  "generated_utc": "2026-10-03T16:38:34+00:00",
+  "git_commit": "45ec8ed62aaf079e246f4d40e83374c18c2f75f1",
   "priority_order": [
     "GOLD_EVIDENCE",
     "MULTI_PRODUCT_SILVER_POSITIVE",
@@ -44,8 +44,8 @@
     "positive_value": 1,
     "dtype": "int16",
     "windows_checked": 2383,
-    "windows_checked_W5000": 1874,
-    "windows_checked_W20000": 3314
+    "windows_checked_W5000": 6104,
+    "windows_checked_W20000": 956
   },
   "nearby_radius_m": 10000,
   "nearby_ring_cells_by_width": {
@@ -56,28 +56,28 @@
   "widths": [
     {
       "width_m": 5000,
-      "coastal_cells": 2542,
+      "coastal_cells": 8192,
       "priority_stratum_counts": {
         "GOLD_EVIDENCE": 0,
-        "MULTI_PRODUCT_SILVER_POSITIVE": 303,
-        "SILVER_2015_POSITIVE_ONLY": 91,
-        "CMSSM_2020_POSITIVE_ONLY": 72,
-        "NEAR_SILVER_UNLABELED": 888,
-        "UNLABELED_COASTAL": 1188
+        "MULTI_PRODUCT_SILVER_POSITIVE": 570,
+        "SILVER_2015_POSITIVE_ONLY": 175,
+        "CMSSM_2020_POSITIVE_ONLY": 164,
+        "NEAR_SILVER_UNLABELED": 2377,
+        "UNLABELED_COASTAL": 4906
       },
       "orthogonal_flag_cells": {
         "gold_evidence": 0,
-        "silver_2015_positive": 394,
-        "cmssm_2020_positive": 375,
-        "silver_2015_nearby": 958,
-        "multi_product_positive": 303,
+        "silver_2015_positive": 745,
+        "cmssm_2020_positive": 734,
+        "silver_2015_nearby": 2526,
+        "multi_product_positive": 570,
         "cmsa_positive_history": 0,
         "management_evidence_available": 0
       },
-      "silver_or_cmssm_positive_cells": 466,
+      "silver_or_cmssm_positive_cells": 909,
       "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
       "strata_csv": "strata_china_albers_W5000.csv",
-      "strata_csv_sha256": "7b828b6d7ab52c43e820f163f1dd25b640a2ba9c4f21e026b10d7d606c901c82"
+      "strata_csv_sha256": "f273b5ea69d5d1bbb23bf32d4e1504fa74182d9eb55afd051fe595f89932459f"
     },
     {
       "width_m": 10000,
@@ -106,28 +106,28 @@
     },
     {
       "width_m": 20000,
-      "coastal_cells": 4767,
+      "coastal_cells": 1383,
       "priority_stratum_counts": {
         "GOLD_EVIDENCE": 0,
-        "MULTI_PRODUCT_SILVER_POSITIVE": 311,
-        "SILVER_2015_POSITIVE_ONLY": 100,
-        "CMSSM_2020_POSITIVE_ONLY": 76,
-        "NEAR_SILVER_UNLABELED": 817,
-        "UNLABELED_COASTAL": 3463
+        "MULTI_PRODUCT_SILVER_POSITIVE": 170,
+        "SILVER_2015_POSITIVE_ONLY": 48,
+        "CMSSM_2020_POSITIVE_ONLY": 25,
+        "NEAR_SILVER_UNLABELED": 375,
+        "UNLABELED_COASTAL": 765
       },
       "orthogonal_flag_cells": {
         "gold_evidence": 0,
-        "silver_2015_positive": 411,
-        "cmssm_2020_positive": 387,
-        "silver_2015_nearby": 887,
-        "multi_product_positive": 311,
+        "silver_2015_positive": 218,
+        "cmssm_2020_positive": 195,
+        "silver_2015_nearby": 398,
+        "multi_product_positive": 170,
         "cmsa_positive_history": 0,
         "management_evidence_available": 0
       },
-      "silver_or_cmssm_positive_cells": 487,
+      "silver_or_cmssm_positive_cells": 243,
       "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
       "strata_csv": "strata_china_albers_W20000.csv",
-      "strata_csv_sha256": "191473e2c8dabe43e7b3b1015df2568f038a1ba000c97c91c34e81f103a8f19b"
+      "strata_csv_sha256": "fdd1bbede663cf18228c45f796258f4e082ed90203b2a8be770f7b09badeed4c"
     }
   ]
 }
