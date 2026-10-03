@@ -11,8 +11,9 @@ Status vocabulary (Issue #15):
 
 Every evidence path is relative to the repository root. Manifests carry
 row-level fingerprints; file-level SHA-256 live in the cited fingerprint
-CSVs. Ledger last updated: 2026-10-03 (Phase 3: Issue #14 foundation
-verified; #16 metadata census executed, pixels not authorized).
+CSVs. Ledger last updated: 2026-10-04 (M2.3b-R1 national EO census integrity
+audit; #16 re-executed as v0_1; C51 supersedes the v0 figures in C33;
+pixels still not authorized).
 
 | ID | Claim (short) | Status | Evidence |
 |---|---|---|---|
@@ -54,6 +55,7 @@ verified; #16 metadata census executed, pixels not authorized).
 | C48 | Strata carried as orthogonal boolean flags plus an exclusive priority partition summing to 3,319: 309 multi-product positive, 97 2015-only, 76 2020-only, 742 near-positive unlabeled, 2,095 other unlabeled; orth flags 406 / 385 / 812 / 309; GOLD=0 | VERIFIED_RESULT | docs/data/national/CELL_STRATA_v0.json; src/spartina/data/national/strata.py |
 | C49 | Multimodal registry: 13 sources with CORE/OPTIONAL/OPTIONAL_CONTEXT/VALIDATION_ONLY/BLOCKED roles; tide modeled never observed; management blocked | VERIFIED_METHOD | datasets/manifests/china_multimodal_sources_v0.csv |
 | C50 | Tier 0-3 estimates (0.53 GiB / 83 GiB / 572 GiB / ~134 TiB; task-hours) are model estimates under M2.1b-calibrated byte assumptions, not measurements | VERIFIED_METHOD | docs/data/national/NATIONAL_TIER_MODEL_v0.json |
+| C51 | National census R1 revision v0_1 (supersedes C33 v0 figures; v0 files untouched): 227,505 unique physical scenes; 93,035 events; 10,923,012 cell-event pairs; all 3,319 cells observed 2015-2025; 2026 PARTIAL_YEAR frozen cutoff 2026-10-03 (L8 855/L9 888/S2 14,463/S1 1,255); S1 audit token DESCENDING_TRULY_ABSENT_OR_RARE (14,491 ASC vs 3,145 DESC 2015-25 D-level; 10/10 live spot checks); NE 23 = 3 INDEX_MISS/6 DOMAIN_EDGE/14 MIXED_ADMIN_COAST; indices 71 WRS-2 (+5)/141 MGRS (+13); L7 all 20,187 v0 rows preserved (21,132 nominal events; 6,156 extended rows, 1,418 events/122,744 pairs, default ineligible; 9 standby metadata-only); remaining 7 chronic-zero = S1-only Beibu Gulf-Paracel margin; zero failed scopes; zero pixel exports | VERIFIED_RESULT | docs/data/national/CHINA_EO_CENSUS_SUPERSESSION_v0_1.json; docs/data/national/S1_PASS_DISTRIBUTION_AUDIT_v0_1.json; docs/data/national/NE_CHRONIC_ZERO_AUDIT_v0.json; work/national/census_r1/products/china_eo_census_report_v0_1.json |
 | C39 | M2.1b cell strata are a fixed-order function of tracked manifests: HIGH/MED/LOW/VERY-LOW SILVER fraction (0.0755/0.0457/0.0323/0.0299/0.0003), two SILVER/WEAK disagreement cells (J 0.0435, 0.5942), one UNLABELED coastal control (never negative) | VERIFIED_RESULT | datasets/manifests/zhejiang_m21b_pilot_cells_v0.csv; docs/data/ZHEJIANG_M21B_PILOT_V0.md §1 |
 | C40 | Ten S2 products span THREE datatakes (2022-10-02 n=5; 2022-10-10 n=4; 2022-10-15 n=1) = 8 primary + 2 EXTRA; 4 genuine same-datatake two-tile merges (RTP+RUP, RUP+RUQ, RUQ+RVQ); server assert pins one DATATAKE_IDENTIFIER/UTC date; r5 VALID = SCL {4,5,6} ∩ four-band observation mask; primary VALID 0.9610–1.0000; 20 m excluded, no resampling | VERIFIED_RESULT | aggregate s2_datatake_audit; work/m21b/manifests/ZJ_M21B_S2_001..010.json; docs/data/ZHEJIANG_M21B_PILOT_V0.md §2–3 |
 | C41 | The 2022-10-15 EXTRA event (cloud 0.2869 ≤ 0.30 gate, VALID 0.9458) is PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY: counts in storage/product inventory, never in primary-event quality statistics or scaling estimates; it is not a gate-failing diagnostic and not a primary | VERIFIED_METHOD | aggregate s2_datatake_audit.extra_event_classification; micro-audit commit 4b9c67d |

@@ -6,10 +6,13 @@ products are themselves mainland-China products, so the present scope is
 never described as the whole China coast. The domain and the 10\,km
 lattice remains \texttt{PROVISIONAL\_NOT\_FROZEN}; no national
 pixel export and no national result map exists. The national EO
-metadata census (Issue~\#16) has, however, now been executed as a
-metadata- and geometry-only operation: 184{,}051 physical scene rows
-for six sensors were read from live GEE catalogs with zero pixel
-exports under an installed \texttt{ee.batch.Export} guard.
+metadata census (Issue~\#16) has, however, now been executed twice as a
+metadata- and geometry-only operation---v0 (1984--2025) and the audited
+revision v0\_1, which extends through the frozen year-to-date cutoff
+2026-10-03T00:00:00Z---reading live GEE catalogs with zero pixel
+exports under an installed \texttt{ee.batch.Export} guard. The v0
+product files are untouched; v0\_1 supersedes them through an explicit
+supersession manifest.
 The central design rule is that the study domain must be independent of
 the target. Restricting the domain to 2015 positive Spartina cells
 would systematically exclude later expansion, eradicated sites,
@@ -80,36 +83,88 @@ Recorded fields cover scene/event counts, UTC, coverage, full-year and
 candidate-season tags, source QA, pass/orbit, datatake/tiles, and
 path/row, with sensor-era status distinguished as not-operational,
 no-scenes, no-cell-intersection, metadata-available, or query-failed.
-The executed census (1984--2025; S2 from 2017 and S1 from 2014)
-required 85 batched optical and 30 Sentinel-1 metadata calls (no
+The executed v0 census (1984--2025; S2 from 2015 and S1 from late
+2014) required 85 batched optical and 30 Sentinel-1 metadata calls (no
 per-cell calls; three oversized yearly S1 ascending batches were
 re-fetched as half-year scopes) and returned 184{,}051 unique physical
 scenes: 21{,}022 Landsat~5, 20{,}187 Landsat~7, 13{,}306 Landsat~8,
 4{,}265 Landsat~9, 108{,}232 Sentinel-2 granules and 17{,}039
-Sentinel-1 scenes. Sentinel-2 granules from the same datatake on the
-same day are grouped into one observation event, and local geometric
-joins yield 79{,}265 events, 10{,}058{,}703 cell--event pairs and
-3{,}296 of the 3{,}319 cells observed by at least one sensor in the
-2015--2025 common era; 1{,}269 post-2022-05-05 Landsat~7 scenes from
-the off-nominal extended mission are excluded from the nominal WRS-2
-join. Median observation density at W10 over the common era is 20
-Landsat~8, 143 Sentinel-2 and 38 Sentinel-1 events per cell-year; at
-W10, 80\,\%/76\,\%/78\,\% of cell--event pairs fully cover the
-cell for L8/S2/S1 (89--87\,\% at W5, 64--57\,\% at W20), so the
-nominal-frame prefilter is never treated as full-cover evidence.
-Exactly 23 cells, all in the far northeast (lon~130.4--131.2,
-lat~41.9--42.4; rows~481--487, cols~204--209) and outside the WRS-2
-path-114--126 corridor index, are chronic-zero for every common-era
-sensor; zero scopes returned a query failure. A live point audit at
-three sites confirms GEE \texttt{S1\_GRD} coverage over the domain is
-overwhelmingly ascending, with no descending scenes found for 2023---a
-real acquisition characteristic, not a gap to be filled. Of the 1{,}190
-island-only W10 cells, 98.3\,\% are observed in 2015--2025 (99.8\,\%
-of 1{,}570 mainland cells; all 559 mixed cells). Census contracts,
-checksums, per-call resource ledgers and the full availability/gap
-matrices are versioned as run manifest
-\texttt{EO\_CENSUS\_RUN\_MANIFEST\_v0.json}; no census bytes are
-tracked in Git. A deterministic 20-cell first-pixel panel (five strata
+Sentinel-1 scenes. The R1 integrity audit then rebuilt the census as
+v0\_1 with four documented change reasons
+(\texttt{CHINA\_EO\_CENSUS\_SUPERSESSION\_v0\_1.json}; v0 files
+untouched). (1)~\emph{2026 YTD.} Only operational sensors were queried
+for 2026 and the year is marked \texttt{PARTIAL\_YEAR} through the
+frozen cutoff---855 Landsat~8, 888 Landsat~9, 14{,}463 Sentinel-2 and
+1{,}255 Sentinel-1 YTD scenes; Landsat~5 is recorded
+\texttt{SENSOR\_NOT\_OPERATIONAL} without a query and Landsat~7 has zero
+2026 rows after imaging was suspended on 2024-01-19
+\citep{usgs2024l7extended}. Partial-year rows never enter full-year
+comparisons or chronic-gap flags. (2)~\emph{Sentinel-1 pass audit.}
+The S1 universe was rebuilt from an unfiltered national pull (33
+batched calls) with ascending and descending scenes retained at every
+funnel stage; the v0\_1 set is 18{,}891 actual-footprint IW/VV$|$VH
+scenes intersecting W10 cells. The audited diagnosis token is
+\texttt{DESCENDING\_TRULY\_ABSENT\_OR\_RARE}: at the cell-intersecting
+funnel level 2015--2025 there are 14{,}491 ascending versus 3{,}145
+descending scenes; descending coverage is abundant in Bohai (about
+50\,\% pass share, e.g.\ 200 of 318 scenes at one audited Bohai cell)
+but below 5\,\% in four southern segments (Yangtze,
+Zhejiang--Fujian, Pearl River Delta, Hainan), and the national
+descending share falls to 4.8\,\% in 2022--2025 after the Sentinel-1B
+anomaly of 2021-12-23 and its declared end of mission on 2022-08-03
+\citep{copernicus2022s1b}. Ten deterministic direct-GEE spot checks
+(at least two per region) confirm a real, region- and era-structured
+acquisition pattern rather than a pipeline filter---the v0 cache itself
+retained 2{,}763 descending scenes. (3)~\emph{NE edge audit.} The 23
+far-northeast cells (lon~130.4--131.2, lat~41.9--42.4) that v0
+reported chronic-zero for every common-era sensor were audited case by
+case: none was a query failure; 3 are \texttt{INDEX\_MISS} (the v0
+server bbox stopped at 127$^{\circ}$E although the domain reaches
+132$^{\circ}$E), 6 are \texttt{DOMAIN\_EDGE\_ARTIFACT} and 14 are
+\texttt{MIXED\_ADMIN\_COAST\_ARTIFACT}. The footprint indices were
+expanded to 71 WRS-2 frames ($+5$) and 141 MGRS tiles ($+13$), the
+affected historical ranges were re-queried (88 successful calls,
+including half-year and quarter rescue splits), and all 23 cells are
+observed in v0\_1; there are zero optical or Sentinel-2 chronic zeros.
+Only 7 chronic-zero cells remain, all Sentinel-1-only island/border
+cells at the Beibu Gulf--Paracel margin with no IW/VV$|$VH footprint
+intersection in any year; they are kept as an explicit gap, never
+patched. (4)~\emph{L7 extended mission preserved.} All 20{,}187 v0
+Landsat~7 rows are preserved. Nominal-repeat-orbit rows join through
+WRS-2 (21{,}132 distinct nominal events in v0\_1); the 6{,}156 pulled
+Extended Science Mission scenes (2022-05-05 to 2024-01-15; 1{,}418
+intersecting W10 cells) are flagged
+\texttt{OFF\_NOMINAL\_EXTENDED\_MISSION} with
+\texttt{default\_production\_eligible=false}, are joined to cells via
+their actual pulled footprints
+(\texttt{L7\_EXTENDED\_ACTUAL\_FOOTPRINT}; 1{,}418 distinct events,
+122{,}744 cell--event pairs) and are reported separately from nominal
+totals, consistent with the USGS note that no U.S.\ ARD or Level-3
+products were produced from this mission phase
+\citep{usgs2024l7extended}; nine scenes from the 2022-04 orbit-lowering
+standby window are preserved as metadata without pairs.
+Sentinel-2 granules from the same datatake on the same day are grouped
+into one observation event, and local geometric joins on v0\_1 yield
+227{,}505 unique physical scenes, 93{,}035 distinct events
+(L5~23{,}382; L7~22{,}550, of which 1{,}418 extended; L8~15{,}944;
+L9~5{,}737; S1~18{,}891; S2~6{,}531), 10{,}923{,}012 cell--event pairs,
+and all 3{,}319 cells observed by at least one sensor in the
+2015--2025 common era (v0: 3{,}296). Median full-year observation
+density at W10 is 20 Landsat~8, 143 Sentinel-2 and 40 Sentinel-1 events
+per cell-year; at W10, 80\,\%/76\,\%/78\,\% of cell--event pairs fully
+cover the cell for L8/S2/S1, so the nominal-frame prefilter is never
+treated as full-cover evidence. All 1{,}190 island-only, 1{,}570
+mainland and 559 mixed cells are observed in 2015--2025 (v0:
+98.3\,\%/99.8\,\%/100\,\%). The full-year gap matrix now partitions
+into 16{,}466 no-chronic-gap, 3{,}319 not-applicable (pre-operational
+Landsat~5 cell-years), 122 multi-year-gap and 7 Sentinel-1-only
+chronic-zero cell--sensor rows. Census contracts, checksums, per-call
+resource ledgers (241 batched catalog calls across the five v0/v0\_1
+ledgers, plus the deterministic direct spot checks) and the full
+availability/gap matrices are versioned as run manifest
+\texttt{EO\_CENSUS\_RUN\_MANIFEST\_v0.json} together with
+\texttt{CHINA\_EO\_CENSUS\_SUPERSESSION\_v0\_1.json}; no census bytes
+are tracked in Git. A deterministic 20-cell first-pixel panel (five strata
 and four geometry-edge quotas, SHA-256 ranked on cell IDs) is designed
 but explicitly \emph{not executed}: no pixel download has been
 authorized.
