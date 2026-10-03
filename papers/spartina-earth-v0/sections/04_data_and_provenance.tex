@@ -1,0 +1,60 @@
+\section{Data sources, label tiers, and rights}\label{sec:data}
+
+\subsection{Earth-observation streams}
+The framework ingests six primary sensors through Google Earth Engine
+\citep{gorelick2017gee}: Landsat~5, 7, 8, and~9 Collection~2 Tier~1
+Level-2 surface reflectance (30\,m native; the long-term stream),
+Sentinel-2 \texttt{COPERNICUS/S2\_SR\_HARMONIZED} (10\,m native bands,
+20\,m retained under an explicit resampling policy), and Sentinel-1
+\texttt{COPERNICUS/S1\_GRD} IW products (C-band, VV/VH; already
+calibrated to decibels by the product---a second $10\log_{10}$
+conversion is forbidden). Two streams are maintained deliberately: a
+30\,m Landsat-era truth stream and a 10\,m Sentinel-era stream, with
+overlap years carrying both; historical Landsat pixels are never
+presented as 10\,m products. Harmonized Landsat--Sentinel data
+\citep{claverie2018hls} are not adopted pending a per-use scientific
+justification. Sensor-quality references include Fmask-family cloud
+screening \citep{zhu2015fmask} and the Sentinel-2 scene-classification
+(SCL) layer.
+
+\subsection{National label evidence: the 2015 raster and 2020 CM-SSM}
+The principal national label is a packaged 30\,m raster nominally dated
+2015 (int16, EPSG:32650, nodata 255, value set $\{1\}$). Independent
+windowed recounts reproduce its value-attribute-table count:
+608{,}287 positive pixels, i.e.\ 547.4583\,km$^2$ in the product's
+UTM-50N planar convention. A second, vector product for nominal 2020
+(CM-SSM; 148{,}072 single-part polygons; 593.710\,km$^2$; documented
+OBIA/dissolve lineage) is not comparable to the raster: minimum mapping
+units differ (900\,m$^2$ pixel floor versus sub-100\,m$^2$ slivers,
+67.8\% of features below 100\,m$^2$; 2{,}402 self-intersecting rings),
+class definitions are undocumented, and province coverage differs. The
+headline difference of 46.25\,km$^2$ is therefore descriptive only; no
+change map is produced between them. Both products are classified
+\textsc{silver}: credible mapping products with known provenance gaps,
+not field-verified truth. Producer, class legend, exact acquisition
+dates, and redistribution terms for the 2015 raster are undocumented and
+remain open verification items; local rule/index-derived masks are
+\textsc{weak}. GOLD field, UAV, or expert-verified labels do not yet
+exist in the project (GOLD\,=\,0), and unlabeled cells are recorded as
+\textsc{unlabeled}, never as negatives.
+
+\subsection{Label rights separation}
+Redistribution rights and internal model-training rights are audited
+separately. The audited Zhejiang label layers are predominantly
+rights-\textsc{unknown}: local possession of a file neither grants
+redistribution nor permits model release. The national raster is never
+copied into publicly tracked artifacts; only derived statistics and
+manifests are versioned. Any GOLD acquisition must additionally carry a
+permission passport distinguishing internal scientific use,
+publication-derived statistics, and public redistribution.
+
+\subsection{Environmental context layers}
+Candidate context modalities are registered by scientific role rather
+than ingested wholesale: elevation (Copernicus DEM), surface-water
+dynamics \citep{pekel2016gsw}, intertidal extent evidence
+\citep{murray2019tidalflats}, tide models (FES2014 lineage
+\citep{lyard2021fes}; FES2022b selected but not deployed), and climate
+reanalysis \citep{munoz2021era5land}. Inundation proxies derived from
+imagery or models are labeled \texttt{proxy} and are never reported as
+observed tide; observed gauge data for the study region are sparse and
+partially access-restricted.

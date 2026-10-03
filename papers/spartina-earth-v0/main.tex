@@ -1,0 +1,58 @@
+% Spartina Earth — working manuscript v0
+% Neutral working template (article). No journal format is locked (Issue #15).
+% Compile: latexmk -pdf -interaction=nonstopmode main.tex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[round,sort&compress]{natbib}
+\usepackage{enumitem}
+
+% Figure placeholder: design schema only — no rendered artwork per skill gate.
+\newcommand{\figplaceholder}[2]{%
+  \fcolorbox{gray!70}{gray!8}{%
+    \parbox[c][4.2cm][c]{0.92\linewidth}{\centering
+      \textsf{\textbf{[FIGURE PLACEHOLDER — #1]}\\[2pt]\small #2}}}}
+
+% TODO-EVIDENCE marker for results that do not exist yet.
+\newcommand{\todoevidence}[1]{\noindent\textcolor{red!75!black}{%
+  \textsf{\textbf{[TODO-EVIDENCE: #1]}}}}
+
+\title{\textbf{Spartina Earth: A Provenance-Aware Multisensor Framework for\\
+Long-Term Monitoring of \emph{Spartina alterniflora}\\Across Sensor Generations}}
+
+\author{Spartina Earth working group\\[2pt]\small Working draft v0 — 2026-10-03 (Issue \#15)\\
+\small Not for distribution}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\todoevidence{abstract to be written after Introduction/Method stabilize;
+it will follow challenge $\rightarrow$ gap $\rightarrow$ approach
+$\rightarrow$ verified steps $\rightarrow$ effect, without results from
+unexecuted experiments.}
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_study_design}
+\input{sections/04_data_and_provenance}
+\input{sections/05_observation_model}
+\input{sections/06_zhejiang_pilot}
+\input{sections/07_pilot_baselines}
+\input{sections/08_national_scaling}
+\input{sections/09_discussion}
+\input{sections/10_limitations}
+\input{sections/11_conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

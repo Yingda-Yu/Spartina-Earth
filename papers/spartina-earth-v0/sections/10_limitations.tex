@@ -1,0 +1,50 @@
+\section{Limitations}\label{sec:limitations}
+
+\paragraph{No GOLD validation.}
+No field, UAV, or expert-verified labels exist in the project (GOLD
+= 0). All accuracy-adjacent numbers are SILVER-product reproduction or
+engineering diagnostics on tiny support. GOLD acquisition is an
+independent workstream with its own date, provenance, annotation,
+adjudication, and permission requirements.
+
+\paragraph{Tiny and geographically concentrated Pilot-0 support.}
+The Pilot-0 test set is seven windows over five SILVER components in one
+bay for one nominal year. Spatial confidence intervals are not
+estimable; seed variability covers training randomness only; some model
+means include collapsed runs. Pilot-0 establishes pipeline behavior,
+not mapping accuracy.
+
+\paragraph{Provisional boundaries.}
+The Zhejiang bay envelopes are Tier-C provisional constructions, not
+authoritative shorelines. Bay-clipped label statistics are conditional
+on these envelopes and must be re-versioned if envelopes are revised.
+
+\paragraph{SILVER label provenance.}
+The 2015 national raster lacks documented producer, class legend,
+mapping unit, exact acquisition dates, and redistribution terms; its
+national area is stated in a single UTM-zone planar convention pending
+a geodetic area cross-check. It is not comparable as change against the
+2020 CM-SSM vector product.
+
+\paragraph{Pixel-level QA not yet executed at scale.}
+Scene-level cloud metadata does not establish per-pixel validity; SCL
+valid-fraction evaluation, resampling policy for 20\,m bands,
+co-registration audits on real multi-sensor products, and the first
+eligible real Landsat and Sentinel-1 byte validations remain for M2.1b.
+Only one real Sentinel-2 byte export has been completed.
+
+\paragraph{Tide and management evidence are missing.}
+FES2022b is selected but not deployed; observed gauge coverage is
+sparse and access-restricted; no modeled value may be called observed.
+Zero verifiable management events with spatial ledgers were found, so
+pre/post-treatment analysis cannot yet be performed.
+
+\paragraph{Seasonal windows are hypotheses.}
+The DOY windows are literature- and climatology-informed proposals
+pending per-bay phenological calibration; they are not frozen policy.
+
+\paragraph{Generalization claims are out of scope.}
+Nothing here demonstrates cross-province, national, or global
+performance, and no foundation-model capability is asserted. The
+national design is target-independent but unbuilt at cell census level;
+storage and workload estimates are pending.

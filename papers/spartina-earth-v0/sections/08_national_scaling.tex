@@ -1,0 +1,63 @@
+\section{National scaling design}\label{sec:national}
+
+This section describes the design for a China-scale frame; no national
+pixel export and no national result map exists at the time of writing.
+The central design rule is that the study domain must be independent of
+the target. Restricting the domain to 2015 positive Spartina cells
+would systematically exclude later expansion, eradicated sites,
+recurrence, previously omitted populations, and true unlabeled controls.
+
+\subsection{Target-independent coastal domain and cells}
+The national candidate domain \texttt{CHINA\_COASTAL\_DOMAIN\_V0} is
+built from independent coastal evidence---reproducible coastline, a
+fixed coastal corridor, and intertidal/wetland context where licensing
+permits---rather than from Spartina labels. The fixed 10\,km archive
+cell is reused wherever possible on zone-appropriate metric grids, each
+cell carrying a stable identifier, geometry hash, coastal-relevance
+flag, province/coastal-segment metadata, and (never) a label-derived
+entry condition. Mainland versus island scope is documented from the
+chosen geospatial source, not from political prose.
+
+\subsection{2015 SILVER stratification}
+The 2015 national raster is overlaid onto national cells strictly as a
+SILVER occupancy prior: positive pixels, positive area, positive
+fraction, and distance to the nearest 2015 positive patch. Cells are
+stratified into SILVER\_2015\_POSITIVE, SILVER\_2015\_NEARBY,
+UNLABELED\_COASTAL, MANAGEMENT\_EVIDENCE\_AVAILABLE, and
+GOLD\_EVIDENCE\_TARGET (a candidate designation only). A zero overlay
+is not interpreted as confirmed absence: the source's zero semantics do
+not support that reading, and the background is nodata rather than an
+explicit absence class. A priority corridor for future export may be
+constructed from the SILVER prior plus coastal buffers and historical
+ecological evidence, but it never replaces the full coastal domain.
+
+\subsection{Metadata census through footprint indexing}
+The national census is metadata-only and avoids cell-by-scene
+\texttt{getInfo} brute force: WRS-2 path/row indices for Landsat, MGRS
+tile indices for Sentinel-2, and actual per-scene Sentinel-1 geometry
+indices drive offline scene-footprint to cell joins. Recorded fields
+include scene/event counts, UTC, coverage, season availability, QA
+level, pass/orbit, datatake/tiles, and path/row per cell, year, and
+sensor over 1985--2026. Auxiliary modalities are registered with a
+scientific purpose, resolutions, coverage years, license, platform
+availability, production difficulty, and a CORE / OPTIONAL /
+VALIDATION\_ONLY / BLOCKED role.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 5}{National scaling design schematic only:
+independent coastal domain $\rightarrow$ cells $\rightarrow$ 2015
+SILVER overlay and strata $\rightarrow$ footprint-indexed metadata
+census $\rightarrow$ storage tiers T0--T3. Explicitly a design figure;
+no national result map.}
+\label{fig:national}
+\end{figure}
+
+\subsection{Tiers and estimates}
+Four tiers bound future work: Tier~0 metadata census only; Tier~1
+2015-positive and nearby pilot archive; Tier~2 standard national
+monitoring set; Tier~3 full coastal candidate archive. Product counts,
+storage, and platform workload are estimated and approved before any
+pixel export tier is opened.
+\todoevidence{National cell counts, strata sizes, per-sensor annual
+availability, modality registry rows, and tier storage/workload numbers
+(Issue \#14 artifacts).}

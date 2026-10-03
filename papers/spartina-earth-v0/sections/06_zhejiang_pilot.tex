@@ -1,0 +1,101 @@
+\section{Zhejiang verification: data factory and the M2.1a2-R1 corrections}\label{sec:zhejiang}
+
+\subsection{Metadata census, 1985--2026}
+The data factory executes metadata-only census queries against live
+catalogs with an export guard enforced at runtime and in tests. Across
+three bays, six sensors, and 42 years, 294 in-service year--bay--sensor
+groups produced one bounded metadata call each and 462 groups were
+recorded as \texttt{SENSOR\_NOT\_OPERATIONAL} with no call; the census
+retains 18{,}435 physical scene rows (Table~\ref{tab:census}). Observed
+first/last scenes differ from declared mission spans---Sentinel-1 first
+appears on 2015-02-09 (not 2014), Landsat~7's last observed scene is in
+2023, and Yueqing Bay saw only ascending Sentinel-1 passes in
+2023---which is exactly why operational availability, rather than
+mission declarations, defines the observation record. In-service groups
+with zero scenes (15) and with no quality-passing scenes (83) are kept
+as distinct gap classes and are never interpolated.
+
+\input{tables/tab_census}
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 2}{Sensor timeline 1985--2026 (L5/L7/L8/L9,
+S1, S2) showing observed spans for the three bays, the dual 30\,m /
+10\,m streams, and the three explicit gap categories. Schematic from
+the scene census; no scenes invented.}
+\label{fig:timeline}
+\end{figure}
+
+Census geometry also exposed why a bay-wide single-scene rule fails for
+tiled sensors: the best single Sentinel-2 tile covers only 0.909 of
+Hangzhou Bay (tiles 51RTP/RUP/RUQ are needed) and 0.98994 of Yueqing
+Bay. Multi-tile same-datatake coverage---not a lowered
+threshold---is the legitimate entry point for those events.
+
+\subsection{Real byte chain on one Sentinel-2 scene}
+The export-to-checksum chain has been executed once, end to end, on a
+single pre-selected Hangzhou smoke scene
+(\texttt{S2B\_MSIL2A\_20200905T023549\_...\_T51RUP}; MGRS 51RUP, UTC
+2020-09-05, 10\,m, four bands plus a separately exported valid mask,
+EPSG:32651). Both export tasks completed, files landed with
+per-file SHA-256, grid transform and bounds were re-validated against
+the manifest, and the bundle records catalog fingerprint, processing
+configuration hash, Git commit, and software versions. During the same
+verification campaign the two predeclared windows yielded zero
+eligible Landsat~8 scenes, so the first real Landsat byte validation
+was deliberately not substituted with a convenient scene and remains
+deferred to the controlled pilot; the first eligible Sentinel-1 byte
+validation is deferred likewise.
+
+\subsection{Correction 1: false-zero labels and cell-edge bleed}
+The initial bay-level audit reported zero SILVER label pixels in Sanmen
+Bay. The R1 audit found two distinct defects. First, the stored Sanmen
+geometry was an invalid \texttt{GeometryCollection}; rasterizing its
+mask raised an exception that a broad handler silently converted to a
+zero count. Counting the valid polygonal part yields 46{,}310 pixels,
+or 41.6790\,km$^2$---the zero was a pipeline artifact, not an ecological
+absence. Second, label statistics were being measured on full 10\,km
+squares, so pixels outside the provisional envelope (2{,}925 in HZB,
+4{,}339 in SMB, 7{,}442 in YQB at 30\,m) bled into bay totals. The
+corrected v0\_1 product reports full-cell, bay-clip, and
+outside-bay quantities per cell; bay-scoped SILVER-bearing 10\,km cell
+counts become HZB 13, SMB 17, and YQB 11, and the per-cell clipped sums
+reconcile with direct envelope intersections on all 54 size-stratified
+rows (maximum discrepancy 0.026\%, within rasterization tolerance).
+Cell identities were unchanged; no labels were re-adjudicated.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 3}{Zhejiang three-bay map schematic with the
+fixed 10\,km grid; insets show full cell versus bay-clipped geometry and
+a same-datatake multi-tile union. Envelopes marked PROVISIONAL.}
+\label{fig:zhejiang}
+\end{figure}
+
+\subsection{Correction 2: the 2022 Sentinel-2 zero-event anomaly}
+The initial pair simulation returned zero quality Sentinel-2 events for
+all three bays in autumn 2022. A stage-by-stage funnel audit
+(Table~\ref{tab:funnel}) showed that raw scenes, autumn scenes,
+datatake groups, cell--group pairs, and coverage-passing pairs all
+existed---all 25 autumn groups were genuine single-UTC-date datatakes,
+and a deterministic nine-scene live metadata spot-check matched catalog
+records in 9/9 cases. Failure occurred at the cloud gate, which had
+combined cloud fractions over \emph{all} members of each datatake
+group, including adjacent tiles that never intersect the cell. Under
+the corrected contributing-scene gate, final pairs recover to 51, 150,
+and 89 in HZB, SMB, and YQB, with exact bucket reconciliation
+(pairs = low-coverage + coverage-passing; coverage-passing =
+both-cloudy + final). Pixel-level SCL validation remains deferred and
+cannot erase this geometric mis-attribution. The defect was not
+specific to 2022: over the full 1985--2026 archive, 31{,}135 10\,km
+pairs were wrongly rejected across all multi-frame optical sensors, and
+the archive-wide quality-pair count rises from 56{,}096 to 87{,}231.
+The v0 artifacts are preserved with supersession sidecars.
+
+\input{tables/tab_funnel}
+
+\subsection{Correction 3: Sentinel-1 footprint policy}
+Section~\ref{sec:model} already states the policy; the audit numbers
+that force it are the 60-scene results in Table~\ref{tab:s1footprint}.
+Representative frames stay in the codebase as a planning prefilter,
+acquisition-group definitions are unchanged, and the 0.99 coverage
+threshold is unchanged: the correction attaches production eligibility
+to measured geometry rather than to an orbit-level stand-in.

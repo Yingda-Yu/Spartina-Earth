@@ -1,0 +1,59 @@
+\section{Study design and data provenance}\label{sec:design}
+
+\subsection{Need, scientific problem, and method}
+The operational need is consistent long-term monitoring of
+\emph{S.~alterniflora} invasion, eradication, and post-eradication
+recurrence along the China coast. The underlying scientific problem is
+that a single ecological state is observed through sensors whose
+geometry, resolution, quality metadata, and acquisition conditions
+change across decades; without an explicit contract over what
+constitutes an observation, cross-era differences are confounded with
+ecological change. Spartina Earth addresses this contract before any
+modeling: define a stable spatial hierarchy, construct sensor-specific
+events with transparent eligibility, attach tiered labels and rights,
+and record provenance end to end.
+
+\subsection{Staged design and authority boundaries}
+The program proceeds in stages with explicit stop gates (Figure~\ref{fig:arch}).
+\emph{M2.1a} established region-of-interest provenance and a
+metadata-only census; \emph{M2.1a2-R1} corrected the observation-unit
+and quality-attribution defects documented here; \emph{M2.1b} (Issue
+\#13) is a deliberately small, 6--8-cell real-pixel pilot; national
+frame construction (Issue \#14) proceeds as metadata-only work; the
+full Zhejiang dataset, benchmark freeze, GOLD validation, and any
+representation-learning experiments are later stages. Nothing in this
+paper assumes the output of a later stage.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 1}{Spartina Earth hierarchy:
+China coast $\rightarrow$ provisional bay envelope $\rightarrow$ fixed
+10\,km analysis cell (cell\_geometry vs bay\_clip\_geometry)
+$\rightarrow$ observation event / acquisition group $\rightarrow$
+optical, SAR and context modalities $\rightarrow$ label tier, time,
+tide, rights, provenance. Framework figure; no metric values.}
+\label{fig:arch}
+\end{figure}
+
+\subsection{Provenance chain and reproducibility}
+Every derived product is traceable as
+\texttt{source\ scene\ $\rightarrow$ preprocessing $\rightarrow$ label
+$\rightarrow$ model/config $\rightarrow$ checkpoint $\rightarrow$
+inference\ config $\rightarrow$ output}, with a recorded Git commit,
+configuration hash, data manifest version, and seed for any executed
+run. Manifests (CSV/Parquet, row-level fingerprints) are tracked in
+Git; raster bytes, arrays, and checkpoints live outside Git.
+Superseded artifacts are never overwritten: a new version is written
+alongside the old file, which is retained with a
+\texttt{.SUPERSEDED.json} sidecar stating the reason. Numbers from
+legacy papers, spreadsheets, or code are treated as unverified until
+reproduced from raw evidence; if an item cannot be found it is recorded
+as \textsc{unknown}/\textsc{missing}, never inferred.
+
+\subsection{Spatial leakage control}
+Train/validation/test membership is defined at the cell level on a
+fixed metric grid, never by random patch draws. Scenes of one location
+across dates stay grouped; candidate held-out tracks (cross-bay
+transfer, held-out era, sensor-generation shift, missing-modality) are
+proposed from census evidence before any model is trained. The
+national extension adds target-independent coastal relevance so that
+label history never defines who enters the sampling frame.

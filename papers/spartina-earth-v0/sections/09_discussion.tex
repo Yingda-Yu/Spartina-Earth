@@ -1,0 +1,51 @@
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Why geometry and provenance precede modeling}
+The three R1 corrections share one lesson. A silently swallowed
+geometry exception produced a biologically implausible zero; a quality
+gate applied to the wrong spatial unit rejected every autumn event in a
+whole sensor generation; and an orbit-level footprint surrogate
+misclassified eligibility in both directions at large rates. None of
+these failures was visible from model metrics, and none would have been
+fixed by a better classifier. Treating the observation contract---what
+geometry, which scenes, which quality metadata, under what rights---as
+the primary object of study is therefore a prerequisite to, not a
+bookkeeping consequence of, cross-generation modeling.
+
+\subsection{Sensor-specific quality without sensor-specific science}
+The framework keeps sensor-specific eligibility (actual SAR geometry,
+contributing optical scenes, native resolutions) while presenting one
+scientific question per cell--event. This preserves information that
+premature harmonization removes: 30\,m history stays a 30\,m product,
+SAR stays dB, and a multi-tile datatake is one event with its member
+tiles named. Fusion and harmonization remain modeling decisions made
+after provenance, which also keeps them falsifiable.
+
+\subsection{Labels as contested evidence}
+The SILVER/WEAK arbitration (Jaccard 0.49 over full overlap; 0.95 on
+evaluable core pixels) and the invalid-geometry false zero both argue
+against collapsing label sources into one binary target. Explicit
+tiers, diagnostic disagreement layers, and separate rights records
+allow a model to be trained, described, and audited against specific
+evidence rather than an averaged label. Until GOLD evidence exists,
+accuracy language is restricted to SILVER reproduction and engineering
+behavior.
+
+\subsection{Toward sensor-agnostic representation learning}
+The temporal representation and foundation-model literature
+\citep{russwurm2020selfattn,garnot2020pixelset,cong2022satmae,fuller2023croma,jakubik2024prithvi,xiong2024dofa}
+provides candidate encoders for the flagship SpartinaFM question:
+whether a representation remains ecologically stable across sensor
+generations, regions, phenology, and management regimes, including
+missing modalities at inference. Our position is that this question is
+answerable only after the observation substrate is correct; cross-era
+and cross-region benchmark tracks on group-disjoint cells
+\citep{tuia2016da,ploton2020spatial} are the evaluation design, and no
+representation result is claimed in this version.
+
+\subsection{Open questions}
+\todoevidence{How SCL valid-pixel distributions behave at cell level;
+the achievable temporal density after tide-aware filtering; model
+behavior under genuine cross-bay and cross-era transfer on adequately
+supported test sets; the recurrence-detection horizon after dated
+management events---each requires artifacts not yet produced.}

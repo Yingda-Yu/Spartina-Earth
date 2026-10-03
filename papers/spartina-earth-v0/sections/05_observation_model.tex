@@ -1,0 +1,105 @@
+\section{The Spartina Earth observation model}\label{sec:model}
+
+This section specifies the contracts that make observations comparable
+across sensors. The hierarchy is regional envelope $\rightarrow$
+analysis cell $\rightarrow$ observation event / acquisition group
+$\rightarrow$ sensor products with quality contracts, each carrying
+time, tide, label, rights, and provenance.
+
+\subsection{Regional envelopes}
+Each study region has an envelope constructed with documented
+provenance---authoritative boundaries where they exist and are
+licensed, otherwise a deterministic construction from cited shoreline
+or hydrographic data. The three Zhejiang envelopes (Hangzhou, Sanmen,
+Yueqing) are Tier-C \textbf{provisional}: reproducible locators of the
+sampling frame, not authoritative scientific shorelines, and they are
+not upgraded to authoritative merely because a grid has been built on
+them.
+
+\subsection{Analysis cells: identity geometry versus statistics geometry}
+A fixed metric grid is anchored at the UTM zone-grid origin
+(0\,m, 0\,m) in EPSG:32651; cell identifiers encode bay, size, and
+integer east/north indices (e.g.\ \texttt{ZJ\_U51\_10K\_E031\_N335}),
+so identities are stable across reruns. Three sizes (5, 10, and
+20\,km) share the same parent lattice (Table~\ref{tab:grid}); the
+10\,km size is recommended as the observation/archive unit and is
+explicitly \textsc{recommended\_not\_frozen}.
+
+Two geometries are distinguished after the M2.1a2-R1 correction.
+\texttt{cell\_geometry} is the full fixed square and is the unit of
+identity, archiving, and spatially disjoint splits.
+\texttt{bay\_clip\_geometry} is its intersection with the provisional
+envelope and is the geometry used for bay-scoped label statistics; the
+complement inside the square is retained as an explicit
+outside-bay quantity rather than dropped. The analysis cell is
+\emph{not} a training chip: future 256/512-pixel patches will carry a
+\texttt{parent\_cell\_id}, and split membership is decided at cell
+level so patches cannot leak across groups.
+
+\input{tables/tab_grid}
+
+\subsection{Observation events and acquisition groups}
+An \emph{observation event} binds one cell to the set of source
+acquisitions that can legitimately form one cloud-consistent view.
+Optical acquisitions are grouped by real \texttt{DATATAKE\_IDENTIFIER};
+tiles from the same datatake may be merged at cell level, but cross-date
+mosaics are forbidden. Sentinel-1 events remain strictly single-sensor
+events with ascending and descending passes, relative orbit,
+polarization, and UTC preserved; passes are never mixed. Coverage
+eligibility uses a fixed threshold of geometric coverage
+$\ge$\,0.99 and scene-level cloud fraction $\le$\,0.30. These
+thresholds were deliberately \emph{not} relaxed during the corrections
+reported below; what changed was the spatial unit to which the cloud
+gate is applied.
+
+\paragraph{Contributing-scene cloud gate.} For a cell--group pair,
+scene-level cloud fractions are combined only over member scenes whose
+own frame geometry intersects the cell (the contributing scenes).
+Taking the maximum over an entire datatake group---including adjacent
+MGRS tiles that never cover the cell---was the v0 defect: a cloudy
+neighboring tile poisoned eligibility for cells it did not observe. The
+group-wide quantity is retained as a diagnostic column only. A
+contributing scene with missing cloud metadata fails the gate and is
+not rescued by clear neighbors; the gate is not applicable to SAR.
+
+\paragraph{Pixel-level quality.} Sentinel-2 pixel QA uses policy
+\texttt{s2\_scl\_qa\_v1\_1}: SCL classes 4 (vegetation), 5
+(bare/not-vegetated), and 6 (water) are valid; snow/ice class~11 is
+invalid. Pixel-level valid-fraction evaluation has not yet been run at
+scale and is explicitly deferred to the M2.1b real-pixel stage;
+scene-level cloud metadata is never presented as pixel QA.
+
+\subsection{Sentinel-1 production geometry}
+SAR eligibility cannot use a representative orbit frame. Across a
+deterministic, stratified 60-scene IW audit (1{,}301 scene--cell rows;
+EW open-ocean-mode frames excluded; actual per-scene geometries read in
+metadata-only calls), representative-frame coverage disagrees with
+measured geometry at mean absolute error 0.559 with 207 false-eligible
+and 474 false-rejected pairs (Table~\ref{tab:s1footprint}), including
+tens-to-200\,km track offsets and one anomalously loose representative
+polygon. Policy is therefore dual: representative frames serve only as
+a planning prefilter; the actual per-scene GEE geometry is the sole
+production eligibility and QA geometry.
+
+\input{tables/tab_s1footprint}
+
+\subsection{Time, phenology, and tide}
+Acquisition UTC is mandatory. The seasonal target window is a
+hypothesis under calibration: the earlier DOY~260--305 autumn window
+is modified to a proposed DOY~260--320 with per-bay latitudinal
+calibration pending, supported by observed Spartina phenology gradients
+\citep{zhang2022latitudinal} and regional cloud climatology; windows
+are never chosen post hoc from model scores. Tide is represented by
+four separately named fields---observed tide, modeled tide, inundation
+proxy, and water-fraction proxy---with documented UTC matching
+tolerances. FES2022b is \textsc{selected\_not\_deployed}; modeled or
+proxy values are never called observed tide.
+
+\subsection{Label attachment and tiers}
+Each cell records label status from SILVER, WEAK, combined SILVER+WEAK,
+and UNLABELED evidence computed against \texttt{bay\_clip\_geometry},
+together with redistribution and internal-use rights. UNLABELED is a
+sampling category for self-supervised use and control stratification,
+never a negative class. A diagnostic disagreement layer records where
+SILVER and WEAK masks conflict; it does not trigger relabeling, and no
+layer is promoted to GOLD without independent field/UAV/expert evidence.

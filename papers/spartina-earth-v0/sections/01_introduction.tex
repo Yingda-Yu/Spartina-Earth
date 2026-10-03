@@ -1,0 +1,114 @@
+\section{Introduction}\label{sec:intro}
+
+Coastal salt marshes lie at the intersection of biological invasion,
+sea-level change, and intensive human management. \emph{Spartina
+alterniflora} Loisel., a perennial cordgrass native to the Atlantic and
+Gulf coasts of North America, was deliberately introduced to China in
+1979 and subsequently spread along most of the country's coastline,
+altering sediment dynamics, benthic habitat, and hydrology
+\citep{zheng2018productivity,wang2010benthic}. Remote-sensing studies
+document rapid, spatially heterogeneous invasion at national scale from
+Landsat time series \citep{liu2018rapid,mao2019rapid}, phenology-driven
+mappability that varies with latitude \citep{zhang2022latitudinal}, and
+expansion modes that include dieback and post-treatment regrowth
+\citep{yan2023monitoring}. Management interventions such as cutting
+combined with waterlogging demonstrably alter regrowth
+\citep{yuan2011cutting}, so monitoring is not a one-time classification
+problem: it must distinguish invasion, eradication, and recurrence over
+decades.
+
+\subsection{The core problem}
+Long-term monitoring of this kind requires evidence that is comparable
+across four decades and across sensor generations. The observations
+themselves change character over time: Landsat~5, 7, 8, and~9 supply a
+30\,m record beginning in the 1980s, while Sentinel-1 C-band SAR and
+Sentinel-2 optical imagery supply 10--20\,m observations from the
+mid-2010s \citep{wulder2012archive,torres2012s1,drusch2012s2}. Scenes
+from different sensors differ in geometry, radiometry, revisit
+cadence, cloud sensitivity, and in the quality metadata attached to
+each acquisition. A single Landsat scene, a multi-tile Sentinel-2
+datatake, and a Sentinel-1 IW frame do not define the same spatial
+event, and treating them as interchangeable pixels silently bakes
+sensor-era structure into every downstream product.
+
+Two further complications are specific to management-oriented
+monitoring. First, available labels are heterogeneous and uncertain:
+national mapping products, local rule-based masks, and future
+field-verified references differ in class definitions, minimum mapping
+units, and licensing, and none of the labels currently available to the
+project has been verified in the field. Second, intertidal vegetation
+is observed through tide and phenology: inundation changes the apparent
+surface between acquisitions \citep{oconnell2017tmii}, and the seasonal
+window that best separates \emph{S.~alterniflora} from native
+vegetation shifts with latitude \citep{zhang2022latitudinal}.
+
+\subsection{Limitations of existing routes}
+Existing Spartina mapping studies establish that the species is
+observable from satellites, using high-resolution
+\citep{ai2017phenology,liu2017monitoring} or national Landsat/Sentinel
+records \citep{liu2018rapid,mao2019rapid,yan2023monitoring}, and
+SAR--optical fusion is effective for complex coastal wetlands
+\citep{jamali2022swin}. These studies are typically single-epoch or
+few-epoch classifications over a defined extent, however. They do not
+provide (i)~a sensor-agnostic observation contract under which a
+multi-tile datatake, a Landsat frame, and a SAR pass are represented as
+comparable events; (ii)~explicit provenance, quality, and rights
+attached to every observation and label; or (iii)~a leakage-controlled
+sampling frame that remains valid as new sensors and new regions are
+added. Separately, the Earth-observation representation-learning
+literature has produced temporal encoders
+\citep{russwurm2020selfattn,garnot2020pixelset,yuan2022sitsformer} and
+general-purpose geospatial foundation models
+\citep{cong2022satmae,fuller2023croma,jakubik2024prithvi,xiong2024dofa},
+but model capability does not resolve what a trustworthy, traceable
+multi-decade observation actually is. Cross-region and cross-sensor
+generalization remains a documented weakness when validation ignores
+spatial structure \citep{tuia2016da,luo2022crossspatiotemporal,ploton2020spatial}.
+
+\subsection{Approach}
+We introduce \textbf{Spartina Earth}, a provenance-aware multisensor
+framework organized around a fixed hierarchy: a provisional
+regional bay envelope, a fixed metric analysis cell, and an
+observation event that binds source scenes, sensor-specific quality
+contracts, acquisition time, tide and phenology context, label tier,
+rights, and a cryptographic provenance record. Quality is evaluated
+against the cell and only against the scenes that actually contribute
+to it; SAR eligibility uses the measured per-acquisition footprint
+rather than a representative orbit frame; labels are held in explicit
+quality tiers with redistribution rights separated from internal-use
+rights; and every split is grouped by spatial units so adjacent
+patches never cross train and test \citep{roberts2017cv,gebru2021datasheets,mitchell2019modelcards}.
+
+\subsection{Contributions and scope}
+This paper is a methods-and-evidence paper, not a foundation-model
+paper. Its present contributions are:
+\begin{enumerate}[leftmargin=*]
+\item a provenance-aware observation model for cross-generation
+coastal monitoring---envelope, analysis cell, acquisition group,
+modality quality contracts, label tiers and rights---implemented and
+tested in an operational data factory on Google Earth Engine
+\citep{gorelick2017gee};
+\item a three-bay (Hangzhou, Sanmen, Yueqing) metadata census of
+18{,}435 physical scenes from six sensors spanning 1985--2026, with
+explicit distinctions among not-operational, no-scene, and no-quality
+periods;
+\item three independently executed audits that correct defects in the
+initial frame: false-zero label statistics from invalid geometry and
+cell-edge label bleed; a cloud-gating bug that had rejected every
+2022 autumn Sentinel-2 event in all three bays (31{,}135 wrongly
+rejected 10\,km pairs across the full archive); and a quantified
+demonstration that representative SAR footprints cannot be used for
+production eligibility;
+\item preliminary, explicitly limited Pilot-0 baselines showing both
+that the data support learned models and where current evidence
+collapses (tiny test support, SILVER/WEAK disagreement, seed-level
+model failures); and
+\item a target-independent design for national scaling that uses the
+2015 national Spartina map as a stratification prior rather than as the
+study boundary.
+\end{enumerate}
+A sensor-agnostic temporal representation model (SpartinaFM) is the
+flagship \emph{future} direction; no representation-learning results
+are claimed. GOLD field/UAV validation does not yet exist, bay
+envelopes are provisional, and tide modeling is selected but not
+deployed; these limits are carried explicitly through every section.

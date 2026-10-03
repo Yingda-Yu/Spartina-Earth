@@ -1,0 +1,96 @@
+\section{Related work}\label{sec:related}
+
+We organize the literature around the mechanism-level problem---how a
+trustworthy, comparable coastal observation is built and evaluated
+across sensors and decades---rather than chronologically.
+
+\subsection{Spartina mapping, ecological effects, and management}
+
+\emph{Spartina alterniflora} was introduced to China in 1979 and its
+spread has since been quantified at estuarine and national scales.
+Landsat observations show rapid, spatially structured expansion across
+mainland coastal zones \citep{liu2018rapid}, with national
+spatiotemporal analyses linking invasion patterns to coastal
+engineering and prevention effort \citep{mao2019rapid}. At estuary
+scale, time series of high-resolution imagery mapped the species
+through its phenological signature in the Yangtze estuary
+\citep{ai2017phenology}, and multi-source optical imagery supported
+mapping in the Zhangjiang estuary \citep{liu2017monitoring}. Land
+surface phenology of \emph{S.~alterniflora} saltmarshes varies
+systematically with latitude across China \citep{zhang2022latitudinal},
+which constrains any single seasonal acquisition window. Ecological
+effects are documented for benthic communities \citep{wang2010benthic}
+and for productivity at national scale \citep{zheng2018productivity}.
+Management is also observable: cutting combined with waterlogging
+suppresses regrowth under specific timing
+\citep{yuan2011cutting}, and recent multi-source analyses separate
+expansion modes from dieback at Yancheng
+\citep{yan2023monitoring}. These works motivate long-term,
+post-treatment monitoring but do not provide a cross-sensor observation
+contract or rights-aware label infrastructure, and none supplies
+field-verified validation at the scale of our study area.
+
+\subsection{Long-term multi-sensor Earth observation and coastal wetlands}
+
+The opening of the Landsat archive created the evidentiary basis for
+multi-decadal terrestrial monitoring \citep{wulder2012archive}, and
+mission continuity through Landsat~9 extends the 30\,m record
+\citep{masek2020l9}. Sentinel-1 and Sentinel-2 add all-weather C-band
+SAR and high-revisit multispectral optical observations
+\citep{torres2012s1,drusch2012s2,gascon2017s2}. Harmonized surface
+reflectance products reduce cross-sensor radiometric friction
+\citep{claverie2018hls}, but harmonization does not remove differences
+in acquisition geometry, minimum mapping unit, or quality semantics;
+for this reason we retain native-resolution streams rather than
+upsampling historical 30\,m pixels to 10\,m. Cloud and shadow
+screening has well-established sensor-specific solutions
+\citep{zhu2015fmask}, and Sentinel-2's scene-classification layer
+provides pixel-level quality flags for analysis-ready composites.
+
+Coastal wetlands additionally violate the implicit assumption of a
+static target. Inundation changes the observed surface with the tide,
+and dedicated inundation filters improve tidal-marsh mapping
+\citep{oconnell2017tmii}; global tidal-flat inventories demonstrate how
+strongly intertidal extent changes with acquisition conditions and
+over decades \citep{murray2019tidalflats}. Joint Sentinel-1/Sentinel-2
+classification of complex coastal wetlands confirms the value of
+combining optical and radar inputs \citep{jamali2022swin}, which
+motivates our multimodal event model while leaving fusion as a
+modeling choice rather than an ingestion-time merge.
+
+Environmental context is increasingly available as analysis-ready
+data: global surface-water dynamics \citep{pekel2016gsw}, global
+reanalysis climate fields \citep{munoz2021era5land}, global elevation
+models, and modern tidal atlases such as FES2014
+\citep{lyard2021fes}. These products support stratified design and
+contextual metadata, but each carries its own licensing and native
+support; we register them by scientific role rather than ingesting them
+by default.
+
+\subsection{Multimodal and domain-generalized EO learning; leakage and provenance}
+
+Temporal encoding of satellite image time series now spans recurrent
+and attention-based architectures \citep{russwurm2020selfattn},
+pixel-set encoders with temporal attention
+\citep{garnot2020pixelset}, and pre-trained spatio-spectral-temporal
+transformers \citep{yuan2022sitsformer}. General-purpose geospatial
+pre-training expands scale and modality coverage: masked
+multi-spectral pre-training \citep{cong2022satmae}, contrastive
+radar--optical encoding \citep{fuller2023croma}, large geospatial
+foundation models \citep{jakubik2024prithvi}, and plasticity-inspired
+multimodal models \citep{xiong2024dofa}. These methods motivate the
+long-term goal of sensor-agnostic representations, but they assume a
+clean, comparable, and correctly attributed observation substrate.
+Domain-adaptation research shows that cross-region, cross-date, and
+cross-sensor shifts degrade land-cover classification and require
+explicit treatment \citep{tuia2016da,luo2022crossspatiotemporal};
+ecological mapping studies further show that random-pattern validation
+in the presence of spatial autocorrelation produces strongly optimistic
+accuracy \citep{roberts2017cv,ploton2020spatial}. Finally, dataset and
+model documentation practice---datasheets
+\citep{gebru2021datasheets} and model cards
+\citep{mitchell2019modelcards}---motivates the per-observation
+provenance and label-rights records we enforce. Spartina Earth treats
+these three concerns (comparable observation units, spatial
+discipline, provenance) as prerequisites to representation learning,
+not as post-processing.

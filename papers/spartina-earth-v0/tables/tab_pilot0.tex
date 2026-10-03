@@ -1,0 +1,37 @@
+% Source: docs/experiments/PILOT0_BASELINE_REPORT.md §1 (frozen, 49 runs;
+% PILOT0_BASELINE_INTEGRITY_AUDIT.md). Primary view arbitrated_core.
+% Must be read together with the TEST support caveat (7 windows / 5
+% SILVER components; no spatial confidence interval).
+\begin{table}[t]
+\centering
+\small
+\caption{Pilot-0 baseline ladder, TEST \texttt{arbitrated\_core} metrics
+(mean$\pm$SD over 3 seeds where applicable; SAI is deterministic).
+PRELIMINARY evidence: TEST contains 7 windows / 5 SILVER components and
+no GOLD labels, so spatial confidence intervals are not estimable and
+the numbers are engineering baselines, not population accuracy claims.}
+\label{tab:pilot0}
+\begin{tabular}{llrrr}
+\toprule
+Model & Variant & IoU & F1 & AUPRC \\
+\midrule
+SAI rule & spectral\_sai & 0.181 & 0.306 & 0.181 \\
+Random Forest & optical & 0.692\,$\pm$\,0.006 & 0.818\,$\pm$\,0.004 & 0.887\,$\pm$\,0.004 \\
+Random Forest & optical\_indices & 0.691\,$\pm$\,0.005 & 0.817\,$\pm$\,0.004 & 0.898\,$\pm$\,0.002 \\
+Random Forest & optical\_sar & 0.689\,$\pm$\,0.001 & 0.816\,$\pm$\,0.000 & 0.892\,$\pm$\,0.003 \\
+Random Forest & full & 0.691\,$\pm$\,0.002 & 0.817\,$\pm$\,0.001 & 0.901\,$\pm$\,0.003 \\
+U-Net & optical & 0.747\,$\pm$\,0.075 & 0.854\,$\pm$\,0.050 & 0.957\,$\pm$\,0.006 \\
+U-Net & optical\_indices & 0.816\,$\pm$\,0.035 & 0.899\,$\pm$\,0.022 & 0.962\,$\pm$\,0.011 \\
+U-Net & optical\_sar & 0.751\,$\pm$\,0.055 & 0.857\,$\pm$\,0.036 & 0.968\,$\pm$\,0.009 \\
+U-Net & full & 0.695\,$\pm$\,0.109 & 0.817\,$\pm$\,0.076 & 0.943\,$\pm$\,0.033 \\
+DeepLabV3+ & optical & 0.741\,$\pm$\,0.037 & 0.851\,$\pm$\,0.024 & 0.932\,$\pm$\,0.014 \\
+DeepLabV3+ & optical\_indices & 0.749\,$\pm$\,0.021 & 0.856\,$\pm$\,0.014 & 0.939\,$\pm$\,0.007 \\
+DeepLabV3+ & optical\_sar & 0.662\,$\pm$\,0.073 & 0.795\,$\pm$\,0.053 & 0.929\,$\pm$\,0.010 \\
+DeepLabV3+ & full & 0.703\,$\pm$\,0.075 & 0.824\,$\pm$\,0.052 & 0.914\,$\pm$\,0.051 \\
+SegFormer-B0 & optical & 0.206\,$\pm$\,0.332 & 0.266\,$\pm$\,0.413 & 0.416\,$\pm$\,0.337 \\
+SegFormer-B0 & optical\_indices & 0.718\,$\pm$\,0.066 & 0.835\,$\pm$\,0.044 & 0.925\,$\pm$\,0.026 \\
+SegFormer-B0 & optical\_sar & 0.415\,$\pm$\,0.298 & 0.539\,$\pm$\,0.338 & 0.726\,$\pm$\,0.187 \\
+SegFormer-B0 & full & 0.416\,$\pm$\,0.336 & 0.524\,$\pm$\,0.406 & 0.688\,$\pm$\,0.392 \\
+\bottomrule
+\end{tabular}
+\end{table}
