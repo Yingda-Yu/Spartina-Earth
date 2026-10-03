@@ -1,0 +1,40 @@
+% Source: datasets/manifests/zhejiang_m21b_pilot_v0.json (aggregate)
+% and per-product manifests work/m21b/manifests/ZJ_M21B_*.json.
+% Frozen event plan: zhejiang_m21b_pilot_event_plan_v0.json.
+% This table is an observation-chain inventory, not an accuracy result:
+% GOLD = 0 and no model was trained.
+\begin{table}[t]
+\centering
+\small
+\caption{M2.1b real-pixel pilot inventory: 13 ObservationProducts on 8
+stratified Hangzhou-Bay 10\,km cells, 2022 autumn window (DOY 260--320),
+24 files, 121.4\,MiB (0.119\,GiB). P = cell primary event;
+E = EXTRA secondary event (passes all production gates, counted in
+storage but excluded from primary-event statistics). Cloud is the
+maximum scene cloud over scenes actually contributing to the cell;
+VALID is cell coverage of the sensor-specific valid mask (S2: SCL
+$\{4,5,6\}$ intersected with the four-band observation mask, rev.~r5;
+Landsat: QA\_PIXEL clear/unsaturated; S1: observed footprint, no cloud
+QA). The ten S2 products span three datatakes: 2022-10-02 ($n=5$),
+2022-10-10 ($n=4$), 2022-10-15 ($n=1$).}
+\label{tab:m21b}
+\begin{tabular}{llllcc}
+\toprule
+Product & Cell & Event (date; frame) & Role & Cloud & VALID \\
+\midrule
+S2\_001 & E029 N336 & 10-10; RTP,RUP & P & 0.0010 & 0.9737 \\
+S2\_002 & E031 N335 & 10-10; RUP     & P & 0.0010 & 0.9610 \\
+S2\_003 & E032 N336 & 10-10; RUP     & P & 0.0010 & 0.9996 \\
+S2\_004 & E033 N336 & 10-02; RUP     & P & 0.0002 & 0.9996 \\
+S2\_005 & E034 N335 & 10-02; RUP     & P & 0.0002 & 0.9616 \\
+S2\_006 & E036 N332 & 10-02; RUP     & P & 0.0002 & 0.9874 \\
+S2\_007 & E037 N339 & 10-02; RUP,RUQ & P & 0.0004 & 1.0000 \\
+S2\_008 & E039 N341 & 10-02; RUQ,RVQ & P & 0.0326 & 0.9840 \\
+S2\_009 & E029 N336 & 10-15; RTP,RUP & E & 0.2869 & 0.9458 \\
+S2\_010 & E037 N339 & 10-10; RUP,RUQ & E & 0.0466 & 1.0000 \\
+L8\_011 & E029 N336 & 09-30; WRS 119/39 & P & 0.2329 & 0.8116 \\
+L9\_012 & E029 N336 & 10-01; WRS 118/39 & P & 0.0435 & 0.9779 \\
+S1\_013 & E029 N336 & 09-17; IW ASC r.o.\,171 & P & --- & 1.0000 \\
+\bottomrule
+\end{tabular}
+\end{table}

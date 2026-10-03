@@ -26,12 +26,15 @@ national area is stated in a single UTM-zone planar convention pending
 a geodetic area cross-check. It is not comparable as change against the
 2020 CM-SSM vector product.
 
-\paragraph{Pixel-level QA not yet executed at scale.}
-Scene-level cloud metadata does not establish per-pixel validity; SCL
-valid-fraction evaluation, resampling policy for 20\,m bands,
-co-registration audits on real multi-sensor products, and the first
-eligible real Landsat and Sentinel-1 byte validations remain for M2.1b.
-Only one real Sentinel-2 byte export has been completed.
+\paragraph{Pixel-level QA exists only at pilot scale.}
+Scene-level cloud metadata does not establish per-pixel validity.
+M2.1b executed SCL valid masks on ten real 10\,m products (VALID
+0.9458--1.0000), QA\_PIXEL masks on two native-30\,m Landsat products,
+and the first eligible Sentinel-1 identity-decibel validation on one
+IW product with an independent server recompute. All eight cells lie in
+one bay and one autumn window; archive-scale valid-pixel statistics,
+the 20\,m-band resampling policy, and multi-sensor co-registration on
+larger samples remain future work.
 
 \paragraph{Tide and management evidence are missing.}
 FES2022b is selected but not deployed; observed gauge coverage is

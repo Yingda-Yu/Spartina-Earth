@@ -63,6 +63,23 @@ and hand-adapted; a single AI-generation pass is not an approved design.
   not exist. Caption must say design/plan.
 - **Status:** schema; blocked pending Issue #14 artifacts.
 
+
+## Fig. 6 — M2.1b real-pixel integrity evidence
+
+- **Type:** results/mechanism panel (engineering integrity, not
+  accuracy).
+- **Should show:** (a) schematic of one pilot cell where the nominal
+  MGRS frame undercovers but the actual datatake footprint covers fully
+  (badge: 5/8 cells, code V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE);
+  (b) per-product VALID fractions for the ten S2 products coded
+  primary vs EXTRA; (c) S1 VV/VH p01/p50/p99 landed vs independent
+  server recompute (deltas $\le$0.116 dB).
+- **Must annotate:** 8 cells / 13 products / 121.4 MiB; GOLD = 0;
+  no training; single bay, autumn 2022; no national or accuracy claim.
+- **Sources:** datasets/manifests/zhejiang_m21b_pilot_v0.json and
+  work/m21b/manifests/ZJ_M21B_*.json (frozen).
+- **Status:** schema; rendering NOT authorized yet.
+
 ## Compiled placeholders
 
 `main.tex` renders each figure as a gray placeholder box via

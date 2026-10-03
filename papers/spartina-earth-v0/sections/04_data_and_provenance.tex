@@ -4,8 +4,9 @@
 The framework ingests six primary sensors through Google Earth Engine
 \citep{gorelick2017gee}: Landsat~5, 7, 8, and~9 Collection~2 Tier~1
 Level-2 surface reflectance (30\,m native; the long-term stream),
-Sentinel-2 \texttt{COPERNICUS/S2\_SR\_HARMONIZED} (10\,m native bands,
-20\,m retained under an explicit resampling policy), and Sentinel-1
+Sentinel-2 \texttt{COPERNICUS/S2\_SR\_HARMONIZED}: only the four
+10\,m native bands (B2/B3/B4/B8) enter the pilot products, while 20\,m
+bands are excluded pending an explicit resampling policy. Sentinel-1
 \texttt{COPERNICUS/S1\_GRD} IW products (C-band, VV/VH; already
 calibrated to decibels by the product---a second $10\log_{10}$
 conversion is forbidden). Two streams are maintained deliberately: a

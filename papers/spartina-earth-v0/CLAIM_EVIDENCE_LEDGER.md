@@ -11,7 +11,7 @@ Status vocabulary (Issue #15):
 
 Every evidence path is relative to the repository root. Manifests carry
 row-level fingerprints; file-level SHA-256 live in the cited fingerprint
-CSVs. Ledger last updated: 2026-10-03.
+CSVs. Ledger last updated: 2026-10-03 (M2.1b/Issue #13 closure pass).
 
 | ID | Claim (short) | Status | Evidence |
 |---|---|---|---|
@@ -26,8 +26,8 @@ CSVs. Ledger last updated: 2026-10-03.
 | C09 | Hangzhou 2015 co-registration: best integer lag (0,0) for every pair (no whole-pixel shift); residual sub-pixel differences remain estimable uncertainty | VERIFIED_RESULT | docs/data/HANGZHOU_2015_COREGISTRATION.md §C–D |
 | C10 | GEE catalog + export chain verified end-to-end on one real S2 scene (S2B_MSIL2A_20200905T...T51RUP, 10 m, 4 bands + valid mask, COMPLETED, checksums) | VERIFIED_RESULT | datasets/manifests/gee_real_s2_export_smoke_v1.json |
 | C11 | S2 SCL VALID policy is classes 4/5/6 only; snow/ice 11 is invalid (corrected in Issue #6 re-review) | VERIFIED_METHOD | Issue #6 closure comments; configs; s2_scl_qa_v1_1 |
-| C12 | Real scientifically eligible Landsat byte/scaling validation has not yet been observed (two predeclared windows had zero eligible L8 scenes) | BLOCKED→PLANNED | docs/data/GEE_REAL_QUERY_SMOKE.md; Issue #13 §Landsat |
-| C13 | Real scientifically eligible S1 byte validation has not yet been observed | BLOCKED→PLANNED | docs/data/GEE_REAL_QUERY_SMOKE.md; Issue #13 §Sentinel-1 |
+| C12 | First scientifically eligible real Landsat byte/scaling validation executed in M2.1b (LC08 119/39 2022-09-30 cloud 0.2329 VALID 0.8116; LC09 118/39 2022-10-01 cloud 0.0435 VALID 0.9779; shared 334×334 30 m grid; 14 C2 scaling checks pass; raw QA_PIXEL; no upsampling) | VERIFIED_RESULT | work/m21b/manifests/ZJ_M21B_L8_011.json, ZJ_M21B_L9_012.json; aggregate zhejiang_m21b_pilot_v0.json; docs/data/ZHEJIANG_M21B_PILOT_V0.md §4 |
+| C13 | First scientifically eligible real S1 byte validation executed in M2.1b: S1A IW ASC r.o. 171, 2022-09-17, actual-geometry coverage 1.0, identity dB (no second 10log10); independent server recompute deltas: extrema 0.0, percentiles ≤0.116 dB; no DESC scene ≥0.99 recorded in failure ledger | VERIFIED_RESULT | work/m21b/manifests/ZJ_M21B_S1_013.json; aggregate zhejiang_m21b_pilot_v0.json (failure_ledger); docs/data/ZHEJIANG_M21B_PILOT_V0.md §5 |
 | C14 | Metadata-only Zhejiang census covers 18,435 physical scenes, 1985–2026, six sensors, three bays; L5 2,098 / L7 2,180 / L8 1,511 / L9 546 / S1 2,962 / S2 9,138 | VERIFIED_RESULT | datasets/manifests/zhejiang_eo_scene_census_v0.parquet; docs/data/ZHEJIANG_M21A_ACCEPTANCE_REPORT.md §4.2 |
 | C15 | Operational observation spans differ from declared mission spans (S1 first scene 2015-02-09 not 2014; L7 last 2023; …) | VERIFIED_RESULT | ZHEJIANG_M21A_ACCEPTANCE_REPORT.md §4.1 |
 | C16 | A bay-wide single-scene coverage ≥0.99 rule is structurally wrong for multi-tile S2 (HZB best single tile 0.909; YQB 0.98994) | VERIFIED_RESULT | ZHEJIANG_M21A_ACCEPTANCE_REPORT.md §4.4 |
@@ -45,8 +45,14 @@ CSVs. Ledger last updated: 2026-10-03.
 | C28 | Tide: FES2022b SELECTED_NOT_DEPLOYED; observed gauges limited (Kanmen, Lüsi); modeled/observed/proxy terms must never be conflated | VERIFIED_METHOD | docs/data/ZHEJIANG_TIDE_INUNDATION_POLICY_V0.md |
 | C29 | Spatial splits must be group-disjoint (coastal segments + projected buffer, same-site cross-date grouping); leakage utility provided | VERIFIED_METHOD | src/spartina/evaluation/splits.py; AGENTS.md §7 |
 | C30 | 10 km cell is archive/observation/provenance/split unit; it is not a training chip; future patches carry parent_cell_id | VERIFIED_METHOD | docs/data/ZHEJIANG_OBSERVATION_UNIT_DESIGN_V0.md §9 |
-| C31 | A 6–8-cell, 12–30-product, <10 GB real-pixel multimodal HZB pilot is authorized and deterministic | PLANNED | Issue #13; execution this round |
+| C31 | M2.1b pilot executed as planned: 8 deterministic stratified HZB 10 km cells; 13 products / 24 files / 127,253,613 B (121.4 MiB; cap 10 GiB); export guard, resume and per-file SHA-256; no label bytes copied, GOLD = 0, no training | VERIFIED_RESULT | datasets/manifests/zhejiang_m21b_pilot_v0.json; docs/data/ZHEJIANG_M21B_PILOT_V0.md |
 | C32 | National coastal domain independent of Spartina labels; 2015 map used as SILVER stratification only | PLANNED | Issue #14 |
+| C39 | M2.1b cell strata are a fixed-order function of tracked manifests: HIGH/MED/LOW/VERY-LOW SILVER fraction (0.0755/0.0457/0.0323/0.0299/0.0003), two SILVER/WEAK disagreement cells (J 0.0435, 0.5942), one UNLABELED coastal control (never negative) | VERIFIED_RESULT | datasets/manifests/zhejiang_m21b_pilot_cells_v0.csv; docs/data/ZHEJIANG_M21B_PILOT_V0.md §1 |
+| C40 | Ten S2 products span THREE datatakes (2022-10-02 n=5; 2022-10-10 n=4; 2022-10-15 n=1) = 8 primary + 2 EXTRA; 4 genuine same-datatake two-tile merges (RTP+RUP, RUP+RUQ, RUQ+RVQ); server assert pins one DATATAKE_IDENTIFIER/UTC date; r5 VALID = SCL {4,5,6} ∩ four-band observation mask; primary VALID 0.9610–1.0000; 20 m excluded, no resampling | VERIFIED_RESULT | aggregate s2_datatake_audit; work/m21b/manifests/ZJ_M21B_S2_001..010.json; docs/data/ZHEJIANG_M21B_PILOT_V0.md §2–3 |
+| C41 | The 2022-10-15 EXTRA event (cloud 0.2869 ≤ 0.30 gate, VALID 0.9458) is PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY: counts in storage/product inventory, never in primary-event quality statistics or scaling estimates; it is not a gate-failing diagnostic and not a primary | VERIFIED_METHOD | aggregate s2_datatake_audit.extra_event_classification; micro-audit commit 4b9c67d |
+| C42 | Nominal MGRS tile-frame polygons undercovered 5/8 selected pilot cells although real datatake footprints covered them fully; nominal frames (SAR representative polygons AND nominal MGRS polygons) are planning prefilters only; production eligibility requires actual contributing geometry | VERIFIED_RESULT | aggregate simulation_discrepancies (V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE ×5); ZHEJIANG_M21B_PILOT_V0.md §6 |
+| C43 | Observed tide MISSING and FES2022b NOT_DEPLOYED on every M2.1b scene; no modeled/proxy value is presented as observed; 303-pair standard batch and all training unexecuted | VERIFIED_METHOD | aggregate tide_policy; ZJ_M21B_PILOT_V0.md §8 |
+| C44 | M2.1b verifies observation-chain integrity only: it supports no mapping-accuracy, cross-region/national-generalization, SOTA, or foundation-model claim (GOLD = 0, 8 single-bay single-season cells, no model trained) | VERIFIED_METHOD | CLAIM_EVIDENCE_LEDGER cross-checks; ZHEJIANG_M21B_PILOT_V0.md header; manuscript §§7–10 |
 | C33 | National metadata-only EO census via footprint indexing (no per-cell brute force) | PLANNED | Issue #14 §D |
 | C34 | National multimodal registry with CORE/OPTIONAL/VALIDATION_ONLY/BLOCKED roles and storage tiers T0–T3 | PLANNED | Issue #14 §E–F |
 | C35 | Sensor-agnostic multimodal temporal representation (SpartinaFM) can stably monitor across sensor generations | PLANNED (flagship hypothesis; no results) | docs/models/SPARTINAFM_DESIGN.md; RESEARCH_CONTEXT.md |
@@ -61,7 +67,10 @@ CSVs. Ledger last updated: 2026-10-03.
 2. C19–C24 supersede earlier v0 numbers; v0 artifacts remain on disk
    with SUPERSEDED sidecars and are not silently overwritten.
 3. No claim of accuracy on unlabeled pixels (C07).
-4. C31–C34 are described as plans until the corresponding issues close;
-   their sections use `TODO_EVIDENCE` markers.
+4. C31 is VERIFIED (M2.1b complete); C32–C34 remain plans until Issue
+   #14 closes and their sections retain `TODO_EVIDENCE` markers.
+6. C12/C13/C31/C39–C43 are integrity evidence and always appear with
+   C44's boundary: no accuracy, national-generalization, SOTA, or
+   foundation-model inference may be drawn from them.
 5. C35 is framed as future work; the word "foundation model" is not used
    as a contribution claim.

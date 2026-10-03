@@ -62,12 +62,25 @@ group-wide quantity is retained as a diagnostic column only. A
 contributing scene with missing cloud metadata fails the gate and is
 not rescued by clear neighbors; the gate is not applicable to SAR.
 
+\paragraph{Nominal frames are prefilters, for every sensor.}
+Coverage thresholds are meaningful only against the geometry that
+actually contributes pixels. The pilot shows that nominal MGRS
+tile-frame polygons miss five of eight selected cells although the
+real datatake footprints cover them completely
+(Section~\ref{sec:m21b}); combined with the Sentinel-1 evidence
+below, nominal frame polygons of any sensor are restricted to
+planning prefilters, and production eligibility uses measured
+geometry.
+
 \paragraph{Pixel-level quality.} Sentinel-2 pixel QA uses policy
 \texttt{s2\_scl\_qa\_v1\_1}: SCL classes 4 (vegetation), 5
 (bare/not-vegetated), and 6 (water) are valid; snow/ice class~11 is
-invalid. Pixel-level valid-fraction evaluation has not yet been run at
-scale and is explicitly deferred to the M2.1b real-pixel stage;
-scene-level cloud metadata is never presented as pixel QA.
+invalid. The M2.1b pilot executes this contract on ten real 10\,m
+products: cell VALID fractions span 0.9458--1.0000, and the
+pixel-derived fraction and the scene-level cloud statistic remain
+distinct quantities (Section~\ref{sec:m21b}); archive-scale
+evaluation is still future work. Scene-level cloud metadata is never
+presented as pixel QA.
 
 \subsection{Sentinel-1 production geometry}
 SAR eligibility cannot use a representative orbit frame. Across a

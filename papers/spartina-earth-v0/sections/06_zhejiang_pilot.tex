@@ -39,12 +39,11 @@ single pre-selected Hangzhou smoke scene
 EPSG:32651). Both export tasks completed, files landed with
 per-file SHA-256, grid transform and bounds were re-validated against
 the manifest, and the bundle records catalog fingerprint, processing
-configuration hash, Git commit, and software versions. During the same
-verification campaign the two predeclared windows yielded zero
-eligible Landsat~8 scenes, so the first real Landsat byte validation
-was deliberately not substituted with a convenient scene and remains
-deferred to the controlled pilot; the first eligible Sentinel-1 byte
-validation is deferred likewise.
+configuration hash, Git commit, and software versions. During that campaign the two predeclared windows yielded zero
+eligible Landsat~8 scenes, so rather than substitute a convenient
+scene we deferred both the first eligible Landsat and the first
+eligible Sentinel-1 byte validation to the controlled pilot, where
+they have now been executed (Section~\ref{sec:m21b}).
 
 \subsection{Correction 1: false-zero labels and cell-edge bleed}
 The initial bay-level audit reported zero SILVER label pixels in Sanmen
@@ -99,3 +98,108 @@ Representative frames stay in the codebase as a planning prefilter,
 acquisition-group definitions are unchanged, and the 0.99 coverage
 threshold is unchanged: the correction attaches production eligibility
 to measured geometry rather than to an orbit-level stand-in.
+
+\subsection{The M2.1b controlled real-pixel pilot}\label{sec:m21b}
+The M2.1b pilot converts the corrected contracts into real,
+byte-validated observation products without crossing into modeling.
+Cell selection is a deterministic, fixed-order function of tracked
+label-overlap and disagreement manifests: eight Hangzhou-Bay 10\,km
+cells span maximum, medium, low, and near-zero SILVER bay-clip
+fractions (0.0755, 0.0457, 0.0323, 0.0299, 0.0003), the two lowest
+SILVER/WEAK agreement cells (Jaccard 0.0435 and 0.5942), and one
+\textsc{unlabeled} coastal control, which is treated strictly as a
+control, never as a negative. Thirteen products (24 files, 121.4\,MiB;
+hard cap 10\,GiB) landed under a runtime export guard with resumable,
+content-addressed task handling; per-product manifests record source
+scene ids, processing configuration, grid spec, per-file SHA-256,
+Git commit, and software environment (Table~\ref{tab:m21b}). No label
+bytes were copied, no GOLD labels exist, and no model was trained; the
+pilot verifies the observation chain, not mapping accuracy, and nothing
+in it demonstrates national generalization.
+
+\input{tables/tab_m21b}
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 6}{M2.1b integrity-evidence panel, design only:
+(a) schematic of one pilot cell missed by the nominal MGRS tile frame
+but fully covered by the real datatake footprint (5/8 cells affected);
+(b) per-product VALID fractions for the 10 S2 products with primary vs
+EXTRA coding, and S1 VV/VH percentile panel from frozen manifests.
+Annotated ``observation-chain validation; GOLD\,=\,0; not an accuracy
+result''.}
+\label{fig:m21b}
+\end{figure}
+
+\paragraph{Sentinel-2: real datatakes, real multi-tile merges.}
+The ten S2 products come from \emph{three} distinct datatakes, not two
+as an earlier report draft stated: 2022-10-02 ($n=5$), 2022-10-10
+($n=4$), and 2022-10-15 ($n=1$). Eight products are the cell primary
+events and two are \textsc{extra} secondary events; both extra events
+pass the frozen gates (coverage $\ge$0.99, contributing-scene cloud
+$\le$0.30) but are counted only in the product and storage inventory,
+never pooled into primary-event statistics. The 2022-10-15 event is a
+boundary case kept deliberately: contributing cloud 0.2869 against the
+0.30 gate with 0.9458 in-cell VALID fraction, attached to a cell that
+also holds a clear primary. Four products are genuine same-datatake
+two-tile merges (RTP+RUP, RUP+RUQ, and RUQ+RVQ); a server-side assert
+pins each merge to one \texttt{DATATAKE\_IDENTIFIER} and one UTC date,
+so a cross-date mosaic cannot be constructed. VALID bytes implement
+policy \texttt{s2\_scl\_qa\_v1\_1} intersected with the four-band
+observation mask in the source tile (revision r5); 20\,m bands are
+excluded and no resampling occurs. Primary VALID fractions span
+0.9610--1.0000, i.e.\ scene-level cloud metadata and pixel-level
+validity now agree on real products but are not interchangeable
+quantities.
+
+\paragraph{Landsat 8/9: first eligible scenes at native 30\,m.}
+The first scientifically eligible Landsat products landed for cell
+E029: LC08 L2SP path/row 119/39 on 2022-09-30 (scene cloud 0.2329,
+VALID 0.8116) and LC09 L2SP 118/39 on 2022-10-01 (cloud 0.0435, VALID
+0.9779). Both products are 334$\times$334 pixels on one identical
+30\,m grid (transform anchored at 289980\,m east, 3{,}370{,}020\,m
+north, EPSG:32651), so consecutive sensor generations are
+co-geolocated on a common lattice while retaining native resolution.
+All seven SR bands pass 14 ordered scaling checks under the
+Collection~2 coefficients (scale $2.75\times10^{-5}$, offset $-0.2$);
+the raw \texttt{QA\_PIXEL} layer is exported separately as uint16
+rather than baked into the imagery, and 30\,m pixels are never
+regridded to 10\,m. The VALID gap between the two scenes tracks their
+scene-level cloud fractions---an internal consistency check, not an
+accuracy result.
+
+\paragraph{Sentinel-1: identity decibels, independently recomputed.}
+One eligible IW product landed for E029---Sentinel-1A ascending
+relative orbit 171, 2022-09-17, VV/VH at 10\,m---selected strictly by
+its actual per-scene geometry (coverage 1.0). Pixels are written as
+the catalog's pre-converted $\sigma_0$ decibels with an identity
+mapping; a second $10\log_{10}$ transform is forbidden and a
+unit-envelope audit confirms it. Over the full $1000\times1000$
+window, VV percentiles (p01/p50/p99) are $-24.70/-9.54/+0.79$\,dB and
+VH percentiles $-28.95/-16.26/-7.70$\,dB. An independent GEE server
+recompute of every landed statistic returns identical extrema and
+percentile differences within 0.116\,dB (tolerance 0.6\,dB), showing
+the landed file and a fresh server expression describe the same
+measurement. No descending IW scene reached actual-geometry coverage
+0.99 in the window; this is recorded as
+\texttt{NO\_ELIGIBLE\_S1\_DESCENDING\_SCENE\_2022\_AUTUMN}, not patched
+with a low-coverage pass.
+
+\paragraph{Methodological finding: nominal MGRS frames fail production
+eligibility.} Five of the eight selected cells were flagged
+\texttt{V0\_1\_NOMINAL\_MGRS\_FRAME\_UNDERCOVERAGE}: the nominal MGRS
+tile-frame polygons used by the corrected v0.1 archive simulator miss
+each cell, whereas the real datatake footprints cover it completely and
+the live, actual-geometry products above exist for all five. The
+implication generalizes the Sentinel-1 footprint result: nominal
+frames---representative SAR polygons \emph{and} nominal MGRS tile
+polygons---are planning prefilters only. Production QA, eligibility,
+and any archive statistics must use the geometry that actually
+contributes pixels; an archive simulation built on nominal frames
+requires an actual-geometry revision before standard-batch expansion.
+
+\paragraph{Boundaries recorded rather than filled.} Observed tide is
+\textsc{missing} for every pilot scene and FES2022b modeled tide is
+\textsc{selected\_not\_deployed}; no modeled value is labeled
+observed. The 303-pair standard batch and all training remain
+unexecuted, and the pilot stops at its declared gate.
+

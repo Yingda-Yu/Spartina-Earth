@@ -56,13 +56,22 @@ arbitration panel. All panels annotated n=7 windows/5 components and
 \label{fig:pilot0}
 \end{figure}
 
-\subsection{What the controlled real-pixel pilot must add}
-\todoevidence{M2.1b (Issue \#13): 6--8 deterministic stratified HZB
-10\,km cells spanning high/medium/low SILVER fraction, SILVER/WEAK
-disagreement, and an unlabeled coastal cell; 12--30 products under
-$\sim$10\,GB; S2 10\,m B2/B3/B4/B8 with same-datatake multi-tile merge
-and SCL valid masks; the first scientifically eligible real Landsat
-30\,m byte/scaling validation; the first real Sentinel-1 byte/unit
-validation (actual per-scene geometry, passes kept separate, no second
-log transform); per-product provenance fingerprints; tide fields
-explicit MISSING/NOT\_DEPLOYED. No training in this stage.}
+\subsection{What the M2.1b pilot adds---and what it still does not}
+The controlled pilot (Section~\ref{sec:m21b}) closes the byte-level
+items Pilot-0 could not address: real S2 products with server-asserted
+same-datatake merges and SCL-based valid masks, the first eligible
+real Landsat~8/9 products at native 30\,m with verified Collection~2
+scaling, and the first eligible Sentinel-1 product in identity
+decibels with an independent server recompute; every product carries
+per-file fingerprints, and nominal-frame geometry is shown to be
+unusable for eligibility for both SAR and optical frames.
+
+None of this converts Pilot-0's preliminary ladder into an accuracy
+claim. M2.1b executed no training and contains no GOLD labels; its
+eight cells are pipeline-validation units, not a test population, and
+one bay in one season cannot speak to cross-province or cross-era
+generalization. The two stages establish complementary, narrowly
+scoped statements: Pilot-0 shows that models run, evaluate once, and
+fail transparently on this substrate; M2.1b shows that the substrate
+itself---geometry, units, quality masks, and provenance---is now
+executed correctly on real pixels.
