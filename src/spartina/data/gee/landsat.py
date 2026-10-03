@@ -174,6 +174,8 @@ def record_from_properties(properties: dict[str, Any]) -> dict[str, Any]:
 
 
 __all__ = [
+    "LANDSAT_C2_SR_ADD",
+    "LANDSAT_C2_SR_MULTIPLY",
     "LANDSAT_ST_ADD",
     "LANDSAT_ST_MULTIPLY",
     "SENSOR_CONFIG",

@@ -1,0 +1,654 @@
+{
+  "cells_roster": {
+    "path": "datasets/manifests/zhejiang_m21b_pilot_cells_v0.csv",
+    "sha256": "5c45a5d18b68d9924c446ceafe505a0307da5a5b2c7d82a14023ff04d1366d33"
+  },
+  "created_utc": "2026-10-03T05:43:46.309127+00:00",
+  "estimated_total_bytes": 184916472,
+  "estimated_total_gib": 0.172,
+  "failure_ledger": [
+    {
+      "cell_id": "ALL_SELECTED",
+      "code": "NO_ELIGIBLE_S1_DESCENDING_SCENE_2022_AUTUMN",
+      "detail": "no IW VV+VH DESCENDING scene reached actual-geometry coverage 0.99",
+      "sensor": "sentinel1"
+    }
+  ],
+  "fingerprint_sha256": "617718eeb84d5e3de18313e954575a5794a0cb03a8bd55abf1ce9d5a97ebda79",
+  "gates": {
+    "contributing_definition": "member scenes whose actual geometry intersects the cell at all (v0_1 R1 semantics)",
+    "coverage_min": 0.99,
+    "geometry": "ACTUAL_PER_SCENE_GEE_GEOMETRY",
+    "s1_passes": "ASCENDING/DESCENDING kept separate",
+    "s1_units": "dB identity export, no 10log10",
+    "s2_grouping": "REAL_DATATAKE_IDENTIFIER",
+    "scene_cloud_max": 0.3
+  },
+  "git": {
+    "dirty_tree": true,
+    "git_commit": "0cbedb9c41a7676c1e7595fa63c0f792b8e7863c"
+  },
+  "issue": "#13",
+  "manifest_id": "zhejiang_m21b_pilot_event_plan_v0",
+  "n_products": 13,
+  "product_details": [
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000986,
+      "contributing_scene_ids": [
+        "20221010T023621_20221010T024339_T51RTP",
+        "20221010T023621_20221010T024339_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RTP",
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 283,
+      "eligible": true,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:24.814000+00:00",
+      "member_utcs": [
+        "2022-10-10"
+      ],
+      "multi_tile": true,
+      "n_contributing": 2,
+      "product_id": "ZJ_M21B_S2_001",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000986,
+      "contributing_scene_ids": [
+        "20221010T023621_20221010T024339_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 283,
+      "eligible": true,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:24.814000+00:00",
+      "member_utcs": [
+        "2022-10-10"
+      ],
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_S2_002",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000986,
+      "contributing_scene_ids": [
+        "20221010T023621_20221010T024339_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 283,
+      "eligible": true,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:24.814000+00:00",
+      "member_utcs": [
+        "2022-10-10"
+      ],
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_S2_003",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000181,
+      "contributing_scene_ids": [
+        "20221002T022529_20221002T023813_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 275,
+      "eligible": true,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:22.277000+00:00",
+      "member_utcs": [
+        "2022-10-02"
+      ],
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_S2_004",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000181,
+      "contributing_scene_ids": [
+        "20221002T022529_20221002T023813_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 275,
+      "eligible": true,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:22.277000+00:00",
+      "member_utcs": [
+        "2022-10-02"
+      ],
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_S2_005",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000181,
+      "contributing_scene_ids": [
+        "20221002T022529_20221002T023813_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 275,
+      "eligible": true,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:22.277000+00:00",
+      "member_utcs": [
+        "2022-10-02"
+      ],
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_S2_006",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.000362,
+      "contributing_scene_ids": [
+        "20221002T022529_20221002T023813_T51RUP",
+        "20221002T022529_20221002T023813_T51RUQ"
+      ],
+      "contributing_tiles": [
+        "51RUP",
+        "51RUQ"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 275,
+      "eligible": true,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:07.522000+00:00",
+      "member_utcs": [
+        "2022-10-02"
+      ],
+      "multi_tile": true,
+      "n_contributing": 2,
+      "product_id": "ZJ_M21B_S2_007",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.032576,
+      "contributing_scene_ids": [
+        "20221002T022529_20221002T023813_T51RUQ",
+        "20221002T022529_20221002T023813_T51RVQ"
+      ],
+      "contributing_tiles": [
+        "51RUQ",
+        "51RVQ"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 275,
+      "eligible": true,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:04.422000+00:00",
+      "member_utcs": [
+        "2022-10-02"
+      ],
+      "multi_tile": true,
+      "n_contributing": 2,
+      "product_id": "ZJ_M21B_S2_008",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.286866,
+      "contributing_scene_ids": [
+        "20221015T023649_20221015T024417_T51RTP",
+        "20221015T023649_20221015T024417_T51RUP"
+      ],
+      "contributing_tiles": [
+        "51RTP",
+        "51RUP"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 288,
+      "eligible": true,
+      "event_key": "GS2B_20221015T023649_029287_N04.00",
+      "event_utc": "2022-10-15T02:49:18.005000+00:00",
+      "member_utcs": [
+        "2022-10-15"
+      ],
+      "multi_tile": true,
+      "n_contributing": 2,
+      "product_id": "ZJ_M21B_S2_009",
+      "single_date_assertion": true
+    },
+    {
+      "cloud_gate": "PASS",
+      "contributing_cloud_max": 0.046574,
+      "contributing_scene_ids": [
+        "20221010T023621_20221010T024339_T51RUP",
+        "20221010T023621_20221010T024339_T51RUQ"
+      ],
+      "contributing_tiles": [
+        "51RUP",
+        "51RUQ"
+      ],
+      "coverage_fraction": 1.0,
+      "coverage_gate": true,
+      "doy": 283,
+      "eligible": true,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:10.423000+00:00",
+      "member_utcs": [
+        "2022-10-10"
+      ],
+      "multi_tile": true,
+      "n_contributing": 2,
+      "product_id": "ZJ_M21B_S2_010",
+      "single_date_assertion": true
+    },
+    {
+      "contributing_cloud_max": 0.2329,
+      "contributing_scene_ids": [
+        "LC08_119039_20220930"
+      ],
+      "contributing_tiles": [],
+      "coverage_fraction": 1.0,
+      "doy": 273,
+      "eligible": true,
+      "event_key": "LC08_119039_20220930",
+      "event_utc": "2022-09-30T02:32:13.524000+00:00",
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_L8_011",
+      "scene_extra": {
+        "cloud_cover_land_fraction": 0.2362,
+        "collection_category": "T1",
+        "landsat_product_id": "LC08_L2SP_119039_20220930_20221005_02_T1",
+        "spacecraft_id": "LANDSAT_8",
+        "wrs_path": 119,
+        "wrs_row": 39
+      },
+      "single_date_assertion": true
+    },
+    {
+      "contributing_cloud_max": 0.0435,
+      "contributing_scene_ids": [
+        "LC09_118039_20221001"
+      ],
+      "contributing_tiles": [],
+      "coverage_fraction": 1.0,
+      "doy": 274,
+      "eligible": true,
+      "event_key": "LC09_118039_20221001",
+      "event_utc": "2022-10-01T02:25:45.974000+00:00",
+      "multi_tile": false,
+      "n_contributing": 1,
+      "product_id": "ZJ_M21B_L9_012",
+      "scene_extra": {
+        "cloud_cover_land_fraction": 0.045,
+        "collection_category": "T1",
+        "landsat_product_id": "LC09_L2SP_118039_20221001_20230327_02_T1",
+        "spacecraft_id": "LANDSAT_9",
+        "wrs_path": 118,
+        "wrs_row": 39
+      },
+      "single_date_assertion": true
+    },
+    {
+      "contributing_scene_ids": [
+        "S1A_IW_GRDH_1SDV_20220917T095509_20220917T095534_045043_0561C3_53DF"
+      ],
+      "contributing_tiles": [],
+      "coverage_fraction": 1.0,
+      "doy": 260,
+      "eligible": true,
+      "event_key": "S1A_IW_GRDH_1SDV_20220917T095509_20220917T095534_045043_0561C3_53DF",
+      "event_utc": "2022-09-17T09:55:09+00:00",
+      "multi_tile": false,
+      "n_contributing": 1,
+      "pass_direction": "ASCENDING",
+      "product_id": "ZJ_M21B_S1_013",
+      "relative_orbit": 171,
+      "scene_extra": {
+        "instrument_mode": "IW",
+        "platform": "A",
+        "polarizations": [
+          "VV",
+          "VH"
+        ],
+        "product_identifier": null,
+        "resolution_meters": 10
+      },
+      "single_date_assertion": true
+    }
+  ],
+  "products": [
+    {
+      "cell_id": "ZJ_U51_10K_E029_N336",
+      "contributing_cloud_max": 0.000986,
+      "coverage_fraction": 1.0,
+      "doy": 283,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:24.814000+00:00",
+      "multi_tile": true,
+      "n_scenes": 2,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_001",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221010T023621_20221010T024339_T51RTP|20221010T023621_20221010T024339_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RTP|51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E031_N335",
+      "contributing_cloud_max": 0.000986,
+      "coverage_fraction": 1.0,
+      "doy": 283,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:24.814000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_002",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221010T023621_20221010T024339_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E032_N336",
+      "contributing_cloud_max": 0.000986,
+      "coverage_fraction": 1.0,
+      "doy": 283,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:24.814000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_003",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221010T023621_20221010T024339_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E033_N336",
+      "contributing_cloud_max": 0.000181,
+      "coverage_fraction": 1.0,
+      "doy": 275,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:22.277000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_004",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221002T022529_20221002T023813_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E034_N335",
+      "contributing_cloud_max": 0.000181,
+      "coverage_fraction": 1.0,
+      "doy": 275,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:22.277000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_005",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221002T022529_20221002T023813_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E036_N332",
+      "contributing_cloud_max": 0.000181,
+      "coverage_fraction": 1.0,
+      "doy": 275,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:22.277000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_006",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221002T022529_20221002T023813_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E037_N339",
+      "contributing_cloud_max": 0.000362,
+      "coverage_fraction": 1.0,
+      "doy": 275,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:07.522000+00:00",
+      "multi_tile": true,
+      "n_scenes": 2,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_007",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221002T022529_20221002T023813_T51RUP|20221002T022529_20221002T023813_T51RUQ",
+      "sensor": "sentinel2",
+      "tiles": "51RUP|51RUQ"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E039_N341",
+      "contributing_cloud_max": 0.032576,
+      "coverage_fraction": 1.0,
+      "doy": 275,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2B_20221002T022529_029101_N04.00",
+      "event_utc": "2022-10-02T02:39:04.422000+00:00",
+      "multi_tile": true,
+      "n_scenes": 2,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_008",
+      "relative_orbit": "",
+      "role": "PRIMARY_CLEAREST_EVENT",
+      "scene_ids": "20221002T022529_20221002T023813_T51RUQ|20221002T022529_20221002T023813_T51RVQ",
+      "sensor": "sentinel2",
+      "tiles": "51RUQ|51RVQ"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E029_N336",
+      "contributing_cloud_max": 0.286866,
+      "coverage_fraction": 1.0,
+      "doy": 288,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2B_20221015T023649_029287_N04.00",
+      "event_utc": "2022-10-15T02:49:18.005000+00:00",
+      "multi_tile": true,
+      "n_scenes": 2,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_009",
+      "relative_orbit": "",
+      "role": "EXTRA_SAME_DATATAKE_MULTITILE",
+      "scene_ids": "20221015T023649_20221015T024417_T51RTP|20221015T023649_20221015T024417_T51RUP",
+      "sensor": "sentinel2",
+      "tiles": "51RTP|51RUP"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E037_N339",
+      "contributing_cloud_max": 0.046574,
+      "coverage_fraction": 1.0,
+      "doy": 283,
+      "estimated_bytes": 17000000,
+      "event_key": "GS2A_20221010T023621_038124_N04.00",
+      "event_utc": "2022-10-10T02:49:10.423000+00:00",
+      "multi_tile": true,
+      "n_scenes": 2,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_S2_010",
+      "relative_orbit": "",
+      "role": "EXTRA_SAME_DATATAKE_MULTITILE",
+      "scene_ids": "20221010T023621_20221010T024339_T51RUP|20221010T023621_20221010T024339_T51RUQ",
+      "sensor": "sentinel2",
+      "tiles": "51RUP|51RUQ"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E029_N336",
+      "contributing_cloud_max": 0.2329,
+      "coverage_fraction": 1.0,
+      "doy": 273,
+      "estimated_bytes": 3458236,
+      "event_key": "LC08_119039_20220930",
+      "event_utc": "2022-09-30T02:32:13.524000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_L8_011",
+      "relative_orbit": "",
+      "role": "FIRST_NATURALLY_ELIGIBLE_SCENE",
+      "scene_ids": "LC08_119039_20220930",
+      "sensor": "landsat8",
+      "tiles": "WRS119039"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E029_N336",
+      "contributing_cloud_max": 0.0435,
+      "coverage_fraction": 1.0,
+      "doy": 274,
+      "estimated_bytes": 3458236,
+      "event_key": "LC09_118039_20221001",
+      "event_utc": "2022-10-01T02:25:45.974000+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "",
+      "product_id": "ZJ_M21B_L9_012",
+      "relative_orbit": "",
+      "role": "FIRST_NATURALLY_ELIGIBLE_SCENE",
+      "scene_ids": "LC09_118039_20221001",
+      "sensor": "landsat9",
+      "tiles": "WRS118039"
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E029_N336",
+      "contributing_cloud_max": "",
+      "coverage_fraction": 1.0,
+      "doy": 260,
+      "estimated_bytes": 8000000,
+      "event_key": "S1A_IW_GRDH_1SDV_20220917T095509_20220917T095534_045043_0561C3_53DF",
+      "event_utc": "2022-09-17T09:55:09+00:00",
+      "multi_tile": false,
+      "n_scenes": 1,
+      "pass_direction": "ASCENDING",
+      "product_id": "ZJ_M21B_S1_013",
+      "relative_orbit": 171,
+      "role": "FIRST_ELIGIBLE_ASCENDING",
+      "scene_ids": "S1A_IW_GRDH_1SDV_20220917T095509_20220917T095534_045043_0561C3_53DF",
+      "sensor": "sentinel1",
+      "tiles": ""
+    }
+  ],
+  "query_stats": {
+    "landsat8": {
+      "collection_id": "LANDSAT/LC08/C02/T1_L2",
+      "getinfo_seconds": 1.13,
+      "scenes_intersecting_union_in_window": 11
+    },
+    "landsat9": {
+      "collection_id": "LANDSAT/LC09/C02/T1_L2",
+      "getinfo_seconds": 1.06,
+      "scenes_intersecting_union_in_window": 9
+    },
+    "sentinel1": {
+      "collection_id": "COPERNICUS/S1_GRD",
+      "getinfo_seconds": 1.04,
+      "scenes_intersecting_union_in_window": 16
+    },
+    "sentinel2": {
+      "collection_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "getinfo_seconds": 2.11,
+      "scenes_intersecting_union_in_window": 77
+    }
+  },
+  "simulation_discrepancies": [
+    {
+      "cell_id": "ZJ_U51_10K_E033_N336",
+      "code": "V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE",
+      "interpretation": "corrected v0_1 simulator used NOMINAL MGRS tile frame polygons; they miss this cell while real datatake footprints cover it. Pilot eligibility uses ACTUAL geometry; the archive simulation needs an actual-geometry revision before the standard 303-pair batch",
+      "live_actual_geometry_eligible": true,
+      "v0_1_quality_event": false
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E036_N332",
+      "code": "V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE",
+      "interpretation": "corrected v0_1 simulator used NOMINAL MGRS tile frame polygons; they miss this cell while real datatake footprints cover it. Pilot eligibility uses ACTUAL geometry; the archive simulation needs an actual-geometry revision before the standard 303-pair batch",
+      "live_actual_geometry_eligible": true,
+      "v0_1_quality_event": false
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E034_N335",
+      "code": "V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE",
+      "interpretation": "corrected v0_1 simulator used NOMINAL MGRS tile frame polygons; they miss this cell while real datatake footprints cover it. Pilot eligibility uses ACTUAL geometry; the archive simulation needs an actual-geometry revision before the standard 303-pair batch",
+      "live_actual_geometry_eligible": true,
+      "v0_1_quality_event": false
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E031_N335",
+      "code": "V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE",
+      "interpretation": "corrected v0_1 simulator used NOMINAL MGRS tile frame polygons; they miss this cell while real datatake footprints cover it. Pilot eligibility uses ACTUAL geometry; the archive simulation needs an actual-geometry revision before the standard 303-pair batch",
+      "live_actual_geometry_eligible": true,
+      "v0_1_quality_event": false
+    },
+    {
+      "cell_id": "ZJ_U51_10K_E032_N336",
+      "code": "V0_1_NOMINAL_MGRS_FRAME_UNDERCOVERAGE",
+      "interpretation": "corrected v0_1 simulator used NOMINAL MGRS tile frame polygons; they miss this cell while real datatake footprints cover it. Pilot eligibility uses ACTUAL geometry; the archive simulation needs an actual-geometry revision before the standard 303-pair batch",
+      "live_actual_geometry_eligible": true,
+      "v0_1_quality_event": false
+    }
+  ],
+  "window": {
+    "doy_end": 320,
+    "doy_start": 260,
+    "filter_end_date": "2022-11-17",
+    "filter_start_date": "2022-09-16",
+    "policy": "autumn_primary_v1_PROPOSED_NOT_FROZEN",
+    "year": 2022
+  }
+}
