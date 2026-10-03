@@ -1,0 +1,209 @@
+{
+  "artifact": "national_eo_metadata_census_run_manifest",
+  "version": "v0",
+  "generated_utc": "2026-10-03T17:04:28+00:00",
+  "executed_git_commit": "45ec8ed62aaf079e246f4d40e83374c18c2f75f1",
+  "domain_term": "mainland China coastal domain v0",
+  "status": "RAN_METADATA_ONLY_NO_PIXELS",
+  "run_windows": {
+    "optical": {
+      "run_id": "optical-census-1984-2025",
+      "started_utc": "2026-10-03T15:08:43+00:00",
+      "finished_utc": "2026-10-03T15:21:31+00:00",
+      "totals": {
+        "api_calls": 85,
+        "failed_calls": 0,
+        "getinfo_calls": 85,
+        "reduction_calls": 0,
+        "retries": 0,
+        "results_returned": 293086,
+        "payload_bytes": 44165187,
+        "wall_s": 767.574,
+        "peak_rss_mib": 354.32,
+        "cache_bytes": 8802530
+      }
+    },
+    "sentinel1": {
+      "run_id": "s1geom-20261003T152753Z",
+      "started_utc": "2026-10-03T15:27:53+00:00",
+      "finished_utc": "2026-10-03T15:31:27+00:00",
+      "totals": {
+        "api_calls": 30,
+        "failed_calls": 3,
+        "getinfo_calls": 30,
+        "reduction_calls": 0,
+        "retries": 9,
+        "results_returned": 66412,
+        "payload_bytes": 82934840,
+        "wall_s": 213.514,
+        "peak_rss_mib": 361.6,
+        "cache_bytes": 8442586
+      }
+    }
+  },
+  "gee_calls_note": "one batched getInfo per sensor x year (S1: per year x pass; 3 yearly ASC batches failed limit and were rescued as H1/H2 splits, so 3 failed yearly scopes remain in the S1 ledger with successful halves)",
+  "products": [
+    {
+      "file": "work/national/census/china_eo_scene_census_v0.parquet",
+      "bytes": 11191089,
+      "sha256": "af0e60fe903ea0d0b19149f4c86b8537c325344e74cdc0ff96f86d987b49abe4",
+      "rows": 184051,
+      "columns": [
+        "actual_scene_geometry",
+        "cloud_cover",
+        "cloud_cover_land",
+        "cloudy_over_land_percent",
+        "cloudy_pixel_percent",
+        "datatake_identifier",
+        "doy",
+        "event_id",
+        "footprint_sha256",
+        "frame_id",
+        "geometry_basis",
+        "instrument_mode",
+        "l7_era",
+        "max_lat",
+        "max_lon",
+        "mgrs_tile",
+        "min_lat",
+        "min_lon",
+        "orbit_start",
+        "pass",
+        "platform",
+        "polarization",
+        "product_id",
+        "relative_orbit",
+        "scene_id",
+        "season_tag",
+        "sensor",
+        "spacecraft_name",
+        "system_index",
+        "utc",
+        "utc_precision",
+        "wrs_path",
+        "wrs_row",
+        "year"
+      ]
+    },
+    {
+      "file": "work/national/census/china_cell_event_census_v0.parquet",
+      "bytes": 57987426,
+      "sha256": "eb2a9c03e3c05b3ede73ee648051b430780b5ef5b673475bdaec25136802de49",
+      "rows": 10058703,
+      "columns": [
+        "cell_id",
+        "sensor",
+        "event_id",
+        "utc",
+        "year",
+        "doy",
+        "season_tag",
+        "coverage",
+        "geometry_basis",
+        "member_scene_count"
+      ]
+    },
+    {
+      "file": "work/national/census/china_eo_availability_v0.csv",
+      "bytes": 36061435,
+      "sha256": "b355c27d743c9da5ca50c64371928871cfa0ebd134be210d4674878387562ca6",
+      "rows": 321943
+    },
+    {
+      "file": "work/national/census/china_eo_data_gap_matrix_v0.csv",
+      "bytes": 1162589,
+      "sha256": "0c8d256b644314461fa84b61fb7c4f27f5e73dec226147327e5c0bf1140079ad",
+      "rows": 19914
+    },
+    {
+      "file": "work/national/census/china_eo_census_report_v0.json",
+      "bytes": 1325,
+      "sha256": "c7ef2003c83119b1c776db1a7b90a8168d607077f02f69943a6ca36f60b08b21"
+    },
+    {
+      "file": "work/national/census/resource_ledger_optical_v0.json",
+      "bytes": 23205,
+      "sha256": "57a87210936473ea1af358a881777a5df1a6c438436ece0192fbdd09b685fff1"
+    },
+    {
+      "file": "work/national/census/resource_ledger_s1_v0.json",
+      "bytes": 10515,
+      "sha256": "d8b13fede82c4c78825d2b55095961abc09326a41e947b036c9259d590f91b10"
+    },
+    {
+      "file": "work/national/census/island_cell_classification_W10000.csv",
+      "bytes": 109308,
+      "sha256": "50ba8748332a75d0d9f359a1a184c1b2f8e7d2e5ab7b3fc09eb309a2a1f7d5b5",
+      "rows": 3319
+    }
+  ],
+  "availability_status_counts": {
+    "METADATA_AVAILABLE": 298720,
+    "NO_SCENES_FOUND": 23223
+  },
+  "scene_counts": {
+    "landsat5": 21022,
+    "landsat7": 20187,
+    "landsat8": 13306,
+    "landsat9": 4265,
+    "sentinel2": 108232,
+    "sentinel1": 17039
+  },
+  "unique_scene_rows_total": 184051,
+  "cell_event_pairs": 10058703,
+  "events_per_cell_year_quantiles": {
+    "landsat5": {
+      "p05": 7.0,
+      "p50": 17.0,
+      "p95": 40.0
+    },
+    "landsat7": {
+      "p05": 4.0,
+      "p50": 18.0,
+      "p95": 42.0
+    },
+    "landsat8": {
+      "p05": 14.0,
+      "p50": 20.0,
+      "p95": 49.0
+    },
+    "landsat9": {
+      "p05": 2.0,
+      "p50": 19.0,
+      "p95": 47.0
+    },
+    "sentinel1": {
+      "p05": 13.0,
+      "p50": 38.0,
+      "p95": 118.0
+    },
+    "sentinel2": {
+      "p05": 1.0,
+      "p50": 143.0,
+      "p95": 170.0
+    }
+  },
+  "l7_extended_excluded_scenes": 1269,
+  "chronic_zero_cells_common_era": {
+    "landsat5": 0,
+    "landsat7": 23,
+    "landsat8": 23,
+    "landsat9": 23,
+    "sentinel1": 23,
+    "sentinel2": 23
+  },
+  "key_findings": [
+    "23 W10 cells are never observed by ANY sensor in 2015-2025; all lie at rows 481-487 cols 204-209 (far NE, lon ~130.4-131.2, lat ~41.9-42.4), i.e. outside the WRS-2 path 114-126 prefilter corridor index and beyond nominal descending coverage of the corridor",
+    "GEE COPERNICUS/S1_GRD coverage over the domain is overwhelmingly ASCENDING; DESCENDING scenes = 0 verified at Shanghai/Hainan/Shandong 2023 point checks",
+    "S2 nominal MGRS tile membership is a prefilter only; cell coverage uses nominal-frame joins with FULL_CELL_COVERED / PARTIAL_CELL_OVERLAP recorded per pair",
+    "1269 L7 extended-mission scenes (>=2022-05-05, off-nominal WRS-2 drift) excluded from cell joins"
+  ],
+  "no_bytes_in_git": "all census products live under work/ (gitignored); this manifest records checksums only",
+  "gap_class_counts_rows": {
+    "NO_CHRONIC_GAP": 16309,
+    "NOT_APPLICABLE": 3319,
+    "MULTI_YEAR_GAP": 171,
+    "CHRONIC_ZERO_COMMON_ERA": 115
+  },
+  "gap_class_note": "115 CHRONIC_ZERO_COMMON_ERA rows = 23 cells x 5 sensors (L7/L8/L9/S1/S2); NOT_APPLICABLE 3319 = L5 rows (pre-common-era); 171 MULTI_YEAR_GAP rows are cells with >=2 consecutive zero years outside the all-sensor common era"
+}
