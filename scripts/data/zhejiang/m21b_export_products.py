@@ -66,7 +66,10 @@ from spartina.data.gee.sentinel2 import (  # noqa: E402
     TEN_M_BANDS,
 )
 from spartina.data.gee.tasks import STATE_COMPLETED, TaskStore  # noqa: E402
-from spartina.data.zhejiang.m21b_pilot import s1_db_audit  # noqa: E402
+from spartina.data.zhejiang.m21b_pilot import (  # noqa: E402
+    SCENE_CLOUD_MAX,
+    s1_db_audit,
+)
 
 PLAN_JSON = REPO_ROOT / "datasets/manifests/zhejiang_m21b_pilot_event_plan_v0.json"
 CELL_REGISTRY = REPO_ROOT / "datasets/manifests/zhejiang_analysis_cells_v0.csv"
@@ -734,9 +737,14 @@ def main() -> int:
     for m in manifests:
         for f in m["landed_files"]:
             total += int(f["size_bytes"])
+        proc = m.get("processing_config", {})
         rows.append({
             "product_id": m["product_id"], "cell_id": m["cell_id"],
-            "sensor": m["sensor"], "event_utc": m["acquisition_utc"],
+            "sensor": m["sensor"],
+            "product_role": m["product_role"],
+            "datatake_identifier": proc.get("datatake_identifier"),
+            "scene_date": proc.get("scene_date"),
+            "event_utc": m["acquisition_utc"],
             "n_files": len(m["landed_files"]),
             "bytes": sum(int(f["size_bytes"]) for f in m["landed_files"]),
             "sha_by_role": json.dumps(
@@ -752,6 +760,66 @@ def main() -> int:
         })
     pd.DataFrame(rows).to_csv(OUT_CSV, index=False)
 
+    # S2 datatake micro-audit: primaries and EXTRA secondary events share
+    # the storage inventory but must never be pooled into primary-event
+    # quality statistics.
+    s2_manifests = [m for m in manifests if m["sensor"] == "sentinel2"]
+    datatakes: dict[str, dict[str, Any]] = {}
+    for m in s2_manifests:
+        dt = str(m["processing_config"]["datatake_identifier"])
+        bucket = datatakes.setdefault(dt, {
+            "datatake_identifier": dt,
+            "scene_date": m["processing_config"]["scene_date"],
+            "n_products": 0, "n_primary": 0, "n_extra": 0,
+            "products": []})
+        bucket["n_products"] += 1
+        is_primary = m["product_role"] == "PRIMARY_CLEAREST_EVENT"
+        bucket["n_primary" if is_primary else "n_extra"] += 1
+        bucket["products"].append({
+            "product_id": m["product_id"], "cell_id": m["cell_id"],
+            "product_role": m["product_role"],
+            "contributing_cloud_max": m["contributing_cloud_max"],
+            "valid_fraction": m["qa"]["valid_mask"]["valid_fraction"]})
+    extra_notes = []
+    for m in s2_manifests:
+        if m["product_role"] == "PRIMARY_CLEAREST_EVENT":
+            continue
+        cloud = float(m["contributing_cloud_max"])
+        gate_passed = cloud <= SCENE_CLOUD_MAX
+        extra_notes.append({
+            "product_id": m["product_id"],
+            "datatake_identifier":
+                m["processing_config"]["datatake_identifier"],
+            "scene_date": m["processing_config"]["scene_date"],
+            "contributing_cloud_max": cloud,
+            "scene_cloud_gate": SCENE_CLOUD_MAX,
+            "classification": (
+                "PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY"
+                if gate_passed else "GATE_FAILING_DIAGNOSTIC_ONLY"),
+            "interpretation": (
+                "passes the frozen contributing-scene cloud gate but was "
+                "selected as a secondary same-datatake event; counts in "
+                "storage/product inventory, never in primary-event "
+                "quality statistics"
+                if gate_passed else
+                "fails the frozen cloud gate; diagnostic only, must not "
+                "enter production-quality statistics or scaling counts"),
+        })
+    s2_datatake_audit = {
+        "n_unique_datatakes": len(datatakes),
+        "n_unique_scene_dates": len({b["scene_date"] for b in
+                                     datatakes.values()}),
+        "n_primary_events": sum(b["n_primary"] for b in datatakes.values()),
+        "n_extra_events": sum(b["n_extra"] for b in datatakes.values()),
+        "counting_rule": (
+            "10 S2 products = 8 cell primary events + 2 EXTRA secondary "
+            "same-datatake multi-tile events; 3 distinct datatakes/dates; "
+            "primary and extra statistics are never pooled"),
+        "datatakes": sorted(datatakes.values(),
+                            key=lambda b: b["scene_date"]),
+        "extra_event_classification": extra_notes,
+    }
+
     aggregate = {
         "manifest_id": "zhejiang_m21b_pilot_v0",
         "issue": "#13",
@@ -762,6 +830,7 @@ def main() -> int:
         "total_gib": round(total / 1024**3, 3),
         "volume_cap_bytes": 10 * 1024**3,
         "products": rows,
+        "s2_datatake_audit": s2_datatake_audit,
         "failure_ledger": failures,
         "simulation_discrepancies": plan.get("simulation_discrepancies", []),
         "event_plan_fingerprint_sha256": plan["fingerprint_sha256"],

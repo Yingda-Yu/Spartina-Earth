@@ -66,13 +66,36 @@ No cell is a train/test assignment. These are pipeline-validation units.
 All 8 cells received their clearest eligible event (coverage gate
 ≥ 0.99 on the group union; per-contributing-scene cloud ≤ 0.30). Two
 cells additionally received one extra same-datatake multi-tile event,
-for 10 S2 products.
+for 10 S2 products = **8 primary events + 2 EXTRA secondary events**.
 
-- Only **two distinct datatakes** supply the ten products
-  (2022-10-02 `GS_2022-10-02`, 2022-10-10, plus one extra 2022-10-15
-  event): different cells clip the same event; the cell is the
-  provenance unit, so these are distinct cell-level ObservationProducts,
-  not duplicates. No cell+event pair repeats.
+The ten products span **three distinct datatakes / acquisition dates**
+(recomputed from the final per-product manifests in the micro-audit; an
+earlier draft sentence saying "two datatakes" was wrong):
+
+| Date | DATATAKE_IDENTIFIER | Products | Primary | EXTRA |
+|---|---|---|---|---|
+| 2022-10-02 | GS2B_20221002T022529_029101_N04.00 | 5 | 5 | 0 |
+| 2022-10-10 | GS2A_20221010T023621_038124_N04.00 | 4 | 3 | 1 |
+| 2022-10-15 | GS2B_20221015T023649_029287_N04.00 | 1 | 0 | 1 |
+
+Different cells clip the same datatake; the cell is the provenance
+unit, so these are distinct cell-level ObservationProducts, not
+duplicates. No cell+event pair repeats.
+
+**Status of the two EXTRA events.** Both pass the frozen production
+gates (coverage >= 0.99, every contributing scene cloud <= 0.30) and
+are classified `PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY` in the aggregate
+manifest (`s2_datatake_audit`): they count in the product/storage
+inventory but never in primary-event quality statistics or scaling
+estimates. The 2022-10-15 event (S2_009, contributing cloud 0.2869)
+sits at the boundary of the 0.30 cloud gate and was deliberately kept
+as a secondary stress observation for the one cell that also has the
+clearest primary; it is **not** a gate-failing diagnostic-only product.
+
+The machine-readable audit (`s2_datatake_audit` in
+zhejiang_m21b_pilot_v0.json) records per-datatake product/role counts
+and the explicit `extra_event_classification`, and a unit test locks
+these counts against the frozen plan.
 - Multi-tile same-datatake merges occurred with the exact contributing
   tile sets: RTP+RUP (2022-10-10), RUP+RUQ (2022-10-02 and 2022-10-10),
   RUQ+RVQ (2022-10-02). Merge is one ordered
@@ -135,9 +158,13 @@ SCL+observation VALID):
 | S2_009 (extra) | E029 | RTP,RUP | 0.28687 | 0.9458 |
 | S2_010 (extra) | E037 | RUP,RUQ | 0.04657 | 1.0000 |
 
-(The extra 2022-10-15 event S2_009 is intentionally a stress case: high
-whole-scene cloud but 94.6 % VALID inside the cell. It is an extra
-observation, never a replacement of the clear primary.)
+(Primary-event VALID fractions range 0.9610-1.0000. The two rows
+marked `(extra)` are EXTRA secondary events and are excluded from
+primary-event statistics. S2_009 (2022-10-15, contributing cloud
+0.2869, inside-cell VALID 94.6 %) passes the frozen 0.30 cloud gate at
+its boundary and is kept as `PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY`:
+a deliberately cloudy secondary observation for a cell that also has a
+clear primary, never a replacement of it.)
 
 - L8 VALID fraction 0.8116; L9 VALID fraction 0.9779 — consistent with
   their scene-level cloud fractions (0.23 / 0.04).

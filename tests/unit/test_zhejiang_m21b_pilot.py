@@ -356,3 +356,37 @@ def test_s1_db_audit_rejects_double_log_values() -> None:
 def test_s1_db_audit_rejects_absurd_positive() -> None:
     audit = s1_db_audit(_stats((-20.0, 80.0), (-25.0, 40.0)))
     assert not audit["pass"]
+
+
+# ---------------------------------------------------------------------------
+# Frozen-plan micro-audit semantics (Issue #13 reporting consistency)
+# ---------------------------------------------------------------------------
+
+def test_frozen_plan_s2_datatake_and_role_counts() -> None:
+    """The tracked event plan must stay at 3 datatakes with explicit
+    primary/EXTRA roles; EXTRA gate-eligible events are never pooled
+    into primary-event counts.
+    """
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[2]
+    plan = json.loads((root / "datasets/manifests"
+                       / "zhejiang_m21b_pilot_event_plan_v0.json").read_text())
+    s2 = [p for p in plan["products"] if p["sensor"] == "sentinel2"]
+    assert len(s2) == 10
+    primaries = [p for p in s2
+                 if p["role"] == "PRIMARY_CLEAREST_EVENT"]
+    extras = [p for p in s2
+              if p["role"] == "EXTRA_SAME_DATATAKE_MULTITILE"]
+    assert len(primaries) == 8 and len(extras) == 2
+    # distinct datatakes are read off the contributing scene id prefix
+    date_prefixes = {p["scene_ids"].split("|")[0][:8] for p in s2}
+    assert date_prefixes == {"20221002", "20221010", "20221015"}
+    # every EXTRA event passed the frozen contributing cloud gate; the
+    # 10-15 case is a boundary (0.2869 <= 0.30) non-primary observation
+    for p in extras:
+        assert float(p["contributing_cloud_max"]) <= SCENE_CLOUD_MAX
+    boundary = next(p for p in extras
+                    if p["scene_ids"].startswith("20221015"))
+    assert float(boundary["contributing_cloud_max"]) > 0.28
