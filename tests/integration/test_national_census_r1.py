@@ -59,7 +59,7 @@ BOHAI_CELL = "CNA10K-R00415-C00131"  # spot check: ASC 324 / DESC 318
 SOUTHERN_CELL = "CNA10K-R00312-C00156"  # Zhejiang-Fujian: ASC 990 / DESC 6
 NE_INDEX_MISS_CELL = "CNA10K-R00485-C00204"
 
-S1_TOKEN = "DESCENDING_TRULY_ABSENT_OR_RARE"
+S1_TOKEN = "DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED"
 
 
 @pytest.fixture(scope="module")
@@ -172,6 +172,23 @@ def test_s1_audit_token_and_spot_check_files() -> None:
     )
     assert bohai_desc_share > 0.30
     assert southern_desc_share < 0.05
+
+    # Complete-era pass summary: 2014 partial era + 2015-2025 full years
+    # + 2026 YTD (PARTIAL_YEAR), per Issue #16 completeness note.
+    assert "funnel_totals_2014_partial" in doc
+    assert "funnel_totals_2015_2025" in doc
+    assert "funnel_totals_2026_ytd" in doc
+    era = doc["era_summary"]
+    assert era["2014_partial"]["label"].startswith("PARTIAL_ERA")
+    assert era["2014_partial"]["raw_bbox_DESC"] > 0
+    assert era["2014_partial"]["d_level_scenes"] == 0
+    assert era["2015_2025_full"]["d_level_DESC"] > 0
+    assert era["2026_ytd"]["label"] == "PARTIAL_YEAR"
+    assert era["2026_ytd"]["annualized"] is False
+    # National DESC demonstrably exists; the token must not claim absence.
+    d_level = doc["funnel_totals_2015_2025"]["D_CELL_IW_VVVH"]
+    assert d_level["DESC"] > 1000
+    assert "ABSENT" not in doc["diagnosis_token"]
 
 
 def test_s1_pass_region_structure_live(ee_module) -> None:

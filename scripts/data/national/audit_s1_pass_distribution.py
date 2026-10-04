@@ -15,8 +15,12 @@ spot checks (>=2 cells per region) are queried DIRECTLY from GEE with
 ``filterBounds(cell_geometry)``, bypassing every local index.
 
 Emits exactly one diagnosis token:
-DESCENDING_TRULY_ABSENT_OR_RARE | PIPELINE_FILTER_BUG |
+DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED | PIPELINE_FILTER_BUG |
 COLLECTION_SCOPE_MISMATCH | INSUFFICIENT_EVIDENCE.
+
+The audited era is the complete S1 record in the cached pull:
+2014 partial era (pull begins 2014-10-01), 2015..2025 full years, and
+2026 YTD through the frozen cutoff (PARTIAL_YEAR).
 
 Metadata-only; export guard installed; no pixel export.
 """
@@ -74,7 +78,7 @@ SPOT_PROPS = (
 )
 
 TOKENS = (
-    "DESCENDING_TRULY_ABSENT_OR_RARE",
+    "DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED",
     "PIPELINE_FILTER_BUG",
     "COLLECTION_SCOPE_MISMATCH",
     "INSUFFICIENT_EVIDENCE",
@@ -249,8 +253,9 @@ def decide_token(
     )
     if n_desc_d == 0 and n_desc_a == 0 and spot_desc == 0:
         return (
-            "DESCENDING_TRULY_ABSENT_OR_RARE",
-            "zero DESC at raw bbox, cell-intersection, and direct spot checks",
+            "INSUFFICIENT_EVIDENCE",
+            "zero DESC at raw bbox, cell-intersection, and direct spot "
+            "checks; pass balance cannot be characterized from this cache",
         )
     if n_desc_c > 0 and cache_desc == 0:
         return (
@@ -262,8 +267,10 @@ def decide_token(
             "COLLECTION_SCOPE_MISMATCH",
             "raw DESC scenes exist only outside the IW+VV|VH/domain scope",
         )
-    # DESC is present and was cached. Quantify the post-S1B era and the
-    # per-region direct spot checks; rarity is strongly structured.
+    # DESC nationally exists and was cached, but is strongly structured by
+    # region and era. Quantify the post-S1B-loss era and per-region direct
+    # spot checks so the token carries the observed imbalance, not a
+    # blanket "descending absent" claim.
     recent = funnel[
         (funnel["layer"] == "D_CELL_IW_VVVH")
         & funnel["year"].isin(range(2022, 2026))
@@ -277,25 +284,23 @@ def decide_token(
         asc = int(row.get("iw_vvvh_asc", 0))
         desc = int(row.get("iw_vvvh_desc", 0))
         region_ratios[region] = desc / max(asc + desc, 1)
-    rare_regions = {r for r, value in region_ratios.items() if value < 0.05}
+    rare_regions = sorted(r for r, value in region_ratios.items() if value < 0.05)
     abundant = {
         r: round(value, 3) for r, value in region_ratios.items() if value >= 0.2
     }
-    if recent_ratio < 0.05 and len(rare_regions) >= 3:
-        return (
-            "DESCENDING_TRULY_ABSENT_OR_RARE",
-            f"2022-2025 national D-level DESC share={recent_ratio:.3%}; "
-            f"direct cell checks show DESC<5% in {sorted(rare_regions)}; "
-            f"DESC abundant only in {abundant}; v0 cache retained DESC "
-            f"({cache_desc} scenes), so no pipeline filter bug -- the "
-            f"rarity is region/era structured (raw-supported), and no "
-            f"blanket 'ascending-only' statement is valid",
-        )
     return (
-        "DESCENDING_TRULY_ABSENT_OR_RARE",
-        f"2022-2025 D-level DESC share={recent_ratio:.3%}; region "
-        f"ratios={ {r: round(v, 3) for r, v in region_ratios.items()} }; "
-        f"n_desc_D={n_desc_d} n_asc_D={n_asc_d}; cache retained DESC",
+        "DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED",
+        f"national DESC exists (raw bbox DESC={n_desc_a}; "
+        f"D-level 2015-2025 DESC={n_desc_d} vs ASC={n_asc_d}; v0 cache "
+        f"retained {cache_desc} DESC; direct spot checks total DESC="
+        f"{spot_desc}) -- no pipeline filter bug; coverage is highly "
+        f"uneven: DESC-abundant regions={abundant}, DESC<5% regions="
+        f"{rare_regions}; after the Sentinel-1B loss the 2022-2025 "
+        f"national D-level DESC share fell to {recent_ratio:.3%} "
+        f"({recent_desc}/{recent_desc + recent_asc}); the audited era is "
+        f"2014 partial (no D-level scenes; pull starts 2014-10-01), "
+        f"2015-2025 full years, and 2026 YTD (PARTIAL_YEAR, no "
+        f"annualization)",
     )
 
 
@@ -325,6 +330,12 @@ def main() -> int:
         default=Path("docs/data/national/S1_PASS_DISTRIBUTION_AUDIT_v0_1.json"),
     )
     parser.add_argument("--no-spot-checks", action="store_true")
+    parser.add_argument(
+        "--reuse-spot-checks",
+        action="store_true",
+        help="reuse the existing spot-check CSV; no GEE calls (semantic "
+        "re-runs after the original live audit)",
+    )
     args = parser.parse_args()
 
     raw_path = args.r1_dir / "s1_grd_unfiltered_v0_1.parquet"
@@ -366,32 +377,45 @@ def main() -> int:
     )
     spot_selection = select_spot_cells(cells, observed_ids)
 
-    initialize()
-    import ee
-
-    install_export_guard(ee)
-
+    spot_csv = args.r1_dir / "s1_spot_checks_v0_1.csv"
     spot_rows: list[dict[str, Any]] = []
     spot_errors: list[str] = []
-    if not args.no_spot_checks:
-        by_id = cells.set_index("cell_id")
-        for spec in spot_selection:
-            geom = ee.Geometry(mapping(by_id.loc[spec["cell_id"]].geometry))
-            try:
-                started = time.perf_counter()
-                result = spot_check_cell(ee, geom)
-                result["query_s"] = round(time.perf_counter() - started, 2)
-            except Exception as exc:  # noqa: BLE001 - recorded, audit continues
-                spot_errors.append(f"{spec['cell_id']}: {type(exc).__name__}: {exc}")
-                result = {"error": str(exc)[:200]}
-            spot_rows.append({**spec, **result})
-            print(
-                f"spot {spec['region']} {spec['cell_id']}: "
-                f"ASC={result.get('ASC')} DESC={result.get('DESC')}",
-                flush=True,
-            )
-    spot_csv = args.r1_dir / "s1_spot_checks_v0_1.csv"
-    pd.DataFrame(spot_rows).to_csv(spot_csv, index=False)
+    spot_method = (
+        "direct ee filterBounds(cell) props-only aggregate, "
+        "2014-10-01..2026-10-03, no local index"
+    )
+    if args.reuse_spot_checks:
+        prior = pd.read_csv(spot_csv)
+        spot_rows = prior.to_dict(orient="records")
+        spot_method += "; REUSED from prior live audit (no GEE re-query)"
+        print(f"reusing {len(spot_rows)} cached spot checks (no GEE calls)")
+    else:
+        initialize()
+        import ee
+
+        install_export_guard(ee)
+
+        if not args.no_spot_checks:
+            by_id = cells.set_index("cell_id")
+            for spec in spot_selection:
+                geom = ee.Geometry(mapping(by_id.loc[spec["cell_id"]].geometry))
+                try:
+                    started = time.perf_counter()
+                    result = spot_check_cell(ee, geom)
+                    result["query_s"] = round(time.perf_counter() - started, 2)
+                except Exception as exc:  # noqa: BLE001 - recorded, audit continues
+                    spot_errors.append(
+                        f"{spec['cell_id']}: {type(exc).__name__}: {exc}"
+                    )
+                    result = {"error": str(exc)[:200]}
+                spot_rows.append({**spec, **result})
+                print(
+                    f"spot {spec['region']} {spec['cell_id']}: "
+                    f"ASC={result.get('ASC')} DESC={result.get('DESC')}",
+                    flush=True,
+                )
+        if not args.no_spot_checks:
+            pd.DataFrame(spot_rows).to_csv(spot_csv, index=False)
 
     # Three-way histogram comparison (full years only).
     raw_d = funnel[
@@ -479,18 +503,63 @@ def main() -> int:
             group["n"].sum()
         )
 
+    funnel_2014 = pivot_totals(funnel, range(2014, 2015))
+    funnel_2026 = pivot_totals(funnel, range(2026, 2027))
+    raw_2014 = raw[raw["year"].eq(2014)]
+    d14 = raw_2014[
+        raw_2014["instrument_mode"].eq("IW")
+        & raw_2014["polarization"].eq("VV|VH")
+        & raw_2014["intersects_w10_cells"]
+    ]
+    era_summary = {
+        "2014_partial": {
+            "label": "PARTIAL_ERA (pull begins 2014-10-01)",
+            "raw_bbox_ASC": int((raw_2014["pass"] == "ASC").sum()),
+            "raw_bbox_DESC": int((raw_2014["pass"] == "DESC").sum()),
+            "d_level_scenes": int(len(d14)),
+            "note": "raw DESC/ASC exist pre-2015 but no IW/VV|VH footprint "
+            "intersects a W10 cell; the common-era census starts 2015",
+        },
+        "2015_2025_full": {
+            "label": "FULL_HISTORICAL_YEARS",
+            "d_level_ASC": int(
+                pivot_totals(funnel, FULL_YEARS)
+                .get("D_CELL_IW_VVVH", {})
+                .get("ASC", 0)
+            ),
+            "d_level_DESC": int(
+                pivot_totals(funnel, FULL_YEARS)
+                .get("D_CELL_IW_VVVH", {})
+                .get("DESC", 0)
+            ),
+        },
+        "2026_ytd": {
+            "label": "PARTIAL_YEAR",
+            "cutoff_utc": CUTOFF_UTC,
+            "d_level_ASC": int(
+                funnel_2026.get("D_CELL_IW_VVVH", {}).get("ASC", 0)
+            ),
+            "d_level_DESC": int(
+                funnel_2026.get("D_CELL_IW_VVVH", {}).get("DESC", 0)
+            ),
+            "annualized": False,
+        },
+    }
+
     doc = {
         "artifact": "s1_pass_distribution_audit",
         "version": "v0_1",
         "generated_utc": datetime.now(tz=UTC).isoformat(),
         "git_commit": _git_commit(),
-        "audit": "M2.3b-R1 PART B (Issue #16 blocker 2)",
+        "audit": "M2.3b-R1 PART B (Issue #16 blocker 2); "
+        "M2.3c Phase A semantic correction",
         "cutoff_utc_2026": CUTOFF_UTC,
         "scope": {
             "collection": S1_COLLECTION,
             "server_bbox": [105.0, 15.0, 132.0, 43.0],
+            "era_2014": "PARTIAL_ERA (cache pull 2014-10-01..2014-12-31)",
             "years_full": [2015, 2025],
-            "year_partial": 2026,
+            "year_2026": "PARTIAL_YEAR through frozen cutoff",
             "pass_prefilter": "NONE (unfiltered; orbitProperties_pass read only)",
         },
         "funnel_layer_definitions": {
@@ -501,16 +570,17 @@ def main() -> int:
             "E_D_AUTUMN": "D plus DOY 260-320",
             "F_PRODUCTION_STYLE": "D plus known platform/orbit (full year)",
         },
+        "funnel_totals_2014_partial": funnel_2014,
         "funnel_totals_2015_2025": pivot_totals(funnel, FULL_YEARS),
-        "funnel_totals_2026_ytd": pivot_totals(funnel, range(2026, 2027)),
+        "funnel_totals_2026_ytd": funnel_2026,
+        "era_summary": era_summary,
         "funnel_by_year_csv": _rel(funnel_csv),
         "relative_orbit_csv": _rel(orbit_csv),
         "relative_orbit_top_by_segment_pass": orbit_summary,
         "platform_breakdown_2015_2025": platform_breakdown,
         "histogram_comparison": compare,
         "spot_checks": {
-            "method": "direct ee filterBounds(cell) props-only aggregate, "
-            "2014-10-01..2026-10-03, no local index",
+            "method": spot_method,
             "csv": _rel(spot_csv),
             "results": spot_rows,
             "errors": spot_errors,

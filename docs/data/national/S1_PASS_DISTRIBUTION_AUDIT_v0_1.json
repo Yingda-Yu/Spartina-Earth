@@ -1,9 +1,9 @@
 {
   "artifact": "s1_pass_distribution_audit",
   "version": "v0_1",
-  "generated_utc": "2026-10-03T19:11:21.356666+00:00",
-  "git_commit": "f1c1ea042cd5bf17d70117ac7bb0f1d5fbd1d2af",
-  "audit": "M2.3b-R1 PART B (Issue #16 blocker 2)",
+  "generated_utc": "2026-10-04T05:37:25.782730+00:00",
+  "git_commit": "4f498f1021d59038b46a33806eea8734047fd6a6",
+  "audit": "M2.3b-R1 PART B (Issue #16 blocker 2); M2.3c Phase A semantic correction",
   "cutoff_utc_2026": "2026-10-03T00:00:00Z",
   "scope": {
     "collection": "COPERNICUS/S1_GRD",
@@ -13,11 +13,12 @@
       132.0,
       43.0
     ],
+    "era_2014": "PARTIAL_ERA (cache pull 2014-10-01..2014-12-31)",
     "years_full": [
       2015,
       2025
     ],
-    "year_partial": 2026,
+    "year_2026": "PARTIAL_YEAR through frozen cutoff",
     "pass_prefilter": "NONE (unfiltered; orbitProperties_pass read only)"
   },
   "funnel_layer_definitions": {
@@ -27,6 +28,20 @@
     "D_CELL_IW_VVVH": "C plus actual footprint intersects W10 cells",
     "E_D_AUTUMN": "D plus DOY 260-320",
     "F_PRODUCTION_STYLE": "D plus known platform/orbit (full year)"
+  },
+  "funnel_totals_2014_partial": {
+    "A_BBOX_RAW": {
+      "ASC": 207,
+      "DESC": 289
+    },
+    "B_BBOX_IW": {
+      "ASC": 207,
+      "DESC": 289
+    },
+    "C_BBOX_IW_VVVH": {
+      "ASC": 18,
+      "DESC": 61
+    }
   },
   "funnel_totals_2015_2025": {
     "A_BBOX_RAW": {
@@ -78,6 +93,27 @@
     "F_PRODUCTION_STYLE": {
       "ASC": 626,
       "DESC": 264
+    }
+  },
+  "era_summary": {
+    "2014_partial": {
+      "label": "PARTIAL_ERA (pull begins 2014-10-01)",
+      "raw_bbox_ASC": 207,
+      "raw_bbox_DESC": 289,
+      "d_level_scenes": 0,
+      "note": "raw DESC/ASC exist pre-2015 but no IW/VV|VH footprint intersects a W10 cell; the common-era census starts 2015"
+    },
+    "2015_2025_full": {
+      "label": "FULL_HISTORICAL_YEARS",
+      "d_level_ASC": 14491,
+      "d_level_DESC": 3145
+    },
+    "2026_ytd": {
+      "label": "PARTIAL_YEAR",
+      "cutoff_utc": "2026-10-03T00:00:00Z",
+      "d_level_ASC": 904,
+      "d_level_DESC": 351,
+      "annualized": false
     }
   },
   "funnel_by_year_csv": "work/national/census_r1/s1_pass_funnel_v0_1.csv",
@@ -164,7 +200,7 @@
     }
   },
   "spot_checks": {
-    "method": "direct ee filterBounds(cell) props-only aggregate, 2014-10-01..2026-10-03, no local index",
+    "method": "direct ee filterBounds(cell) props-only aggregate, 2014-10-01..2026-10-03, no local index; REUSED from prior live audit (no GEE re-query)",
     "csv": "work/national/census_r1/s1_spot_checks_v0_1.csv",
     "results": [
       {
@@ -180,12 +216,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 298,
         "iw_vvvh_desc": 196,
-        "distinct_orbits_asc": [
-          69
-        ],
-        "distinct_orbits_desc": [
-          149
-        ],
+        "distinct_orbits_asc": "[69]",
+        "distinct_orbits_desc": "[149]",
         "query_s": 0.47
       },
       {
@@ -201,14 +233,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 323,
         "iw_vvvh_desc": 318,
-        "distinct_orbits_asc": [
-          76,
-          171
-        ],
-        "distinct_orbits_desc": [
-          3,
-          76
-        ],
+        "distinct_orbits_asc": "[76, 171]",
+        "distinct_orbits_desc": "[3, 76]",
         "query_s": 0.46
       },
       {
@@ -224,12 +250,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 382,
         "iw_vvvh_desc": 4,
-        "distinct_orbits_asc": [
-          171
-        ],
-        "distinct_orbits_desc": [
-          105
-        ],
+        "distinct_orbits_asc": "[171]",
+        "distinct_orbits_desc": "[105]",
         "query_s": 0.43
       },
       {
@@ -245,13 +267,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 382,
         "iw_vvvh_desc": 13,
-        "distinct_orbits_asc": [
-          171
-        ],
-        "distinct_orbits_desc": [
-          3,
-          105
-        ],
+        "distinct_orbits_asc": "[171]",
+        "distinct_orbits_desc": "[3, 105]",
         "query_s": 0.41
       },
       {
@@ -267,13 +284,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 983,
         "iw_vvvh_desc": 4,
-        "distinct_orbits_asc": [
-          69,
-          171
-        ],
-        "distinct_orbits_desc": [
-          105
-        ],
+        "distinct_orbits_asc": "[69, 171]",
+        "distinct_orbits_desc": "[105]",
         "query_s": 0.65
       },
       {
@@ -289,13 +301,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 660,
         "iw_vvvh_desc": 4,
-        "distinct_orbits_asc": [
-          69,
-          142
-        ],
-        "distinct_orbits_desc": [
-          3
-        ],
+        "distinct_orbits_asc": "[69, 142]",
+        "distinct_orbits_desc": "[3]",
         "query_s": 0.46
       },
       {
@@ -311,12 +318,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 313,
         "iw_vvvh_desc": 1,
-        "distinct_orbits_asc": [
-          11
-        ],
-        "distinct_orbits_desc": [
-          149
-        ],
+        "distinct_orbits_asc": "[11]",
+        "distinct_orbits_desc": "[149]",
         "query_s": 0.48
       },
       {
@@ -332,13 +335,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 313,
         "iw_vvvh_desc": 3,
-        "distinct_orbits_asc": [
-          11
-        ],
-        "distinct_orbits_desc": [
-          47,
-          149
-        ],
+        "distinct_orbits_asc": "[11]",
+        "distinct_orbits_desc": "[47, 149]",
         "query_s": 0.43
       },
       {
@@ -354,12 +352,8 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 698,
         "iw_vvvh_desc": 3,
-        "distinct_orbits_asc": [
-          157
-        ],
-        "distinct_orbits_desc": [
-          120
-        ],
+        "distinct_orbits_asc": "[157]",
+        "distinct_orbits_desc": "[120]",
         "query_s": 0.49
       },
       {
@@ -375,20 +369,14 @@
         "pass_unknown": 0,
         "iw_vvvh_asc": 735,
         "iw_vvvh_desc": 4,
-        "distinct_orbits_asc": [
-          84,
-          157
-        ],
-        "distinct_orbits_desc": [
-          47,
-          120
-        ],
+        "distinct_orbits_asc": "[84, 157]",
+        "distinct_orbits_desc": "[47, 120]",
         "query_s": 0.49
       }
     ],
     "errors": []
   },
   "failed_raw_scopes": [],
-  "diagnosis_token": "DESCENDING_TRULY_ABSENT_OR_RARE",
-  "diagnosis_reason": "2022-2025 national D-level DESC share=4.790%; direct cell checks show DESC<5% in ['HAINAN', 'PEARL_DELTA', 'YANGTZE', 'ZHEJIANG_FUJIAN']; DESC abundant only in {'BOHAI': 0.496}; v0 cache retained DESC (2763 scenes), so no pipeline filter bug -- the rarity is region/era structured (raw-supported), and no blanket 'ascending-only' statement is valid"
+  "diagnosis_token": "DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED",
+  "diagnosis_reason": "national DESC exists (raw bbox DESC=22926; D-level 2015-2025 DESC=3145 vs ASC=14491; v0 cache retained 2763 DESC; direct spot checks total DESC=584) -- no pipeline filter bug; coverage is highly uneven: DESC-abundant regions={'BOHAI': 0.496}, DESC<5% regions=['HAINAN', 'PEARL_DELTA', 'YANGTZE', 'ZHEJIANG_FUJIAN']; after the Sentinel-1B loss the 2022-2025 national D-level DESC share fell to 4.790% (252/5261); the audited era is 2014 partial (no D-level scenes; pull starts 2014-10-01), 2015-2025 full years, and 2026 YTD (PARTIAL_YEAR, no annualization)"
 }
