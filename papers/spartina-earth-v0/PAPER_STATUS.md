@@ -1,7 +1,9 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-04 (Issue #16 metadata census executed;
-first-pixel pilot designed, not executed).
+Updated: 2026-10-04 (Issue #16 census supersession v0_1; Issue #17
+mainland coastal-domain membership v1 audited, W10 verdict
+REMAIN_PROVISIONAL; first-pixel pilot designed, not executed, but
+re-validated against v1 membership).
 
 ## Draft status by section
 
@@ -14,7 +16,7 @@ first-pixel pilot designed, not executed).
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
-| sections/08_national_scaling.tex | National scaling (mainland China coastal domain v0) | **Full prose with executed metadata census**: 3,319 provisional Albers cells, strata, registry, tier estimates, and executed Issue #16 census results (184,051 scenes; 23 chronic-zero far-NE cells; S1 ascending-only); first-pixel panel designed not executed |
+| sections/08_national_scaling.tex | National scaling (v0 grid + v1 membership candidate) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1: 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; REMAIN_PROVISIONAL), strata on grid and active subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active |
 | sections/09_discussion.tex | Discussion | **Skeleton + verified discussion points**; pending-result paragraphs marked |
 | sections/10_limitations.tex | Limitations | **Full prose drafted** |
 | sections/11_conclusion.tex | Conclusion | **Skeleton drafted** |
@@ -44,8 +46,15 @@ stable introduction/methods); placeholder in main.tex.
   EXECUTED metadata-only (184,051 scenes, 79,265 events,
   10,058,703 cell-event pairs; EO_CENSUS_RUN_MANIFEST_v0.json).
 
+- Mainland coastal-domain membership v1 (Issue #17): deterministic
+  target-independent GIS rule; 3,011 keep / 298 exclude / 10
+  provisional; all 20 #16 flags confirmed artifacts; W5/W10/W20
+  artifact-rate sensitivity; Murray/JRC 30 km context only; freeze
+  verdict REMAIN_PROVISIONAL (claims C52-C55).
+
 **PENDING (must not be presented as results):**
-- First-pixel pilot pixel download (20-cell panel designed, not executed).
+- First-pixel pilot pixel download (20-cell panel designed, not
+  executed; design re-validated: all 20 cells are active v1 members).
 - National pixel archive at any tier.
 - GOLD field/UAV labels (GOLD = 0).
 - Management-event geometry ledgers (0 events).

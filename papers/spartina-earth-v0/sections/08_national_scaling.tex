@@ -1,11 +1,20 @@
 \section{National scaling design}\label{sec:national}
 
-This section describes the \emph{mainland China coastal domain v0}:
-the administrative clip excludes Taiwan and the audited national label
-products are themselves mainland-China products, so the present scope is
-never described as the whole China coast. The domain and the 10\,km
-lattice remains \texttt{PROVISIONAL\_NOT\_FROZEN}; no national
-pixel export and no national result map exists. The national EO
+This section keeps two objects explicitly separate: the immutable
+10\,km \emph{grid} (3{,}319 cells with fixed geometry and reversible
+identifiers) and \emph{mainland coastal-domain membership}, a
+versioned attribute on that cell-id space. The two are not the same:
+grid cells intersected by the geometric corridor may still fall over
+foreign land or open sea. The administrative clip excludes Taiwan and
+the audited national label products are themselves mainland-China
+products, so the present scope is never described as the whole China
+coast. The evidence chain is therefore: independent mainland coastal
+evidence $\rightarrow$ deterministic domain membership $\rightarrow$
+stable W10 grid cells $\rightarrow$ observation events. The grid, the
+v0 domain and the v1 membership candidate all remain
+\texttt{PROVISIONAL\_NOT\_FROZEN}; the accompanying freeze review
+returns the verdict \texttt{REMAIN\_PROVISIONAL} pending closure of ten
+cells. No national pixel export and no national result map exists. The national EO
 metadata census (Issue~\#16) has, however, now been executed twice as a
 metadata- and geometry-only operation---v0 (1984--2025) and the audited
 revision v0\_1, which extends through the frozen year-to-date cutoff
@@ -54,6 +63,63 @@ identifier (projection, zone where applicable, grid-width token, row,
 column), geometry hash, and coastal-relevance metadata; label-derived
 entry conditions are forbidden.
 
+\subsection{v1 membership audit on the immutable grid}
+Because corridor intersection is not membership, Issue~\#17 audited all
+3{,}319 v0 cells with a deterministic, target-independent rule applied
+to per-cell GIS evidence only (GSHHG land/coastline, Natural Earth
+ownership, nearest-landfall distances); labels, scene and event counts,
+model outputs, and the Murray/JRC layers are structurally incapable of
+entering a decision. Ownership first normalises the admin units: the
+Hong Kong and Macao map units are folded into China (a literal
+name-based reading had falsely treated 23 Pearl River delta cells as
+foreign), whereas the Taiwan-administered units encountered inside the
+corridor---the Kinmen/Matsu archipelago---are marked contested rather
+than silently claimed or deleted. The ordered rule keeps any cell with
+$\geq$100\,m$^2$ of Chinese mainland land (mixed transboundary cells
+are kept with the foreign share recorded), keeps cells anchored by a
+nearshore island only when the Chinese mainland is the strictly nearest
+administered landfall (refining the v0 island rule, which admitted
+foreign-landfall islets near the Tumen triple border), excludes
+foreign-only land, foreign-nearer water, and water beyond the 10\,km
+landfall reach, applies a 500\,m border-tie band, and leaves
+incomplete or sovereignty-ambiguous cells provisional.
+
+Of the 3{,}319 v0 cells, the v1 candidate keeps 3{,}011 (2{,}752
+mainland-coastal, 259 island-coastal; nominal footprint
+301{,}100\,km$^2$, $-$30{,}800\,km$^2$ against v0), excludes 298 as
+domain artifacts, and holds 10 as provisional. All 20 Issue~\#16
+flagged cells are independently confirmed as artifacts (17 over
+Russian, Korean or Vietnamese administered land; 3 open-sea edge
+cells), while the three \texttt{INDEX\_MISS} cells are genuine Chinese
+mainland. The full-population scan exposed 278 further artifacts that
+the manual audit could not see: 256 open-sea corridor slivers,
+additional foreign coast slivers, and two foreign-nearer water cells.
+The ten provisional cells split into five with material unattributed
+land (Pearl estuary, the Matsu channel, and three remote Zhejiang
+island groups 18--27\,km offshore) and five Kinmen cells within
+0.9--9\,km of Fujian; each is listed in the supersession manifest and
+must receive a documented human decision before any freeze. The
+a-priori width sweep is stable in character rather than borderline:
+artifact rates are 11.45\,\% at W5, 8.98\,\% at W10 and 7.74\,\% at W20,
+with island-only fragmentation of 9.67\,\%, 7.95\,\% and 6.65\,\%; W20
+dilutes the same artifacts over larger cells rather than removing them,
+so the W10 choice is supported rather than overturned.
+
+Murray intertidal v1.1 (11 epochs, 1984--2016; CC-BY-4.0;
+\citealp{murray2019tidalflats}) and JRC
+Global Surface Water v1.4 (1984--2021; Copernicus, attribution
+``Source: EC JRC/Google''; \citealp{pekel2016gsw}) were fetched as batched server-side scalar
+summaries for all cells (166 \texttt{reduceRegions} calls at 30\,km
+analysis scale; no national image export) and are joined as descriptive
+context columns only. At that scale the Murray product is a coarse
+support indicator---it is positive in 2{,}867 of the 3{,}011 kept cells
+but also in 249 of the 298 excluded cells---which is precisely why it
+cannot measure cell-level tidal-flat area and is barred from membership
+decisions; JRC surface water is reported as context and is not a tide
+proxy. Excluded cells are never deleted from the grid registry: all
+3{,}319 rows persist with a versioned membership token, evidence JSON,
+and the pinned v0 registry SHA-256.
+
 \subsection{Label-overlay flags and exclusive strata}
 Labels enter the domain strictly as overlays. Each cell carries seven
 \emph{orthogonal boolean flags}---2015 SILVER positive (406 cells),
@@ -61,16 +127,22 @@ CM-SSM 2020 positive (385), 2015 nearby (one fixed 10\,km lattice band;
 812), multi-product positive (both products; 309), plus three
 schema-reserved flags that are empty at v0: GOLD evidence, CMSA history
 (the archive is registration-gated), and management evidence---so
-overlapping evidence is never collapsed. For sampling we additionally
+overlapping evidence is never collapsed. The overlays are computed on
+the immutable v0 grid (3{,}319 cells); for sampling we additionally
 derive one \emph{exclusive priority stratum} per cell, whose counts
-partition the 3{,}319-cell domain exactly: 309 multi-product positive,
-97 positive only in 2015, 76 positive only in 2020, 742 near-positive
-unlabeled, and 2{,}095 other coastal unlabeled cells (482 cells are
-positive in at least one obtained product). The 2{,}837 cells without
-positive evidence are absence of evidence in the products obtained,
-never an ecological negative. Management-evidence and GOLD strata
-remain designed but not built (no verifiable spatial management ledger
-exists; GOLD\,=\,0).
+partition the grid exactly: 309 multi-product positive, 97 positive
+only in 2015, 76 positive only in 2020, 742 near-positive unlabeled,
+and 2{,}095 other coastal unlabeled cells (482 cells positive in at
+least one obtained product). Restricted to the 3{,}011 active v1
+member cells the same strata partition as 308, 97, 76, 724 and 1{,}806:
+no excluded artifact cell carries any SILVER positive label, and 481
+of the 482 positive cells are active members; the remaining
+multi-product positive cell sits on a provisional Kinmen cell and is
+held out of sampling pending the ownership decision rather than being
+silently used. The cells without positive evidence are absence of
+evidence in the products obtained, never an ecological negative.
+Management-evidence and GOLD strata remain designed but not built (no
+verifiable spatial management ledger exists; GOLD\,=\,0).
 
 \subsection{Metadata census through footprint indexing}
 The national census is metadata-only by construction and forbids
@@ -104,16 +176,23 @@ The S1 universe was rebuilt from an unfiltered national pull (33
 batched calls) with ascending and descending scenes retained at every
 funnel stage; the v0\_1 set is 18{,}891 actual-footprint IW/VV$|$VH
 scenes intersecting W10 cells. The audited diagnosis token is
-\texttt{DESCENDING\_TRULY\_ABSENT\_OR\_RARE}: at the cell-intersecting
-funnel level 2015--2025 there are 14{,}491 ascending versus 3{,}145
-descending scenes; descending coverage is abundant in Bohai (about
-50\,\% pass share, e.g.\ 200 of 318 scenes at one audited Bohai cell)
-but below 5\,\% in four southern segments (Yangtze,
-Zhejiang--Fujian, Pearl River Delta, Hainan), and the national
-descending share falls to 4.8\,\% in 2022--2025 after the Sentinel-1B
-anomaly of 2021-12-23 and its declared end of mission on 2022-08-03
-\citep{copernicus2022s1b}. Ten deterministic direct-GEE spot checks
-(at least two per region) confirm a real, region- and era-structured
+\texttt{DESCENDING\_REGIONALLY\_AND\_TEMPORALLY\_IMBALANCED}:
+descending observations exist nationally---22{,}926 raw and 3{,}145
+cell-intersecting scenes in 2015--2025, and 281{,}321 descending
+cell--event pairs---but availability is strongly region- and
+period-dependent. Pass availability was substantial in parts of
+Bohai (about 50\,\% descending share, e.g.\ 200 of 318 scenes at one
+audited Bohai cell) but much sparser along southern coastal segments
+(below 5\,\% in the Yangtze, Zhejiang--Fujian, Pearl River Delta and
+Hainan spot checks), and the national descending share fell sharply
+to 4.8\,\% in 2022--2025 after the Sentinel-1B anomaly of 2021-12-23
+and its declared end of mission on 2022-08-03
+\citep{copernicus2022s1b}. The complete audited era is reported
+explicitly: the partial 2014 record (pull starts 2014-10-01; raw
+ascending/descending scenes exist but none intersects a W10 cell),
+the 2015--2025 full years, and 2026 YTD as \texttt{PARTIAL\_YEAR}
+without annualization. Ten deterministic direct-GEE spot checks
+(at least two per region) confirm the real, region- and era-structured
 acquisition pattern rather than a pipeline filter---the v0 cache itself
 retained 2{,}763 descending scenes. (3)~\emph{NE edge audit.} The 23
 far-northeast cells (lon~130.4--131.2, lat~41.9--42.4) that v0
@@ -149,7 +228,11 @@ into one observation event, and local geometric joins on v0\_1 yield
 (L5~23{,}382; L7~22{,}550, of which 1{,}418 extended; L8~15{,}944;
 L9~5{,}737; S1~18{,}891; S2~6{,}531), 10{,}923{,}012 cell--event pairs,
 and all 3{,}319 cells observed by at least one sensor in the
-2015--2025 common era (v0: 3{,}296). Median full-year observation
+2015--2025 common era (v0: 3{,}296). The census is enumerated over the
+immutable v0 grid, not over the membership result: events on the 298
+excluded cells remain recorded for provenance, and membership acts as a
+read-time filter rather than a deletion; the 3{,}011 active members are
+likewise all observed in 2015--2025. Median full-year observation
 density at W10 is 20 Landsat~8, 143 Sentinel-2 and 40 Sentinel-1 events
 per cell-year; at W10, 80\,\%/76\,\%/78\,\% of cell--event pairs fully
 cover the cell for L8/S2/S1, so the nominal-frame prefilter is never
@@ -167,14 +250,20 @@ availability/gap matrices are versioned as run manifest
 are tracked in Git. A deterministic 20-cell first-pixel panel (five strata
 and four geometry-edge quotas, SHA-256 ranked on cell IDs) is designed
 but explicitly \emph{not executed}: no pixel download has been
-authorized.
+authorized. The panel was re-validated against the v1 membership audit
+and all 20 cells are active members (19 mainland-coastal
+decisions---18 land-touching and one Chinese-side seawater cell---and
+one nearshore-island cell), so the design needs no revision when
+execution is later authorized.
 
 \begin{figure}[t]\centering
 \figplaceholder{Figure 5}{National scaling design schematic only:
-independent coastal domain $\rightarrow$ cells $\rightarrow$ 2015
-SILVER overlay and strata $\rightarrow$ footprint-indexed metadata
-census $\rightarrow$ storage tiers T0--T3. Explicitly a design figure;
-no national result map.}
+independent mainland coastal evidence $\rightarrow$ deterministic v1
+domain membership on the immutable W10 grid $\rightarrow$ 2015/2020
+SILVER overlays and strata $\rightarrow$ footprint-indexed metadata
+census (events retained grid-wide; membership as a read-time filter)
+$\rightarrow$ storage tiers T0--T3. Explicitly a design figure; no
+national result map.}
 \label{fig:national}
 \end{figure}
 
