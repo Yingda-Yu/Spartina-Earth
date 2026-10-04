@@ -15,6 +15,29 @@ manifest row under `datasets/manifests/`. Numbers below are quoted from
 the audited portal records; anything not observed is marked
 `TODO_VERIFY`.
 
+## 0. Consolidated owner-action register (Issue #17 update)
+
+Every blocked label asset the scientific owner (not automation) must act
+on. `OWNER_ACTION_REQUIRED` means the asset cannot enter any manifest as
+obtained until a human completes the exact action and the source
+passport is filled. Portal field values not directly observed are
+`TODO_VERIFY`; none are guessed.
+
+| DATASET | WHY_NEEDED | PORTAL | LOGIN_REQUIRED | ORDER_REQUIRED | LICENSE | ESTIMATED_SIZE | EXACT_USER_ACTION | STATUS |
+|---|---|---|---|---|---|---|---|---|
+| GEODATA 1990 Spartina map (`10.12041/geodata.195159798810196.ver1.db`) | Earliest national reference point; only long-baseline change/recurrence anchor | geodata.cn (Global Change Science Research Data Publishing System); DOI landing page `https://doi.org/10.12041/geodata.195159798810196.ver1.db`; deep link TODO_VERIFY | Yes — personal institutional account | Yes — manual data order (数据订单) with purpose statement and manual approval | RESTRICTED; redistribution `TODO_VERIFY` at order time (2015 product confirmed no-redistribution) | 0.23 MiB per listing (TODO_VERIFY) | Register/login; open DOI; read and screenshot license; submit truthful research/validation purpose; record order id, approver, time, granted license; download approved archive into `work/external/`; SHA-256 + format/CRS passport; never commit bytes | OWNER_ACTION_REQUIRED (BLOCKED_BY_ORDER) |
+| GEODATA 2000 Spartina map (`10.12041/geodata.140184217931452.ver1.db`) | Second historical reference point for cross-decade trajectory | same portal; `https://doi.org/10.12041/geodata.140184217931452.ver1.db` | Yes | Yes — data order + approval | RESTRICTED; exact terms TODO_VERIFY | 592 KiB per listing (TODO_VERIFY) | Same as above; record exact projection (listing states Krasovsky/Albers + OBIA) | OWNER_ACTION_REQUIRED (BLOCKED_BY_ORDER) |
+| GEODATA 2015 30 m national product (`10.12041/geodata.65372070926827.ver1.db`) | SILVER 2015 stratification already used; must prove local file byte-identity and license | same portal; `https://doi.org/10.12041/geodata.65372070926827.ver1.db` | Yes | Yes — data order + approval | No-redistribution confirmed for this product; exact text snapshot required | Portal value TODO_VERIFY | Order the official archive despite local copy; byte-compare ordered archive vs `old datasets/...2015...tif`; do not treat local copy as licensed until match; record all order metadata | OWNER_ACTION_REQUIRED (local copy: RELATIONSHIP_UNKNOWN until matched) |
+| GEODATA 2020 "30 m Spartina" entry (`10.12041/geodata.254533427778392.ver1.db`) | Potential second SILVER national epoch — but title says Spartina, abstract says mangrove | same portal; `https://doi.org/10.12041/geodata.254533427778392.ver1.db` | Yes | Yes, only after content clarification | RESTRICTED; TODO_VERIFY | TODO_VERIFY | Contact the listed data contact in writing first; obtain written confirmation the product is actually Spartina; only then order; keep the reply in the passport | OWNER_ACTION_REQUIRED (EXISTS_WITH_METADATA_CONTRADICTION; hold) |
+| CMSA annual Spartina maps 2017–2021 (`10.12199/nesdc.ecodb.mon.2026.013`; mirror CSTR `15732.11.nesdc.ecodb.mon.2026.017` via https://cstr.cn/) | Only multi-year (5-epoch) national series; history stratum flag exists but is empty; recurrence/change evidence | National Ecosystem Science Data Center; DOI landing page; CSTR deep link TODO_VERIFY | Yes — real institutional identity; download needs logged-in purpose statement; short-lived JWT URLs (never share/commit) | Purpose registration (no manual approval observed; TODO_VERIFY) | CC-BY-NC-4.0 as declared; snapshot exact license text at download | 6.1561 GB zip (five per-year products); confirm actual year inventory (listing temporalCoverage text says 2017–2020) | Register; open DOI; accept CC-BY-NC-4.0; submit academic non-commercial validation purpose; browser-download to `work/external/cmsa_2017_2021/`; record holder, purpose, timestamps, JWT issue time, SHA-256, listing, per-year CRS/resolution; no area numbers until manifest audit | OWNER_ACTION_REQUIRED (OPEN_WITH_PURPOSE_REGISTRATION) |
+| CM-SSM 2020 (`10.5281/zenodo.16296823`) | SILVER 2020 overlay already integrated (385 cells) | Zenodo (open) | No | No | SOURCE_LICENSE_CONFLICT: Zenodo/DataCite CC-BY-4.0 vs NESDC mirror CC-BY-NC-4.0 — do not assume the permissive term | Already held locally (8 shapefile components, byte-verified) | None for access; owner decision needed only on redistribution/training rights: ask contributor to resolve the license conflict | CLEARED_FOR_ANALYSIS; rights decision OWNER_ACTION_REQUIRED |
+
+No account creation, agreement acceptance, form submission, JWT-URL use,
+or re-hosting may be automated (Section 4 below). The GEODATA 2010
+product is **not** in this register: no verifiable product was found and
+a placeholder must not be invented; re-search is a research task, not an
+access action.
+
 ## 1. Global Earth Science Data Portal (geodata.cn) — GEODATA products
 
 Provider: National Earth System Science Data Center / Global Change

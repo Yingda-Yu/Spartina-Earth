@@ -1,0 +1,24 @@
+{
+  "artifact": "china_domain_v1_context_fetch_ledger",
+  "generated_utc": "2026-10-04T07:05:12+00:00",
+  "access_date": "2026-10-04",
+  "git_commit": "60c5dce35ad630960b6ba58d2e41d10f7e034b6b",
+  "cells_requested": 3319,
+  "batch_size": 40,
+  "analysis_scale_m": 30000,
+  "murray_tiles_in_asset": 11,
+  "murray_rows_written": 3319,
+  "jrc_rows_written": 3319,
+  "resumable": "fetches are resumable; gee_call_counts below records THIS invocation only. Both datasets were fetched on the access date (Murray was refetched once after a property-name fix).",
+  "gee_call_counts_this_invocation": {
+    "metadata_getinfo_calls": 1,
+    "reduce_regions_getinfo_calls": 0,
+    "failed_getinfo_calls": 0
+  },
+  "full_clean_run_expected_calls": {
+    "metadata_getinfo_calls": 1,
+    "reduce_regions_getinfo_calls": 166
+  },
+  "exports": "scalar per-cell summaries only; no national image export",
+  "gee_project_source": "SPARTINA_GEE_PROJECT env var (value never recorded)"
+}

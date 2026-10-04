@@ -1,0 +1,44 @@
+{
+  "generated_utc": "2026-10-04T07:03:58.400038+00:00",
+  "widths": {
+    "W5000": {
+      "cell_edge_m": 5000,
+      "v0_cells": 8192,
+      "v1_kept_cells": 7234,
+      "excluded_cells": 938,
+      "provisional_cells": 20,
+      "artifact_rate_v0": 0.114502,
+      "island_only_cells": 792,
+      "mainland_plus_island_cells": 822,
+      "island_fragmentation_fraction": 0.09668,
+      "v1_cell_union_area_km2": 180850.0,
+      "cells_with_murray_intertidal_present": null
+    },
+    "W10000": {
+      "cell_edge_m": 10000,
+      "v0_cells": 3319,
+      "v1_kept_cells": 3011,
+      "excluded_cells": 298,
+      "provisional_cells": 10,
+      "artifact_rate_v0": 0.089786,
+      "island_only_cells": 264,
+      "mainland_plus_island_cells": 574,
+      "island_fragmentation_fraction": 0.079542,
+      "v1_cell_union_area_km2": 301100.0,
+      "cells_with_murray_intertidal_present": 2867
+    },
+    "W20000": {
+      "cell_edge_m": 20000,
+      "v0_cells": 1383,
+      "v1_kept_cells": 1274,
+      "excluded_cells": 107,
+      "provisional_cells": 2,
+      "artifact_rate_v0": 0.077368,
+      "island_only_cells": 92,
+      "mainland_plus_island_cells": 330,
+      "island_fragmentation_fraction": 0.066522,
+      "v1_cell_union_area_km2": 509600.0,
+      "cells_with_murray_intertidal_present": null
+    }
+  }
+}
