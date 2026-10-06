@@ -1,7 +1,10 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-04 (Issue #16 census supersession v0_1; Issue #17
-mainland coastal-domain membership v1 audited, W10 verdict
+Updated: 2026-10-06 (M2.4 external-label intake: GEODATA 1990/2000/
+2015/2020 and CMSA 2017–2021 archives delivered, byte-audited and
+registered in china_external_label_registry_v1.csv; table/§04/ledger
+C45/C56 updated; GOLD still 0; prior update: Issue #16 census
+supersession v0_1; Issue #17 domain membership v1, W10 verdict
 REMAIN_PROVISIONAL; first-pixel pilot designed, not executed, but
 re-validated against v1 membership).
 
@@ -12,7 +15,7 @@ re-validated against v1 membership).
 | sections/01_introduction.tex | Introduction | **Full prose drafted** |
 | sections/02_related_work.tex | Related work | **Full v0 drafted** (3 subsections, 37 verified refs available) |
 | sections/03_study_design.tex | Study design and data provenance | **Full prose drafted** |
-| sections/04_data_and_provenance.tex | Data sources, tiers, rights, national label family | **Full prose + Table tab_label_products (10 audited products)**; CM-SSM byte-identity integrated |
+| sections/04_data_and_provenance.tex | Data sources, tiers, rights, national label family | **Full prose + Table tab_label_products (10 acquired, byte-audited products; M2.4)**; measured GEODATA/CMSA areas, 2020 contradiction resolution, grid non-alignment, CM-SSM byte-identity integrated |
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
@@ -33,9 +36,13 @@ stable introduction/methods); placeholder in main.tex.
   PRODUCTION_ELIGIBLE_EXTRA_NONPRIMARY.
 - Provenance architecture and executed correction audits (false-zero
   labels; group-wide cloud-gate bug; S1 representative-frame errors).
-- National label-family audit: 10 verified products, 2010 not found and
-  not fabricated, GEODATA 1990/2000 order-blocked, CMSA registration-
-  gated (CC BY-NC 4.0), CM-SSM byte-identical to official Zenodo.
+- National label-family audit: 10 entities all acquired and
+  byte-audited (M2.4): four GEODATA masks (research-only; 2020 bytes
+  verified Spartina against a mangrove portal abstract defect; 2015
+  local copy byte-identical to the ordered archive), five CMSA vector
+  years 2017–2021 (CC BY-NC 4.0; measured areas), CM-SSM byte-identical
+  to official Zenodo; 2010 not found and not fabricated; GOLD = 0;
+  cross-family differences explicitly not change.
 - CM-SSM official/local identity (8 shapefile components, SHA256) with
   SOURCE_LICENSE_CONFLICT preserved.
 - Mainland China coastal domain v0: target-independent corridor,

@@ -5,7 +5,8 @@ Status: **PLANNING (v0.1)**. No GOLD labels exist in the repository today
 admission rules before any site is collected. It does not authorize
 mapping, training, or label production.
 
-Last updated: 2026-09-30.
+Last updated: 2026-10-06 (M2.4 external-label intake guard added to
+§1.1; no GOLD labels created — GOLD count remains 0).
 
 ---
 
@@ -32,11 +33,27 @@ regardless of visual quality.
 |---|---|
 | 2015 national Spartina raster | SILVER |
 | CM-SSM products | SILVER (license/provenance permitting) |
+| GEODATA national 30 m Spartina masks (1990/2000/2015/2020) | SILVER |
+| CMSA annual Spartina vectors 2017–2021 (NESDC) | SILVER |
 | Legacy local mask (`old datasets/`) | WEAK |
 | SAI / NDVI / any index threshold | WEAK |
 | Model predictions / pseudo labels | WEAK |
 | Undated satellite-derived polygons | WEAK or rejected |
 | Crowdsourced points without field evidence | WEAK |
+
+**M2.4 guard (2026-10-06).** The GEODATA and CMSA national products
+became available and byte-audited in M2.4 (see
+`datasets/manifests/china_external_label_registry_v1.csv` and
+`docs/audit/CHINA_EXTERNAL_LABEL_INTAKE_AUDIT_V1.md`). Authority of the
+publisher, a 10 m / sub-meter input resolution, a DOI, or a reported
+92–97 % accuracy does **not** confer GOLD: these products ship no
+field/UAV/expert-verified label chain under our control, and their
+accuracy claims have not been independently reproduced by us. All ten
+entities are registered `label_tier=SILVER`, `gold_use=FALSE`. They may
+be used only as *external reference products* (agreement/
+disagreement/context), never as GoldSet seeds, never as evaluation
+ground truth, and never as model training labels under current project
+policy. The project GOLD count remains **0**.
 
 ## 2. Candidate site typology
 

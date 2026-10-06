@@ -1,52 +1,70 @@
-% Source: datasets/manifests/china_spartina_label_products_v0.csv
-% (10 rows, 29 fields; sha256 in repo manifest). Only products verified to
-% exist as portal records or local files are listed. Nothing here is GOLD.
+% Source: datasets/manifests/china_external_label_registry_v1.csv
+% (10 entities, 28 fields; archive sha256 in the registry; supersedes the
+% order-blocked rows of china_spartina_label_products_v0.csv, retained for
+% history). Byte-audited 2026-10-06; nothing here is GOLD.
 \begin{sidewaystable}[p]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{National \emph{Spartina alterniflora} label products audited in
-Spartina Earth (mainland-China coastal scope; Taiwan excluded by the
-administrative clip of domain v0). All fields are transcribed from the
-tracked manifest; \textsc{unknown} means the portal record does not state
-the value and the product was not obtained. Reported accuracies are
-paper-/portal-reported and are not independently re-derived by us. No row
-is GOLD: products obtained as files remain SILVER external mapping
-products. Mapped-area differences across years must not be read as
-ecological change (different resolutions, methods, minimum mapping units,
-domains, and reference data).}
+\caption{National \emph{Spartina alterniflora} external label products
+audited in Spartina Earth (mainland-China coastal scope; Taiwan excluded
+by the administrative clip of domain v0). All products below have been
+obtained through legitimate order or purpose-registration channels and
+byte-audited; areas and feature counts are recomputed by us from the
+delivered files. Reported accuracies are paper-/portal-reported and are
+not independently re-derived. \textsc{unknown} means the value is not
+stated in any obtained source. No row is GOLD: every product is a SILVER
+external reference. Mapped-area differences across years or products
+must not be read as ecological change (different datums, resolutions,
+methods, minimum mapping units, domains, and reference data; the
+GEODATA 2015 product is in UTM~50N while the other GEODATA years use
+Krasovsky Albers, and the layers are not pixel aligned).}
 \label{tab:labelproducts}
-\begin{tabular}{p{0.9cm}p{1.75cm}p{1.2cm}p{1.7cm}p{2.55cm}p{2.7cm}p{1.75cm}p{1.7cm}p{2.55cm}p{1.7cm}p{1.35cm}p{1.95cm}p{1.85cm}}
+\begin{tabular}{p{0.9cm}p{1.75cm}p{1.2cm}p{1.7cm}p{2.55cm}p{2.7cm}p{1.75cm}p{1.7cm}p{1.95cm}p{1.7cm}p{1.7cm}p{1.85cm}}
 \toprule
-Year & Product & Resol. & Domain & Input imagery & Mapping method & Reported acc. & Mapped area & DOI & License & Local & Provenance & Intended role \\
+Year & Product & Resol. & Domain & Input imagery & Mapping method & Reported acc. & Mapped area (measured by us) & DOI & License & Local bytes & Provenance / role \\
 \midrule
-1990 & GEODATA 1990 30\,m & \textsc{unknown} & China coastal & \textsc{unknown} (early Landsat era; not verified) & \textsc{unknown} & \textsc{unknown} & \textsc{unknown} & \nolinkurl{10.12041/geodata.195159798810196.ver1.db} & Portal platform terms only & None; BLOCKED\_BY\_ORDER & Portal record only & EXTERNAL\_LABEL \\
-2000 & GEODATA 2000 30\,m & \textsc{unknown} & China coastal & \textsc{unknown} (Landsat era) & OBIA (portal metadata) & \textsc{unknown} & \textsc{unknown} & \nolinkurl{10.12041/geodata.140184217931452.ver1.db} & Portal platform terms only & None; BLOCKED\_BY\_ORDER & Portal record only & EXTERNAL\_LABEL \\
-2015 & GEODATA 2015 30\,m & 30\,m & China coastal (EPSG:32650 footprint) & Landsat-8 OLI 2015 & eCognition OBIA + SVM + expert editing (portal/Mao 2019) & OA 92\,\% (reported; not verified) & 547.4583\,km$^2$ (608{,}287 px; measured by us) & \nolinkurl{10.12041/geodata.65372070926827.ver1.db} & Portal platform terms only & Present (ignored bytes) & RELATIONSHIP\_UNKNOWN; SILVER & SILVER\_REFERENCE \\
-2020 & GEODATA 2020 30\,m & 30\,m (title) & National (title) & \textsc{unknown} & \textsc{unknown} & \textsc{unknown} & \textsc{unknown} & \nolinkurl{10.12041/geodata.254533427778392.ver1.db} & Portal platform terms only & None & Metadata contradiction (Spartina title vs mangrove abstract) & UNKNOWN \\
-2017 & CMSA annual 10\,m & 10\,m & Mainland China & Sentinel-2 (2020 training year transferred) & DeepLabv3+ semantic segmentation & \textsc{unknown} (per-year) & \textsc{unknown} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 (portal) & None; purpose registration & Portal record only & EXTERNAL\_LABEL \\
-2018 & CMSA annual 10\,m & 10\,m & Mainland China & Sentinel-2 (transferred) & DeepLabv3+ & \textsc{unknown} & \textsc{unknown} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & None; purpose registration & Portal record only & EXTERNAL\_LABEL \\
-2019 & CMSA annual 10\,m & 10\,m & Mainland China & Sentinel-2 (transferred) & DeepLabv3+ & \textsc{unknown} & \textsc{unknown} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & None; purpose registration & Portal record only & EXTERNAL\_LABEL \\
-2020 & CMSA annual 10\,m & 10\,m & Mainland China & Sentinel-2 (2020 training year) & DeepLabv3+ & \textsc{unknown} & \textsc{unknown} (not the 58{,}006\,ha comparator figure)\,\textsuperscript{b} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & None; purpose registration & Portal record only & EXTERNAL\_LABEL \\
-2021 & CMSA annual 10\,m & 10\,m & Mainland China & Sentinel-2 (transferred) & DeepLabv3+ & \textsc{unknown} & \textsc{unknown} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & None; purpose registration & Portal record only & EXTERNAL\_LABEL \\
-2020 & CM-SSM sub-meter & 0.9\,m GE RGB; 10\,m S2 features & Mainland China; 9 provinces; 148{,}072 polygons & 15 S2 phenological bands + 0.9\,m Google Earth RGB & OSPPF multi-scale OBIA + RF (200 trees) + manual refinement & OA 96.76\,\%, F1 0.95 (reported) & 59{,}370.98\,ha (recomputed; $\equiv$593.710\,km$^2$) & \nolinkurl{10.5281/zenodo.16296823} & Conflict: CC BY 4.0 (Zenodo) vs CC BY-NC 4.0 (NESDC mirror) & Present, byte-verified & VERIFIED\_CM\_SSM\_2020; SILVER & HIGH\_RES\_VALIDATION\_REFERENCE \\
+1990 & GEODATA 1990 30\,m & 30\,m & China coastal; Krasovsky Albers & Landsat era; image dates \textsc{unknown} & OBIA (portal metadata) & $>$90\,\% generic boilerplate & 43.7652\,km$^2$ (48{,}628 px) & \nolinkurl{10.12041/geodata.195159798810196.ver1.db} & Research-only portal terms & Acquired; sha256 \texttt{8fb616af} & VERIFIED; SILVER\_REFERENCE \\
+2000 & GEODATA 2000 30\,m & 30\,m & China coastal; Krasovsky Albers & Landsat era; image dates \textsc{unknown} & OBIA (portal metadata) & $>$90\,\% generic boilerplate & 256.4343\,km$^2$ (284{,}927 px) & \nolinkurl{10.12041/geodata.140184217931452.ver1.db} & Research-only portal terms & Acquired; sha256 \texttt{c55f5a50} & VERIFIED; minor keyword defect; SILVER\_REFERENCE \\
+2015 & GEODATA 2015 30\,m & 30\,m & China coastal (EPSG:32650 UTM~50N) & Landsat-8 OLI 2015 & eCognition OBIA + SVM + expert editing (portal/Mao 2019) & OA 92\,\% (reported; not verified) & 547.4583\,km$^2$ (608{,}287 px) & \nolinkurl{10.12041/geodata.65372070926827.ver1.db} & Research-only; no redistribution & Acquired; extracted TIF byte-identical to prior local copy & VERIFIED; SILVER\_REFERENCE \\
+2020 & GEODATA 2020 30\,m & 30\,m & China coastal; Krasovsky Albers & \textsc{unknown} (portal page is mangrove boilerplate) & \textsc{unknown} & \textsc{unknown} & 519.8913\,km$^2$ (577{,}657 px) & \nolinkurl{10.12041/geodata.254533427778392.ver1.db} & Research-only portal terms & Acquired; sha256 \texttt{c37bffcd} & Bytes verified Spartina; portal abstract conflict\,\textsuperscript{c}; SILVER\_REFERENCE \\
+2017 & CMSA annual 10\,m & 10\,m source raster; polygons vectorised & Mainland China & Sentinel-2 (2020 training year transferred) & DeepLabv3+ semantic segmentation & \textsc{unknown} (per-year) & 494.69\,km$^2$ (gridcode~2 only)\,\textsuperscript{a} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & Acquired; sha256 \texttt{5876d978} & VERIFIED; 5 years present; SILVER\_REFERENCE \\
+2018 & CMSA annual 10\,m & 10\,m source raster; polygons vectorised & Mainland China & Sentinel-2 (transferred) & DeepLabv3+ & \textsc{unknown} & 504.31\,km$^2$ & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & Acquired (same archive) & VERIFIED; SILVER\_REFERENCE \\
+2019 & CMSA annual 10\,m & 10\,m source raster; polygons vectorised & Mainland China & Sentinel-2 (transferred) & DeepLabv3+ & \textsc{unknown} & 532.99\,km$^2$ & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & Acquired (same archive) & VERIFIED; SILVER\_REFERENCE \\
+2020 & CMSA annual 10\,m & 10\,m source raster; polygons vectorised & Mainland China & Sentinel-2 (2020 training year) & DeepLabv3+ & \textsc{unknown} & 571.35\,km$^2$ (not the 58{,}006\,ha comparator)\,\textsuperscript{b} & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & Acquired (same archive) & VERIFIED; SILVER\_REFERENCE \\
+2021 & CMSA annual 10\,m & 10\,m source raster; polygons vectorised & Mainland China & Sentinel-2 (transferred) & DeepLabv3+ & \textsc{unknown} & 586.51\,km$^2$ & \nolinkurl{10.12199/nesdc.ecodb.mon.2026.013}\,\textsuperscript{a} & CC BY-NC 4.0 & Acquired (same archive) & VERIFIED; SILVER\_REFERENCE \\
+2020 & CM-SSM sub-meter & 0.9\,m GE RGB; 10\,m S2 features & Mainland China; 9 provinces; 148{,}072 polygons & 15 S2 phenological bands + 0.9\,m Google Earth RGB & OSPPF multi-scale OBIA + RF (200 trees) + manual refinement & OA 96.76\,\%, F1 0.95 (reported) & 59{,}370.98\,ha (recomputed; $\equiv$593.710\,km$^2$) & \nolinkurl{10.5281/zenodo.16296823} & Conflict: CC BY 4.0 (Zenodo) vs CC BY-NC 4.0 (NESDC mirror) & Present, byte-verified & VERIFIED\_CM\_SSM\_2020; SILVER \\
 \bottomrule
-\multicolumn{13}{p{24cm}}{\footnotesize
-\textsuperscript{a}Single multi-year archive DOI; the five annual layers are
-registered as separate products and must not be treated as one map.
+\multicolumn{12}{p{24cm}}{\footnotesize
+\textsuperscript{a}Single archive (6{,}455{,}174 bytes; five EPSG:32650
+shapefiles for 2017--2021, all years verified present). Polygons are
+vectorised from the 10\,m model raster and are not themselves a ``10\,m
+geometric resolution'' measurement; small \texttt{gridcode=0} features
+(0.11--6.96\,km$^2$ per year, semantics \textsc{unknown}) are excluded
+from the areas. The shipped metadata mislabels the format as GeoTIFF
+and the time range as 2017--2020; both are documented metadata defects.
 Method paper: Li, Tian, Li et al. (2024), \emph{Int.\ J.\ Remote Sens.}
 45:3172--3199, \nolinkurl{10.1080/01431161.2024.2343136} (per-year
 metrics TODO\_VERIFY).\quad
-\textsuperscript{b}The 58{,}006\,ha / 57.73\,\% discrepancy figures compare
-the CMSA archive to the CM-SSM product in the ESSD study; they are not a
-mapped area of the CMSA 2020 layer.}\\
-\multicolumn{13}{p{24cm}}{\footnotesize
+\textsuperscript{b}The 58{,}006\,ha / 57.73\,\% figures compare the CMSA
+archive to the CM-SSM product in the ESSD study; they are not a mapped
+area of the CMSA 2020 layer.\quad
+\textsuperscript{c}The GEODATA 2020 landing-page title, filename and
+raster attribute table (UTF-8 \texttt{Class\_name} = Spartina) indicate
+Spartina, and positive pixels extend to 39.35$^{\circ}$N (outside
+mangrove range); the portal abstract nonetheless describes mangrove.
+We admit the bytes as Spartina on this evidence and keep the portal
+conflict open pending provider correction.}\\
+\multicolumn{12}{p{24cm}}{\footnotesize
 A 2010 national product in either series was searched for but not
-verified; no row is fabricated. GEODATA 1990/2000 require a manual order
-and were not bypassed. The CM-SSM license conflict is recorded as
-SOURCE\_LICENSE\_CONFLICT; the more permissive license is not assumed.
-CM-SSM identity was established by byte-level SHA256 equality of all
-eight shapefile components between the local copy and the official Zenodo
-archive (not by matching areas alone).}
+verified; no row is fabricated. GEODATA archives were obtained by the
+owner via the portal order flow (order identifiers TODO\_OWNER\_RECORD)
+and are restricted to scientific research use with no redistribution;
+no login wall was bypassed and no bytes are committed to Git. The
+CM-SSM license conflict is SOURCE\_LICENSE\_CONFLICT; the more
+permissive license is not assumed. No product is used as ground truth;
+cross-product 2020 agreement is diagnostic only (274 grid cells contain
+all three products; cell-area Spearman CMSA--CM-SSM = 0.875,
+GEODATA vs either $\approx$0.75).}
 \end{tabular}
 \end{sidewaystable}

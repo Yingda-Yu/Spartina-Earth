@@ -20,48 +20,78 @@ screening \citep{zhu2015fmask} and the Sentinel-2 scene-classification
 (SCL) layer.
 
 \subsection{National label evidence: a heterogeneous product family}
-National Spartina labels are audited as a family of ten verified
+National Spartina labels are audited as a family of ten acquired
 products rather than as a single truth layer
-(Table~\ref{tab:labelproducts}). The family spans the GEODATA 30\,m
-series (1990 and 2000 exist as order-gated portal records; 2015 is held
-locally; a 2020 30\,m record carries a title-versus-abstract metadata
-contradiction; no 2010 product was verified and none is fabricated),
-five annual 10\,m CMSA DeepLabv3+ layers for 2017--2021 available only
-behind purpose registration under CC BY-NC 4.0, and one sub-meter 2020
-product (CM-SSM). Each product is assigned an intended role---SILVER
-reference, external label, or high-resolution validation
-reference---and no product is promoted to GOLD.
+(Table~\ref{tab:labelproducts}). The family comprises four GEODATA
+30\,m masks (1990, 2000, 2015, 2020) delivered by the owner through the
+geodata.cn order channel and byte-audited at intake; five annual CMSA
+layers for 2017--2021, obtained through the NESDC purpose-registration
+channel under CC BY-NC 4.0; and the sub-meter 2020 CM-SSM product. No
+2010 product was verified and none is fabricated. Every product is a
+SILVER external reference; none is promoted to GOLD, none is used as a
+training label under current policy, and none is called ground truth.
 
-The principal local SILVER label remains the packaged 30\,m raster
-nominally dated 2015 (int16, EPSG:32650, nodata 255, value set
-$\{1\}$). Independent windowed recounts reproduce its
-value-attribute-table count: 608{,}287 positive pixels, i.e.\
-547.4583\,km$^2$ in the product's UTM-50N planar convention; its
-producer, class legend, exact acquisition dates, and redistribution
-terms remain undocumented open items. The CM-SSM vector product for
-2020 (148{,}072 single-part polygons; 59{,}370.98\,ha = 593.710\,km$^2$
-recomputed from geometry, matching the paper's 59{,}371\,ha) now has
-\emph{verified provenance}: all eight shapefile components of the local
-copy are byte-identical (SHA256) to the official Zenodo archive
-(10.5281/zenodo.16296823), and identity was established at file level,
-not from the coincidental area match. The archive's rights are
-recorded as a source-level conflict---CC BY 4.0 on Zenodo/DataCite
-versus CC BY-NC 4.0 on the NESDC mirror---and the more permissive term
-is not assumed.
+The GEODATA masks are single-band binary rasters (positive value~1,
+nodata~255, nominal 30\,m pixels). Full block-window scans independently
+reproduce the value-attribute-table counts, giving 43.7652\,km$^2$
+(48{,}628 pixels, 1990), 256.4343\,km$^2$ (284{,}927 pixels, 2000),
+547.4583\,km$^2$ (608{,}287 pixels, 2015) and 519.8913\,km$^2$
+(577{,}657 pixels, 2020) in each product's own planar convention. The
+1990/2000/2020 products share a Krasovsky Albers projection but are not
+pixel aligned (non-integer origin offsets and differing extents); the
+2015 product is int16 in EPSG:32650 UTM~50N, so any cross-year
+comparison needs explicit reprojection and harmonization. The 2015
+ordered archive is byte-identical (SHA256) to the raster used earlier in
+the project, which resolves the previously open relationship question;
+its portal record documents Landsat-8 OLI imagery, eCognition
+multiscale segmentation with object-oriented/SVM classification and
+expert editing against field samples, and a reported overall accuracy
+of 92\,\% that we have not independently re-derived. Exact image
+acquisition dates remain \textsc{unknown}, and the portal terms limit
+use to scientific research without redistribution.
 
-The 2015 raster and the 2020 CM-SSM vector must not be differenced into
-a 2015$\rightarrow$2020 expansion. Their resolution (30\,m versus
-0.9\,m), mapping method (OBIA/SVM with expert editing versus
-multi-scale OSPPF object-based segmentation, Random Forest and manual
-refinement on 0.9\,m Google Earth RGB plus 15 Sentinel-2 phenological
-bands), minimum mapping units (900\,m$^2$ pixel floor versus
-sub-100\,m$^2$ slivers; 67.8\,\% of CM-SSM features are below
-100\,m$^2$ and 2{,}402 rings self-intersect), reference data, and
-province coverage all differ. The descriptive difference of
-46.25\,km$^2$ is therefore not a change estimate; harmonization would
-be required before any temporal interpretation. Both products are
-\textsc{silver}: credible mapping products with documented provenance
-gaps, not field-verified truth. Local rule/index-derived masks are
+The CMSA layers are EPSG:32650 polygons vectorised from a 10\,m
+DeepLabv3+ raster trained on 2020 Sentinel-2 imagery and transferred to
+the other years; their boundaries are not a ``10\,m geometric
+resolution'' vector measurement. Our recomputation from geometry gives
+positive areas (\texttt{gridcode=2}) of 494.69, 504.31, 532.99, 571.35
+and 586.51\,km$^2$ for 2017--2021; small \texttt{gridcode=0} features
+(0.11--6.96\,km$^2$ per year) are excluded because their semantics are
+undocumented. The shipped metadata mislabels the time range as
+2017--2020 and the format as GeoTIFF, although all five shapefile years
+are present; both defects are reported to the provider. The GEODATA
+2020 portal record is internally contradictory: its title, filename
+and raster attribute table identify Spartina and its positive pixels
+reach 39.35$^{\circ}$N (beyond the mangrove biogeographic range), yet
+the abstract describes mangrove. We admit the delivered bytes as
+Spartina on this evidence while keeping the portal conflict open.
+
+The CM-SSM vector product for 2020 (148{,}072 single-part polygons;
+59{,}370.98\,ha = 593.710\,km$^2$ recomputed from geometry, matching the
+paper's 59{,}371\,ha) has \emph{verified provenance}: all eight
+shapefile components of the local copy are byte-identical (SHA256) to
+the official Zenodo archive (10.5281/zenodo.16296823), and identity was
+established at file level, not from the coincidental area match. The
+archive's rights are recorded as a source-level conflict---CC BY 4.0 on
+Zenodo/DataCite versus CC BY-NC 4.0 on the NESDC mirror---and the more
+permissive term is not assumed.
+
+None of these products may be differenced into an expansion or change
+series. Their datums, resolutions, mapping methods, minimum mapping
+units (a 900\,m$^2$ pixel floor for GEODATA; sub-100\,m$^2$ slivers in
+CM-SSM, of which 2{,}402 rings self-intersect), reference data, and
+coverage all differ; the measured area steps across years and the
+46.25\,km$^2$ difference between GEODATA 2015 and CM-SSM 2020 are
+method/scale effects, not change estimates. A descriptive 2020
+cross-product check illustrates the scale dependence: on the 10\,km
+coastal-cell grid, 274 cells contain all three products and 126 contain
+exactly one (72 of those GEODATA alone), and cell-level Spearman area
+correlation is 0.875 between CMSA and CM-SSM but only about 0.75
+between GEODATA and either finer product. This is spatial agreement
+between external maps, not accuracy; a controlled harmonized
+comparison remains future work. All products are \textsc{silver}:
+credible mapping products with documented provenance, not
+field-verified truth. Local rule/index-derived masks are
 \textsc{weak}. GOLD field, UAV, or expert-verified labels do not yet
 exist in the project (GOLD\,=\,0), and unlabeled cells are recorded as
 \textsc{unlabeled}, never as negatives.
