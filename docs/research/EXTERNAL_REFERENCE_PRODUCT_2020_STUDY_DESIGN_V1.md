@@ -127,3 +127,19 @@ single-product cells; polygon/grid allocation numbers are in
 * No redistribution of GEODATA pixels or CM-SSM bytes; outputs are
   fractional/statistical aggregates within the project license
   envelope, never reconstructed source rasters.
+
+## 6. Protocol amendment (2026-10-07, before verdict reading): 5 m lattice abandoned
+
+Executing section 3.1 showed the proposed common **5 m** lattice to be
+untenable: (a) transferring the 30 m GEODATA raster onto 5 m would
+fabricate 36× finer binary observations in violation of AGENTS.md
+integrity rule 7; (b) CMSA's nominal 10 m resolution means a 5 m grid
+adds no real information; (c) the grid is traceable to no product's
+native observation support. The executed audit instead uses two
+documented non-fabricated supports — the **30 m GEODATA native grid**
+(exact vector fractional cover per coarse pixel) and a **10 m project
+comparison lattice** (CMSA vs CM-SSM only) — with block/halo geometry
+that avoids edge artefacts. Fractional-cover and boundary-band analyses,
+H1–H6 rules, and the terminology prohibitions are unchanged. Full
+rationale and results:
+[2020_LABEL_DISAGREEMENT_AUDIT.md](../analysis/2020_LABEL_DISAGREEMENT_AUDIT.md).

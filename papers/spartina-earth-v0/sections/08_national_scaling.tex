@@ -286,3 +286,75 @@ model estimates, not measurements; per-sensor national availability is
 now measured by the Issue~\#16 metadata census (reported above) and
 can later replace the calibrated assumptions, but no tier that exports
 pixels is opened in this study.
+
+\subsection{Pre-registered three-product disagreement audit for 2020}
+\label{sec:issue18}
+The 2020 layer of each acquired product family---GEODATA (30\,m raster;
+519.89\,km$^2$ native), CMSA 2020 (\texttt{gridcode=2}; 571.35\,km$^2$)
+and CM-SSM 2020 (593.71\,km$^2$)---was compared under a protocol whose
+six hypotheses and decision thresholds were fixed before any result was
+read (Issue~\#18). No product is treated as truth: with GOLD\,=\,0 the
+output is an agreement characterisation, and GEODATA serves only as a
+comparison support. The pre-registered common 5\,m lattice was abandoned
+before execution because transferring a 30\,m observation onto 5\,m
+would fabricate thirty-six binary observations per real pixel and
+because no product natively observes at 5\,m. Two documented supports
+replace it: the GEODATA native 30\,m grid, on which the vectors
+contribute exact per-pixel fractional cover (all three pairs), and a
+10\,m project comparison lattice that is not claimed to reconstruct
+CMSA's native pixel grid (CMSA vs CM-SSM only). Block stripes carry
+halos so the 300\,m boundary-distance transform never meets a block
+edge; nearest-neighbour reads and centre containment are used for hit
+masks, and area transfers reproduce native totals within 0.4\,\%.
+Geometry repair is applied to derived copies only: 499 of 8{,}864 CMSA
+features and 2{,}402 of 148{,}072 CM-SSM features were self-intersecting
+rings (with 22 and 100{,}455 sub-100\,m$^2$ slivers respectively);
+MakeValid repair dropped no feature and changed total area by 0.0\,\% in
+both products. The 50 CMSA \texttt{gridcode=0} features remain
+\textsc{unknown} and were never relabelled negative.
+
+National totals are similar while spatial agreement is only moderate
+(Table~\ref{tab:labeldisagreement2020}): full-extent binary Dice is
+0.620 for GEO--CMSA, 0.522 for GEO--CM-SSM and 0.715 for CMSA--CM-SSM,
+and W10 cluster-bootstrap intervals stay at or below 0.76 for every
+pair. The six pre-registered decisions are: H1 boundary concentration
+\emph{supported}---disagreement at 0--30\,m is 7.7$\times$, 5.9$\times$
+and 5.9$\times$ the 120--300\,m rate for the three pairs (8.2$\times$
+for CMSA--CM-SSM on the 10\,m lattice) and decays monotonically across
+the distance bands; H2 fine-patch discordance \emph{not supported},
+with the effect in the opposite direction (0.210 inside CM-SSM patches
+$<$2{,}500\,m$^2$ vs 0.316 inside $\geq$10$^5$\,m$^2$ meadows); H3
+coarse-support absence in small patches \emph{supported}---89.2\,\% of
+100--900\,m$^2$ CMSA patches and 86.5\,\% of CM-SSM patches carry zero
+GEODATA cover, against 17.7\,\% and 23.6\,\% of patches
+$\geq$10$^5$\,m$^2$, with monotone ordering across size classes; H4
+regional structure \emph{supported}---regional Dice ranges are 0.68,
+0.68 and 0.45 (0.43 on the 10\,m lattice), from 0.04 for GEO--CM-SSM in
+one province to 0.81; H5 area-vs-patch divergence \emph{supported}
+(8.6\,\% national area bias at 0.620 Dice); and H6 binary-labelling loss
+\emph{supported}---36.6\,\% and 42.5\,\% of GEODATA-positive pixels
+carry below half occupancy of CMSA and CM-SSM respectively, while W10
+block-mean cover correlations remain 0.73--0.87. Two bookkeeping gaps
+are explicit rather than patched: 125.2\,km$^2$ of GEODATA-positive
+pixels inherit no province label and are reported only in national
+tallies, and 19--39\,km$^2$ of mapped extent per product lies beyond the
+10\,km corridor and therefore outside domain-cell statistics. The audit
+authorises no SILVER admission, no product ranking, and no label merge;
+a multi-source 2020 training label would need an explicit conflict
+rule, and the ten provisional cells remain outside any eligibility
+decision. Full tables, the hypothesis-evidence JSON, and the candidate
+figure ranking are versioned in
+\texttt{2020\_label\_scale\_audit\_v1} and the companion analysis note.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 7}{Issue~\#18 candidate figure (ranked~1 of~5):
+binary disagreement fraction vs distance to the nearest mapped boundary
+for the three product pairs, 30\,m support (0--30 to 120--300\,m bands;
+ratios 7.7$\times$, 5.9$\times$, 5.9$\times$). Rendered analysis PNG
+exists at docs/analysis/figures/figC\_boundary\_distance.png; final
+in-manuscript artwork awaits an explicit rendering request per the
+figure manifest.}
+\label{fig:boundarydisagreement}
+\end{figure}
+
+\input{tables/tab_label_disagreement_2020}

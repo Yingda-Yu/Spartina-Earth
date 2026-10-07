@@ -1,0 +1,5 @@
+pair,spatial_blocks,pooled_dice,ci95_low,ci95_high,bootstrap,support
+GEO_CMSA,3021,0.6073,0.5452,0.657,"W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018",30m_GEODATA_native_grid
+GEO_CMSSM,3021,0.5293,0.4696,0.5838,"W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018",30m_GEODATA_native_grid
+CMSA_CMSSM,3021,0.7214,0.6803,0.7622,"W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018",30m_GEODATA_native_grid
+CMSA_CMSSM,3021,0.7093,0.6677,0.749,"W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018",10m_project_lattice

@@ -80,6 +80,29 @@ and hand-adapted; a single AI-generation pass is not an approved design.
   work/m21b/manifests/ZJ_M21B_*.json (frozen).
 - **Status:** schema; rendering NOT authorized yet.
 
+## Fig. 7 — 2020 label disagreement vs boundary distance (Issue #18)
+
+- **Type:** results panel (external-map agreement, not accuracy).
+- **Should show:** binary disagreement fraction against distance to
+  nearest mapped boundary (0--30, 30--60, 60--120, 120--300 m) for
+  GEO--CMSA, GEO--CM-SSM and CMSA--CM-SSM on the 30 m native support;
+  annotate near/far ratios 7.69, 5.87, 5.90 and the monotone decay.
+- **Must annotate:** two documented supports (30 m native grid;
+  10 m project lattice); exact fractional cover, no fabricated 5 m
+  lattice; GOLD = 0; GEODATA is comparison support, not truth;
+  right-inclusive bin edges; seed/support details in
+  docs/analysis/2020_LABEL_DISAGREEMENT_AUDIT.md.
+- **Must not encode:** accuracy language, per-product ranking, change
+  claims, or UNATTRIBUTED region-0 pixels as regional evidence.
+- **Candidate ranking (of five analysis figures):** 1 of 5
+  (C boundary distance; E coarse-pixel occupancy; D patch size;
+  B site panels; A area inventory).
+- **Sources:** datasets/manifests/2020_label_scale_audit_v1/table4;
+  rendered analysis PNG already exists at
+  docs/analysis/figures/figC_boundary_distance.png (analysis
+  artifact); in-manuscript final artwork NOT authorized yet.
+- **Status:** schema + analysis PNG; manuscript keeps a placeholder.
+
 ## Compiled placeholders
 
 `main.tex` renders each figure as a gray placeholder box via

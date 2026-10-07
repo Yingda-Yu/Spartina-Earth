@@ -1,0 +1,24 @@
+{
+  "title": "2020 multi-resolution label disagreement and scale audit",
+  "issue": 18,
+  "git_commit": "95f31528efa83da8c9858a0e394ecdb74ef6e9a1",
+  "generated_from": "scripts/analysis/labels/run_2020_scale_audit.py and scripts/analysis/labels/build_2020_scale_audit_report.py",
+  "input_manifest": "work/issue18/transform_manifest.json (gitignored bytes; input checksums recorded there)",
+  "outputs": {
+    "hypothesis_evidence_v1.json": "8408189ae068fda2378e8ebdef09efcb0e3fea357c2418920a92d17f84e351ed",
+    "result_manifest.json": "8170119860ffa85fc83de30d29f02542c133f315dcdac933d0779e1fe9706d34",
+    "table10_domain_accounting.csv": "8f11a61c13cb8e10d873584e4727b773095248301589a74c393f4a4657b272b6",
+    "table1_mapped_area.csv": "c970037e649aa4b1148d6b00833bd9c9f51166a2d5449d2b078a0b9d5146c6c0",
+    "table2_pairwise_agreement_by_region.csv": "9c003f518498654c7f2f062633665592a56a2c7d7efb3c5c29cf3da9e7ae51db",
+    "table3_block_bootstrap_dice.csv": "72d3c98d47aaa73863cb56f19aa50bcb145b884d82852acef513bd3bfb57a410",
+    "table4_boundary_distance_disagreement.csv": "b4147717f1822fe5034e81e84886cd8013c56e69dae60ebffe543dcab9299bcd",
+    "table5_patch_size_disagreement_10m.csv": "77b1a3c86030881bce93eee268cc0864422560b6d0e4ad79bad61ff0695e80e9",
+    "table5_patch_size_disagreement_30m.csv": "7caf3e810ca05160ed071f5af02cf33b07ed58315b4214ca55072e1323701e73",
+    "table6_patch_omission_by_size.csv": "68e59e40c7b3754cd36b820a302c64cb3f445467280e1d9325fb6bca2d5dbd2e",
+    "table7_coarse_pixel_occupancy.csv": "d67e952cef5819280eeea794a32f742839fdb9afa6fba7272ff0753ce3c253d2",
+    "table8_fractional_cover_by_region.csv": "a1759dd059967fe3cb873fa0ff8c6cd70e9f186aef0647fd95e87fdc204ec98c",
+    "table9_w10_block_fractional_correlation.csv": "b4c5f1cc6e690def0cffa7e99d417a1e21623bb7bcfddbb8777157fd6d058972"
+  },
+  "terminology_policy": "agreement/disagreement/external-reference agreement only; no accuracy claims (GOLD=0)",
+  "statistics_policy": "W10-cell spatial block bootstrap; effect sizes reported; pixel-level N never used as independent sample count"
+}

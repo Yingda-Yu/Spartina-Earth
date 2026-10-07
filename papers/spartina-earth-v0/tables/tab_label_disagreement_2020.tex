@@ -1,0 +1,32 @@
+% Source: datasets/manifests/2020_label_scale_audit_v1/
+% (table1_mapped_area.csv, table2_pairwise_agreement_by_region.csv,
+% table3_block_bootstrap_dice.csv; generated 2026-10-07, commit 95f3152).
+% Agreement between external maps, not accuracy; GOLD = 0.
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Pairwise agreement of the three 2020 Spartina maps on two
+non-fabricated comparison supports (Issue~\#18; rules H1--H6 fixed
+before results were read). Areas are binary indicator area on the 30\,m
+GEODATA native grid and the 10\,m project comparison lattice
+respectively; vector products also contribute exact fractional cover
+per support pixel (not shown). Full-extent Dice pools every processed
+block core nationwide (small mapped extents beyond the 10\,km domain
+corridor included); block Dice is the pooled Dice over W10 cells with a
+cluster-bootstrap 95\,\% interval (3{,}021 domain cells drawn with
+replacement, 500 resamples, seed 20201018; empty cells retained).
+Dice is external-map agreement, not a correctness metric.}
+\label{tab:labeldisagreement2020}
+\begin{tabular}{llrrrr}
+\toprule
+Pair & Support & Area A & Area B & Full-extent & Block Dice \\
+ & & (km$^2$) & (km$^2$) & Dice & [95\,\% CI] \\
+\midrule
+GEO--CMSA   & 30\,m native  & 519.44 & 568.30 & 0.6195 & 0.6073 [0.5452--0.6570] \\
+GEO--CM-SSM & 30\,m native  & 519.44 & 588.41 & 0.5225 & 0.5293 [0.4696--0.5838] \\
+CMSA--CM-SSM & 30\,m native & 568.30 & 588.41 & 0.7148 & 0.7214 [0.6803--0.7622] \\
+CMSA--CM-SSM & 10\,m lattice & 569.58 & 591.63 & 0.7032 & 0.7093 [0.6677--0.7490] \\
+\bottomrule
+\end{tabular}
+\end{table}

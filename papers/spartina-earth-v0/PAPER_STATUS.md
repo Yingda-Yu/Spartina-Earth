@@ -1,6 +1,14 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-06 (M2.4 external-label intake: GEODATA 1990/2000/
+Updated: 2026-10-07 (Issue #18 2020 three-product disagreement/scale
+audit executed: pre-registered 5 m lattice abandoned for two
+documented supports (30 m GEODATA native grid + 10 m project
+lattice); H1/H3/H4/H5/H6 SUPPORTED, H2 NOT_SUPPORTED (opposite
+direction); Dice 0.52–0.71 with W10 cluster-bootstrap CIs; repair
+audit 0 dropped / 0.0% area change; agreement not accuracy, GOLD=0;
+§08 new subsection, Table tab_labeldisagreement2020, Fig. 7
+placeholder, §04 cross-ref, §10 paragraph, ledger C57–C60; prior
+update 2026-10-06: M2.4 external-label intake: GEODATA 1990/2000/
 2015/2020 and CMSA 2017–2021 archives delivered, byte-audited and
 registered in china_external_label_registry_v1.csv; table/§04/ledger
 C45/C56 updated; GOLD still 0; prior update: Issue #16 census
@@ -19,7 +27,7 @@ re-validated against v1 membership).
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
-| sections/08_national_scaling.tex | National scaling (v0 grid + v1 membership candidate) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1: 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; REMAIN_PROVISIONAL), strata on grid and active subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active |
+| sections/08_national_scaling.tex | National scaling (v0 grid + v1 membership candidate) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1: 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; REMAIN_PROVISIONAL), strata on grid and active subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active; **Issue #18 2020 three-product audit executed**: two supports, H1–H6 pre-registered decisions (H2 falsified, reported), Table tab_labeldisagreement2020, Fig. 7 placeholder |
 | sections/09_discussion.tex | Discussion | **Skeleton + verified discussion points**; pending-result paragraphs marked |
 | sections/10_limitations.tex | Limitations | **Full prose drafted** |
 | sections/11_conclusion.tex | Conclusion | **Skeleton drafted** |
@@ -45,6 +53,12 @@ stable introduction/methods); placeholder in main.tex.
   cross-family differences explicitly not change.
 - CM-SSM official/local identity (8 shapefile components, SHA256) with
   SOURCE_LICENSE_CONFLICT preserved.
+- 2020 three-product disagreement/scale audit (Issue #18, executed
+  2026-10-07): two non-fabricated supports; MakeValid repair 0 dropped /
+  0.0 % area change; Dice 0.52–0.71; W10 cluster bootstrap; H1/H3/H4/H5/H6
+  SUPPORTED, H2 NOT_SUPPORTED and reported as falsified; agreement
+  characterisation only (GOLD = 0); no SILVER eligibility or merge-rule
+  change.
 - Mainland China coastal domain v0: target-independent corridor,
   Albers-vs-UTM comparison, 3,319 provisional W10 cells, flags/strata,
   13-source multimodal registry, Tier 0-3 model estimates.
