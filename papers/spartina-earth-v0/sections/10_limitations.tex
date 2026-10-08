@@ -19,12 +19,20 @@ The Zhejiang bay envelopes are Tier-C provisional constructions, not
 authoritative shorelines. Bay-clipped label statistics are conditional
 on these envelopes and must be re-versioned if envelopes are revised.
 
-\paragraph{Domain membership is a v1 candidate, not a frozen boundary.}
-The 3{,}011/3{,}319 W10 membership result is a deterministic GIS audit
-on a 100\,m$^2$ touch threshold and a 25\,km island-reach rule; ten
-cells (five unattributed-land, five contested Kinmen cells) are
-provisional pending documented human decisions, and the freeze review
-returns \texttt{REMAIN\_PROVISIONAL}. Murray intertidal and JRC surface
+\paragraph{Domain membership has a frozen v1.1 core and an open offshore-policy margin.}
+The W10 membership result is a deterministic GIS audit on a
+100\,m$^2$ touch threshold and a 25\,km island-reach rule; the v1.1
+core (3{,}016/3{,}319 cells) is frozen as
+\texttt{W10\_DOMAIN\_V1\_CORE\_FROZEN} under the 2026-10-08 owner
+decision. Five contested-administered Kinmen cells are operationally
+included under the standing proximity disclaimer, which is not a
+statement on sovereignty or administrative status, and their GIS
+evidence is retained; five beyond-reach unattributed-land cells remain
+\texttt{PROVISIONAL\_OFFSHORE\_POLICY}, excluded from production and
+primary inference, pending a separate general, target-independent
+offshore-island policy supported by authoritative island and
+administration evidence. The 25\,km reach was deliberately not
+extended by cell-specific exceptions. Murray intertidal and JRC surface
 water enter as target-independent context columns at 30\,km support
 only---they neither decide membership nor substitute for tide
 modelling---and Natural Earth attribution cannot replace boundary
@@ -62,9 +70,13 @@ versus 0.316 in large patch strata). This is a directional non-support
 statement about one conditional estimand, not a universal falsification
 of patch-size effects, and it is not contradictory with H3 (zero coarse
 cover of fine small patches), which has a different estimand and
-denominator. The primary bootstrap excludes the ten unsigned
-provisional domain cells; including them moves pooled Dice by at most
-0.0003. No SILVER eligibility,
+denominator. The executed primary bootstrap used the 3{,}011 v1-candidate KEEP
+cells (ten unsigned provisional cells excluded); including all ten
+moves pooled Dice by at most 0.0003. Under the v1.1 frozen core the
+production KEEP universe is 3{,}016 cells; recomputing the same
+bootstrap with the fixed seed shifts every point estimate by at most
+0.0003 and every 95\,\% CI bound by at most 0.0035, changing no
+hypothesis decision. No SILVER eligibility,
 product ranking, or multi-source label-merge rule follows from this
 audit.
 

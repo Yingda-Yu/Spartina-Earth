@@ -1,7 +1,16 @@
 # China mainland coastal-domain membership audit (v0 → v1 candidate)
 
 Status: **v1_candidate — NOT FROZEN**. Machine-generated audit of
-Issue #17 (domain membership), 2026-10-04. All decisions are
+Issue #17 (domain membership), 2026-10-04.
+
+> **Update 2026-10-08:** the v1 rule output below is retained unchanged
+> and has been reproduced byte-for-byte; the owner decision added a v1.1
+> layer freezing the KEEP core as **W10_DOMAIN_V1_CORE_FROZEN**
+> (3,016 KEEP / 298 EXCLUDE / 5 PROVISIONAL_OFFSHORE_POLICY). See
+> [CHINA_W10_FREEZE_RECOMMENDATION.md](CHINA_W10_FREEZE_RECOMMENDATION.md)
+> and
+> [`national/CHINA_DOMAIN_SUPERSESSION_v1_to_v1_1.json`](national/CHINA_DOMAIN_SUPERSESSION_v1_to_v1_1.json).
+> This page remains the historical v1-candidate audit record. All decisions are
 deterministic, target-independent, and versioned as attributes on the
 **immutable** v0 cell-id space. The companion machine artefacts are:
 

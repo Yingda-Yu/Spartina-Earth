@@ -10,11 +10,14 @@ the audited national label products are themselves mainland-China
 products, so the present scope is never described as the whole China
 coast. The evidence chain is therefore: independent mainland coastal
 evidence $\rightarrow$ deterministic domain membership $\rightarrow$
-stable W10 grid cells $\rightarrow$ observation events. The grid, the
-v0 domain and the v1 membership candidate all remain
-\texttt{PROVISIONAL\_NOT\_FROZEN}; the accompanying freeze review
-returns the verdict \texttt{REMAIN\_PROVISIONAL} pending closure of ten
-cells. No national pixel export and no national result map exists. The national EO
+stable W10 grid cells $\rightarrow$ observation events. The grid geometry and the v0 registry are immutable; the v1 deterministic
+membership rule was accepted on 2026-10-08 under a documented owner-decision
+layer (Issue~\#17), and the operational membership core is frozen as
+\texttt{W10\_DOMAIN\_V1\_CORE\_FROZEN}: 3{,}016 KEEP cells, with five
+beyond-reach offshore cells held outside the frozen core as
+\texttt{PROVISIONAL\_OFFSHORE\_POLICY} pending a separate general
+offshore-island policy. The freeze does not close every spatial-policy
+question. No national pixel export and no national result map exists. The national EO
 metadata census (Issue~\#16) has, however, now been executed twice as a
 metadata- and geometry-only operation---v0 (1984--2025) and the audited
 revision v0\_1, which extends through the frozen year-to-date cutoff
@@ -98,7 +101,25 @@ The ten provisional cells split into five with material unattributed
 land (Pearl estuary, the Matsu channel, and three remote Zhejiang
 island groups 18--27\,km offshore) and five Kinmen cells within
 0.9--9\,km of Fujian; each is listed in the supersession manifest and
-must receive a documented human decision before any freeze. The
+must receive a documented human decision before any freeze.
+On 2026-10-08 the programme owner decided all ten cells. The five Kinmen
+cells (0.9--8.9\,km from the Fujian mainland) are kept as island-coastal
+members because they are operationally part of the mainland-Fujian
+nearshore observation frame; the v1.1 frozen registry therefore contains
+3{,}016 KEEP cells (2{,}752 mainland, 264 island; nominal footprint
+301{,}600\,km$^2$), 298 excluded cells and five provisional cells. The
+operational inclusion carries the standing disclaimer: ``Inclusion of
+cells intersecting contested-administered islands is an operational
+spatial-domain decision based on proximity to the mainland coast and does
+not constitute a statement on sovereignty or administrative status.'' The
+contested-admin area fractions and landfall distances remain verbatim in
+each cell's evidence JSON. The fixed 25\,km offshore-island reach was not
+extended and no cell-specific exception was created: the five
+unattributed-land cells beyond that reach (Wanshan, two Dachen, Dongji and
+Juguang settings) are versioned \texttt{PROVISIONAL\_OFFSHORE\_POLICY},
+excluded from production datasets and primary inference, with their cell
+IDs and GIS evidence preserved for a later general offshore-island policy
+review. The
 a-priori width sweep is stable in character rather than borderline:
 artifact rates are 11.45\,\% at W5, 8.98\,\% at W10 and 7.74\,\% at W20,
 with island-only fragmentation of 9.67\,\%, 7.95\,\% and 6.65\,\%; W20
@@ -112,7 +133,7 @@ Global Surface Water v1.4 (1984--2021; Copernicus, attribution
 summaries for all cells (166 \texttt{reduceRegions} calls at 30\,km
 analysis scale; no national image export) and are joined as descriptive
 context columns only. At that scale the Murray product is a coarse
-support indicator---it is positive in 2{,}867 of the 3{,}011 kept cells
+support indicator---it is positive in 2{,}867 of the 3{,}011 v1-candidate kept cells
 but also in 249 of the 298 excluded cells---which is precisely why it
 cannot measure cell-level tidal-flat area and is barred from membership
 decisions; JRC surface water is reported as context and is not a tide
@@ -133,13 +154,12 @@ derive one \emph{exclusive priority stratum} per cell, whose counts
 partition the grid exactly: 309 multi-product positive, 97 positive
 only in 2015, 76 positive only in 2020, 742 near-positive unlabeled,
 and 2{,}095 other coastal unlabeled cells (482 cells positive in at
-least one obtained product). Restricted to the 3{,}011 active v1
-member cells the same strata partition as 308, 97, 76, 724 and 1{,}806:
-no excluded artifact cell carries any SILVER positive label, and 481
-of the 482 positive cells are active members; the remaining
-multi-product positive cell sits on a provisional Kinmen cell and is
-held out of sampling pending the ownership decision rather than being
-silently used. The cells without positive evidence are absence of
+least one obtained product). Restricted to the 3{,}016 cells of the
+frozen v1.1 KEEP core the same strata partition as 309, 97, 76, 728 and
+1{,}806: no excluded artifact cell carries any SILVER positive label,
+and all 482 positive cells are now core members, including the
+multi-product positive Kinmen cell, which enters under the standing
+operational disclaimer with its contested-admin evidence retained. The cells without positive evidence are absence of
 evidence in the products obtained, never an ecological negative.
 Management-evidence and GOLD strata remain designed but not built (no
 verifiable spatial management ledger exists; GOLD\,=\,0).
@@ -231,7 +251,8 @@ and all 3{,}319 cells observed by at least one sensor in the
 2015--2025 common era (v0: 3{,}296). The census is enumerated over the
 immutable v0 grid, not over the membership result: events on the 298
 excluded cells remain recorded for provenance, and membership acts as a
-read-time filter rather than a deletion; the 3{,}011 active members are
+read-time filter rather than a deletion; the 3{,}016 members of the
+frozen v1.1 KEEP core (five more than the v1-candidate active set) are
 likewise all observed in 2015--2025. Median full-year observation
 density at W10 is 20 Landsat~8, 143 Sentinel-2 and 40 Sentinel-1 events
 per cell-year; at W10, 80\,\%/76\,\%/78\,\% of cell--event pairs fully
@@ -316,11 +337,14 @@ both products. The 50 CMSA \texttt{gridcode=0} features remain
 National totals are similar while spatial agreement is only moderate
 (Table~\ref{tab:labeldisagreement2020}): full-extent binary Dice is
 0.620 for GEO--CMSA, 0.522 for GEO--CM-SSM and 0.715 for CMSA--CM-SSM.
-The primary inferential universe is the 3{,}011 owner-signed KEEP
-cells; W10 cluster-bootstrap intervals there (500 resamples) are
-0.608~[0.551, 0.656], 0.529~[0.463, 0.585] and 0.722~[0.674, 0.763], and
-0.710~[0.664, 0.751] for CMSA--CM-SSM on the 10\,m lattice, staying at
-or below 0.76 for every pair. The six pre-registered decisions are: H1
+The executed primary inferential universe was the 3{,}011
+v1-candidate KEEP cells; W10 cluster-bootstrap intervals there (500
+resamples) are 0.608~[0.551, 0.656], 0.529~[0.463, 0.585] and
+0.722~[0.674, 0.763], and 0.710~[0.664, 0.751] for CMSA--CM-SSM on the
+10\,m lattice, staying at or below 0.76 for every pair. Recomputing the
+identical bootstrap on the post-decision 3{,}016-cell frozen core moves
+every point estimate by at most 0.0003 and changes no hypothesis
+decision (table15\_domain\_v1\_1\_keep\_effect). The six pre-registered decisions are: H1
 boundary concentration \emph{supported}---disagreement at 0--30\,m is
 7.7$\times$, 5.9$\times$ and 5.9$\times$ the 120--300\,m rate for the
 three pairs (8.2$\times$ for CMSA--CM-SSM on the 10\,m lattice) and
@@ -365,15 +389,22 @@ agree on 99.0\,\% of fine-product pixels (98.4\,\% over all
 fine-product pixels). The other
 bookkeeping gap remains explicit: 19--39\,km$^2$ of mapped extent per
 product lies beyond the 10\,km corridor and therefore outside
-domain-cell statistics. The ten provisional cells are excluded from
-the primary inference by design; including them as a sensitivity
-universe (3{,}021 cells) changes every pooled bootstrap Dice by at most
-0.0003 (relative $\leq$0.06\,\%) and every block Spearman correlation
-by at most 0.0008, and changes no hypothesis decision. The audit
-authorises no SILVER admission, no product ranking, and no label merge;
-a multi-source 2020 training label would need an explicit conflict
-rule, and the ten provisional cells remain outside any eligibility
-decision. Full tables, the hypothesis-evidence JSON, and the candidate
+domain-cell statistics. The executed primary inference excluded the
+ten then-unsigned provisional cells by design; including them as a
+sensitivity universe (3{,}021 cells) changes every pooled bootstrap Dice
+by at most 0.0003 (relative $\leq$0.06\,\%) and every block Spearman
+correlation by at most 0.0008, and changes no hypothesis decision. The
+2026-10-08 owner decision enlarged the production KEEP universe to
+3{,}016 cells; recomputing the same pooled-Dice bootstrap on that
+universe shifts every point estimate by at most 0.0003 and every
+95\,\% CI bound by at most 0.0035, again changing no hypothesis
+decision, and only one promoted cell carries any 2020 mapped pixels
+(0.68\,km$^2$ GEO, 0.06\,km$^2$ CMSA, 0.54\,km$^2$ CM-SSM on the 30\,m
+grid). The audit authorises no SILVER admission, no product ranking, and
+no label merge; a multi-source 2020 training label would need an
+explicit conflict rule, and the five
+\texttt{PROVISIONAL\_OFFSHORE\_POLICY} cells remain outside any
+eligibility decision. Full tables, the hypothesis-evidence JSON, and the candidate
 figure ranking are versioned in
 \texttt{2020\_label\_scale\_audit\_v2} (v1 tables retained for
 traceability) and the companion analysis note.

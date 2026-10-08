@@ -59,12 +59,47 @@ PROVISIONAL_UNRESOLVED: Final[str] = "PROVISIONAL_UNRESOLVED"
 """Deterministic evidence conflicts (border tie, unadministered land);
 human review required.  Context layers must not auto-resolve these."""
 
+PROVISIONAL_OFFSHORE_POLICY: Final[str] = "PROVISIONAL_OFFSHORE_POLICY"
+"""Owner-reviewed cell that the deterministic rule left provisional and
+that the owner retained as provisional pending a separate, general,
+target-independent offshore-island policy with authoritative island /
+admin evidence.  Never emitted by :func:`decide_membership`; produced
+only by the documented v1.1 owner-decision layer
+(:mod:`spartina.data.national.owner_decisions`).  Like every
+provisional status it is excluded from production datasets and primary
+inference, and its cell ID and evidence are preserved for later review."""
+
 DECISION_TOKENS: Final[tuple[str, ...]] = (
     KEEP_MAINLAND_COASTAL,
     KEEP_ISLAND_COASTAL,
     EXCLUDE_DOMAIN_ARTIFACT,
     PROVISIONAL_UNRESOLVED,
+    PROVISIONAL_OFFSHORE_POLICY,
 )
+"""Closed vocabulary of effective membership tokens.  The deterministic
+rule emits only the first four; the fifth records an owner-policy layer."""
+
+KEEP_DOMAIN_STATUSES: Final[frozenset[str]] = frozenset(
+    {KEEP_MAINLAND_COASTAL, KEEP_ISLAND_COASTAL}
+)
+"""Statuses eligible for production datasets and primary inference."""
+
+PROVISIONAL_STATUSES: Final[frozenset[str]] = frozenset(
+    {PROVISIONAL_UNRESOLVED, PROVISIONAL_OFFSHORE_POLICY}
+)
+"""Statuses excluded from production datasets and primary inference until
+a later owner-reviewed policy version resolves them."""
+
+
+def is_production_kept(status: str) -> bool:
+    """True only for the two KEEP statuses."""
+    return status in KEEP_DOMAIN_STATUSES
+
+
+def is_provisional(status: str) -> bool:
+    """True for any provisional status (unresolved or policy-pending)."""
+    return status in PROVISIONAL_STATUSES
+
 
 # --- reason codes ---------------------------------------------------------
 
@@ -82,16 +117,12 @@ REASON_MISSING_EVIDENCE: Final[str] = "MISSING_EVIDENCE"
 
 # Natural Earth admin-0 map units normalised to PRC ownership: Hong Kong
 # and Macao are Chinese Special Administrative Regions, never "foreign".
-CHINA_ADMIN_UNITS: Final[frozenset[str]] = frozenset(
-    {"China", "Hong Kong S.A.R.", "Macao S.A.R"}
-)
+CHINA_ADMIN_UNITS: Final[frozenset[str]] = frozenset({"China", "Hong Kong S.A.R.", "Macao S.A.R"})
 # Map units with contested administration.  Taiwan-administered land
 # inside the mainland corridor is the Kinmen/Matsu archipelago (a few km
 # off Fujian); it is retained as PROVISIONAL, never silently excluded or
 # claimed.  Taiwan island itself lies outside corridor reach.
-CONTESTED_ADMIN_UNITS: Final[frozenset[str]] = frozenset(
-    {"Taiwan", "Scarborough Reef"}
-)
+CONTESTED_ADMIN_UNITS: Final[frozenset[str]] = frozenset({"Taiwan", "Scarborough Reef"})
 
 # --- admin / island classes ----------------------------------------------
 
@@ -131,6 +162,9 @@ class MembershipVersion(str, Enum):
 
     V0 = "v0"
     V1_CANDIDATE = "v1_candidate"
+    V1_1_CORE_FROZEN = "v1_1_core_frozen"
+    """v1 deterministic rule plus the documented Issue #17 owner-decision
+    layer; see :mod:`spartina.data.national.owner_decisions`."""
 
 
 @dataclass(frozen=True)

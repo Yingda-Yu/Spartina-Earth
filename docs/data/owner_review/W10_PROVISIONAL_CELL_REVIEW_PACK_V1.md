@@ -3,6 +3,19 @@
 Date: 2026-10-06. Issue: [#17](https://github.com/Yingda-Yu/Spartina-Earth/issues/17)
 (owner closure comment 2026-10-06). Status:
 
+> **UPDATE 2026-10-08 — DECIDED.** The owner decisions are recorded in
+> [`w10_owner_decision_table_v1.csv`](w10_owner_decision_table_v1.csv):
+> five Kinmen cells -> `KEEP_ISLAND_COASTAL` under the standing
+> operational disclaimer (proximity to the Fujian coast; not a
+> sovereignty or administrative-status statement); five beyond-reach
+> cells -> `REMAIN_PROVISIONAL`, versioned
+> `PROVISIONAL_OFFSHORE_POLICY` (the 25 km island reach is not
+> extended). Freeze verdict: **W10_DOMAIN_V1_CORE_FROZEN**; see
+> [`../CHINA_W10_FREEZE_RECOMMENDATION.md`](../CHINA_W10_FREEZE_RECOMMENDATION.md)
+> and
+> [`../national/CHINA_DOMAIN_SUPERSESSION_v1_to_v1_1.json`](../national/CHINA_DOMAIN_SUPERSESSION_v1_to_v1_1.json).
+> The pack below is retained unchanged as the evidence record.
+
 **OWNER_SIGNOFF_REQUIRED — no decision below is final.**
 
 This pack closes the human-review gap on the ten

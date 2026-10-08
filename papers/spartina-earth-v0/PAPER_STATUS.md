@@ -1,6 +1,11 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-08 (Issue #18 R1 scientific closure: (A)
+Updated: 2026-10-08 (Issue #17 owner decision: W10 domain v1.1 core
+frozen W10_DOMAIN_V1_CORE_FROZEN — 5 Kinmen cells kept operationally
+under standing disclaimer, 5 beyond-25 km cells PROVISIONAL_OFFSHORE_POLICY;
+3,016 KEEP / 298 EXCLUDE / 5 provisional; v1 rule reproduced byte-for-byte;
+Issue #18 3,016-cell recompute max point Dice delta 0.0003; table15, C64;
+same day earlier: Issue #18 R1 scientific closure: (A)
 source-independent Natural Earth 10m admin-1 regional attribution
 replaces product-derived region keys — 125.21 km² unattributed GEO area
 reduced to 0.98 km² residual UNKNOWN, H4 still SUPPORTED with ranges
@@ -37,7 +42,7 @@ re-validated against v1 membership).
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
-| sections/08_national_scaling.tex | National scaling (v0 grid + v1 membership candidate) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1: 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; REMAIN_PROVISIONAL), strata on grid and active subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active; **Issue #18 2020 three-product audit executed (R1 closed 2026-10-08)**: two supports, H1–H6 pre-registered decisions (H2 NOT_SUPPORTED, observed direction opposite; independent regional attribution; KEEP_ONLY primary bootstrap + provisional sensitivity), Table tab_labeldisagreement2020, Fig. 7 placeholder |
+| sections/08_national_scaling.tex | National scaling (v0 grid + v1.1 frozen membership core) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1 rule candidate 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; 2026-10-08 owner decision freezes v1.1 core W10_DOMAIN_V1_CORE_FROZEN: 3,016 KEEP / 298 EXCLUDE / 5 PROVISIONAL_OFFSHORE_POLICY; contested Kinmen inclusion under standing disclaimer; strata on grid and frozen-core subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active; **Issue #18 2020 three-product audit executed (R1 closed 2026-10-08)**: two supports, H1–H6 pre-registered decisions (H2 NOT_SUPPORTED, observed direction opposite; independent regional attribution; KEEP_ONLY primary bootstrap + provisional sensitivity), Table tab_labeldisagreement2020, Fig. 7 placeholder |
 | sections/09_discussion.tex | Discussion | **Skeleton + verified discussion points**; pending-result paragraphs marked |
 | sections/10_limitations.tex | Limitations | **Full prose drafted** |
 | sections/11_conclusion.tex | Conclusion | **Skeleton drafted** |
@@ -83,11 +88,16 @@ stable introduction/methods); placeholder in main.tex.
   EXECUTED metadata-only (184,051 scenes, 79,265 events,
   10,058,703 cell-event pairs; EO_CENSUS_RUN_MANIFEST_v0.json).
 
-- Mainland coastal-domain membership v1 (Issue #17): deterministic
+- Mainland coastal-domain membership v1 + v1.1 (Issue #17): deterministic
   target-independent GIS rule; 3,011 keep / 298 exclude / 10
   provisional; all 20 #16 flags confirmed artifacts; W5/W10/W20
-  artifact-rate sensitivity; Murray/JRC 30 km context only; freeze
-  verdict REMAIN_PROVISIONAL (claims C52-C55).
+  artifact-rate sensitivity; Murray/JRC 30 km context only (claims
+  C52-C55). Owner decision 2026-10-08: v1.1 core frozen
+  W10_DOMAIN_V1_CORE_FROZEN — 3,016 KEEP (five contested Kinmen cells
+  included operationally with standing disclaimer, evidence retained),
+  298 excluded, five beyond-25 km cells PROVISIONAL_OFFSHORE_POLICY
+  excluded from production; reach not extended; 3,016-cell Issue #18
+  recompute max point Dice delta 0.0003 (claim C64).
 
 **PENDING (must not be presented as results):**
 - First-pixel pilot pixel download (20-cell panel designed, not

@@ -5,6 +5,7 @@ Status: executed (M0; CPU-only). Companion to
 which pre-registered hypotheses H1–H6 before any result was read.
 
 - Run timestamp (support generation): 2026-10-07T17:28:03Z (`work/issue18/transform_manifest.json`); R1 re-run with `--independent-regions`: 2026-10-08
+- **Post-decision addendum (2026-10-08, Issue #17):** the executed primary universe remains the 3,011 v1-candidate KEEP cells; the owner-decision v1.1 frozen core has 3,016 KEEP cells. The same bootstrap recomputed on 3,016 cells gives `table15_domain_v1_1_keep_effect.csv` (point shifts ≤0.0003, CI-bound shifts ≤0.0035, no hypothesis-decision change)
 - Git commit: v1 `95f31528efa83da8c9858a0e394ecdb74ef6e9a1`; R1 closure `c2da9be` (base `ce34e63`; see v2 `result_manifest.json`)
 - Code:
   [run_2020_scale_audit.py](../../scripts/analysis/labels/run_2020_scale_audit.py),
@@ -264,6 +265,10 @@ exact fractional cover), and the denominator/valid-ignored area.
 14. `table14_domain_membership_sensitivity.csv` — KEEP_ONLY (3,011) vs
     KEEP_PLUS_PROVISIONAL (3,021) pooled Dice, CIs and Spearman ρ with
     absolute and relative deltas.
+15. `table15_domain_v1_1_keep_effect.csv` (+ `table15_note_domain_v1_1.json`)
+    — post-owner-decision recompute on the 3,016-cell v1.1 frozen core:
+    pooled Dice/CIs, deltas vs the executed 3,011-cell primary, added
+    areas, promoted-cell IDs, source checksums (no raster re-export).
 
 Key national results (full product extent, binary indicators):
 
