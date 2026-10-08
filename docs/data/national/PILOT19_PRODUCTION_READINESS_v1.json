@@ -1,0 +1,224 @@
+{
+  "product": "national_pilot19_production_readiness_v1",
+  "issue": 19,
+  "phases": [
+    "N",
+    "O"
+  ],
+  "generated_utc": "2026-10-08T22:12:19.255809+00:00",
+  "git_commit": "659885c8a11b9aa5965d8ffa254e038c128c34e0",
+  "status": "RECOMMENDATION_ONLY; launches nothing; changes no registry or policy value; owner decision required",
+  "phase_n_recommendation": {
+    "decision": "NO_GO_FOR_NATIONAL_BATCH_NOW",
+    "conditional": "CONDITIONAL_GO after gates N1-N6 close and N7/N8 are actioned; the decision remains owner-only and no national export, training, split creation or SpartinaFM work may start from this document",
+    "rationale": [
+      "zero of the 194 planned pilot products have landed (GEE authentication is the hard blocker); Issue #19 acceptance question 1 cannot be answered from pixels yet",
+      "the label/label bridge (independent lattice) matches frozen Issue #18 panel totals within 0.12% and no STOP condition has fired in label adaptation",
+      "the export pipeline itself is proven on real Zhejiang pixels (M2.1b: 27 products, per-product manifests, checksums)",
+      "minimal-national scale is quantified from exact metadata counts and measured bytes, so provisioning and scheduling can be planned without launching anything"
+    ],
+    "gates": [
+      {
+        "gate_id": "N1_GEE_PROJECT_AND_AUTH",
+        "title": "GEE project + re-authentication",
+        "status": "BLOCKED",
+        "evidence": "probe: project_set=False, earthengine_ls_users_ok=False; Phase D/E has been blocked since Issue #19 start",
+        "how_to_close": "owner sets SPARTINA_GEE_PROJECT and runs `earthengine authenticate`; rerun probe"
+      },
+      {
+        "gate_id": "N2_PILOT_PIXEL_EXPORT",
+        "title": "Land all 194 planned pilot products (83 Landsat / 42 S2 / 69 S1) on per-cell native UTM grids",
+        "status": "NOT_RUN",
+        "evidence": "event plan frozen at 194 SELECTED / 280 rows; zero pixels exported; M2.1b proved the pipeline on Zhejiang cells",
+        "how_to_close": "execute the Phase D/E driver after N1; per-product manifest and SHA-256 for every landed file"
+      },
+      {
+        "gate_id": "N3_PHASE_H_QA_GATES",
+        "title": "Quicklooks, coastline/grid and label/pixel alignment, physical ranges, valid fractions, duplicate/cross-date detection; near-full geometric gate >=0.95",
+        "status": "NOT_RUN",
+        "evidence": "selection policy flags 7 near-full Landsat pilot products with the post-export geometric gate; label/label bridge already matches frozen Issue #18 panel totals within 0.12% (see bridge manifest)",
+        "how_to_close": "run the Phase H QA pack on the 194 products; any systematic misregistration is a STOP condition"
+      },
+      {
+        "gate_id": "N4_L5_L7_BYTE_RATIO",
+        "title": "Replace borrowed L5/L7 float32 LZW ratio with measured bytes",
+        "status": "ESTIMATE_OPEN",
+        "evidence": "M2.1b exported only L8/L9, S1, S2; L5/L7 SR ratio is borrowed from L8 and flagged in the storage study",
+        "how_to_close": "measure real L5/L7 bundles during the pilot export and rebuild the storage study"
+      },
+      {
+        "gate_id": "N5_DRIVE_QUOTA_VERIFICATION",
+        "title": "Verify live-project GEE concurrent-task and Drive download behaviour at the minimal-run scale",
+        "status": "TODO_VERIFY",
+        "evidence": "M2.1b observed backend minutes per <=10 km tile but the end to end is polling/Drive bound; official quotas unverified",
+        "how_to_close": "stair-step pilot concurrency and record observed throughput before the national run"
+      },
+      {
+        "gate_id": "N6_DEDUP_BATCH_DESIGN",
+        "title": "Decide per-cell clips vs one export per shared source event",
+        "status": "DECISION_REQUIRED",
+        "evidence": "pilot 194 products derive from 135 distinct source events (S1 1.60 products/event, S2 1.56); per-cell export repeats shared scenes",
+        "how_to_close": "owner/engineering decision for Issue #20 production: event-union bbox export + local windowing, or accept per-cell redundancy"
+      },
+      {
+        "gate_id": "N7_NATIONAL_LABEL_SUPPORTS",
+        "title": "Regenerate the label-adapter supports for all production cells on the same grids",
+        "status": "READY_TO_RUN",
+        "evidence": "adapter proven on the 20 pilot cells (220 supports, 0.0% repair area change, STOP guards built in)",
+        "how_to_close": "run build_pilot_label_supports_v1 logic over the production cell list; source archives stay read-only"
+      },
+      {
+        "gate_id": "N8_SCOPE_AND_STORAGE",
+        "title": "Storage provisioning for the chosen national scenario",
+        "status": "QUANTIFIED_ESTIMATE",
+        "evidence": "minimal anchors: 60397 GEE tasks, 259.5 GB EO (base estimate; range 233.6-276.8 GB); standard core and pilot 194-product projections are tabulated in the storage study",
+        "how_to_close": "owner picks minimal vs standard scope and provisions staging/archive storage"
+      }
+    ],
+    "scale_evidence": {
+      "pilot_selected_products": 194,
+      "minimal_national": {
+        "n_products": 29460,
+        "n_gee_tasks": 60397,
+        "eo_bytes_base_gb": 259.51,
+        "eo_bytes_low_gb": 233.63,
+        "eo_bytes_high_gb": 276.84
+      },
+      "standard_national_core": {
+        "n_products": 228688,
+        "n_gee_tasks": 578455,
+        "eo_bytes_base_gb": 1455.21
+      },
+      "standard_national_plus_l9": {
+        "n_products": 238970,
+        "eo_bytes_base_gb": 1499.16
+      },
+      "label_supports_one_time_estimate_bytes": 553122034,
+      "estimate_tokens": [
+        "MEASURED_M21B_LZW_GEOTIFF",
+        "ESTIMATE_FLOAT32_LZW_RATIO_BORROWED_FROM_L8_TODO_MEASURE_AT_PHASE_D",
+        "ESTIMATE_PILOT_MEAN_ONE_TIME_LABEL_BYTES",
+        "S2_SR_RANGE"
+      ]
+    }
+  },
+  "phase_o_issue20_readiness": {
+    "issue": "20 (M2.6 SpartinaShift-Silver v0.1)",
+    "section_mapping": [
+      {
+        "issue20_section": "A freeze benchmark protocol",
+        "status": "INPUTS_READY_SPLIT_NOT_CREATED",
+        "note": "split-prep fields, grouping unit W10_CELL, 250 m buffer, witness-holdout recommendation frozen; no split exists (forbidden in Issue #19)"
+      },
+      {
+        "issue20_section": "B benchmark tasks 1-6",
+        "status": "BLOCKED_ON_PIXELS",
+        "note": "named SILVER supports and policy exist; task definition is possible now, execution waits for Phase D/E pixels and owner SILVER activation"
+      },
+      {
+        "issue20_section": "C baseline ladder",
+        "status": "NOT_STARTED_BY_DESIGN",
+        "note": "no training of any kind in Issue #19"
+      },
+      {
+        "issue20_section": "D metrics",
+        "status": "PARTIALLY_SPECIFIED",
+        "note": "fractional supports distinguish PURE/MIXED and carry per-pixel fractions; area/agreement metrics prototype in the Issue #18 bridge; calibration and boundary metrics remain to be implemented"
+      },
+      {
+        "issue20_section": "E 2020 protection",
+        "status": "DESIGN_INPUT_READY",
+        "note": "2020 triad anchors; split-prep marks PILOT_WITNESS_HOLDOUT_CANDIDATE; the held-out 2020 set must be pre-registered in Issue #20"
+      },
+      {
+        "issue20_section": "F GoldSet separation",
+        "status": "ENFORCEABLE_NOW",
+        "note": "GOLD count is 0; SILVER policy gate G2 isolates future Gold sites from training/HPO/thresholds"
+      },
+      {
+        "issue20_section": "G model escalation gate",
+        "status": "NOT_REACHED",
+        "note": "no SpartinaFM work; baselines must identify the gap first"
+      },
+      {
+        "issue20_section": "H paper outputs",
+        "status": "PILOT_EVIDENCE_ONLY",
+        "note": "only verified pilot/metadata evidence may be written; national claims and benchmark numbers stay TODO_EXPERIMENT"
+      }
+    ],
+    "ready_artifacts": [
+      "W10_DOMAIN_V1_CORE_FROZEN: 3,016 KEEP cells",
+      "frozen 20-cell panel + predeclared selection policy",
+      "194-product event plan with honest absence states",
+      "220 fractional label supports + adapter manifest",
+      "Issue #18 independent-lattice bridge (within 0.12%)",
+      "SILVER training policy recommendation (not in force)",
+      "split-prep fields (no split created)",
+      "Phase M storage/scale study with measured byte factors",
+      "M2.1b proven GEE export/download/resume pipeline",
+      "spartina.evaluation.splits.assert_spatially_disjoint"
+    ],
+    "owner_decisions_required_before_issue20": [
+      "activate or revise the SILVER training policy (current status: POLICY_RECOMMENDATION_NOT_IN_FORCE)",
+      "confirm external-label license classes for redistribution and training (G5 in the SILVER policy)",
+      "choose national scope and dedup batching (gates N6/N8)",
+      "pre-register the 2020 held-out external-reference set",
+      "approve the split protocol (regions, buffers, val policy)"
+    ],
+    "hard_constraints": [
+      "GOLD stays 0 pending Issue #11 evidence",
+      "cross-source agreement is reference transfer, not accuracy",
+      "train/val/test spatially disjoint; test never tunes",
+      "no fabricated results; TODO_EXPERIMENT/TODO_VERIFY stand"
+    ],
+    "plan_status_summary": {
+      "n_plan_rows": 280,
+      "n_selected": 194,
+      "state": "PLANNED_NOT_EXPORTED; metadata only; no GEE calls made"
+    }
+  },
+  "issue19_acceptance_answers": {
+    "Q1_reproducible_national_examples": "PARTIAL: pipeline proven on M2.1b real pixels; pilot national cells not exported (N1/N2)",
+    "Q2_labels_aligned_enough_for_benchmark": "PARTIAL: label-vs-label independent lattices agree within 0.12% panel area; EO-vs-label alignment awaits Phase H pixels",
+    "Q3_what_must_change_before_national_batch": "see gates N1-N8; decision recorded as conditional",
+    "Q4_silver_eligible_vs_reference_only": "RECOMMENDED_NOT_IN_FORCE: tier/gate framework emitted; owner activation pending; GOLD = 0"
+  },
+  "referenced_artifacts": [
+    {
+      "path": "datasets/manifests/china_coastal_cells_v1_1_core_frozen.csv",
+      "sha256": "935624f3e5bb85b0072c218eacf184b0d125992c8f012d519382a50798cf7b53"
+    },
+    {
+      "path": "datasets/manifests/national_first_pixel_panel_v1.csv",
+      "sha256": "6c2d3a2dfa9062c1e14f9884c4c8f4aefb30bc8076d8312602e65bad793bd4bd"
+    },
+    {
+      "path": "datasets/manifests/national_pilot_event_plan_v1.json",
+      "sha256": "603117790b5b2cac08283928852fa921872fe2590b6e2ec9a875156c224d7ffe"
+    },
+    {
+      "path": "datasets/manifests/national_pilot19_label_supports_v1.json",
+      "sha256": "6c1c0cd0f4b53e14da46faed56a8652da027506c04f6d606bdd5d57fe08e7dfb"
+    },
+    {
+      "path": "datasets/manifests/national_pilot19_issue18_bridge_v1.json",
+      "sha256": "da2100f2139a260ad8b2ca0145aa65cc153a3333cb0db6794cf5a81b486ee824"
+    },
+    {
+      "path": "datasets/manifests/national_pilot19_split_prep_v1.json",
+      "sha256": "810eb33cfbe9b5c56a3677db500af4df7cb265e711aee25a10cf38ba7917dca8"
+    },
+    {
+      "path": "datasets/manifests/national_pilot19_storage_study_v1.json",
+      "sha256": "29e1128e65185aa33a9feb34854f6896a755fa34eb9c02716a2583f695be440a"
+    },
+    {
+      "path": "docs/data/national/PILOT_SILVER_TRAINING_POLICY_v1.json",
+      "sha256": "c905a2ddd786bc109d7f470912c0ea3676d2f71bae1c7e4ec82ffe661fb49647"
+    },
+    {
+      "path": "docs/data/national/FIRST_PIXEL_PILOT_DESIGN_v0.json",
+      "sha256": "56f0e5afdfaff981ea1a945291ff9974367919920dca80855be9266bb5afb100"
+    }
+  ]
+}
