@@ -225,6 +225,17 @@ def main() -> None:
     # -- Phase O: Issue #20 readiness -------------------------------------
     issue20 = {
         "issue": "20 (M2.6 SpartinaShift-Silver v0.1)",
+        "verdict": "NOT_READY_FOR_ISSUE_20",
+        "verdict_basis": (
+            "0 of 194 planned pilot products have landed (gate N1 GEE "
+            "project/auth BLOCKED, N2 export NOT_RUN, N3 pixel QA "
+            "NOT_RUN); EO pixel correctness, pixel/label alignment and "
+            "sample diversity are therefore unverified on pilot cells, "
+            "and the SILVER policy is a recommendation not in force. "
+            "Inputs (domain, panel, event plan, label supports, bridge, "
+            "split-prep fields, storage study) are ready; readiness "
+            "reassesses after N1-N6 close and the listed owner "
+            "decisions."),
         "section_mapping": [
             {"issue20_section": "A freeze benchmark protocol",
              "status": "INPUTS_READY_SPLIT_NOT_CREATED",
