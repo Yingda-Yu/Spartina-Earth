@@ -8,7 +8,7 @@
     "B_domain_sensitivity": "KEEP_ONLY 3,011-cell universe is primary; KEEP_PLUS_PROVISIONAL 3,021 cells reported as sensitivity (tables 3, 9, 14)",
     "C_h2_language": "H2 reported as NOT_SUPPORTED with observed-direction statement; H2/H3 estimand distinction recorded"
   },
-  "git_commit": "ce34e6374e30b0dece9660f50e69b47741729be6",
+  "git_commit": "c2da9be (R1 closure commit; pipeline executed on the R1 working tree derived from base commit ce34e6374e30b0dece9660f50e69b47741729be6)",
   "generated_from": "scripts/analysis/labels/run_2020_scale_audit.py and scripts/analysis/labels/build_2020_scale_audit_report.py",
   "input_manifest": "work/issue18/transform_manifest.json (gitignored bytes; input checksums recorded there)",
   "outputs": {

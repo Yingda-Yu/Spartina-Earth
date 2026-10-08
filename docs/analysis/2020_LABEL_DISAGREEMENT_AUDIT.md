@@ -4,8 +4,8 @@ Status: executed (M0; CPU-only). Companion to
 [EXTERNAL_REFERENCE_PRODUCT_2020_STUDY_DESIGN_V1.md](../research/EXTERNAL_REFERENCE_PRODUCT_2020_STUDY_DESIGN_V1.md),
 which pre-registered hypotheses H1–H6 before any result was read.
 
-- Run timestamp (support generation): 2026-10-07T17:28:03Z (`work/issue18/transform_manifest.json`)
-- Git commit: `95f31528efa83da8c9858a0e394ecdb74ef6e9a1`
+- Run timestamp (support generation): 2026-10-07T17:28:03Z (`work/issue18/transform_manifest.json`); R1 re-run with `--independent-regions`: 2026-10-08
+- Git commit: v1 `95f31528efa83da8c9858a0e394ecdb74ef6e9a1`; R1 closure `c2da9be` (base `ce34e63`; see v2 `result_manifest.json`)
 - Code:
   [run_2020_scale_audit.py](../../scripts/analysis/labels/run_2020_scale_audit.py),
   [scale_agreement.py](../../src/spartina/labels/scale_agreement.py),
