@@ -63,6 +63,32 @@ PROVINCE_ORDER: tuple[str, ...] = (
     "Zhejiang", "Fujian", "Guangdong", "Guangxi", "UNATTRIBUTED",
 )
 
+# Issue #18 R1, Part B: W10 domain-membership sensitivity variants.
+# Owner-signed KEEP statuses define the primary KEEP_ONLY universe;
+# PROVISIONAL cells (Issue #17 sign-off pending) enter only the
+# KEEP_PLUS_PROVISIONAL sensitivity variant.
+KEEP_DOMAIN_STATUSES: tuple[str, ...] = (
+    "KEEP_MAINLAND_COASTAL", "KEEP_ISLAND_COASTAL",
+)
+PROVISIONAL_DOMAIN_STATUS: str = "PROVISIONAL_UNRESOLVED"
+
+
+def domain_variant_mask(
+    membership_statuses: Any, include_provisional: bool
+) -> np.ndarray[Any, Any]:
+    """Boolean membership mask for the two pre-registered domain variants.
+
+    ``KEEP_ONLY`` (``include_provisional=False``) selects exactly the two
+    owner-defined KEEP statuses; ``KEEP_PLUS_PROVISIONAL`` (``True``)
+    additionally selects ``PROVISIONAL_UNRESOLVED`` cells. Any other
+    status (EXCLUDE_DOMAIN_ARTIFACT, missing) is always excluded.
+    """
+    statuses = np.asarray(membership_statuses)
+    keep = np.isin(statuses, list(KEEP_DOMAIN_STATUSES))
+    if include_provisional:
+        keep = keep | (statuses == PROVISIONAL_DOMAIN_STATUS)
+    return keep
+
 
 def assign_bin(value: float, edges: tuple[float, ...],
                labels: tuple[str, ...]) -> str:

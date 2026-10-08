@@ -27,7 +27,7 @@ from spartina.labels import scale_agreement as sa
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WORK = REPO_ROOT / "work/issue18"
 DERIVED = WORK / "derived"
-OUT = REPO_ROOT / "datasets/manifests/2020_label_scale_audit_v1"
+OUT = REPO_ROOT / "datasets/manifests/2020_label_scale_audit_v2"
 FIG_OUT = REPO_ROOT / "docs/analysis/figures"
 
 PAIR_DEFS_30 = (
@@ -117,7 +117,8 @@ def pairwise_rows(
 
 
 def block_bootstrap_dice(
-    cells: pd.DataFrame, pairs: tuple[tuple[str, str, str, str, str], ...]
+    cells: pd.DataFrame, pairs: tuple[tuple[str, str, str, str, str], ...],
+    domain_variant: str,
 ) -> pd.DataFrame:
     """Cluster bootstrap of the POOLED binary Dice over W10 cell blocks.
 
@@ -125,6 +126,9 @@ def block_bootstrap_dice(
     resamples), sums the two binary areas and their intersection across
     the drawn cells, and forms 2*sum(I)/sum(A+B). Pixels are never
     treated as independent; cells with no mapped area enter with zeros.
+    ``domain_variant`` is KEEP_ONLY (3,011 cells) or
+    KEEP_PLUS_PROVISIONAL (3,021); each variant is resampled within its
+    own universe with the same seed.
     """
     n_cells = int(len(cells))
     rng = np.random.default_rng(20201018)
@@ -144,13 +148,15 @@ def block_bootstrap_dice(
         lo, hi = np.nanquantile(boots, 0.025), np.nanquantile(boots, 0.975)
         rows.append({
             "pair": pair,
+            "domain_variant": domain_variant,
             "spatial_blocks": n_cells,
             "pooled_dice": round(point, 4),
             "ci95_low": round(float(lo), 4),
             "ci95_high": round(float(hi), 4),
             "bootstrap": (
                 "W10-cell cluster bootstrap of pooled Dice, percentile, "
-                "500 resamples, seed 20201018"
+                "500 resamples, seed 20201018; "
+                f"domain universe {domain_variant} ({n_cells} cells)"
             ),
         })
     return pd.DataFrame(rows)
@@ -418,9 +424,16 @@ def domain_summary(cells30: pd.DataFrame) -> pd.DataFrame:
 def hypothesis_evidence(
     pw30: pd.DataFrame, pw10: pd.DataFrame, b30: pd.DataFrame, b10: pd.DataFrame,
     region30: pd.DataFrame, omission: pd.DataFrame, occ: pd.DataFrame,
-    boot30: pd.DataFrame,
+    boot_by_variant: dict[str, pd.DataFrame],
+    pw30_product: pd.DataFrame | None = None,
+    region_attribution: str = "product-derived patch ownership (v1)",
 ) -> dict[str, Any]:
-    """Apply the pre-registered H1-H6 decision rules (Issue #18 wording)."""
+    """Apply the pre-registered H1-H6 decision rules (Issue #18 wording).
+
+    The preregistered hypotheses are unchanged in R1; H4 is evaluated on
+    the source-independent region attribution when supplied, with the
+    v1 product-derived ranges retained for comparison.
+    """
     national = pw30.groupby("pair", as_index=False).agg(
         area_a_km2=("area_a_km2", "sum"),
         area_b_km2=("area_b_km2", "sum"),
@@ -491,16 +504,30 @@ def hypothesis_evidence(
         for v in h3.values()
     )
 
-    # H4: regional spread of binary Dice.
-    dice_spread = {}
-    for pair in ("GEO_CMSA", "GEO_CMSSM", "CMSA_CMSSM"):
-        vals = pw30[(pw30.pair == pair) & (pw30.region != "UNATTRIBUTED")]
-        vals = vals[vals.denominator_pixels > 0]
-        dice_spread[pair] = {
-            "min": float(vals.dice.min()), "max": float(vals.dice.max()),
-            "range": round(float(vals.dice.max() - vals.dice.min()), 3),
-        }
+    # H4: regional spread of binary Dice (R1: independent attribution).
+    def dice_ranges(frame: pd.DataFrame) -> dict[str, dict[str, float]]:
+        out = {}
+        for pair in ("GEO_CMSA", "GEO_CMSSM", "CMSA_CMSSM"):
+            vals = frame[
+                (frame.pair == pair) & (frame.region != "UNATTRIBUTED")
+            ]
+            vals = vals[vals.denominator_pixels > 0]
+            out[pair] = {
+                "min": float(vals.dice.min()), "max": float(vals.dice.max()),
+                "range": round(float(vals.dice.max() - vals.dice.min()), 3),
+                "n_regions": int(vals.region.nunique()),
+            }
+        return out
+
+    dice_spread = dice_ranges(pw30)
     h4_supported = all(v["range"] >= 0.10 for v in dice_spread.values())
+    dice_spread_product = (
+        dice_ranges(pw30_product) if pw30_product is not None else None
+    )
+    h4_product_supported = (
+        all(v["range"] >= 0.10 for v in dice_spread_product.values())
+        if dice_spread_product is not None else None
+    )
 
     # H5: area totals close while patch overlap much lower.
     def nat_pair(pair: str) -> pd.Series:
@@ -542,7 +569,7 @@ def hypothesis_evidence(
     h6_supported = all(v["geo1_fine_below_half"] >= 0.05 for v in h6.values())
 
     def verdict(flag: bool) -> str:
-        return "SUPPORTED" if flag else "NOT_SUPPORTED_OR_INCONCLUSIVE"
+        return "SUPPORTED" if flag else "NOT_SUPPORTED"
 
     return {
         "decision_rule_version": (
@@ -556,11 +583,39 @@ def hypothesis_evidence(
             "by_pair": h1_pairs,
         },
         "H2_patch_size_effect": {
-            "verdict": verdict(h2_supported),
+            "verdict": "SUPPORTED" if h2_supported else "NOT_SUPPORTED",
             "rule": "CMSA-CMSSM discordance in CMSSM <2500 m2 patch pixels "
                     "> 1.2x that in >=1e5 m2 patch pixels",
             "small_patch_discordance": round(h2_small, 4),
             "large_patch_discordance": round(h2_large, 4),
+            "observed_direction": (
+                "same_as_preregistered_expectation" if h2_supported
+                else "opposite_to_preregistered_expectation"
+            ),
+            "interpretation": (
+                "H2 is NOT_SUPPORTED: the observed direction was opposite "
+                "to the preregistered expectation - overall CMSA-CMSSM "
+                "discordance conditional on small CM-SSM patch-size strata "
+                f"({round(h2_small, 4)}) was lower than in the >=1e5 m2 "
+                f"stratum ({round(h2_large, 4)}). This is a directional "
+                "non-support statement about one conditional estimand, not "
+                "a claim that the patch-size hypothesis is universally "
+                "falsified."
+                if not h2_supported else
+                "Discordance was higher in the small-patch stratum as "
+                "preregistered."
+            ),
+            "h2_vs_h3_distinction": (
+                "H2 and H3 are not contradictory. H2 is an overall CMSA vs "
+                "CM-SSM discordance rate CONDITIONAL ON CM-SSM patch-size "
+                "strata (denominator = 300 m band pixels in each stratum). "
+                "H3 is a different estimand: the fraction of FINE-REFERENCE "
+                "patches that receive zero cover from the COARSE product, "
+                "compared by patch size (denominator = fine patches). "
+                "Coarse products can omit many small fine patches (H3 "
+                "supported) while the two fine products still agree more, "
+                "not less, where small patches occur (H2 not supported)."
+            ),
         },
         "H3_coarse_small_patch_omission": {
             "verdict": verdict(h3_supported),
@@ -571,7 +626,19 @@ def hypothesis_evidence(
         "H4_regional_effect": {
             "verdict": verdict(h4_supported),
             "rule": "regional binary Dice range >= 0.10 for every pair",
+            "region_attribution": region_attribution,
             "by_pair": dice_spread,
+            "product_derived_v1_comparison": (
+                {
+                    "by_pair": dice_spread_product,
+                    "verdict": verdict(bool(h4_product_supported)),
+                    "note": (
+                        "v1 product-derived region labels (patch ownership); "
+                        "retained for the before/after attribution audit"
+                    ),
+                }
+                if dice_spread_product is not None else None
+            ),
         },
         "H5_area_vs_patch_agreement": {
             "verdict": verdict(h5_supported),
@@ -586,7 +653,15 @@ def hypothesis_evidence(
                     "fine products (binary labelling hides mixed support)",
             "by_product": h6,
         },
-        "block_bootstrap_national_dice": boot30.to_dict(orient="records"),
+        "block_bootstrap_national_dice": {
+            variant: frame.to_dict(orient="records")
+            for variant, frame in boot_by_variant.items()
+        },
+        "domain_variant_policy": (
+            "KEEP_ONLY (3,011 owner-signed cells) is the primary result; "
+            "KEEP_PLUS_PROVISIONAL (3,021 cells, ten Issue #17 cells "
+            "without owner sign-off) is reported as sensitivity only"
+        ),
     }
 
 
@@ -606,6 +681,39 @@ def main() -> int:
     p10 = pd.read_csv(DERIVED / "s10_patch_class.csv")
     pc10 = pd.read_csv(DERIVED / "s10_patch_cover.csv")
     cells10 = pd.read_csv(DERIVED / "s10_cells.csv")
+
+    # Issue #18 R1 Part A: source-independent region attribution
+    # (Natural Earth admin-1), present when the runner was invoked with
+    # --independent-regions. Regional tables then key on those codes;
+    # the product-derived region tables remain for before/after audit.
+    indep_enabled = bool(
+        manifest.get("independent_region_attribution", {}).get("enabled")
+    )
+    ri30 = pd.read_csv(DERIVED / "s30_region_independent.csv") if (
+        DERIVED / "s30_region_independent.csv"
+    ).exists() else None
+    ri10 = pd.read_csv(DERIVED / "s10_region_independent.csv") if (
+        DERIVED / "s10_region_independent.csv"
+    ).exists() else None
+    attr30 = pd.read_csv(DERIVED / "s30_region_attribution.csv") if (
+        DERIVED / "s30_region_attribution.csv"
+    ).exists() else None
+    attr10 = pd.read_csv(DERIVED / "s10_region_attribution.csv") if (
+        DERIVED / "s10_region_attribution.csv"
+    ).exists() else None
+    valid30 = pd.read_csv(DERIVED / "s30_region_validation.csv") if (
+        DERIVED / "s30_region_validation.csv"
+    ).exists() else None
+    valid10 = pd.read_csv(DERIVED / "s10_region_validation.csv") if (
+        DERIVED / "s10_region_validation.csv"
+    ).exists() else None
+    indep_label = (
+        "independent Natural Earth 10m admin-1 v5.1.1 "
+        "(centroid-in-province; else nearest province <=25 km with "
+        ">300 m second-province margin; else UNKNOWN)"
+        if indep_enabled else
+        "product-derived patch ownership (v1)"
+    )
 
     # Complete W10 domain universe: the runner only emits cells that
     # intersect a processed block. Empty cells are real spatial blocks
@@ -627,7 +735,14 @@ def main() -> int:
             "PROVISIONAL_UNRESOLVED",
         ))
     ].reset_index(drop=True)
+    domain_cells["cell_idx"] = np.arange(len(domain_cells))
     n_domain = int(len(domain_cells))
+    n_keep = int(
+        sa.domain_variant_mask(
+            domain_cells.membership_v1_candidate, False
+        ).sum()
+    )
+    n_prov = n_domain - n_keep
 
     def complete_universe(frame: pd.DataFrame) -> pd.DataFrame:
         out = frame.set_index("cell_idx").reindex(np.arange(n_domain))
@@ -636,10 +751,31 @@ def main() -> int:
             if out[c].dtype.kind in "iuf" and c != "cell_idx"
         ]
         out[num_cols] = out[num_cols].fillna(0.0)
-        return out.reset_index(names="cell_idx")
+        out = out.reset_index(names="cell_idx")
+        return out.merge(
+            domain_cells[["cell_idx", "membership_v1_candidate"]],
+            on="cell_idx", how="left",
+        )
 
     cells30_full = complete_universe(cells30)
     cells10_full = complete_universe(cells10)
+
+    def variant_slice(frame: pd.DataFrame, include_provisional: bool) -> pd.DataFrame:
+        mask = sa.domain_variant_mask(
+            frame.membership_v1_candidate, include_provisional
+        )
+        return frame.loc[mask].reset_index(drop=True)
+
+    variants = (
+        ("KEEP_ONLY", False),
+        ("KEEP_PLUS_PROVISIONAL", True),
+    )
+    cells30_variant = {
+        name: variant_slice(cells30_full, inc) for name, inc in variants
+    }
+    cells10_variant = {
+        name: variant_slice(cells10_full, inc) for name, inc in variants
+    }
 
     # 1. National / regional mapped area.
     area_rows = []
@@ -680,17 +816,76 @@ def main() -> int:
     area = pd.DataFrame(area_rows)
     area.to_csv(OUT / "table1_mapped_area.csv", index=False)
 
-    # 2. Pairwise agreement.
-    pw30 = pairwise_rows(r30, 900.0, "30m_GEODATA_native_grid", PAIR_DEFS_30)
-    pw10 = pairwise_rows(r10, 100.0, "10m_project_lattice", PAIR_DEFS_10)
+    # 2. Pairwise agreement. R1 primary region keying is the
+    # source-independent attribution; product-derived v1 keying is
+    # retained for the before/after comparison only.
+    pw30_product = pairwise_rows(
+        r30, 900.0, "30m_GEODATA_native_grid", PAIR_DEFS_30
+    )
+    pw10_product = pairwise_rows(
+        r10, 100.0, "10m_project_lattice", PAIR_DEFS_10
+    )
+    pw30 = (
+        pairwise_rows(ri30, 900.0, "30m_GEODATA_native_grid", PAIR_DEFS_30)
+        if ri30 is not None else pw30_product
+    )
+    pw10 = (
+        pairwise_rows(ri10, 100.0, "10m_project_lattice", PAIR_DEFS_10)
+        if ri10 is not None else pw10_product
+    )
+    pw30["region_attribution"] = indep_label
+    pw10["region_attribution"] = indep_label
     pw = pd.concat([pw30, pw10], ignore_index=True)
     pw.to_csv(OUT / "table2_pairwise_agreement_by_region.csv", index=False)
 
-    boot30 = block_bootstrap_dice(cells30_full, PAIR_DEFS_30)
-    boot10 = block_bootstrap_dice(cells10_full, PAIR_DEFS_10)
-    boot30["support"] = "30m_GEODATA_native_grid"
-    boot10["support"] = "10m_project_lattice"
-    boot = pd.concat([boot30, boot10], ignore_index=True)
+    # Table 11: before/after attribution comparison per region & pair.
+    def attribution_comparison(
+        main: pd.DataFrame, prod: pd.DataFrame
+    ) -> pd.DataFrame:
+        cols = ["support", "pair", "region"]
+        a = main[cols + [
+            "area_a_km2", "area_b_km2", "intersection_km2", "dice",
+        ]].rename(columns={
+            "area_a_km2": "area_a_independent_km2",
+            "area_b_km2": "area_b_independent_km2",
+            "intersection_km2": "intersection_independent_km2",
+            "dice": "dice_independent",
+        })
+        b = prod[cols + [
+            "area_a_km2", "area_b_km2", "intersection_km2", "dice",
+        ]].rename(columns={
+            "area_a_km2": "area_a_product_derived_km2",
+            "area_b_km2": "area_b_product_derived_km2",
+            "intersection_km2": "intersection_product_derived_km2",
+            "dice": "dice_product_derived",
+        })
+        out = a.merge(b, on=cols, how="outer")
+        out["dice_delta_independent_minus_product"] = (
+            out.dice_independent - out.dice_product_derived
+        ).round(4)
+        return out
+
+    comp = pd.concat(
+        [attribution_comparison(pw30, pw30_product),
+         attribution_comparison(pw10, pw10_product)],
+        ignore_index=True,
+    )
+    comp.to_csv(OUT / "table11_region_attribution_comparison.csv",
+                index=False)
+
+    # Bootstrap for BOTH domain variants (KEEP_ONLY is primary).
+    boot_parts = []
+    for variant, _inc in variants:
+        b30v = block_bootstrap_dice(
+            cells30_variant[variant], PAIR_DEFS_30, variant
+        )
+        b10v = block_bootstrap_dice(
+            cells10_variant[variant], PAIR_DEFS_10, variant
+        )
+        b30v["support"] = "30m_GEODATA_native_grid"
+        b10v["support"] = "10m_project_lattice"
+        boot_parts.extend([b30v, b10v])
+    boot = pd.concat(boot_parts, ignore_index=True)
     boot.to_csv(OUT / "table3_block_bootstrap_dice.csv", index=False)
 
     # 3. Boundary / patch stratification.
@@ -716,21 +911,170 @@ def main() -> int:
     occ.to_csv(OUT / "table7_coarse_pixel_occupancy.csv", index=False)
 
     # 5b. Fractional-cover relationships and domain accounting.
-    frac_regions, frac_blocks = fractional_table(cells30_full, cells10_full, r30, r10)
+    # Regional means are attribution-based; block correlations are
+    # membership-sensitive, so they are computed per domain variant.
+    frac_regions, fb_keep = fractional_table(
+        cells30_variant["KEEP_ONLY"], cells10_variant["KEEP_ONLY"],
+        ri30 if ri30 is not None else r30,
+        ri10 if ri10 is not None else r10,
+    )
+    _fr, fb_prov = fractional_table(
+        cells30_variant["KEEP_PLUS_PROVISIONAL"],
+        cells10_variant["KEEP_PLUS_PROVISIONAL"],
+        ri30 if ri30 is not None else r30,
+        ri10 if ri10 is not None else r10,
+    )
+    fb_keep["domain_variant"] = "KEEP_ONLY"
+    fb_prov["domain_variant"] = "KEEP_PLUS_PROVISIONAL"
     frac_regions.to_csv(
         OUT / "table8_fractional_cover_by_region.csv", index=False
     )
+    frac_blocks = pd.concat([fb_keep, fb_prov], ignore_index=True)
     frac_blocks.to_csv(
         OUT / "table9_w10_block_fractional_correlation.csv", index=False
     )
-    domain = domain_summary(cells30_full)
+    domain = domain_summary(
+        cells30_full.drop(columns=["membership_v1_candidate"])
+    )
     domain.to_csv(OUT / "table10_domain_accounting.csv", index=False)
+
+    # Table 12: independent attribution method ledger.
+    if attr30 is not None and attr10 is not None:
+        method_rows = []
+        method_names = {
+            1: "CENTROID_IN_PROVINCE",
+            2: "NEAREST_PROVINCE_WITHIN_25KM",
+            0: "UNKNOWN_OFFSHORE_OR_BORDER_TIE",
+        }
+
+        def method_rows_for(
+            frame: pd.DataFrame, support: str, pixel_area: float,
+            fields: tuple[str, ...],
+        ) -> list[dict[str, Any]]:
+            rows = []
+            total = float(frame.pixels.sum())
+            for rr in frame.itertuples(index=False):
+                row = {
+                    "support": support,
+                    "method": method_names.get(int(rr.method), str(rr.method)),
+                    "region": _REGION.get(int(rr.region), str(rr.region)),
+                    "labelled_pixels": int(rr.pixels),
+                    "fraction_of_labelled_pixels": (
+                        round(float(rr.pixels) / total, 6) if total else float("nan")
+                    ),
+                }
+                for fld in fields:
+                    row[f"{fld}_area_km2"] = round(
+                        float(getattr(rr, fld)) * pixel_area / 1e6, 4
+                    )
+                rows.append(row)
+            return rows
+
+        method_rows += method_rows_for(attr30, "30m", 900.0, ("g", "bc", "bm"))
+        method_rows += method_rows_for(attr10, "10m", 100.0, ("bc", "bm"))
+        pd.DataFrame(method_rows).to_csv(
+            OUT / "table12_region_attribution_method.csv", index=False
+        )
+
+        # Table 13: product-derived vs independent region crosswalk.
+        def crosswalk(
+            frame: pd.DataFrame, support: str
+        ) -> pd.DataFrame:
+            out = frame.copy()
+            out["support"] = support
+            out["prod_region_name"] = out.prod_region.map(_REGION)
+            out["indep_region_name"] = out.indep_region.map(_REGION)
+            if "fine_agree" not in out.columns:
+                out["fine_agree"] = np.nan
+                out["fine_pixels"] = out["pixels"]
+            for col in ("g", "bc", "bm"):
+                if col not in out.columns:
+                    out[col] = np.nan
+            return out[[
+                "support", "prod_region", "prod_region_name",
+                "indep_region", "indep_region_name", "pixels",
+                "g", "bc", "bm", "fine_pixels", "fine_agree",
+            ]]
+
+        pd.concat(
+            [crosswalk(valid30, "30m"), crosswalk(valid10, "10m")],
+            ignore_index=True,
+        ).to_csv(OUT / "table13_region_crosswalk_validation.csv",
+                 index=False)
+
+    # Table 14: KEEP_ONLY vs KEEP_PLUS_PROVISIONAL sensitivity.
+    sens_rows = []
+    for support, pairs30 in (
+        ("30m_GEODATA_native_grid", PAIR_DEFS_30),
+        ("10m_project_lattice", PAIR_DEFS_10),
+    ):
+        for pair, *_ in pairs30:
+            ko = boot[
+                (boot.support == support) & (boot.pair == pair)
+                & (boot.domain_variant == "KEEP_ONLY")
+            ].iloc[0]
+            kp = boot[
+                (boot.support == support) & (boot.pair == pair)
+                & (boot.domain_variant == "KEEP_PLUS_PROVISIONAL")
+            ].iloc[0]
+            delta = float(kp.pooled_dice) - float(ko.pooled_dice)
+            sens_rows.append({
+                "metric": "pooled_binary_dice",
+                "support": support,
+                "pair": pair,
+                "keep_only_value": ko.pooled_dice,
+                "keep_only_ci95": f"[{ko.ci95_low},{ko.ci95_high}]",
+                "keep_only_blocks": int(ko.spatial_blocks),
+                "keep_plus_provisional_value": kp.pooled_dice,
+                "keep_plus_provisional_ci95": f"[{kp.ci95_low},{kp.ci95_high}]",
+                "keep_plus_provisional_blocks": int(kp.spatial_blocks),
+                "absolute_delta": round(delta, 4),
+                "relative_delta_pct": round(
+                    100.0 * delta / float(ko.pooled_dice), 3
+                ),
+            })
+    # Spearman block-correlation sensitivity.
+    for rr in fb_keep.itertuples(index=False):
+        kp = fb_prov[
+            (fb_prov.support == rr.support)
+            & (fb_prov.fractional_cover_pair == rr.fractional_cover_pair)
+        ].iloc[0]
+        delta = float(kp.w10_block_spearman_rho) - float(rr.w10_block_spearman_rho)
+        sens_rows.append({
+            "metric": "w10_block_spearman_rho",
+            "support": rr.support,
+            "pair": rr.fractional_cover_pair,
+            "keep_only_value": rr.w10_block_spearman_rho,
+            "keep_only_ci95": f"[{rr.ci95_low},{rr.ci95_high}]",
+            "keep_only_blocks": int(rr.spatial_blocks),
+            "keep_plus_provisional_value": kp.w10_block_spearman_rho,
+            "keep_plus_provisional_ci95": f"[{kp.ci95_low},{kp.ci95_high}]",
+            "keep_plus_provisional_blocks": int(kp.spatial_blocks),
+            "absolute_delta": round(delta, 4),
+            "relative_delta_pct": (
+                round(100.0 * delta / float(rr.w10_block_spearman_rho), 3)
+                if float(rr.w10_block_spearman_rho) else float("nan")
+            ),
+        })
+    sens = pd.DataFrame(sens_rows)
+    sens.to_csv(OUT / "table14_domain_membership_sensitivity.csv",
+                index=False)
 
     # 5. Hypotheses.
     evidence = hypothesis_evidence(
-        pw30, pw10, b30, b10, p30, omission, occ, boot30
+        pw30, pw10, b30, b10, p30, omission, occ,
+        {v: boot[boot.domain_variant == v].drop(columns="domain_variant")
+         for v, _ in variants},
+        pw30_product=pw30_product if ri30 is not None else None,
+        region_attribution=indep_label,
     )
-    (OUT / "hypothesis_evidence_v1.json").write_text(
+    evidence["domain_universe"] = {
+        "KEEP_ONLY_cells": n_keep,
+        "KEEP_PLUS_PROVISIONAL_cells": n_domain,
+        "provisional_cells_pending_owner_signoff": n_prov,
+        "primary_manuscript_variant": "KEEP_ONLY",
+    }
+    (OUT / "hypothesis_evidence_v2.json").write_text(
         json.dumps(evidence, indent=2, ensure_ascii=False) + "\n"
     )
 
@@ -738,7 +1082,30 @@ def main() -> int:
     tracked = sorted(OUT.glob("*"))
     result_manifest = {
         "title": "2020 multi-resolution label disagreement and scale audit",
+        "version": "v2 (Issue #18 R1 scientific closure)",
         "issue": 18,
+        "supersedes": (
+            "datasets/manifests/2020_label_scale_audit_v1/ (frozen; "
+            "v1 tables retained for traceability, not deleted)"
+        ),
+        "r1_changes": {
+            "A_region_attribution": (
+                "source-independent Natural Earth admin-1 attribution "
+                "replaces product-derived region keys in all regional "
+                "tables; UNKNOWN pixels retained as region 0"
+                if indep_enabled else
+                "independent attribution disabled in this run"
+            ),
+            "B_domain_sensitivity": (
+                "KEEP_ONLY 3,011-cell universe is primary; "
+                "KEEP_PLUS_PROVISIONAL 3,021 cells reported as "
+                "sensitivity (tables 3, 9, 14)"
+            ),
+            "C_h2_language": (
+                "H2 reported as NOT_SUPPORTED with observed-direction "
+                "statement; H2/H3 estimand distinction recorded"
+            ),
+        },
         "git_commit": manifest["git_commit"],
         "generated_from": (
             "scripts/analysis/labels/run_2020_scale_audit.py and "
@@ -755,7 +1122,11 @@ def main() -> int:
         ),
         "statistics_policy": (
             "W10-cell spatial block bootstrap; effect sizes reported; "
-            "pixel-level N never used as independent sample count"
+            "pixel-level N never used as independent sample count; "
+            "primary inference restricted to KEEP_ONLY 3,011 cells"
+        ),
+        "independent_region_attribution": manifest.get(
+            "independent_region_attribution", {"enabled": False}
         ),
     }
     (OUT / "result_manifest.json").write_text(

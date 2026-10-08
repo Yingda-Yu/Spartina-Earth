@@ -1,6 +1,16 @@
 # PAPER_STATUS — Spartina Earth v0
 
-Updated: 2026-10-07 (Issue #18 2020 three-product disagreement/scale
+Updated: 2026-10-08 (Issue #18 R1 scientific closure: (A)
+source-independent Natural Earth 10m admin-1 regional attribution
+replaces product-derived region keys — 125.21 km² unattributed GEO area
+reduced to 0.98 km² residual UNKNOWN, H4 still SUPPORTED with ranges
+0.75/0.58/0.80 (10 m 0.78); (B) primary inference switched to
+KEEP_ONLY 3,011 cells, 3,021 provisional-inclusive retained as
+sensitivity (max pooled-Dice delta 0.0003); (C) H2 wording changed to
+NOT_SUPPORTED / observed direction opposite, with explicit H2≠H3
+estimand distinction; v2 manifest tables 11–14, ledger C61–C63,
+§08/§10/table/analysis-note updated, figures manifest source v2;
+2026-10-07: Issue #18 2020 three-product disagreement/scale
 audit executed: pre-registered 5 m lattice abandoned for two
 documented supports (30 m GEODATA native grid + 10 m project
 lattice); H1/H3/H4/H5/H6 SUPPORTED, H2 NOT_SUPPORTED (opposite
@@ -27,7 +37,7 @@ re-validated against v1 membership).
 | sections/05_observation_model.tex | Observation model (envelope→cell→event→QA) | **Full prose drafted** (R1-corrected semantics) |
 | sections/06_zhejiang_pilot.tex | Zhejiang census, data factory, R1 corrections, M2.1b real-pixel pilot | **Full prose with executed M2.1b evidence** (§M2.1b; Table tab_m21b; Fig. 6 placeholder) |
 | sections/07_pilot_baselines.tex | Pilot-0 baselines + M2.1b boundary | **Verified subsections drafted**; Pilot-0 carries tiny-support caveats; M2.1b subsection states what it adds and still does not |
-| sections/08_national_scaling.tex | National scaling (v0 grid + v1 membership candidate) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1: 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; REMAIN_PROVISIONAL), strata on grid and active subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active; **Issue #18 2020 three-product audit executed**: two supports, H1–H6 pre-registered decisions (H2 falsified, reported), Table tab_labeldisagreement2020, Fig. 7 placeholder |
+| sections/08_national_scaling.tex | National scaling (v0 grid + v1 membership candidate) | **Full prose with executed census and membership audit**: 3,319 immutable Albers cells distinguished from membership (v1: 3,011 KEEP / 298 EXCLUDE / 10 PROVISIONAL; REMAIN_PROVISIONAL), strata on grid and active subset, Murray/JRC context-only, tier estimates, Issue #16 v0_1 census (227,505 scenes; S1 DESCENDING_REGIONALLY_AND_TEMPORALLY_IMBALANCED; 2026 PARTIAL_YEAR); 20-cell panel designed not executed and re-validated as all-active; **Issue #18 2020 three-product audit executed (R1 closed 2026-10-08)**: two supports, H1–H6 pre-registered decisions (H2 NOT_SUPPORTED, observed direction opposite; independent regional attribution; KEEP_ONLY primary bootstrap + provisional sensitivity), Table tab_labeldisagreement2020, Fig. 7 placeholder |
 | sections/09_discussion.tex | Discussion | **Skeleton + verified discussion points**; pending-result paragraphs marked |
 | sections/10_limitations.tex | Limitations | **Full prose drafted** |
 | sections/11_conclusion.tex | Conclusion | **Skeleton drafted** |
@@ -54,11 +64,17 @@ stable introduction/methods); placeholder in main.tex.
 - CM-SSM official/local identity (8 shapefile components, SHA256) with
   SOURCE_LICENSE_CONFLICT preserved.
 - 2020 three-product disagreement/scale audit (Issue #18, executed
-  2026-10-07): two non-fabricated supports; MakeValid repair 0 dropped /
-  0.0 % area change; Dice 0.52–0.71; W10 cluster bootstrap; H1/H3/H4/H5/H6
-  SUPPORTED, H2 NOT_SUPPORTED and reported as falsified; agreement
-  characterisation only (GOLD = 0); no SILVER eligibility or merge-rule
-  change.
+  2026-10-07; R1 scientific closure 2026-10-08): two non-fabricated
+  supports; MakeValid repair 0 dropped / 0.0 % area change; Dice
+  0.52–0.71; W10 cluster bootstrap primary universe KEEP_ONLY 3,011
+  cells (3,021 provisional-inclusive reported as sensitivity, deltas
+  ≤0.0003); H1/H3/H4/H5/H6 SUPPORTED; H2 NOT_SUPPORTED — observed
+  direction opposite to the preregistered expectation (0.2095 vs
+  0.3162; not described as universally falsified; H2≠H3 estimand
+  distinction explicit); independent Natural Earth regional
+  attribution leaves only 0.98 km² GEO area UNKNOWN (from 125.21);
+  agreement characterisation only (GOLD = 0); no SILVER eligibility or
+  merge-rule change.
 - Mainland China coastal domain v0: target-independent corridor,
   Albers-vs-UTM comparison, 3,319 provisional W10 cells, flags/strata,
   13-source multimodal registry, Tier 0-3 model estimates.

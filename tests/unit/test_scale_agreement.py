@@ -151,3 +151,102 @@ def test_block_bootstrap_weights_affect_interval() -> None:
     # Weighted resamples draw almost only the zero-valued blocks.
     assert lo_w >= 0.0
     assert (lo_w + hi_w) / 2.0 < 0.15
+
+
+def test_domain_variant_mask_keep_only_excludes_provisional() -> None:
+    """Part B regression: KEEP_ONLY never contains PROVISIONAL cells.
+
+    The primary Issue #18 inference universe is exactly the two owner
+    KEEP statuses; PROVISIONAL_UNRESOLVED cells enter only the explicit
+    sensitivity variant; EXCLUDE and missing statuses are always out.
+    """
+    statuses = np.array([
+        "KEEP_MAINLAND_COASTAL",
+        "KEEP_ISLAND_COASTAL",
+        "PROVISIONAL_UNRESOLVED",
+        "EXCLUDE_DOMAIN_ARTIFACT",
+        "OUTSIDE",
+    ])
+    keep = sa.domain_variant_mask(statuses, include_provisional=False)
+    assert keep.tolist() == [True, True, False, False, False]
+    plus = sa.domain_variant_mask(statuses, include_provisional=True)
+    assert plus.tolist() == [True, True, True, False, False]
+    # Counts match the frozen Issue #18 domain: 3,011 / 3,021.
+    full = np.concatenate([
+        np.repeat("KEEP_MAINLAND_COASTAL", 2752),
+        np.repeat("KEEP_ISLAND_COASTAL", 259),
+        np.repeat("PROVISIONAL_UNRESOLVED", 10),
+    ])
+    assert int(sa.domain_variant_mask(full, False).sum()) == 3011
+    assert int(sa.domain_variant_mask(full, True).sum()) == 3021
+    # Shape and order are preserved; the mask is positional, not a join.
+    assert keep.shape == statuses.shape
+
+
+def test_independent_region_block_attribution_rules() -> None:
+    """Part A regression: centroid / nearest / ambiguity / reach rules.
+
+    Two province boxes share a vertical border at x=1000 m and cover
+    land north of y=0. Centroid pixels on water just offshore are
+    nearest-attributed except on the border tie; far-offshore pixels
+    stay UNKNOWN and are never forced.
+    """
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    import geopandas as gpd
+    from shapely.geometry import box as sbox
+
+    path = Path(__file__).resolve().parents[2] / (
+        "scripts/analysis/labels/run_2020_scale_audit.py"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "run_2020_scale_audit_r1", path
+    )
+    assert spec is not None and spec.loader is not None
+    runner = importlib.util.module_from_spec(spec)
+    sys.modules["run_2020_scale_audit_r1"] = runner
+    spec.loader.exec_module(runner)
+    from spartina.data.national.geometry import CHINA_ALBERS_CRS
+
+    geom_a = sbox(0.0, 0.0, 999.99, 1000.0)
+    geom_b = sbox(1000.0, 0.0, 2000.0, 1000.0)
+    prov = gpd.GeoDataFrame(
+        {"code": np.int32([3, 7]), "name": ["A", "B"]},
+        geometry=[geom_a, geom_b], crs=CHINA_ALBERS_CRS,
+    )
+    hh, hw = 12, 220
+    ox, oyn = 0.0, 110.0
+    halo = sbox(ox, oyn - hh * 10.0, ox + hw * 10.0, oyn)
+    need = np.ones((hh, hw), dtype=bool)
+    code, method = runner.independent_region_block(
+        prov, halo, ox, oyn, 10.0, hh, hw, need
+    )
+    # Land row: centroid-within-province, deterministic split.
+    assert code[0, 99] == 3 and code[0, 100] == 7
+    assert method[0, 99] == runner.INDEP_METHOD_CENTROID
+    # Water row 4.5 m offshore: nearest province far from the border.
+    assert code[11, 0] == 3 and method[11, 0] == runner.INDEP_METHOD_NEAREST
+    assert code[11, 219] == 7 and method[11, 219] == runner.INDEP_METHOD_NEAREST
+    # Within the 300 m border tie no attribution is forced (UNKNOWN).
+    border_tie = [
+        c for c in range(85, 116)
+        if method[11, c] == runner.INDEP_METHOD_UNKNOWN
+    ]
+    assert border_tie, "ambiguous border pixels must remain UNKNOWN"
+    # Beyond the 25 km reach: UNKNOWN, never attributed.
+    far_halo = sbox(0.0, -26_100.0, 20.0, -26_000.0)
+    far_need = np.zeros((10, 2), dtype=bool)
+    far_need[5, 0] = True
+    far_code, far_method = runner.independent_region_block(
+        prov.iloc[[0]], far_halo, 0.0, -26_000.0, 10.0, 10, 2, far_need
+    )
+    assert far_code[5, 0] == 0
+    assert far_method[5, 0] == runner.INDEP_METHOD_UNKNOWN
+    # need=False pixels never receive a code even on land.
+    none_code, none_method = runner.independent_region_block(
+        prov, halo, ox, oyn, 10.0, hh, hw, np.zeros((hh, hw), dtype=bool)
+    )
+    assert none_code.max() == 0 and none_method.max() == 0
+

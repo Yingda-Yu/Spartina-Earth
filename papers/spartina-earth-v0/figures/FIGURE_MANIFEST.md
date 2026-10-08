@@ -97,7 +97,10 @@ and hand-adapted; a single AI-generation pass is not an approved design.
 - **Candidate ranking (of five analysis figures):** 1 of 5
   (C boundary distance; E coarse-pixel occupancy; D patch size;
   B site panels; A area inventory).
-- **Sources:** datasets/manifests/2020_label_scale_audit_v1/table4;
+- **Sources:** datasets/manifests/2020_label_scale_audit_v2/table4
+  (R1 independent regional keying; pooled per-band pixel denominators
+  identical to v1, pooled disagreement differs by <1e-4 from rounding,
+  ratios 7.69/5.87/5.90 unchanged);
   rendered analysis PNG already exists at
   docs/analysis/figures/figC_boundary_distance.png (analysis
   artifact); in-manuscript final artwork NOT authorized yet.

@@ -1,0 +1,9 @@
+metric,support,pair,keep_only_value,keep_only_ci95,keep_only_blocks,keep_plus_provisional_value,keep_plus_provisional_ci95,keep_plus_provisional_blocks,absolute_delta,relative_delta_pct
+pooled_binary_dice,30m_GEODATA_native_grid,GEO_CMSA,0.6076,"[0.5507,0.6556]",3011,0.6073,"[0.5452,0.657]",3021,-0.0003,-0.049
+pooled_binary_dice,30m_GEODATA_native_grid,GEO_CMSSM,0.529,"[0.4631,0.5848]",3011,0.5293,"[0.4696,0.5838]",3021,0.0003,0.057
+pooled_binary_dice,30m_GEODATA_native_grid,CMSA_CMSSM,0.7217,"[0.6738,0.7629]",3011,0.7214,"[0.6803,0.7622]",3021,-0.0003,-0.042
+pooled_binary_dice,10m_project_lattice,CMSA_CMSSM,0.7096,"[0.6637,0.7507]",3011,0.7093,"[0.6677,0.749]",3021,-0.0003,-0.042
+w10_block_spearman_rho,30m_GEODATA_native_grid,geo_cmsa,0.7526,"[0.7155,0.789]",1869,0.7532,"[0.7124,0.7893]",1875,0.0006,0.08
+w10_block_spearman_rho,30m_GEODATA_native_grid,geo_cmssm,0.7324,"[0.6929,0.7739]",1869,0.7332,"[0.6934,0.7668]",1875,0.0008,0.109
+w10_block_spearman_rho,30m_GEODATA_native_grid,cmsa_cmssm,0.8702,"[0.8415,0.8938]",1869,0.8705,"[0.8419,0.8963]",1875,0.0003,0.034
+w10_block_spearman_rho,10m_project_lattice,cmsa_cmssm,0.8615,"[0.8283,0.886]",1217,0.8617,"[0.8325,0.8943]",1222,0.0002,0.023

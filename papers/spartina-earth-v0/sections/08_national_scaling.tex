@@ -315,36 +315,68 @@ both products. The 50 CMSA \texttt{gridcode=0} features remain
 
 National totals are similar while spatial agreement is only moderate
 (Table~\ref{tab:labeldisagreement2020}): full-extent binary Dice is
-0.620 for GEO--CMSA, 0.522 for GEO--CM-SSM and 0.715 for CMSA--CM-SSM,
-and W10 cluster-bootstrap intervals stay at or below 0.76 for every
-pair. The six pre-registered decisions are: H1 boundary concentration
-\emph{supported}---disagreement at 0--30\,m is 7.7$\times$, 5.9$\times$
-and 5.9$\times$ the 120--300\,m rate for the three pairs (8.2$\times$
-for CMSA--CM-SSM on the 10\,m lattice) and decays monotonically across
-the distance bands; H2 fine-patch discordance \emph{not supported},
-with the effect in the opposite direction (0.210 inside CM-SSM patches
-$<$2{,}500\,m$^2$ vs 0.316 inside $\geq$10$^5$\,m$^2$ meadows); H3
-coarse-support absence in small patches \emph{supported}---89.2\,\% of
-100--900\,m$^2$ CMSA patches and 86.5\,\% of CM-SSM patches carry zero
-GEODATA cover, against 17.7\,\% and 23.6\,\% of patches
-$\geq$10$^5$\,m$^2$, with monotone ordering across size classes; H4
-regional structure \emph{supported}---regional Dice ranges are 0.68,
-0.68 and 0.45 (0.43 on the 10\,m lattice), from 0.04 for GEO--CM-SSM in
-one province to 0.81; H5 area-vs-patch divergence \emph{supported}
-(8.6\,\% national area bias at 0.620 Dice); and H6 binary-labelling loss
-\emph{supported}---36.6\,\% and 42.5\,\% of GEODATA-positive pixels
-carry below half occupancy of CMSA and CM-SSM respectively, while W10
-block-mean cover correlations remain 0.73--0.87. Two bookkeeping gaps
-are explicit rather than patched: 125.2\,km$^2$ of GEODATA-positive
-pixels inherit no province label and are reported only in national
-tallies, and 19--39\,km$^2$ of mapped extent per product lies beyond the
-10\,km corridor and therefore outside domain-cell statistics. The audit
+0.620 for GEO--CMSA, 0.522 for GEO--CM-SSM and 0.715 for CMSA--CM-SSM.
+The primary inferential universe is the 3{,}011 owner-signed KEEP
+cells; W10 cluster-bootstrap intervals there (500 resamples) are
+0.608~[0.551, 0.656], 0.529~[0.463, 0.585] and 0.722~[0.674, 0.763], and
+0.710~[0.664, 0.751] for CMSA--CM-SSM on the 10\,m lattice, staying at
+or below 0.76 for every pair. The six pre-registered decisions are: H1
+boundary concentration \emph{supported}---disagreement at 0--30\,m is
+7.7$\times$, 5.9$\times$ and 5.9$\times$ the 120--300\,m rate for the
+three pairs (8.2$\times$ for CMSA--CM-SSM on the 10\,m lattice) and
+decays monotonically across the distance bands; H2 fine-patch-size
+discordance \textsc{not\_supported}---the observed direction was
+opposite to the preregistered expectation, with overall CMSA--CM-SSM
+discordance of 0.210 inside CM-SSM patches $<$2{,}500\,m$^2$ versus
+0.316 inside $\geq$10$^5$\,m$^2$ meadows; H3 coarse-support absence in
+small patches \emph{supported}---89.2\,\% of 100--900\,m$^2$ CMSA
+patches and 86.5\,\% of CM-SSM patches carry zero GEODATA cover,
+against 17.7\,\% and 23.6\,\% of patches $\geq$10$^5$\,m$^2$, with
+monotone ordering across size classes. H2 and H3 are not
+contradictory: they are different estimands with different
+denominators---H2 is an overall CMSA--CM-SSM discordance rate
+conditional on CM-SSM patch-size strata (denominator: 300\,m band
+pixels in each stratum), whereas H3 is the fraction of fine-reference
+patches receiving zero cover from the coarse product (denominator:
+fine patches). The coarse product can omit most small fine patches
+(H3) while the two fine products still agree more, not less, where
+small patches occur (H2). H4 regional structure is \emph{supported}
+under the source-independent regional attribution described below:
+regional binary Dice ranges are 0.75, 0.58 and 0.80 (0.78 on the 10\,m
+lattice), from 0.00---Liaoning, where only 1.4\,km$^2$ of CMSA extent
+exists and neither other product maps cover---to 0.80; H5
+area-vs-patch divergence \emph{supported} (8.6\,\% national area bias
+at 0.620 Dice); and H6 binary-labelling loss \emph{supported}---36.6\,\%
+and 42.5\,\% of GEODATA-positive pixels carry below half occupancy of
+CMSA and CM-SSM respectively, while W10 block-mean cover Spearman
+correlations over the 1{,}869 occupied KEEP blocks (1{,}217 on the
+10\,m lattice) remain 0.73--0.87. The R1 closure replaced the
+product-derived region keys with a source-independent, deterministic
+attribution from Natural Earth 10\,m admin-1 polygons (v5.1.1): a
+pixel is assigned to the province containing its centroid, otherwise to
+the unique nearest province within 25\,km provided the second-nearest
+province is more than 300\,m farther, and otherwise left
+\textsc{unknown}; ambiguous border pixels are never forced. This
+attributes 124.23\,km$^2$ of the previously unattributed 125.21\,km$^2$
+of GEODATA-positive area, leaving 0.98\,km$^2$ (0.19\,\% of the 519.44
+km$^2$ total) as \textsc{unknown} offshore/border-tie pixels excluded
+from regional H4 tallies; where both labelings carry a code they
+agree on 99.0\,\% of fine-product pixels (98.4\,\% over all
+fine-product pixels). The other
+bookkeeping gap remains explicit: 19--39\,km$^2$ of mapped extent per
+product lies beyond the 10\,km corridor and therefore outside
+domain-cell statistics. The ten provisional cells are excluded from
+the primary inference by design; including them as a sensitivity
+universe (3{,}021 cells) changes every pooled bootstrap Dice by at most
+0.0003 (relative $\leq$0.06\,\%) and every block Spearman correlation
+by at most 0.0008, and changes no hypothesis decision. The audit
 authorises no SILVER admission, no product ranking, and no label merge;
 a multi-source 2020 training label would need an explicit conflict
 rule, and the ten provisional cells remain outside any eligibility
 decision. Full tables, the hypothesis-evidence JSON, and the candidate
 figure ranking are versioned in
-\texttt{2020\_label\_scale\_audit\_v1} and the companion analysis note.
+\texttt{2020\_label\_scale\_audit\_v2} (v1 tables retained for
+traceability) and the companion analysis note.
 
 \begin{figure}[t]\centering
 \figplaceholder{Figure 7}{Issue~\#18 candidate figure (ranked~1 of~5):

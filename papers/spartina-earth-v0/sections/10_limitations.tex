@@ -46,12 +46,25 @@ Dice values (0.52--0.71) can be read as product accuracy. Results
 concern one year: boundary offsets conflate positional transfer,
 acquisition dates, tides and within-2020 ecological change. The 10\,m
 support is a project lattice rather than a reconstructed CMSA native
-grid; 125.2\,km$^2$ of GEODATA-positive pixels are unattributed to any
-province and enter national but not regional statistics; and mapped
-extents beyond the 10\,km corridor (19--39\,km$^2$ per product) are
-excluded from domain-cell tables. The pre-registered H2 prediction was
-falsified (fine--fine discordance is larger inside continuous meadows
-than small patches) and is reported as such. No SILVER eligibility,
+grid. Regional attribution no longer derives from the audited labels:
+R1 assigns each pixel independently from Natural Earth 10\,m admin-1
+polygons (centroid in province; otherwise nearest province within
+25\,km with a $>$300\,m second-province margin; otherwise UNKNOWN),
+which leaves 0.98\,km$^2$ of GEODATA-positive area (0.19\,\%) as
+UNKNOWN offshore or border-tie pixels that enter national tallies but
+not regional H4 statistics, and the Natural Earth coastlines are
+generalised rather than survey-grade. Mapped extents beyond the 10\,km
+corridor (19--39\,km$^2$ per product) are excluded from domain-cell
+tables. The pre-registered H2 prediction is reported as
+\textsc{not\_supported}: the observed direction was opposite to the
+preregistered expectation (fine--fine discordance 0.210 in small
+versus 0.316 in large patch strata). This is a directional non-support
+statement about one conditional estimand, not a universal falsification
+of patch-size effects, and it is not contradictory with H3 (zero coarse
+cover of fine small patches), which has a different estimand and
+denominator. The primary bootstrap excludes the ten unsigned
+provisional domain cells; including them moves pooled Dice by at most
+0.0003. No SILVER eligibility,
 product ranking, or multi-source label-merge rule follows from this
 audit.
 

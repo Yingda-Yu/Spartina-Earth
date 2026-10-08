@@ -1,0 +1,47 @@
+{
+  "title": "2020 multi-resolution label disagreement and scale audit",
+  "version": "v2 (Issue #18 R1 scientific closure)",
+  "issue": 18,
+  "supersedes": "datasets/manifests/2020_label_scale_audit_v1/ (frozen; v1 tables retained for traceability, not deleted)",
+  "r1_changes": {
+    "A_region_attribution": "source-independent Natural Earth admin-1 attribution replaces product-derived region keys in all regional tables; UNKNOWN pixels retained as region 0",
+    "B_domain_sensitivity": "KEEP_ONLY 3,011-cell universe is primary; KEEP_PLUS_PROVISIONAL 3,021 cells reported as sensitivity (tables 3, 9, 14)",
+    "C_h2_language": "H2 reported as NOT_SUPPORTED with observed-direction statement; H2/H3 estimand distinction recorded"
+  },
+  "git_commit": "ce34e6374e30b0dece9660f50e69b47741729be6",
+  "generated_from": "scripts/analysis/labels/run_2020_scale_audit.py and scripts/analysis/labels/build_2020_scale_audit_report.py",
+  "input_manifest": "work/issue18/transform_manifest.json (gitignored bytes; input checksums recorded there)",
+  "outputs": {
+    "hypothesis_evidence_v2.json": "f6af4bbe635ce5be250f5bcea508fe546d8b5d1bcabff7d1e0c253a38031082b",
+    "table10_domain_accounting.csv": "8f11a61c13cb8e10d873584e4727b773095248301589a74c393f4a4657b272b6",
+    "table11_region_attribution_comparison.csv": "b46835ad1c49f702a7733ba8af127276a3c847196ab5fb2b0b1f07726ee3ec75",
+    "table12_region_attribution_method.csv": "bb17dff81a986b697c9a53e61f421d8bde6badd0074c5cfee6d581b270b6e473",
+    "table13_region_crosswalk_validation.csv": "6c2d09418a3a33636a9c03db315c24d094b138eb695584c6a6b053661b6f92a0",
+    "table14_domain_membership_sensitivity.csv": "ea6ad38f30a77db8285b92cbf9a9303ca6d33ca740f2b896d63f9d5233ce8a11",
+    "table1_mapped_area.csv": "c970037e649aa4b1148d6b00833bd9c9f51166a2d5449d2b078a0b9d5146c6c0",
+    "table2_pairwise_agreement_by_region.csv": "45e70eb3b02c1c65ae6163681cfc434d265c1f542b5ee1a2a39b89c92c9395c3",
+    "table3_block_bootstrap_dice.csv": "397769fcbd55d6da7ee223a6898a5b346c1297b7cd3d0d865c919cd3dde288a7",
+    "table4_boundary_distance_disagreement.csv": "032456c69fae2368745ac0155ba8109f31a5af4a89cc7b030de81341a56c7b3c",
+    "table5_patch_size_disagreement_10m.csv": "c881521206d18c709197d5803ee751897f1947c57caff6a0dedd1af45a327543",
+    "table5_patch_size_disagreement_30m.csv": "4b130cfb0ebcb62d358b0be2fd18b40334afa83a69e1227f8240c5d94aae98a1",
+    "table6_patch_omission_by_size.csv": "68e59e40c7b3754cd36b820a302c64cb3f445467280e1d9325fb6bca2d5dbd2e",
+    "table7_coarse_pixel_occupancy.csv": "d67e952cef5819280eeea794a32f742839fdb9afa6fba7272ff0753ce3c253d2",
+    "table8_fractional_cover_by_region.csv": "f96b5347cf3356a1fa15357e582c4b29ee158ffcb6303aed3e1fe2148feaa572",
+    "table9_w10_block_fractional_correlation.csv": "bdadba748f36146e4e578081fe1e837c5b11724318d3115c90df60fb429bade2"
+  },
+  "terminology_policy": "agreement/disagreement/external-reference agreement only; no accuracy claims (GOLD=0)",
+  "statistics_policy": "W10-cell spatial block bootstrap; effect sizes reported; pixel-level N never used as independent sample count; primary inference restricted to KEEP_ONLY 3,011 cells",
+  "independent_region_attribution": {
+    "enabled": true,
+    "source": "Natural Earth 10m admin-1 states/provinces (ne_10m_admin_1_states_provinces, v5.1.1); independent of CMSA, CM-SSM and GEODATA",
+    "source_shp": "work/external/naturalearth_10m_admin1/extracted/ne_10m_admin_1_states_provinces.shp",
+    "rule": "centroid inside province -> province; else nearest province if distance <= reach_m and the second-nearest province is farther by more than ambiguity_m; else UNKNOWN (never forced)",
+    "reach_m": 25000.0,
+    "ambiguity_m": 300.0,
+    "supports": [
+      "30m",
+      "10m"
+    ],
+    "note": "independent labels key all regional tables in the v2 report; product-derived region tables remain available as s{30,10}_region.csv for the before/after attribution comparison"
+  }
+}

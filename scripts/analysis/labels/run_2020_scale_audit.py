@@ -78,6 +78,19 @@ PURE_HI = 0.9
 SEED = 20201018
 N_BOOT = 500
 
+# Independent (source-independent) region attribution parameters,
+# Issue #18 R1. Provinces are Natural Earth 10 m admin-1 polygons
+# (independent of every audited label product). Pixel centroids inside
+# a province polygon are attributed directly; labelled pixels whose
+# centroid falls on water beyond the polygon coastline receive the
+# nearest province, subject to a reach cap and a border-tie rule.
+ADMIN1_SHP = REPO_ROOT / (
+    "work/external/naturalearth_10m_admin1/extracted/"
+    "ne_10m_admin_1_states_provinces.shp"
+)
+INDEP_REGION_REACH_M = 25_000.0   # matches the project 25 km island reach
+INDEP_REGION_AMBIG_M = 300.0      # <=300 m between two provinces => UNKNOWN
+
 SUM_FIELDS_30 = (
     "n", "g", "c", "m", "gc", "gm", "cm", "bc", "bm", "cmb",
     "dgc", "dgm", "dcm",
@@ -479,6 +492,144 @@ def signed_distance(mask: np.ndarray[Any, Any], pixel_m: float) -> np.ndarray[An
     return sa.signed_distance(mask, pixel_m)
 
 
+# ---------------------------------------------------------------------------
+# Source-independent region attribution (Issue #18 R1, Part A)
+# ---------------------------------------------------------------------------
+
+# method codes in the independent attribution audit tables
+INDEP_METHOD_CENTROID = 1
+INDEP_METHOD_NEAREST = 2
+INDEP_METHOD_UNKNOWN = 0
+
+
+def load_coastal_provinces(crs: Any) -> gpd.GeoDataFrame:
+    """Natural Earth 10 m admin-1 coastal provinces, one geom per code.
+
+    The admin-1 polygons are independent of every audited label product
+    (CMSA / CM-SSM / GEODATA).  Names map to the project region codes by
+    position in ``sa.PROVINCE_ORDER`` (1..10; 0 stays UNKNOWN).
+    """
+    name_to_code = {
+        name: i + 1
+        for i, name in enumerate(sa.PROVINCE_ORDER)
+        if name != "UNATTRIBUTED"
+    }
+    prov = gpd.read_file(ADMIN1_SHP, columns=["name"], engine="pyogrio")
+    prov = prov[prov["name"].isin(name_to_code)][["name", "geometry"]].copy()
+    prov["code"] = (
+        prov["name"].map(name_to_code).astype("int32")
+    )
+    prov = prov.to_crs(crs)
+    prov = prov.dissolve(
+        by="code", aggfunc={"name": "first"}, as_index=False
+    )
+    prov["geometry"] = prov.geometry.buffer(0.0)
+    prov = gpd.GeoDataFrame(prov, geometry="geometry", crs=crs)
+    _ = prov.sindex
+    return prov[["code", "name", "geometry"]]
+
+
+def independent_region_block(
+    prov: gpd.GeoDataFrame,
+    halo: BaseGeometry,
+    origin_x: float,
+    origin_y_north: float,
+    pixel_m: float,
+    n_rows: int,
+    n_cols: int,
+    need: np.ndarray[Any, Any],
+) -> tuple[np.ndarray[Any, Any], np.ndarray[Any, Any]]:
+    """Source-independent per-pixel region codes for one raster block.
+
+    Deterministic, product-independent rule:
+
+    1. pixel **centroid inside** exactly one admin-1 province polygon
+       -> that province (``method=1``);
+    2. centroid outside (coastline-generalised polygons leave seaward
+       tidal-flat pixels on water) -> nearest province polygon if its
+       distance is <= ``INDEP_REGION_REACH_M`` AND the second-nearest
+       province is farther by more than ``INDEP_REGION_AMBIG_M``
+       (``method=2``);
+    3. otherwise the pixel stays ``0`` / ``method=0`` (UNKNOWN): beyond
+       reach, or a border tie too close to force.  Ambiguous border
+       pixels are never assigned.
+
+    Only pixels where ``need`` is True receive a code.  Returns
+    ``(code int32, method int8)`` arrays shaped ``(n_rows, n_cols)``.
+    """
+    base = selected_rasterize(
+        prov, "code", halo, origin_x, origin_y_north, pixel_m,
+        n_rows, n_cols, fill=0, all_touched=False,
+    )
+    code = base.astype(np.int32, copy=True)
+    method = np.where(base > 0, INDEP_METHOD_CENTROID, 0).astype(np.int8)
+    unresolved = (base == 0) & need
+    ys, xs = np.nonzero(unresolved)
+    if ys.size and not prov.empty:
+        px = origin_x + (xs + 0.5) * pixel_m
+        py = origin_y_north - (ys + 0.5) * pixel_m
+        pts = shapely.points(px, py)
+        # Only provinces within reach of the halo can serve a core
+        # pixel; the STRtree query is per-block but geometries are
+        # process-global via the fork-inherited province frame.
+        reach_box = halo.buffer(INDEP_REGION_REACH_M + 2.0 * pixel_m)
+        cand_pos = prov.sindex.query(reach_box, predicate="intersects")
+        if cand_pos.size:
+            cand = prov.iloc[cand_pos]
+            geoms = cand.geometry.to_numpy()
+            codes = cand["code"].to_numpy().astype(np.int32)
+            dist_all = np.column_stack(
+                [shapely.distance(pts, g) for g in geoms]
+            )
+            nearest_col = dist_all.argmin(axis=1)
+            d1 = dist_all[np.arange(ys.size), nearest_col]
+            if dist_all.shape[1] > 1:
+                tmp = dist_all.copy()
+                tmp[np.arange(ys.size), nearest_col] = np.inf
+                d2 = tmp.min(axis=1)
+            else:
+                d2 = np.full(ys.size, np.inf)
+            ok = (d1 <= INDEP_REGION_REACH_M) & (
+                np.isinf(d2) | (d2 - d1 > INDEP_REGION_AMBIG_M)
+            )
+            code[ys[ok], xs[ok]] = codes[nearest_col[ok]]
+            method[ys[ok], xs[ok]] = INDEP_METHOD_NEAREST
+    code[~need] = 0
+    method[~need] = 0
+    return code, method
+
+
+def add_keyed2_fast(
+    acc: KeyedSums,
+    key_codes: tuple[np.ndarray[Any, Any], np.ndarray[Any, Any]],
+    arrays: tuple[np.ndarray[Any, Any], ...],
+    valid: np.ndarray[Any, Any] | None = None,
+) -> None:
+    """Two-integer-key version of :func:`add_keyed_fast`."""
+    k1 = key_codes[0].ravel().astype(np.int64)
+    k2 = key_codes[1].ravel().astype(np.int64)
+    flattened = tuple(a.ravel() for a in arrays)
+    if valid is not None:
+        mask = valid.ravel()
+        k1, k2 = k1[mask], k2[mask]
+        flattened = tuple(a[mask] for a in flattened)
+    packed = k1 * 64 + k2
+    uniq, inv = np.unique(packed, return_inverse=True)
+    k = int(uniq.size)
+    sums = np.empty((k, len(flattened)), dtype=np.float64)
+    for j, arr in enumerate(flattened):
+        sums[:, j] = np.bincount(
+            inv, weights=arr.astype(np.float64), minlength=k
+        )
+    for j, val in enumerate(uniq):
+        key = (int(val // 64), int(val % 64))
+        if key in acc.store:
+            acc.store[key] = acc.store[key] + sums[j]
+        else:
+            acc.store[key] = sums[j].copy()
+
+
+
 def patch_bins(area: np.ndarray[Any, Any]) -> np.ndarray[Any, Any]:
     edges = np.array(sa.PATCH_BIN_EDGES[:-1])
     idx = np.digitize(area, edges[1:], right=False)
@@ -700,6 +851,10 @@ class SupportResult:
     patch_cover: pd.DataFrame
     cell_table: pd.DataFrame
     metadata: dict[str, Any]
+    # Issue #18 R1: None unless --independent-regions was used.
+    region_independent_table: pd.DataFrame | None = None
+    region_attribution_table: pd.DataFrame | None = None
+    region_validation_table: pd.DataFrame | None = None
 
 
 DOMAIN_STATUSES = (
@@ -744,9 +899,12 @@ def run_30m_support(
     cmssm_a: gpd.GeoDataFrame,
     cells_a: gpd.GeoDataFrame,
     stripe: tuple[int, int] | None = None,
+    prov_a: gpd.GeoDataFrame | None = None,
 ) -> SupportResult:
     with rasterio.open(GEODATA_TIF) as ds:
-        return _run_30m_support(ds, cmsa_a, cmssm_a, cells_a, stripe)
+        return _run_30m_support(
+            ds, cmsa_a, cmssm_a, cells_a, stripe, prov_a
+        )
 
 
 def _run_30m_support(
@@ -755,6 +913,7 @@ def _run_30m_support(
     cmssm_a: gpd.GeoDataFrame,
     cells_a: gpd.GeoDataFrame,
     stripe: tuple[int, int] | None,
+    prov_a: gpd.GeoDataFrame | None = None,
 ) -> SupportResult:
     x0_g, ytop_g = ds.transform.c, ds.transform.f
     overview = ds.overviews(1)[-1]
@@ -802,6 +961,15 @@ def _run_30m_support(
     acc_patch = KeyedSums(("region", "patch_c_bin", "patch_m_bin"), SUM_FIELDS_30)
     cont_store: dict[int, int] = {}
     acc_cell = KeyedSums(("cell_idx",), SUM_FIELDS_30)
+    # Independent attribution accumulators (Issue #18 R1).
+    acc_region_indep = KeyedSums(("region",), SUM_FIELDS_30)
+    acc_attr_indep = KeyedSums(
+        ("method", "region"), ("pixels", "g", "bc", "bm")
+    )
+    acc_valid_indep = KeyedSums(
+        ("prod_region", "indep_region"),
+        ("pixels", "g", "bc", "bm", "fine_pixels", "fine_agree"),
+    )
     patch_store: dict[tuple[str, int], dict[str, float]] = {}
     patch_area_c = cmsa_a.groupby("patch_id_c").geometry.apply(
         lambda s: s.area.sum()
@@ -896,6 +1064,13 @@ def _run_30m_support(
                 cmsa_a, cmssm_a, "patch_id_c", "patch_id_m",
                 lut_c, lut_m, halo_box, ox, oyn, 30.0, hh, hw,
             )
+            indep_arr = None
+            indep_method = None
+            if prov_a is not None:
+                indep_arr, indep_method = independent_region_block(
+                    prov_a, halo_box, ox, oyn, 30.0, hh, hw,
+                    g_arr.astype(bool) | b_c | b_m,
+                )
             cell_arr = selected_rasterize(
                 cells_a, "cell_idx", halo_box, ox, oyn, 30.0, hh, hw,
                 fill=-1,
@@ -929,12 +1104,53 @@ def _run_30m_support(
                  & (fc_m_full < PURE_HI)).astype(np.float64),
             )
             add_keyed_fast(acc_region, region_arr[sl], full_arrays)
+            if indep_arr is not None and indep_method is not None:
+                add_keyed_fast(
+                    acc_region_indep, indep_arr[sl], full_arrays
+                )
+                labeled30 = gb_full | bc_full | bm_full
+                add_keyed2_fast(
+                    acc_attr_indep,
+                    (indep_method[sl], indep_arr[sl]),
+                    (
+                        np.ones(gb_full.shape, dtype=np.float64),
+                        gb_full.astype(np.float64),
+                        bc_full.astype(np.float64),
+                        bm_full.astype(np.float64),
+                    ),
+                    valid=labeled30,
+                )
+                prod_core = region_arr[sl]
+                fine30 = bc_full | bm_full
+                agree30 = (
+                    fine30
+                    & (prod_core > 0)
+                    & (indep_arr[sl] > 0)
+                    & (prod_core == indep_arr[sl])
+                )
+                add_keyed2_fast(
+                    acc_valid_indep,
+                    (prod_core, indep_arr[sl]),
+                    (
+                        np.ones(gb_full.shape, dtype=np.float64),
+                        gb_full.astype(np.float64),
+                        bc_full.astype(np.float64),
+                        bm_full.astype(np.float64),
+                        fine30.astype(np.float64),
+                        agree30.astype(np.float64),
+                    ),
+                    valid=labeled30,
+                )
+                # Independent region keys for all block-keyed tables.
+                region_key_core = indep_arr[sl]
+            else:
+                region_key_core = region_arr[sl]
             # Per-W10-cell full-core ledger for spatial block bootstrap.
             add_keyed_fast(
                 acc_cell, cell_arr[sl], full_arrays,
                 valid=cell_arr[sl] >= 0,
             )
-            region_core = region_arr[sl][keep]
+            region_core = region_key_core[keep]
             gk, ck, mk = g_arr[sl][keep], fc_c[sl][keep], fc_m[sl][keep]
             dgck, dgmk, dcmk = dgc[sl][keep], dgm[sl][keep], dcm[sl][keep]
             dist_k = np.abs(d_any[sl][keep])
@@ -954,7 +1170,7 @@ def _run_30m_support(
             # (patch interiors included; the band tables stay band-only).
             add_contingency_30_fast(
                 cont_store,
-                region_arr[sl], g_arr[sl], fc_c[sl], fc_m[sl],
+                region_key_core, g_arr[sl], fc_c[sl], fc_m[sl],
                 cell_arr[sl],
             )
             _accumulate_patch_cover(
@@ -974,6 +1190,15 @@ def _run_30m_support(
         patch_cover=patch_cover,
         cell_table=cell_table,
         metadata=metadata,
+        region_independent_table=(
+            acc_region_indep.frame() if prov_a is not None else None
+        ),
+        region_attribution_table=(
+            acc_attr_indep.frame() if prov_a is not None else None
+        ),
+        region_validation_table=(
+            acc_valid_indep.frame() if prov_a is not None else None
+        ),
     )
 
 
@@ -1056,6 +1281,7 @@ def run_10m_support(
     cmssm_b: gpd.GeoDataFrame,
     cells_b: gpd.GeoDataFrame,
     stripe: tuple[int, int] | None = None,
+    prov_b: gpd.GeoDataFrame | None = None,
 ) -> SupportResult:
     fb = gpd.GeoSeries(
         list(cmsa_b.geometry) + list(cmssm_b.geometry), crs=cmsa_b.crs
@@ -1078,6 +1304,14 @@ def run_10m_support(
     acc_patch = KeyedSums(("region", "patch_c_bin", "patch_m_bin"), SUM_FIELDS_10)
     cont_store: dict[int, int] = {}
     acc_cell = KeyedSums(("cell_idx",), SUM_FIELDS_10)
+    acc_region_indep = KeyedSums(("region",), SUM_FIELDS_10)
+    acc_attr_indep = KeyedSums(
+        ("method", "region"), ("pixels", "bc", "bm")
+    )
+    acc_valid_indep = KeyedSums(
+        ("prod_region", "indep_region"),
+        ("pixels", "fine_pixels", "fine_agree"),
+    )
     patch_store: dict[tuple[str, int], dict[str, float]] = {}
     patch_area_c = cmsa_b.groupby("patch_id_c").geometry.apply(
         lambda s: s.area.sum()
@@ -1144,6 +1378,12 @@ def run_10m_support(
                 cmsa_b, cmssm_b, "patch_id_c", "patch_id_m",
                 lut_c, lut_m, halo_box, hx, hyn, 10.0, hh, hw,
             )
+            indep_arr = None
+            indep_method = None
+            if prov_b is not None:
+                indep_arr, indep_method = independent_region_block(
+                    prov_b, halo_box, hx, hyn, 10.0, hh, hw, b_c | b_m,
+                )
             cell_arr = selected_rasterize(
                 cells_b, "cell_idx", halo_box, hx, hyn, 10.0, hh, hw,
                 fill=-1,
@@ -1162,11 +1402,46 @@ def run_10m_support(
                 dcm[sl].astype(np.float64),
             )
             add_keyed_fast(acc_region, region_arr[sl], full_arrays)
+            if indep_arr is not None and indep_method is not None:
+                add_keyed_fast(
+                    acc_region_indep, indep_arr[sl], full_arrays
+                )
+                labeled10 = bc_full | bm_full
+                add_keyed2_fast(
+                    acc_attr_indep,
+                    (indep_method[sl], indep_arr[sl]),
+                    (
+                        np.ones(bc_full.shape, dtype=np.float64),
+                        bc_full.astype(np.float64),
+                        bm_full.astype(np.float64),
+                    ),
+                    valid=labeled10,
+                )
+                prod_core = region_arr[sl]
+                agree10 = (
+                    labeled10
+                    & (prod_core > 0)
+                    & (indep_arr[sl] > 0)
+                    & (prod_core == indep_arr[sl])
+                )
+                add_keyed2_fast(
+                    acc_valid_indep,
+                    (prod_core, indep_arr[sl]),
+                    (
+                        np.ones(bc_full.shape, dtype=np.float64),
+                        labeled10.astype(np.float64),
+                        agree10.astype(np.float64),
+                    ),
+                    valid=labeled10,
+                )
+                region_key_core = indep_arr[sl]
+            else:
+                region_key_core = region_arr[sl]
             add_keyed_fast(
                 acc_cell, cell_arr[sl], full_arrays,
                 valid=cell_arr[sl] >= 0,
             )
-            region_core = region_arr[sl][keep]
+            region_core = region_key_core[keep]
             ck, mk = fc_c[sl][keep], fc_m[sl][keep]
             dcmk = dcm[sl][keep]
             vals = pixel_vectors_10(ck, mk, dcmk)
@@ -1226,6 +1501,15 @@ def run_10m_support(
         patch_cover=pd.DataFrame(patch_rows),
         cell_table=cell_table,
         metadata=metadata,
+        region_independent_table=(
+            acc_region_indep.frame() if prov_b is not None else None
+        ),
+        region_attribution_table=(
+            acc_attr_indep.frame() if prov_b is not None else None
+        ),
+        region_validation_table=(
+            acc_valid_indep.frame() if prov_b is not None else None
+        ),
     )
 
 
@@ -1331,13 +1615,15 @@ def _make_stripes(row_starts: list[int]) -> list[tuple[int, int]]:
 
 def _worker_30(stripe: tuple[int, int]) -> SupportResult:
     return run_30m_support(
-        _W30["cmsa"], _W30["cmssm"], _W30["cells"], stripe=stripe
+        _W30["cmsa"], _W30["cmssm"], _W30["cells"], stripe=stripe,
+        prov_a=_W30.get("prov"),
     )
 
 
 def _worker_10(stripe: tuple[int, int]) -> SupportResult:
     return run_10m_support(
-        _W10["cmsa"], _W10["cmssm"], _W10["cells"], stripe=stripe
+        _W10["cmsa"], _W10["cmssm"], _W10["cells"], stripe=stripe,
+        prov_b=_W10.get("prov"),
     )
 
 
@@ -1390,6 +1676,17 @@ def _merge_results(results: list[SupportResult]) -> SupportResult:
         ]],
         on=pc_keys, how="outer",
     )
+    def optional_sum(field: str, keys: list[str]) -> pd.DataFrame | None:
+        frames = [
+            getattr(r, field) for r in results
+            if getattr(r, field) is not None
+        ]
+        if not frames:
+            return None
+        return sum_by(
+            pd.concat(frames, ignore_index=True), keys
+        )
+
     return SupportResult(
         region_table=region_f,
         distance_table=distance_f,
@@ -1398,6 +1695,15 @@ def _merge_results(results: list[SupportResult]) -> SupportResult:
         patch_cover=patch_cover_f,
         cell_table=cells_f,
         metadata=results[0].metadata,
+        region_independent_table=optional_sum(
+            "region_independent_table", ["region"]
+        ),
+        region_attribution_table=optional_sum(
+            "region_attribution_table", ["method", "region"]
+        ),
+        region_validation_table=optional_sum(
+            "region_validation_table", ["prod_region", "indep_region"]
+        ),
     )
 
 
@@ -1405,12 +1711,15 @@ def parallel_30(
     cmsa_a: gpd.GeoDataFrame,
     cmssm_a: gpd.GeoDataFrame,
     cells_a: gpd.GeoDataFrame,
+    prov_a: gpd.GeoDataFrame | None = None,
 ) -> SupportResult:
     if N_WORKERS <= 1:
-        return run_30m_support(cmsa_a, cmssm_a, cells_a)
+        return run_30m_support(
+            cmsa_a, cmssm_a, cells_a, prov_a=prov_a
+        )
     row_starts = _30m_block_rows(cmsa_a, cmssm_a)
     stripes = _make_stripes(row_starts)
-    _W30.update(cmsa=cmsa_a, cmssm=cmssm_a, cells=cells_a)
+    _W30.update(cmsa=cmsa_a, cmssm=cmssm_a, cells=cells_a, prov=prov_a)
     ctx = mp.get_context("fork")
     with ctx.Pool(N_WORKERS) as pool:
         results = pool.map(_worker_30, stripes)
@@ -1426,12 +1735,15 @@ def parallel_10(
     cmsa_b: gpd.GeoDataFrame,
     cmssm_b: gpd.GeoDataFrame,
     cells_b: gpd.GeoDataFrame,
+    prov_b: gpd.GeoDataFrame | None = None,
 ) -> SupportResult:
     if N_WORKERS <= 1:
-        return run_10m_support(cmsa_b, cmssm_b, cells_b)
+        return run_10m_support(
+            cmsa_b, cmssm_b, cells_b, prov_b=prov_b
+        )
     row_starts, _ = _10m_block_rows(cmsa_b, cmssm_b)
     stripes = _make_stripes(row_starts)
-    _W10.update(cmsa=cmsa_b, cmssm=cmssm_b, cells=cells_b)
+    _W10.update(cmsa=cmsa_b, cmssm=cmssm_b, cells=cells_b, prov=prov_b)
     ctx = mp.get_context("fork")
     with ctx.Pool(N_WORKERS) as pool:
         results = pool.map(_worker_10, stripes)
@@ -1443,7 +1755,20 @@ def parallel_10(
     return out
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--independent-regions", action="store_true",
+        help=(
+            "Issue #18 R1: additionally produce source-independent "
+            "(Natural Earth admin-1) region attribution and key all "
+            "regional tables on it; product-derived region tables are "
+            "retained separately for before/after comparison."
+        ),
+    )
+    args = parser.parse_args(argv)
     DERIVED.mkdir(parents=True, exist_ok=True)
     FIG_WORK.mkdir(parents=True, exist_ok=True)
     MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
@@ -1519,8 +1844,17 @@ def main() -> int:
     for frame in (cmsa_b, cmssm_albers, cells):
         _ = frame.sindex
 
-    r30 = parallel_30(cmsa_a, cmssm_a, cells_a)
-    r10 = parallel_10(cmsa_b, cmssm_albers, cells)
+    prov_a = prov_b = None
+    if args.independent_regions:
+        print("loading Natural Earth admin-1 provinces ...", flush=True)
+        with rasterio.open(GEODATA_TIF) as ds_prov:
+            prov_a = load_coastal_provinces(ds_prov.crs)
+        prov_b = load_coastal_provinces(CHINA_ALBERS_CRS)
+        for frame in (prov_a, prov_b):
+            _ = frame.sindex
+
+    r30 = parallel_30(cmsa_a, cmssm_a, cells_a, prov_a=prov_a)
+    r10 = parallel_10(cmsa_b, cmssm_albers, cells, prov_b=prov_b)
 
     for name, frame in (
         ("s30_region", r30.region_table),
@@ -1537,6 +1871,17 @@ def main() -> int:
         ("s10_cells", r10.cell_table),
     ):
         frame.to_csv(DERIVED / f"{name}.csv", index=False)
+
+    for name, frame in (
+        ("s30_region_independent", r30.region_independent_table),
+        ("s30_region_attribution", r30.region_attribution_table),
+        ("s30_region_validation", r30.region_validation_table),
+        ("s10_region_independent", r10.region_independent_table),
+        ("s10_region_attribution", r10.region_attribution_table),
+        ("s10_region_validation", r10.region_validation_table),
+    ):
+        if frame is not None:
+            frame.to_csv(DERIVED / f"{name}.csv", index=False)
 
     manifest = {
         "generated_utc": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -1571,6 +1916,31 @@ def main() -> int:
             "method": "W10-cell spatial block bootstrap, percentile CI",
             "n_boot": N_BOOT, "seed": SEED,
         },
+        "independent_region_attribution": (
+            {
+                "enabled": True,
+                "source": "Natural Earth 10m admin-1 states/provinces "
+                          "(ne_10m_admin_1_states_provinces, v5.1.1); "
+                          "independent of CMSA, CM-SSM and GEODATA",
+                "source_shp": str(ADMIN1_SHP.relative_to(REPO_ROOT)),
+                "rule": (
+                    "centroid inside province -> province; else nearest "
+                    "province if distance <= reach_m and the "
+                    "second-nearest province is farther by more than "
+                    "ambiguity_m; else UNKNOWN (never forced)"
+                ),
+                "reach_m": INDEP_REGION_REACH_M,
+                "ambiguity_m": INDEP_REGION_AMBIG_M,
+                "supports": ["30m", "10m"],
+                "note": (
+                    "independent labels key all regional tables in the "
+                    "v2 report; product-derived region tables remain "
+                    "available as s{30,10}_region.csv for the "
+                    "before/after attribution comparison"
+                ),
+            }
+            if args.independent_regions else {"enabled": False}
+        ),
     }
     (WORK / "transform_manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"

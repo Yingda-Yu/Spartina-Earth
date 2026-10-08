@@ -1,0 +1,203 @@
+{
+  "decision_rule_version": "issue18-hypotheses-v1; rules fixed before reading results; distance/cover bin edges are right-inclusive (30 m lattice ring belongs to 0-30m on both supports)",
+  "H1_boundary_effect": {
+    "verdict": "SUPPORTED",
+    "rule": "all three pairs: near(0-30 m) disagreement > 1.2x far(120-300 m)",
+    "by_pair": {
+      "GEO_CMSA": {
+        "near_0_30": 0.3075,
+        "far_120_300": 0.0399,
+        "ratio": 7.7
+      },
+      "GEO_CMSSM": {
+        "near_0_30": 0.3538,
+        "far_120_300": 0.0603,
+        "ratio": 5.87
+      },
+      "CMSA_CMSSM": {
+        "near_0_30": 0.2388,
+        "far_120_300": 0.0404,
+        "ratio": 5.9
+      }
+    }
+  },
+  "H2_patch_size_effect": {
+    "verdict": "NOT_SUPPORTED",
+    "rule": "CMSA-CMSSM discordance in CMSSM <2500 m2 patch pixels > 1.2x that in >=1e5 m2 patch pixels",
+    "small_patch_discordance": 0.2095,
+    "large_patch_discordance": 0.3162,
+    "observed_direction": "opposite_to_preregistered_expectation",
+    "interpretation": "H2 is NOT_SUPPORTED: the observed direction was opposite to the preregistered expectation - overall CMSA-CMSSM discordance conditional on small CM-SSM patch-size strata (0.2095) was lower than in the >=1e5 m2 stratum (0.3162). This is a directional non-support statement about one conditional estimand, not a claim that the patch-size hypothesis is universally falsified.",
+    "h2_vs_h3_distinction": "H2 and H3 are not contradictory. H2 is an overall CMSA vs CM-SSM discordance rate CONDITIONAL ON CM-SSM patch-size strata (denominator = 300 m band pixels in each stratum). H3 is a different estimand: the fraction of FINE-REFERENCE patches that receive zero cover from the COARSE product, compared by patch size (denominator = fine patches). Coarse products can omit many small fine patches (H3 supported) while the two fine products still agree more, not less, where small patches occur (H2 not supported)."
+  },
+  "H3_coarse_small_patch_omission": {
+    "verdict": "SUPPORTED",
+    "rule": "zero-GEODATA fraction of 100-900 m2 fine patches exceeds that of >=1e5 m2 patches for both fine products",
+    "by_product": {
+      "cmsa": {
+        "small_zero_geodata_fraction_100_900m2": 0.8916,
+        "large_zero_geodata_fraction_1e5plus": 0.1773
+      },
+      "cmssm": {
+        "small_zero_geodata_fraction_100_900m2": 0.8648,
+        "large_zero_geodata_fraction_1e5plus": 0.2363
+      }
+    }
+  },
+  "H4_regional_effect": {
+    "verdict": "SUPPORTED",
+    "rule": "regional binary Dice range >= 0.10 for every pair",
+    "region_attribution": "independent Natural Earth 10m admin-1 v5.1.1 (centroid-in-province; else nearest province <=25 km with >300 m second-province margin; else UNKNOWN)",
+    "by_pair": {
+      "GEO_CMSA": {
+        "min": 0.0,
+        "max": 0.7516,
+        "range": 0.752,
+        "n_regions": 10
+      },
+      "GEO_CMSSM": {
+        "min": 0.0702,
+        "max": 0.6528,
+        "range": 0.583,
+        "n_regions": 10
+      },
+      "CMSA_CMSSM": {
+        "min": 0.0,
+        "max": 0.7982,
+        "range": 0.798,
+        "n_regions": 10
+      }
+    },
+    "product_derived_v1_comparison": {
+      "by_pair": {
+        "GEO_CMSA": {
+          "min": 0.1368,
+          "max": 0.8124,
+          "range": 0.676,
+          "n_regions": 9
+        },
+        "GEO_CMSSM": {
+          "min": 0.0377,
+          "max": 0.7175,
+          "range": 0.68,
+          "n_regions": 9
+        },
+        "CMSA_CMSSM": {
+          "min": 0.3431,
+          "max": 0.7936,
+          "range": 0.45,
+          "n_regions": 9
+        }
+      },
+      "verdict": "SUPPORTED",
+      "note": "v1 product-derived region labels (patch ownership); retained for the before/after attribution audit"
+    }
+  },
+  "H5_area_vs_patch_agreement": {
+    "verdict": "SUPPORTED",
+    "rule": "GEO-vs-CMSA national |area bias| < 20% while national binary Dice < 0.70",
+    "area_bias": 0.086,
+    "national_binary_dice": 0.6195
+  },
+  "H6_binary_mixed_pixel": {
+    "verdict": "SUPPORTED",
+    "rule": ">=5% of GEO=1 pixels carry <50% fine occupancy for both fine products (binary labelling hides mixed support)",
+    "by_product": {
+      "CMSA": {
+        "geo1_fine_mixed_0.25_0.75_fraction": 0.0499,
+        "geo1_fine_below_half": 0.3655,
+        "geo0_fine_above_half": 0.0013
+      },
+      "CMSSM": {
+        "geo1_fine_mixed_0.25_0.75_fraction": 0.0892,
+        "geo1_fine_below_half": 0.4248,
+        "geo0_fine_above_half": 0.0017
+      }
+    }
+  },
+  "block_bootstrap_national_dice": {
+    "KEEP_ONLY": [
+      {
+        "pair": "GEO_CMSA",
+        "spatial_blocks": 3011,
+        "pooled_dice": 0.6076,
+        "ci95_low": 0.5507,
+        "ci95_high": 0.6556,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_ONLY (3011 cells)",
+        "support": "30m_GEODATA_native_grid"
+      },
+      {
+        "pair": "GEO_CMSSM",
+        "spatial_blocks": 3011,
+        "pooled_dice": 0.529,
+        "ci95_low": 0.4631,
+        "ci95_high": 0.5848,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_ONLY (3011 cells)",
+        "support": "30m_GEODATA_native_grid"
+      },
+      {
+        "pair": "CMSA_CMSSM",
+        "spatial_blocks": 3011,
+        "pooled_dice": 0.7217,
+        "ci95_low": 0.6738,
+        "ci95_high": 0.7629,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_ONLY (3011 cells)",
+        "support": "30m_GEODATA_native_grid"
+      },
+      {
+        "pair": "CMSA_CMSSM",
+        "spatial_blocks": 3011,
+        "pooled_dice": 0.7096,
+        "ci95_low": 0.6637,
+        "ci95_high": 0.7507,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_ONLY (3011 cells)",
+        "support": "10m_project_lattice"
+      }
+    ],
+    "KEEP_PLUS_PROVISIONAL": [
+      {
+        "pair": "GEO_CMSA",
+        "spatial_blocks": 3021,
+        "pooled_dice": 0.6073,
+        "ci95_low": 0.5452,
+        "ci95_high": 0.657,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_PLUS_PROVISIONAL (3021 cells)",
+        "support": "30m_GEODATA_native_grid"
+      },
+      {
+        "pair": "GEO_CMSSM",
+        "spatial_blocks": 3021,
+        "pooled_dice": 0.5293,
+        "ci95_low": 0.4696,
+        "ci95_high": 0.5838,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_PLUS_PROVISIONAL (3021 cells)",
+        "support": "30m_GEODATA_native_grid"
+      },
+      {
+        "pair": "CMSA_CMSSM",
+        "spatial_blocks": 3021,
+        "pooled_dice": 0.7214,
+        "ci95_low": 0.6803,
+        "ci95_high": 0.7622,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_PLUS_PROVISIONAL (3021 cells)",
+        "support": "30m_GEODATA_native_grid"
+      },
+      {
+        "pair": "CMSA_CMSSM",
+        "spatial_blocks": 3021,
+        "pooled_dice": 0.7093,
+        "ci95_low": 0.6677,
+        "ci95_high": 0.749,
+        "bootstrap": "W10-cell cluster bootstrap of pooled Dice, percentile, 500 resamples, seed 20201018; domain universe KEEP_PLUS_PROVISIONAL (3021 cells)",
+        "support": "10m_project_lattice"
+      }
+    ]
+  },
+  "domain_variant_policy": "KEEP_ONLY (3,011 owner-signed cells) is the primary result; KEEP_PLUS_PROVISIONAL (3,021 cells, ten Issue #17 cells without owner sign-off) is reported as sensitivity only",
+  "domain_universe": {
+    "KEEP_ONLY_cells": 3011,
+    "KEEP_PLUS_PROVISIONAL_cells": 3021,
+    "provisional_cells_pending_owner_signoff": 10,
+    "primary_manuscript_variant": "KEEP_ONLY"
+  }
+}
