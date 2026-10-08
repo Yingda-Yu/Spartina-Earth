@@ -1,0 +1,207 @@
+{
+  "product": "PILOT_SILVER_TRAINING_POLICY_V1",
+  "issue": 19,
+  "phase": "K (policy framework only; no training, no split)",
+  "status": "POLICY_RECOMMENDATION_NOT_IN_FORCE",
+  "adapter_version": "PILOT_LABEL_ADAPTER_V1",
+  "generated_utc": "2026-10-08T21:07:57.149288+00:00",
+  "git_commit": "5147183c8c84541cf2da0b957f9a6e7ce8fa0b97",
+  "decision_needed_from": "repository owner (explicit approval)",
+  "gold_labels_current_count": 0,
+  "tiers": {
+    "SILVER_TRAINING_ELIGIBLE": "SILVER product allowed to supervise INTERNAL research training runs, but only for spatially disjoint training units and only while every G1-G7 gate below is satisfied. SILVER labels are occupancy summaries, never ground truth; their own pixels can never be quoted as model accuracy.",
+    "EXTERNAL_REFERENCE_ONLY": "Product usable for comparison, calibration, visual review and external-reference metrics, never as a training target. Within any one experiment the same SILVER product on an evaluation unit is automatically EXTERNAL_REFERENCE_ONLY there even when it is SILVER_TRAINING_ELIGIBLE elsewhere.",
+    "FINAL_GOLD_EVAL_ONLY": "GOLD label (field/UAV/expert-verified, tier per AGENTS.md data provenance policy) reserved for the final evaluation. GOLD sites must be spatially isolated from all training and from any SILVER-derived target. NO GOLD LABELS EXIST IN THE PILOT AS OF THIS POLICY (GOLD count = 0)."
+  },
+  "eligibility_gates": [
+    {
+      "id": "G1_PROVENANCE",
+      "rule": "every training example carries dataset manifest entry, source product id, adapter version, support resolution, and per-pixel UNKNOWN mask; unprovenanced pixels are dropped"
+    },
+    {
+      "id": "G2_GOLD_ISOLATION",
+      "rule": "no GOLD site, scene or adjacent (buffered) unit may occur in training; isolation verified with spartina.evaluation.splits.assert_spatially_disjoint"
+    },
+    {
+      "id": "G3_SOURCE_SPECIFIC_EVALUATION",
+      "rule": "metrics are reported per source family and year; SILVER agreement is never called accuracy and no pooled 'ground-truth accuracy' is reported"
+    },
+    {
+      "id": "G4_SPATIAL_LEAKAGE_CONTROL",
+      "rule": "only spatially disjoint splits (W10-cell units with buffers; scenes of one location grouped across dates); a split manifest plus a leakage report are required before any training; Issue #19 creates NO split"
+    },
+    {
+      "id": "G5_LICENSE",
+      "rule": "RESTRICTED_RESEARCH_ONLY and CC-BY-NC-4.0 products permit internal research training only; no commercial use; source archives and label-derived bytes are never redistributed; SOURCE_LICENSE_CONFLICT products are used under the most restrictive terms until TODO_VERIFY is cleared (DATA_LICENSE.md)"
+    },
+    {
+      "id": "G6_UNKNOWN_SEMANTICS",
+      "rule": "CMSA gridcode-0 regions are an ignore mask (UNKNOWN_GRIDCODE_ZERO_TODO_VERIFY); GEODATA in-window background is a WEAK negative and may only be used as a hard negative under a documented class-balancing scheme; out-of-window/uncovered pixels are ignored, not negative"
+    },
+    {
+      "id": "G7_PILOT_ISOLATION",
+      "rule": "RECOMMENDATION: the 20 Issue #19 pilot cells are excluded from any training set feeding the Issue #20 benchmark, so the first controlled national read remains uncontaminated by development evidence; owner decides at Issue #20 setup"
+    }
+  ],
+  "context_rules": "Tier assignment is per-experiment contextual: a product can be SILVER_TRAINING_ELIGIBLE in registry-level policy while being EXTERNAL_REFERENCE_ONLY on every evaluation unit; a GOLD product is FINAL_GOLD_EVAL_ONLY everywhere.",
+  "weak_negative_policy": "GEODATA in-window background and uncovered vector pixels never behave as verified negatives; weak negatives require a documented sampling/loss treatment under G6",
+  "proposed_registry_assignments": [
+    {
+      "source_key": "GEODATA_1990",
+      "registry_product_id": "GEODATA-SPARTINA-1990",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "binary NN-warped masks; background 255 is WEAK negative, never hard-verified; train only on positive + documented weak-negative scheme; out-of-window = ignore",
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "GEODATA_2000",
+      "registry_product_id": "GEODATA-SPARTINA-2000",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "binary NN-warped masks; background 255 is WEAK negative, never hard-verified; train only on positive + documented weak-negative scheme; out-of-window = ignore",
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "GEODATA_2015",
+      "registry_product_id": "GEODATA-SPARTINA-2015",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "binary NN-warped masks; background 255 is WEAK negative, never hard-verified; train only on positive + documented weak-negative scheme; out-of-window = ignore",
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "GEODATA_2020",
+      "registry_product_id": "GEODATA-SPARTINA-2020-30M",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "binary NN-warped masks; background 255 is WEAK negative, never hard-verified; train only on positive + documented weak-negative scheme; out-of-window = ignore",
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "CMSA_2017",
+      "registry_product_id": "NESDC-CMSA-2017",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "polygon union fractions 2017-2021; gridcode 0 = ignore mask; no verified negatives; CC-BY-NC-4.0 (attribution NESDC + Li/Tian/Li 2024)",
+      "license_class": "CC-BY-NC-4.0",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "CMSA_2018",
+      "registry_product_id": "NESDC-CMSA-2018",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "polygon union fractions 2017-2021; gridcode 0 = ignore mask; no verified negatives; CC-BY-NC-4.0 (attribution NESDC + Li/Tian/Li 2024)",
+      "license_class": "CC-BY-NC-4.0",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "CMSA_2019",
+      "registry_product_id": "NESDC-CMSA-2019",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "polygon union fractions 2017-2021; gridcode 0 = ignore mask; no verified negatives; CC-BY-NC-4.0 (attribution NESDC + Li/Tian/Li 2024)",
+      "license_class": "CC-BY-NC-4.0",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "CMSA_2020",
+      "registry_product_id": "NESDC-CMSA-2020",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "polygon union fractions 2017-2021; gridcode 0 = ignore mask; no verified negatives; CC-BY-NC-4.0 (attribution NESDC + Li/Tian/Li 2024)",
+      "license_class": "CC-BY-NC-4.0",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "CMSA_2021",
+      "registry_product_id": "NESDC-CMSA-2021",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "polygon union fractions 2017-2021; gridcode 0 = ignore mask; no verified negatives; CC-BY-NC-4.0 (attribution NESDC + Li/Tian/Li 2024)",
+      "license_class": "CC-BY-NC-4.0",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    },
+    {
+      "source_key": "CM-SSM_2020",
+      "registry_product_id": "ZENODO-CM-SSM-2020",
+      "label_tier_in_registry": "SILVER",
+      "registry_internal_training_flag": "NO_REFERENCE_ONLY",
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "proposed_scope": "internal research training on spatially disjoint training units, gates G1-G7 all satisfied",
+      "source_specific_conditions": "polygon union fractions 2020; no verified negatives; SOURCE_LICENSE_CONFLICT -> treat as CC-BY-NC until TODO_VERIFY; finest resolution, preferred external spatial-detail reference",
+      "license_class": "SOURCE_LICENSE_CONFLICT",
+      "gold_use_in_registry": false,
+      "change_requires": "owner approval + registry flag update in a separate commit; THIS FILE ALONE CHANGES NOTHING"
+    }
+  ],
+  "pilot_panel": {
+    "n_cells": 20,
+    "cell_ids": [
+      "CNA10K-R00226-C00080",
+      "CNA10K-R00236-C00083",
+      "CNA10K-R00260-C00128",
+      "CNA10K-R00264-C00132",
+      "CNA10K-R00274-C00147",
+      "CNA10K-R00279-C00143",
+      "CNA10K-R00311-C00156",
+      "CNA10K-R00331-C00150",
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00346-C00154",
+      "CNA10K-R00347-C00151",
+      "CNA10K-R00349-C00154",
+      "CNA10K-R00388-C00129",
+      "CNA10K-R00391-C00132",
+      "CNA10K-R00411-C00151",
+      "CNA10K-R00413-C00121",
+      "CNA10K-R00417-C00135",
+      "CNA10K-R00429-C00140",
+      "CNA10K-R00434-C00149",
+      "CNA10K-R00445-C00159"
+    ],
+    "recommended_status": "EXCLUDED_FROM_TRAINING (gate G7 recommendation) until owner decides the Issue #20 hold-out design"
+  },
+  "not_done_here": [
+    "no registry value modified",
+    "no training run launched",
+    "no split or HPO created",
+    "no accuracy claim derived from SILVER products"
+  ],
+  "checksums": {
+    "label_registry_csv_sha256": "d02cef7b4cc78db24bef0f12142f1553272f04a161ec672c2ac8e6348e1db948",
+    "panel_csv_sha256": "6c2d3a2dfa9062c1e14f9884c4c8f4aefb30bc8076d8312602e65bad793bd4bd",
+    "supports_csv_sha256": "aea106fbfdb4dc115de8fa7ee9b96d6872fcecaeb0b17a5eee1204fae9e5eb84"
+  }
+}
