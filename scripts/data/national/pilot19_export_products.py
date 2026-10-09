@@ -31,6 +31,16 @@ Per product it:
 Deterministic request ids (``{product_id}:{role}:r1``) and a JSON task
 store give idempotent resume. Submission is NOT completion: a product is
 LANDED only with files + manifest + SHA-256 on disk.
+
+``--plan-version v2`` runs the owner-approved PILOT_EVENT_SELECTION_V2
+recovery: scope is the checksum-gated plan_v2 (187 eligible, not 194);
+V1 bytes of replaced slots move to products/manifests_v1_superseded with
+an index; retained products get a metadata-only schema v1 bump (raw
+bytes/SHA untouched) and S1 products gain the locally derived uint8
+``s1_dualpol_valid_v2`` token (finite VV/VH AND > -70 dB; raw dB
+preserved per F3); replacement S2/S1 raw exports use r2 request ids so
+V1 tasks are never adopted; landed bytes are re-gated at 0.95 actual
+coverage against the V2 plan measurement.
 """
 
 from __future__ import annotations
@@ -38,6 +48,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import time
 from dataclasses import dataclass, field
@@ -95,25 +106,74 @@ from spartina.data.national.grid import (  # noqa: E402
     utm_epsg,
 )
 
-PLAN_CSV = REPO_ROOT / "datasets/manifests/national_pilot_event_plan_v1.csv"
-PLAN_JSON = REPO_ROOT / "datasets/manifests/national_pilot_event_plan_v1.json"
+PLAN_V1_CSV = REPO_ROOT / "datasets/manifests/national_pilot_event_plan_v1.csv"
+PLAN_V1_JSON = REPO_ROOT / "datasets/manifests/national_pilot_event_plan_v1.json"
+PLAN_V2_CSV = REPO_ROOT / "datasets/manifests/national_pilot_event_plan_v2.csv"
+PLAN_V2_JSON = REPO_ROOT / "datasets/manifests/national_pilot_event_plan_v2.json"
+# Backwards-compatible aliases (V1 remains the default behaviour).
+PLAN_CSV = PLAN_V1_CSV
+PLAN_JSON = PLAN_V1_JSON
 PANEL_CSV = REPO_ROOT / "datasets/manifests/national_first_pixel_panel_v1.csv"
 CANARY_CSV = REPO_ROOT / "datasets/manifests/national_pilot19_canary_v1.csv"
+CANARY_V2_CSV = REPO_ROOT / "datasets/manifests/national_pilot19_canary_v2.csv"
 WORK_DIR = REPO_ROOT / "work" / "national" / "pilot19"
 PRODUCT_DIR = WORK_DIR / "products"
 MANIFEST_DIR = WORK_DIR / "manifests"
+#: Issue #19 V2 recovery: V1 bytes/manifests of events that FAIL the actual
+#: mask gate (empty S2 datatakes, partial S1 frames) are moved here before
+#: their slot is re-exported under r2. Nothing V1 is deleted or overwritten.
+PRODUCTS_V1_SUPERSEDED_DIR = WORK_DIR / "products_v1_superseded"
+MANIFESTS_V1_SUPERSEDED_DIR = WORK_DIR / "manifests_v1_superseded"
+SUPERSESSION_INDEX = WORK_DIR / "v1_v2_product_supersession_index.json"
 TASK_STORE = WORK_DIR / "tasks" / "task_store.json"
 FAILURES_JSON = WORK_DIR / "failures.json"
-PROGRESS_JSON = WORK_DIR / "export_progress.json"
-OUT_CSV = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v1.csv"
-OUT_JSON = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v1.json"
+PROGRESS_JSON_V1 = WORK_DIR / "export_progress.json"
+PROGRESS_JSON_V2 = WORK_DIR / "export_progress_v2.json"
+PROGRESS_JSON = PROGRESS_JSON_V1
+OUT_V1_CSV = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v1.csv"
+OUT_V1_JSON = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v1.json"
+OUT_V2_CSV = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v2.csv"
+OUT_V2_JSON = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v2.json"
+OUT_CSV = OUT_V1_CSV
+OUT_JSON = OUT_V1_JSON
 
 GDRIVE_FOLDER = "SpartinaEarthPilot19"
 REVISION = "r1"
 #: Landsat VALID component revision r2: pilot D1 found QA-clear pixels with
-#: per-band SR nodata (interior B1/B2 NaN under clear QA_PIXEL). VALID now
+#: per-band SR nodata (interior B1/B2 NaN under clear QA). VALID now
 #: also requires every SR band observed. SR/QA_PIXEL stay r1 (same pixels).
 LANDSAT_VALID_REVISION = "r2"
+#: Sentinel raw components (S2 sr/valid, S1 vvvh) for V2 REPLACED events are
+#: re-exported under r2 request ids/prefixes: r1 stays owned by the failed
+#: V1 event, so task adoption can never download old-event bytes for a
+#: replaced slot. KEPT events keep r1 bytes and r1 request ids untouched.
+SENTINEL_V2_REPLACED_REVISION = "r2"
+
+# -- PILOT_EVENT_SELECTION_V2 (owner-approved F1/F3 recovery) -----------
+SELECTION_V2 = "PILOT_EVENT_SELECTION_V2"
+SELECTION_V1_LANDSAT_INHERITED = "PILOT_EVENT_SELECTION_V1_INHERITED_LANDSAT"
+SCHEMA_V0 = "spartina_observation_product_v0"
+SCHEMA_V1 = "spartina_observation_product_v1"
+STATUS_V2_ELIGIBLE = "V2_ELIGIBLE"
+CHANGE_KEPT = "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK"
+CHANGE_REPLACED = "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK"
+CHANGE_LANDSAT = "V1_INHERITED_LANDSAT"
+ACTUAL_MASK_GATE = 0.95
+S1_FLOOR_DB = -70.0
+#: Locally derived S1 observation-validity token (never a GEE task; derived
+#: deterministically from the identity-preserved vvvh raster).
+S1_VALID_V2_ROLE = "dualpol_valid_v2"
+S1_VALID_V2_REVISION = "v2"
+S1_VALID_V2_TOKEN = "s1_dualpol_valid_v2"
+#: Live-replay vs byte agreement on the export grid was validated to four
+#: decimals (V2 manifest rules); allow a small resampling edge margin on
+#: LIVE-evidence rows, require exact agreement for LANDED-bytes rows.
+ACTUAL_MASK_LIVE_TOL = 2e-3
+ACTUAL_MASK_LANDED_TOL = 1e-6
+BASIS_S2_V2 = "V2_SAME_DATATAKE_UNION_ACTUAL_SR_MASK_OVER_EXPORT_GRID"
+BASIS_S1_V2 = "V2_DUALPOL_ACTUAL_MASK_INCL_EXTREME_FLOOR_OVER_EXPORT_GRID"
+BASIS_LANDSAT_INHERITED = (
+    "V1_INHERITED_R2_ALL_SR_BANDS_OBSERVED_POSTEXPORT_BYTE_FRACTION")
 
 
 def role_revision(sensor: str, role: str) -> str:
@@ -138,6 +198,15 @@ COMPONENTS: dict[str, tuple[str, ...]] = {
     "landsat8": ("sr", "valid", "qapixel"),
     "sentinel2": ("sr", "valid"),
     "sentinel1": ("vvvh",),
+}
+
+#: V2-only roles derived LOCALLY from landed bytes (never GEE tasks). The S1
+#: token is s1_dualpol_valid_v2: finite(VV) AND finite(VH) AND VV > -70 dB
+#: AND VH > -70 dB; raw vvvh stays identity-preserved and is never clipped.
+DERIVED_COMPONENTS_V2: dict[str, tuple[str, ...]] = {
+    "landsat5": (), "landsat7": (), "landsat8": (),
+    "sentinel2": (),
+    "sentinel1": (S1_VALID_V2_ROLE,),
 }
 
 #: Points sampled per cell edge when projecting the Albers square to UTM;
@@ -172,29 +241,58 @@ def _clean(value: Any) -> Any:
 # Frozen scope (plan checksum gate; SELECTED filter)
 # ---------------------------------------------------------------------------
 
-def plan_csv_sha256() -> str:
-    plan_doc = json.loads(PLAN_JSON.read_text(encoding="utf-8"))
-    expected = str(plan_doc["checksums"]["plan_csv_sha256"])
-    actual = sha256_file(PLAN_CSV)
+def plan_paths(plan_version: str = "v1") -> tuple[Path, Path]:
+    if plan_version == "v1":
+        return PLAN_V1_CSV, PLAN_V1_JSON
+    if plan_version == "v2":
+        return PLAN_V2_CSV, PLAN_V2_JSON
+    raise ValueError(f"unknown plan version {plan_version!r}")
+
+
+def plan_csv_sha256(plan_version: str = "v1") -> str:
+    csv_path, json_path = plan_paths(plan_version)
+    plan_doc = json.loads(json_path.read_text(encoding="utf-8"))
+    key = ("plan_csv_sha256" if plan_version == "v1"
+           else "plan_v2_csv_sha256")
+    expected = str(plan_doc["checksums"][key])
+    actual = sha256_file(csv_path)
     if actual != expected:
         raise ProvenanceError(
-            f"frozen plan CSV checksum mismatch: expected {expected}, "
-            f"got {actual}; refusing export")
+            f"frozen {plan_version} plan CSV checksum mismatch: expected "
+            f"{expected}, got {actual}; refusing export")
     return expected
+
+
+def _v2_eligible(frame: pd.DataFrame) -> pd.DataFrame:
+    """V2 production scope: actual-mask-eligible S2/S1 + inherited landsat.
+
+    Landsat rows keep V1 status SELECTED under change
+    V1_INHERITED_LANDSAT; S2/S1 rows must be V2_ELIGIBLE. Anything
+    NO_ELIGIBLE_EVENT_ACTUAL_MASK / NO_SCENE is excluded honestly.
+    """
+    is_landsat = frame["sensor"].astype(str).str.startswith("landsat")
+    landsat_ok = is_landsat & (frame["status"] == "SELECTED") & (
+        frame["v2_change"] == CHANGE_LANDSAT)
+    sentinel_ok = (~is_landsat) & (frame["status"] == STATUS_V2_ELIGIBLE)
+    return frame[landsat_ok | sentinel_ok].copy()
 
 
 def load_scope(
     *, canary: bool, only_sensor: str | None,
     products_filter: tuple[str, ...] = (),
+    plan_version: str = "v1",
 ) -> list[dict[str, Any]]:
-    """Return the frozen, checksum-gated, SELECTED product rows to run."""
-    plan_csv_sha256()
-    plan = pd.read_csv(PLAN_CSV)
-    plan = plan[plan["status"] == "SELECTED"].copy()
+    """Return the frozen, checksum-gated, eligible product rows to run."""
+    csv_path, _json_path = plan_paths(plan_version)
+    plan_csv_sha256(plan_version)
+    plan = pd.read_csv(csv_path)
+    plan = (plan[plan["status"] == "SELECTED"].copy()
+            if plan_version == "v1" else _v2_eligible(plan))
     if canary:
-        if not CANARY_CSV.exists():
-            raise FileNotFoundError(f"canary allowlist missing: {CANARY_CSV}")
-        allow = set(pd.read_csv(CANARY_CSV)["product_id"].astype(str))
+        canary_csv = CANARY_CSV if plan_version == "v1" else CANARY_V2_CSV
+        if not canary_csv.exists():
+            raise FileNotFoundError(f"canary allowlist missing: {canary_csv}")
+        allow = set(pd.read_csv(canary_csv)["product_id"].astype(str))
         plan = plan[plan["product_id"].astype(str).isin(allow)]
     if only_sensor:
         plan = plan[plan["sensor"] == only_sensor]
@@ -204,7 +302,8 @@ def load_scope(
         missing = wanted - set(plan["product_id"].astype(str))
         if missing:
             raise ValueError(
-                f"--products ids not SELECTED in frozen plan: {sorted(missing)}")
+                f"--products ids not eligible in frozen {plan_version} "
+                f"plan: {sorted(missing)}")
     rows = [{k: _clean(v) for k, v in row.items()}
             for row in plan.to_dict("records")]
     rows.sort(key=lambda r: str(r["product_id"]))
@@ -213,6 +312,28 @@ def load_scope(
 
 def load_panel() -> pd.DataFrame:
     return pd.read_csv(PANEL_CSV).set_index("cell_id")
+
+
+def event_selection_block(
+    row: dict[str, Any], plan_v2_checksum: str,
+) -> dict[str, Any]:
+    """Manifest provenance block for PILOT_EVENT_SELECTION_V2 products."""
+    inherited = str(row["sensor"]).startswith("landsat")
+    return {
+        "revision": (SELECTION_V1_LANDSAT_INHERITED if inherited
+                     else SELECTION_V2),
+        "plan_csv": PLAN_V2_CSV.name,
+        "plan_csv_sha256": plan_v2_checksum,
+        "supersedes_plan_csv": PLAN_V1_CSV.name,
+        "eligibility_status": row.get("status"),
+        "v2_change": row.get("v2_change"),
+        "actual_mask_gate": ACTUAL_MASK_GATE,
+        "actual_observed_fraction_planned": (
+            row.get("v2_actual_observed_fraction")),
+        "candidates_evaluated": row.get("v2_candidates_evaluated"),
+        "evidence_source": row.get("v2_evidence_source"),
+        "label_independent": True,
+        "threshold_relaxation_forbidden": True}
 
 
 # ---------------------------------------------------------------------------
@@ -276,13 +397,39 @@ def date_tag(row: dict[str, Any]) -> str:
     return str(row["event_utc"])[:10].replace("-", "")
 
 
-def prefix_for(row: dict[str, Any], role: str) -> str:
+def component_revision(
+    row: dict[str, Any], role: str, plan_version: str = "v1",
+) -> str:
+    """Component revision for a plan row.
+
+    V2 replacement S2/S1 events export under r2 so their r1 request ids
+    keep pointing at the failed V1 event (idempotent resume can never
+    adopt the old task). KEPT events and all Landsat components keep
+    their existing r1/r2 revisions; raw bytes are never resubmitted.
+    """
+    sensor = str(row["sensor"])
+    base = role_revision(sensor, role)
+    if plan_version != "v2" or sensor.startswith("landsat"):
+        return base
+    if str(row.get("v2_change")) == CHANGE_REPLACED:
+        return SENTINEL_V2_REPLACED_REVISION
+    return REVISION
+
+
+def prefix_for(
+    row: dict[str, Any], role: str, *, plan_version: str = "v1",
+    revision: str | None = None,
+) -> str:
+    rev = revision or component_revision(row, role, plan_version)
     return (f"spartina_pilot19_{row['product_id']}_{role}_"
-            f"{date_tag(row)}_{role_revision(str(row['sensor']), role)}")
+            f"{date_tag(row)}_{rev}")
 
 
-def request_for(row: dict[str, Any], role: str) -> str:
-    rev = role_revision(str(row["sensor"]), role)
+def request_for(
+    row: dict[str, Any], role: str, *, plan_version: str = "v1",
+    revision: str | None = None,
+) -> str:
+    rev = revision or component_revision(row, role, plan_version)
     return f"{row['product_id']}:{role}:{rev}"
 
 
@@ -495,8 +642,10 @@ def _expect_equal(label: str, actual: Any, expected: Any) -> None:
             f"gee={actual!r} plan={expected!r}")
 
 
-def build_bundle(ee: Any, row: dict[str, Any],
-                 panel: pd.DataFrame) -> Bundle:
+def build_bundle(
+    ee: Any, row: dict[str, Any], panel: pd.DataFrame, *,
+    plan_version: str = "v1",
+) -> Bundle:
     sensor = str(row["sensor"])
     scene_ids = _scene_ids(row)
     grid, region, zone = product_grid(row, panel)
@@ -515,9 +664,12 @@ def build_bundle(ee: Any, row: dict[str, Any],
                 f"{row['product_id']}: S2 planned source product "
                 f"{planned_products} absent in GEE granule products")
         components = [
-            Component("sr", refl, prefix_for(row, "sr"), request_for(row, "sr")),
-            Component("valid", valid, prefix_for(row, "valid"),
-                      request_for(row, "valid")),
+            Component("sr", refl,
+                      prefix_for(row, "sr", plan_version=plan_version),
+                      request_for(row, "sr", plan_version=plan_version)),
+            Component("valid", valid,
+                      prefix_for(row, "valid", plan_version=plan_version),
+                      request_for(row, "valid", plan_version=plan_version)),
         ]
         native = 10.0
     elif sensor.startswith("landsat"):
@@ -536,11 +688,15 @@ def build_bundle(ee: Any, row: dict[str, Any],
                 int(proc["properties"]["WRS_ROW"]),
                 int(float(row["wrs_row"])))
         components = [
-            Component("sr", sr_img, prefix_for(row, "sr"), request_for(row, "sr")),
-            Component("valid", valid_img, prefix_for(row, "valid"),
-                      request_for(row, "valid")),
-            Component("qapixel", qa_img, prefix_for(row, "qapixel"),
-                      request_for(row, "qapixel")),
+            Component("sr", sr_img,
+                      prefix_for(row, "sr", plan_version=plan_version),
+                      request_for(row, "sr", plan_version=plan_version)),
+            Component("valid", valid_img,
+                      prefix_for(row, "valid", plan_version=plan_version),
+                      request_for(row, "valid", plan_version=plan_version)),
+            Component("qapixel", qa_img,
+                      prefix_for(row, "qapixel", plan_version=plan_version),
+                      request_for(row, "qapixel", plan_version=plan_version)),
         ]
         native = 30.0
     elif sensor == "sentinel1":
@@ -558,8 +714,9 @@ def build_bundle(ee: Any, row: dict[str, Any],
                 int(proc["properties"]["relativeOrbitNumber_start"]),
                 int(float(row["relative_orbit"])))
         components = [
-            Component("vvvh", image, prefix_for(row, "vvvh"),
-                      request_for(row, "vvvh")),
+            Component("vvvh", image,
+                      prefix_for(row, "vvvh", plan_version=plan_version),
+                      request_for(row, "vvvh", plan_version=plan_version)),
         ]
         native = float(proc["native_resolution_m"])
     else:
@@ -734,6 +891,109 @@ def observed_fractions(path: str) -> dict[str, Any]:
         return {"nodata": src.nodata, "grid_pixels": total, "bands": bands}
 
 
+# ---------------------------------------------------------------------------
+# PILOT_EVENT_SELECTION_V2 actual-mask checks + s1_dualpol_valid_v2 token
+# ---------------------------------------------------------------------------
+
+def s2_sr_actual_mask(sr_path: str) -> dict[str, Any]:
+    """All-four-required-band observed fraction over the full export grid.
+
+    Pixel-identical to the V2 selection evidence definition (B2/B3/B4/B8
+    finite on the same locked grid).
+    """
+    with rasterio.open(sr_path) as src:
+        total = int(src.width * src.height)
+        observed = np.ones((src.height, src.width), dtype=bool)
+        per_band: dict[str, float] = {}
+        for i in range(1, src.count + 1):
+            fin = np.isfinite(src.read(i))
+            per_band[str(src.descriptions[i - 1]) or f"band_{i}"] = (
+                float(fin.sum()) / total if total else 0.0)
+            observed &= fin
+        return {"grid_pixels": total,
+                "observed_pixels": int(observed.sum()),
+                "actual_observed_fraction": (
+                    float(observed.mean()) if total else 0.0),
+                "per_band_finite_fraction": per_band}
+
+
+def s1_dualpol_valid_v2_stats(vvvh_path: str) -> dict[str, Any]:
+    """Dual-pol validity statistics from identity-preserved VV/VH bytes.
+
+    Definition (owner-approved F3; identical to the V2 plan byte
+    evidence): observed iff ``finite(VV) AND finite(VH) AND VV > -70 dB
+    AND VH > -70 dB``. Pixels <= -70 dB are
+    NON_OBSERVATION_EXTREME_FLOOR. The raw raster is never modified.
+    """
+    with rasterio.open(vvvh_path) as src:
+        total = int(src.width * src.height)
+        vv = src.read(1).astype("float64")
+        vh = src.read(2).astype("float64")
+    fin_vv = np.isfinite(vv)
+    fin_vh = np.isfinite(vh)
+    dual_finite = fin_vv & fin_vh
+    floor_vv = dual_finite & (vv <= S1_FLOOR_DB)
+    floor_vh = dual_finite & (vh <= S1_FLOOR_DB)
+    floor_any = floor_vv | floor_vh
+    valid = dual_finite & ~floor_any
+    return {
+        "grid_pixels": total,
+        "finite_vv_pixels": int(fin_vv.sum()),
+        "finite_vh_pixels": int(fin_vh.sum()),
+        "dualpol_finite_pixels": int(dual_finite.sum()),
+        "dualpol_finite_fraction": (
+            float(dual_finite.mean()) if total else 0.0),
+        "floor_pixels_vv_le_minus70": int(floor_vv.sum()),
+        "floor_pixels_vh_le_minus70": int(floor_vh.sum()),
+        "floor_pixels_either_band": int(floor_any.sum()),
+        "floor_area_fraction": float(floor_any.mean()) if total else 0.0,
+        "valid_pixels": int(valid.sum()),
+        "actual_observed_fraction": (
+            float(valid.mean()) if total else 0.0),
+        "mask": valid}
+
+
+def write_s1_valid_v2_token(vvvh_path: str, out_path: Path) -> dict[str, Any]:
+    """Derive the uint8 s1_dualpol_valid_v2 token next to the raw raster.
+
+    Local-only derivation: no GEE task, no resampling, no change to raw
+    bytes. Grid/CRS/transform are copied from the identity vvvh raster.
+    """
+    stats = s1_dualpol_valid_v2_stats(vvvh_path)
+    valid = stats.pop("mask")
+    with rasterio.open(vvvh_path) as src:
+        profile = src.profile
+    profile.update(count=1, dtype="uint8", nodata=None)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with rasterio.open(out_path, "w", **profile) as dst:
+        dst.write(valid.astype("uint8"), 1)
+        dst.set_band_description(1, "S1_DUALPOL_VALID_V2")
+    stats["token_path"] = str(out_path)
+    return stats
+
+
+def actual_mask_gate_check(
+    byte_fraction: float, plan_fraction: float, evidence_source: str,
+) -> dict[str, Any]:
+    """Gate landed bytes against the 0.95 rule and the V2 plan measurement."""
+    evidence = str(evidence_source)
+    tol = (ACTUAL_MASK_LANDED_TOL if evidence.startswith("LANDED")
+           else ACTUAL_MASK_LIVE_TOL)
+    delta = abs(byte_fraction - float(plan_fraction))
+    gate_pass = byte_fraction >= ACTUAL_MASK_GATE
+    agrees = delta <= tol
+    return {
+        "gate": f"actual_observed_fraction >= {ACTUAL_MASK_GATE}",
+        "gate_pass": gate_pass,
+        "byte_fraction": byte_fraction,
+        "plan_v2_fraction": float(plan_fraction),
+        "plan_evidence_source": evidence,
+        "abs_delta": delta,
+        "agreement_tolerance": tol,
+        "plan_agreement_pass": agrees,
+        "pass": gate_pass and agrees}
+
+
 #: Bulk-plausibility sigma0 dB envelope inherited from the M2.1b Zhejiang
 #: screen. National coastal scenes legitimately contain sparse harbour/ship
 #: double-bounce point targets (VV up to ~+37 dB, VH also bright) and calm
@@ -742,30 +1002,47 @@ def observed_fractions(path: str) -> dict[str, Any]:
 #: server identity check, so bulk-envelope exceedance is a fraction gate.
 S1_DB_BULK_MIN = -50.0
 S1_DB_BULK_MAX = 30.0
-#: Absolute envelope beyond which pixels cannot be valid S1 GRD dB; catches
+#: Upper envelope beyond which pixels cannot be valid S1 GRD dB; catches
 #: corruption and double-transform artifacts (which reach hundreds of dB).
-S1_DB_HARD_MIN = -70.0
+#: F3 (owner-approved 2026-10-09): there is NO symmetric lower rejection
+#: bound on the RAW raster. The discrete GEE frame-border floor
+#: (~-80.031 dB) is an observation-validity matter handled by the derived
+#: s1_dualpol_valid_v2 token (<= -70 dB -> NON_OBSERVATION_EXTREME_FLOOR);
+#: the raw identity bytes are preserved, never rejected or clipped.
 S1_DB_HARD_MAX = 45.0
 #: Point-target / dark-water tail must stay below 0.1% of finite pixels.
+#: The tail counts physical backscatter only: sparse dark-water nulls
+#: strictly between the -70 dB floor rule and the -50 dB bulk edge, plus
+#: point targets above +30 dB. Pixels <= -70 dB are non-observation
+#: (token-masked), not a physical-tail violation.
 S1_TAIL_OUTSIDE_BULK_HARD_FRACTION = 1e-3
 
 
 def s1_physical_audit(path: str) -> dict[str, Any]:
     """Finite-robust physical audit of a landed identity S1 VV/VH raster.
 
-    Hard failures: pixels beyond the absolute dB envelope, non-monotone
+    Hard failures: pixels above the upper dB envelope, non-monotone
     percentiles, implausible medians, co-pol/cross-pol ordering inverted,
-    or >0.1% of finite pixels outside the bulk [-50, 30] envelope. The
-    source-fidelity (no 10*log10) guarantee is enforced separately by the
-    live server identity comparison in validate_bundle.
+    or >0.1% of finite pixels in the physical sparse tail
+    (-70 dB < x < -50 dB or x > +30 dB). Pixels <= -70 dB are NOT a raw
+    failure (F3): they are counted per band and removed only in the
+    derived ``s1_dualpol_valid_v2`` token. The source-fidelity
+    (no 10*log10) guarantee is enforced separately by the live server
+    identity comparison in validate_bundle.
     """
     detail: dict[str, Any] = {
         "expected_units": "sigma0 dB (COPERNICUS/S1_GRD pre-converted)",
         "transform_applied": "IDENTITY_SELECT_ONLY_NO_10LOG10",
+        "raw_raster_policy": "RAW GEE VALUES PRESERVED EXACTLY (F3)",
         "bulk_envelope_db": [S1_DB_BULK_MIN, S1_DB_BULK_MAX],
-        "hard_envelope_db": [S1_DB_HARD_MIN, S1_DB_HARD_MAX],
-        "tail_policy": ("pixels outside the bulk envelope are legitimate "
-                        "sparse coastal point targets / dark-water nulls "
+        "upper_hard_envelope_db": S1_DB_HARD_MAX,
+        "extreme_floor_rule_db": S1_FLOOR_DB,
+        "extreme_floor_semantics": (
+            "NON_OBSERVATION_EXTREME_FLOOR in the derived "
+            "s1_dualpol_valid_v2 token only; observation-validity rule, "
+            "not a physical impossibility claim; never a raw-byte reject"),
+        "tail_policy": ("physical sparse tail = -70 < x < -50 dB dark-water "
+                        "nulls plus x > +30 dB point targets; legitimate "
                         "when the server identity check matches and the "
                         "tail stays below 0.1 percent"),
         "bands": {}}
@@ -785,11 +1062,12 @@ def s1_physical_audit(path: str) -> dict[str, Any]:
                 raise ProvenanceError(f"{path}:{name} no finite pixels")
             vals = arr[finite]
             pct = np.percentile(vals, [0, 1, 50, 99, 100])
-            outside_hard = int(((vals < S1_DB_HARD_MIN)
-                                | (vals > S1_DB_HARD_MAX)).sum())
-            outside_bulk = int(((vals < S1_DB_BULK_MIN)
-                                | (vals > S1_DB_BULK_MAX)).sum())
-            tail_frac = outside_bulk / n
+            above_hard = int((vals > S1_DB_HARD_MAX).sum())
+            at_floor = int((vals <= S1_FLOOR_DB).sum())
+            physical_tail = int(
+                ((vals > S1_FLOOR_DB) & (vals < S1_DB_BULK_MIN)
+                 | (vals > S1_DB_BULK_MAX)).sum())
+            tail_frac = physical_tail / n
             detail["bands"][name] = {
                 "finite_pixels": n,
                 "grid_pixels": total,
@@ -797,11 +1075,15 @@ def s1_physical_audit(path: str) -> dict[str, Any]:
                 "min": float(pct[0]), "p01": float(pct[1]),
                 "p50": float(pct[2]), "p99": float(pct[3]),
                 "max": float(pct[4]),
-                "outside_hard_envelope_pixels": outside_hard,
-                "outside_bulk_envelope_pixels": outside_bulk,
-                "outside_bulk_envelope_fraction": tail_frac}
+                "above_upper_hard_envelope_pixels": above_hard,
+                "at_or_below_extreme_floor_pixels": at_floor,
+                "at_or_below_extreme_floor_fraction": at_floor / n,
+                "physical_tail_pixels": physical_tail,
+                "physical_tail_fraction": tail_frac}
+            # Key retained from the pre-F3 audit; semantics are now
+            # upper-envelope only (the lower bound moved to the token).
             checks[f"{name}_no_pixels_beyond_hard_envelope"] = (
-                outside_hard == 0)
+                above_hard == 0)
             checks[f"{name}_ordered_percentiles"] = bool(
                 pct[0] <= pct[1] <= pct[2] <= pct[3] <= pct[4])
             checks[f"{name}_tail_below_hard_fraction"] = (
@@ -996,15 +1278,259 @@ def polled_download(prefix: str, deadline_s: float) -> tuple[str, bytes]:
             time.sleep(10)
 
 
+# ---------------------------------------------------------------------------
+# V2 recovery: archive V1 failed-event bytes; enrich retained manifests
+# ---------------------------------------------------------------------------
+
+def _tif_date_tag(name: str) -> str | None:
+    """Extract the YYYYMMDD tag from a landed component file name."""
+    parts = name.removesuffix(".tif").split("_")
+    return parts[-2] if len(parts) >= 2 and len(parts[-2]) == 8 else None
+
+
+def is_old_event_orphan(
+    name: str, pid: str, v2_date: str,
+) -> bool:
+    """A downloaded r1/r2 tif for this slot that is NOT the V2 event.
+
+    V2 raw exports use revision r2 (S2/S1 replaced events) and V1 bytes
+    use r1; token files use revision v2. A pre-V2 orphan (downloaded but
+    never landed, e.g. a quarantined partial S1 frame) is archived when
+    its date differs from the V2 event date.
+    """
+    prefix = f"spartina_pilot19_{pid}_"
+    if not name.startswith(prefix) or not name.endswith(".tif"):
+        return False
+    revision = name.removesuffix(".tif").split("_")[-1]
+    if revision not in (REVISION, SENTINEL_V2_REPLACED_REVISION):
+        return False
+    tag = _tif_date_tag(name)
+    return tag is not None and tag != v2_date
+
+
+def _move_with_sha(src: Path, dst_dir: Path) -> dict[str, Any]:
+    dst_dir.mkdir(parents=True, exist_ok=True)
+    digest = sha256_file(src)
+    dst = dst_dir / src.name
+    if dst.exists():
+        if sha256_file(dst) != digest:
+            raise ProvenanceError(
+                f"V1 supersession archive conflict for {src.name}: "
+                "archived copy has a different SHA-256")
+        src.unlink()  # identical duplicate already archived
+    else:
+        shutil.move(str(src), str(dst))
+    return {"name": src.name, "sha256": digest,
+            "size_bytes": dst.stat().st_size}
+
+
+def archive_superseded_v1(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Move V1 manifests/bytes of REPLACED slots into supersession archive.
+
+    Idempotent. Nothing V1 is deleted: manifest-referenced files move
+    with their recorded SHA-256, plus any downloaded old-event orphan
+    rasters (quarantined partial frames). An index records every move.
+    """
+    MANIFESTS_V1_SUPERSEDED_DIR.mkdir(parents=True, exist_ok=True)
+    PRODUCTS_V1_SUPERSEDED_DIR.mkdir(parents=True, exist_ok=True)
+    index: dict[str, Any] = {"products": {}}
+    if SUPERSESSION_INDEX.exists():
+        index = json.loads(
+            SUPERSESSION_INDEX.read_text(encoding="utf-8"))
+    for row in rows:
+        if str(row.get("v2_change")) != CHANGE_REPLACED:
+            continue
+        pid = str(row["product_id"])
+        entry = index["products"].setdefault(pid, {
+            "product_id": pid, "sensor": row["sensor"],
+            "cell_id": row["cell_id"], "year": int(row["year"]),
+            "v2_event_id": row.get("event_id"),
+            "v2_event_utc": row.get("event_utc"),
+            "archived_manifest": None, "archived_files": []})
+        v2_date = date_tag(row)
+        mpath = MANIFEST_DIR / f"{pid}.json"
+        archived_names = {f["name"] for f in entry["archived_files"]}
+        # Only the ORIGINAL V1 manifest (schema v0) is archived. A slot
+        # already rebuilt under V2 (schema v1, e.g. after the canary) is
+        # left untouched on subsequent runs.
+        if mpath.exists():
+            doc = json.loads(mpath.read_text(encoding="utf-8"))
+            if doc.get("schema") == SCHEMA_V0:
+                entry["v1_event_id"] = doc.get("observation_event_id")
+                entry["v1_event_utc"] = doc.get("acquisition_utc_planned")
+                for frec in doc.get("landed_files", []):
+                    src = Path(str(frec["local_uri"]))
+                    if src.exists() and src.name not in archived_names:
+                        moved = _move_with_sha(
+                            src, PRODUCTS_V1_SUPERSEDED_DIR)
+                        if moved["sha256"] != frec.get("sha256"):
+                            raise ProvenanceError(
+                                f"{pid}: archived {src.name} SHA-256 "
+                                "disagrees with its V1 manifest; STOP")
+                        moved["role"] = frec.get("role")
+                        moved["source"] = "v1_manifest_landed_file"
+                        entry["archived_files"].append(moved)
+                        archived_names.add(src.name)
+                amove = _move_with_sha(mpath, MANIFESTS_V1_SUPERSEDED_DIR)
+                entry["archived_manifest"] = amove["name"]
+        for tif in sorted(PRODUCT_DIR.glob(f"spartina_pilot19_{pid}_*.tif")):
+            if (tif.name not in archived_names
+                    and is_old_event_orphan(tif.name, pid, v2_date)):
+                moved = _move_with_sha(tif, PRODUCTS_V1_SUPERSEDED_DIR)
+                moved["source"] = "v1_downloaded_old_event_orphan"
+                entry["archived_files"].append(moved)
+                archived_names.add(tif.name)
+    SUPERSESSION_INDEX.write_text(
+        json.dumps(index, indent=2, sort_keys=True, default=str),
+        encoding="utf-8")
+    return index
+
+
+def _v2_gate_from_landed(
+    sensor: str, doc: dict[str, Any],
+    row: dict[str, Any], local_files: dict[str, Path],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Actual-mask block + any new derived file records for a V1 product."""
+    new_files: list[dict[str, Any]] = []
+    if sensor == "sentinel2":
+        stats = s2_sr_actual_mask(str(local_files["sr"]))
+        gate = actual_mask_gate_check(
+            stats["actual_observed_fraction"],
+            float(row["v2_actual_observed_fraction"]),
+            str(row["v2_evidence_source"]))
+        if not gate["pass"]:
+            raise ProvenanceError(
+                f"{row['product_id']}: retained S2 bytes fail V2 gate "
+                f"during enrichment: {gate}")
+        return {"coverage_basis": BASIS_S2_V2, **stats, "gate": gate}, []
+    if sensor == "sentinel1":
+        vvvh = local_files["vvvh"]
+        token_path = PRODUCT_DIR / (
+            f"{prefix_for(row, S1_VALID_V2_ROLE, revision=S1_VALID_V2_REVISION)}.tif")
+        tok = write_s1_valid_v2_token(str(vvvh), token_path)
+        info = raster_grid_info(token_path)
+        assert_grid_matches(info, doc["grid_spec"])
+        if info["count"] != 1 or info["dtypes"] != ["uint8"]:
+            raise ProvenanceError(
+                f"{row['product_id']}: derived token must be 1x uint8")
+        gate = actual_mask_gate_check(
+            tok["actual_observed_fraction"],
+            float(row["v2_actual_observed_fraction"]),
+            str(row["v2_evidence_source"]))
+        if not gate["pass"]:
+            raise ProvenanceError(
+                f"{row['product_id']}: retained S1 token fails V2 gate: "
+                f"{gate}")
+        source_sha = next(
+            f["sha256"] for f in doc["landed_files"] if f["role"] == "vvvh")
+        new_files.append({
+            "local_uri": str(token_path),
+            "size_bytes": int(token_path.stat().st_size),
+            "sha256": sha256_file(token_path),
+            "role": S1_VALID_V2_ROLE,
+            "drive_file_name": None, "drive_folder": None,
+            "grid_verified": True,
+            "derivation": {
+                "token": S1_VALID_V2_TOKEN,
+                "derived_locally": True,
+                "gee_export_task": None,
+                "source_role": "vvvh",
+                "source_sha256": source_sha,
+                "rule": ("finite(VV) AND finite(VH) AND VV > -70 dB AND "
+                         "VH > -70 dB over the identical grid"),
+                "floor_rule_db": S1_FLOOR_DB,
+                "floor_semantics": "NON_OBSERVATION_EXTREME_FLOOR",
+                "raw_values_modified": False,
+                "raw_raster_policy": "preserved exactly; no clip"}})
+        block = {"coverage_basis": BASIS_S1_V2,
+                 "validity_token": S1_VALID_V2_TOKEN,
+                 "token_role": S1_VALID_V2_ROLE,
+                 "token_file": token_path.name, **tok, "gate": gate}
+        return block, new_files
+    # Inherited landsat: metadata-only V2 bump, byte fraction from the
+    # audited V1 r2 landing (no new bytes).
+    bands = doc["qa"]["observed"]["bands"]
+    frac = min(float(b["finite_fraction"]) for b in bands.values())
+    if frac < ACTUAL_MASK_GATE:
+        raise ProvenanceError(
+            f"{row['product_id']}: inherited Landsat fraction {frac} < "
+            f"{ACTUAL_MASK_GATE}; STOP for owner review")
+    return {"coverage_basis": BASIS_LANDSAT_INHERITED,
+            "actual_observed_fraction": frac,
+            "per_band_finite_fraction": {
+                b["name"]: b["finite_fraction"] for b in bands.values()},
+            "grid_pixels": doc["qa"]["observed"]["grid_pixels"],
+            "gate": {"gate": f"actual_observed_fraction >= {ACTUAL_MASK_GATE}",
+                     "gate_pass": True,
+                     "byte_fraction": frac,
+                     "plan_v2_fraction": None,
+                     "plan_evidence_source": "LANDED_BYTES_V1_INHERITED",
+                     "pass": True}}, []
+
+
+def enrich_retained_products_to_v2(
+    rows: list[dict[str, Any]], *, plan_checksum: str,
+) -> list[str]:
+    """Metadata-only V2 upgrade of already-landed retained products.
+
+    Raw r1/r2 bytes and SHA-256 records are untouched. The original V1
+    manifest is archived once; S1 products additionally receive the
+    locally derived s1_dualpol_valid_v2 token. Idempotent.
+    """
+    enriched: list[str] = []
+    for row in rows:
+        pid = str(row["product_id"])
+        mpath = MANIFEST_DIR / f"{pid}.json"
+        if not mpath.exists():
+            continue  # not landed yet -> exported fresh by the scheduler
+        doc = json.loads(mpath.read_text(encoding="utf-8"))
+        if (doc.get("schema") == SCHEMA_V1
+                and doc.get("event_selection", {}).get("plan_csv_sha256")
+                == plan_checksum):
+            continue
+        for frec in doc["landed_files"]:
+            if sha256_file(frec["local_uri"]) != frec["sha256"]:
+                raise ProvenanceError(
+                    f"{pid}: retained file re-hash mismatch at "
+                    f"{frec['local_uri']}; refusing enrichment")
+        sensor = str(row["sensor"])
+        local_files = {
+            str(f["role"]): Path(str(f["local_uri"]))
+            for f in doc["landed_files"]}
+        block, new_files = _v2_gate_from_landed(
+            sensor, doc, row, local_files)
+        existing_roles = {str(f["role"]) for f in doc["landed_files"]}
+        doc["landed_files"].extend(
+            f for f in new_files if f["role"] not in existing_roles)
+        doc.setdefault("qa", {})["actual_mask_v2"] = block
+        # Archive the V1 manifest exactly once, then rewrite in place.
+        archived = MANIFESTS_V1_SUPERSEDED_DIR / f"{pid}.json"
+        if not archived.exists():
+            shutil.copy2(mpath, archived)
+        doc["schema"] = SCHEMA_V1
+        doc["event_selection"] = event_selection_block(row, plan_checksum)
+        doc["v2_enriched_utc"] = _now()
+        doc["n_bytes"] = sum(int(f["size_bytes"])
+                             for f in doc["landed_files"])
+        mpath.write_text(
+            json.dumps(doc, indent=2, sort_keys=True, default=str),
+            encoding="utf-8")
+        enriched.append(pid)
+    return enriched
+
+
 class ExportScheduler:
     def __init__(
         self, ee: Any, store: TaskStore, panel: pd.DataFrame,
         *, concurrency: int, poll_interval_s: int,
         task_timeout_s: int, hard_stop_on_failure: bool,
+        plan_version: str = "v1", plan_checksum: str = "",
     ) -> None:
         self.ee = ee
         self.store = store
         self.panel = panel
+        self.plan_version = plan_version
+        self.plan_checksum = plan_checksum
         self.concurrency = max(1, concurrency)
         self.poll_interval_s = poll_interval_s
         self.task_timeout_s = task_timeout_s
@@ -1111,7 +1637,8 @@ class ExportScheduler:
     def _activate(self, row: dict[str, Any]) -> None:
         pid = str(row["product_id"])
         try:
-            bundle = build_bundle(self.ee, row, self.panel)
+            bundle = build_bundle(
+                self.ee, row, self.panel, plan_version=self.plan_version)
             job = _Job(bundle=bundle)
             for comp in bundle.components:
                 backend_id = self._submit_component(bundle, comp)
@@ -1248,13 +1775,17 @@ class ExportScheduler:
                           "drive_folder": GDRIVE_FOLDER,
                           "grid_verified": False})
         qa = validate_bundle(self.ee, bundle, landed)
+        if self.plan_version == "v2":
+            qa["actual_mask_v2"] = self._v2_actual_mask_extras(
+                row, bundle, landed, qa, files)
         product_bytes = sum(int(f["size_bytes"]) for f in files)
         if self.total_landed_bytes + product_bytes > VOLUME_CAP_BYTES:
             raise ProvenanceError(
                 f"pilot volume cap {VOLUME_CAP_BYTES} bytes exceeded; STOP")
         for f in files:
             f["grid_verified"] = True
-            f["sha256"] = sha256_file(f["local_uri"])
+            if "sha256" not in f:
+                f["sha256"] = sha256_file(f["local_uri"])
         tasks = []
         for comp in bundle.components:
             rec = self._record(comp)
@@ -1277,10 +1808,14 @@ class ExportScheduler:
                   "size_bytes": f["size_bytes"]} for f in files),
                 key=lambda x: str(x["role"])),
             "processing_config_sha256": canonical_fingerprint(bundle.proc)}
+        is_v2 = self.plan_version == "v2"
         manifest = {
-            "schema": "spartina_observation_product_v0",
+            "schema": SCHEMA_V1 if is_v2 else SCHEMA_V0,
             "product_id": pid,
             "issue": "#19 M2.5 national 20-cell pilot",
+            **({"event_selection":
+                event_selection_block(row, self.plan_checksum)} if is_v2
+               else {}),
             "cell_id": row["cell_id"],
             "observation_event_id": row.get("event_id"),
             "sensor": row["sensor"],
@@ -1346,6 +1881,103 @@ class ExportScheduler:
         print(f"[pilot19] {pid} LANDED: {len(files)} file(s), "
               f"{product_bytes / 1e6:.1f} MB", flush=True)
 
+    # -- V2 actual-mask extras + derived s1_dualpol_valid_v2 ---------------
+    def _v2_actual_mask_extras(
+        self, row: dict[str, Any], bundle: Bundle,
+        landed: dict[str, Path], qa: dict[str, Any],
+        files: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        """Verify the 0.95 actual-mask gate on landed bytes; derive token.
+
+        S2: all-four-SR-band finite fraction. S1: derive the local
+        s1_dualpol_valid_v2 uint8 token from the identity vvvh raster
+        (raw bytes untouched), verify its grid, and gate on its coverage.
+        Landsat: inherited V1 r2 products; byte fraction is the min
+        all-SR-band finite fraction already audited at landing.
+        """
+        sensor = str(row["sensor"])
+        if sensor == "sentinel2":
+            stats = s2_sr_actual_mask(str(landed["sr"]))
+            gate = actual_mask_gate_check(
+                stats["actual_observed_fraction"],
+                float(row["v2_actual_observed_fraction"]),
+                str(row["v2_evidence_source"]))
+            if not gate["pass"]:
+                raise ProvenanceError(
+                    f"{row['product_id']}: S2 landed bytes fail V2 actual "
+                    f"mask gate: {gate}")
+            return {"coverage_basis": BASIS_S2_V2, **stats, "gate": gate}
+        if sensor == "sentinel1":
+            vvvh = landed["vvvh"]
+            token_prefix = prefix_for(
+                row, S1_VALID_V2_ROLE,
+                revision=S1_VALID_V2_REVISION)
+            token_path = PRODUCT_DIR / f"{token_prefix}.tif"
+            tok = write_s1_valid_v2_token(str(vvvh), token_path)
+            tok_info = raster_grid_info(token_path)
+            assert_grid_matches(tok_info, bundle.grid.to_dict())
+            if tok_info["count"] != 1 or tok_info["dtypes"] != ["uint8"]:
+                raise ProvenanceError(
+                    f"{row['product_id']}: {S1_VALID_V2_TOKEN} must be a "
+                    f"single uint8 band, got {tok_info['dtypes']}")
+            gate = actual_mask_gate_check(
+                tok["actual_observed_fraction"],
+                float(row["v2_actual_observed_fraction"]),
+                str(row["v2_evidence_source"]))
+            if not gate["pass"]:
+                raise ProvenanceError(
+                    f"{row['product_id']}: S1 token fails V2 actual mask "
+                    f"gate: {gate}")
+            source_sha = next(
+                f["sha256"] for f in files if f["role"] == "vvvh")
+            files.append({
+                "local_uri": str(token_path),
+                "size_bytes": int(token_path.stat().st_size),
+                "sha256": sha256_file(token_path),
+                "role": S1_VALID_V2_ROLE,
+                "drive_file_name": None,
+                "drive_folder": None,
+                "grid_verified": True,
+                "derivation": {
+                    "token": S1_VALID_V2_TOKEN,
+                    "derived_locally": True,
+                    "gee_export_task": None,
+                    "source_role": "vvvh",
+                    "source_sha256": source_sha,
+                    "rule": ("finite(VV) AND finite(VH) AND VV > -70 dB "
+                             "AND VH > -70 dB over the identical grid"),
+                    "floor_rule_db": S1_FLOOR_DB,
+                    "floor_semantics": "NON_OBSERVATION_EXTREME_FLOOR",
+                    "raw_values_modified": False,
+                    "raw_raster_policy": "preserved exactly; no clip"}})
+            return {"coverage_basis": BASIS_S1_V2,
+                    "validity_token": S1_VALID_V2_TOKEN,
+                    "token_role": S1_VALID_V2_ROLE,
+                    "token_file": token_path.name,
+                    **tok, "gate": gate}
+        # Inherited landsat: reuse audited per-band finite fractions.
+        bands = qa["observed"]["bands"]
+        frac = min(float(b["finite_fraction"]) for b in bands.values())
+        gate = actual_mask_gate_check(
+            frac, ACTUAL_MASK_GATE, "LANDED_BYTES_V1_INHERITED")
+        # Inherited rows carry no V2 live fraction; only the hard gate
+        # applies (the plan-agreement tolerance is informational here).
+        gate["plan_v2_fraction"] = None
+        gate["abs_delta"] = None
+        gate["plan_agreement_pass"] = True
+        gate["pass"] = gate["gate_pass"]
+        if not gate["pass"]:
+            raise ProvenanceError(
+                f"{row['product_id']}: inherited Landsat observed fraction "
+                f"{frac} below {ACTUAL_MASK_GATE}; owner review required")
+        return {"coverage_basis": BASIS_LANDSAT_INHERITED,
+                "actual_observed_fraction": frac,
+                "per_band_finite_fraction": {
+                    b["name"]: b["finite_fraction"]
+                    for b in bands.values()},
+                "grid_pixels": qa["observed"]["grid_pixels"],
+                "gate": gate}
+
     # -- main loop ---------------------------------------------------------
     def run(self, scope: list[dict[str, Any]]) -> None:
         self.queue = [r for r in scope
@@ -1377,6 +2009,12 @@ class ExportScheduler:
             return _STATE_RUNNING
         return _STATE_SUBMITTED
 
+    def _n_components(self, sensor: str) -> int:
+        n = len(COMPONENTS[sensor])
+        if self.plan_version == "v2":
+            n += len(DERIVED_COMPONENTS_V2[sensor])
+        return n
+
     def write_progress(self, scope: list[dict[str, Any]]) -> None:
         failed_pids = {f["product_id"] for f in self.failures
              if not f.get("superseded")}
@@ -1391,21 +2029,33 @@ class ExportScheduler:
             "sensor": row["sensor"],
             "year": int(row["year"]),
             "state": summary["by_product"][str(row["product_id"])],
-            "n_components": len(COMPONENTS[str(row["sensor"])]),
+            "n_components": self._n_components(str(row["sensor"])),
+            "n_export_tasks": len(COMPONENTS[str(row["sensor"])]),
             "manifest": (
                 str(self._manifest_path(str(row["product_id"]))
                     .relative_to(REPO_ROOT))
                 if str(row["product_id"]) in self.landed_pids else None)}
             for row in scope]
+        progress_path = (PROGRESS_JSON_V2 if self.plan_version == "v2"
+                         else PROGRESS_JSON_V1)
         doc = {
-            "product": "national_pilot19_pixel_export_progress_v1",
+            "product": (
+                "national_pilot19_pixel_export_progress_v2"
+                if self.plan_version == "v2"
+                else "national_pilot19_pixel_export_progress_v1"),
             "issue": 19,
+            "event_selection_revision": (
+                SELECTION_V2 if self.plan_version == "v2"
+                else "PILOT_EVENT_SELECTION_V1"),
+            "event_plan_csv_sha256": self.plan_checksum,
             "updated_utc": _now(),
             "gdrive_folder": GDRIVE_FOLDER,
             "revision": REVISION,
             "component_revisions": {
                 "default": REVISION,
-                "landsat:valid": LANDSAT_VALID_REVISION},
+                "landsat:valid": LANDSAT_VALID_REVISION,
+                "sentinel_v2_replaced": SENTINEL_V2_REPLACED_REVISION,
+                "s1:dualpol_valid_v2": S1_VALID_V2_REVISION},
             "states": summary["states"],
             "total_landed_bytes": self.total_landed_bytes,
             "volume_cap_bytes": VOLUME_CAP_BYTES,
@@ -1414,8 +2064,8 @@ class ExportScheduler:
             "failures": self.failures,
             "git": git_context(REPO_ROOT),
             "environment": runtime_environment()}
-        PROGRESS_JSON.parent.mkdir(parents=True, exist_ok=True)
-        PROGRESS_JSON.write_text(
+        progress_path.parent.mkdir(parents=True, exist_ok=True)
+        progress_path.write_text(
             json.dumps(doc, indent=2, default=str), encoding="utf-8")
 
 
@@ -1449,19 +2099,24 @@ def summarize_states(
 def write_aggregate(
     scope: list[dict[str, Any]], store: TaskStore,
     failures: list[dict[str, Any]], *, canary: bool,
-    plan_checksum: str, hard_stop: bool,
+    plan_checksum: str, hard_stop: bool, plan_version: str = "v1",
 ) -> None:
     rows: list[dict[str, Any]] = []
     total = 0
     for row in scope:
         pid = str(row["product_id"])
+        sensor = str(row["sensor"])
         manifest_path = MANIFEST_DIR / f"{pid}.json"
         entry: dict[str, Any] = {
             "product_id": pid, "cell_id": row["cell_id"],
-            "sensor": row["sensor"], "year": int(row["year"]),
+            "sensor": sensor, "year": int(row["year"]),
             "coverage_tier": row.get("coverage_tier"),
+            "v2_change": row.get("v2_change"),
             "state": _STATE_SELECTED,
-            "n_tasks_planned": len(COMPONENTS[str(row["sensor"])]),
+            "n_tasks_planned": len(COMPONENTS[sensor]),
+            "n_derived_files_planned": (
+                len(DERIVED_COMPONENTS_V2[sensor])
+                if plan_version == "v2" else 0),
             "n_files_landed": 0, "bytes": 0,
             "manifest": None, "sha_by_role": None}
         if manifest_path.exists():
@@ -1482,17 +2137,27 @@ def write_aggregate(
     for entry in rows:
         state_counts[str(entry["state"])] = (
             state_counts.get(str(entry["state"]), 0) + 1)
+    n_derived = sum(
+        len(DERIVED_COMPONENTS_V2[str(r["sensor"])]) for r in scope)
     doc = {
-        "manifest_id": "national_pilot19_pixel_export_v1",
+        "manifest_id": (
+            "national_pilot19_pixel_export_v2" if plan_version == "v2"
+            else "national_pilot19_pixel_export_v1"),
         "issue": 19,
+        "event_selection_revision": (
+            SELECTION_V2 if plan_version == "v2"
+            else "PILOT_EVENT_SELECTION_V1"),
         "created_utc": _now(),
-        "scope": "canary_5_products" if canary else "frozen_20_cell_pilot",
+        "scope": (
+            f"{'v2_' if plan_version == 'v2' else ''}"
+            f"{'canary' if canary else 'frozen_20_cell_pilot'}"),
         "canary": canary,
-        "n_products_selected": len(scope),
+        "n_products_eligible": len(scope),
         "product_states": state_counts,
         "task_store_counts": store.counts(),
-        "n_tasks_planned": sum(
+        "n_export_tasks_planned": sum(
             len(COMPONENTS[str(r["sensor"])]) for r in scope),
+        "n_derived_files_planned": n_derived,
         "total_landed_bytes": total,
         "total_landed_gib": round(total / 1024**3, 3),
         "volume_cap_bytes": VOLUME_CAP_BYTES,
@@ -1503,17 +2168,24 @@ def write_aggregate(
         "failures": failures,
         "git": git_context(REPO_ROOT),
         "environment": runtime_environment()}
-    OUT_JSON.write_text(
+    out_json = OUT_V2_JSON if plan_version == "v2" else OUT_V1_JSON
+    out_csv = OUT_V2_CSV if plan_version == "v2" else OUT_V1_CSV
+    out_json.write_text(
         json.dumps(doc, indent=2, default=str), encoding="utf-8")
-    pd.DataFrame(rows).to_csv(OUT_CSV, index=False)
+    pd.DataFrame(rows).to_csv(out_csv, index=False)
     print(f"[pilot19] aggregate: {state_counts}; "
           f"{total / 1024**2:.1f} MiB landed", flush=True)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--plan-version", choices=["v1", "v2"],
+                        default="v1",
+                        help="event-selection revision (v2 = owner-"
+                             "approved PILOT_EVENT_SELECTION_V2 recovery)")
     parser.add_argument("--canary", action="store_true",
-                        help="export only the frozen 5-product canary")
+                        help="export only the frozen canary allowlist "
+                             "(v1: 5 products; v2: 4 recovery cases)")
     parser.add_argument("--only-sensor",
                         choices=["landsat5", "landsat7", "landsat8",
                                  "sentinel1", "sentinel2"])
@@ -1535,36 +2207,51 @@ def main() -> int:
 
     products_filter = tuple(
         p.strip() for p in args.products.split(",") if p.strip())
+    plan_checksum = plan_csv_sha256(args.plan_version)
     scope = load_scope(
         canary=args.canary, only_sensor=args.only_sensor,
-        products_filter=products_filter)
+        products_filter=products_filter, plan_version=args.plan_version)
     if not scope:
         raise SystemExit("empty scope after frozen-plan filters; abort")
     n_tasks = sum(len(COMPONENTS[str(r["sensor"])]) for r in scope)
-    print(f"[pilot19] scope: {len(scope)} products / {n_tasks} component "
-          f"tasks (canary={args.canary})", flush=True)
+    n_derived = sum(
+        len(DERIVED_COMPONENTS_V2[str(r["sensor"])]) for r in scope)
+    print(f"[pilot19] scope ({args.plan_version}): {len(scope)} products / "
+          f"{n_tasks} export tasks / {n_derived} local derived files "
+          f"(canary={args.canary})", flush=True)
 
     PRODUCT_DIR.mkdir(parents=True, exist_ok=True)
     MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
     TASK_STORE.parent.mkdir(parents=True, exist_ok=True)
+    if args.plan_version == "v2":
+        # Repair, not restart: archive V1 bytes of replaced slots, then
+        # metadata-only V2 upgrade of every already-landed retained
+        # product (raw bytes/SHA-256 untouched; S1 gains derived token).
+        archive_superseded_v1(scope)
+        enriched = enrich_retained_products_to_v2(
+            scope, plan_checksum=plan_checksum)
+        print(f"[pilot19] v2 preflight: {len(enriched)} retained products "
+              f"enriched; replaced V1 bytes archived", flush=True)
     store = TaskStore(TASK_STORE)
     panel = load_panel()
     scheduler = ExportScheduler(
         ee, store, panel, concurrency=args.concurrency,
         poll_interval_s=args.poll_interval_s,
         task_timeout_s=args.task_timeout_s,
-        hard_stop_on_failure=args.canary)
+        hard_stop_on_failure=args.canary,
+        plan_version=args.plan_version, plan_checksum=plan_checksum)
     scheduler.run(scope)
     write_aggregate(
         scope, store, scheduler.failures, canary=args.canary,
-        plan_checksum=plan_csv_sha256(), hard_stop=scheduler.stop)
+        plan_checksum=plan_checksum, hard_stop=scheduler.stop,
+        plan_version=args.plan_version)
     if scheduler.stop:
         print("CANARY_FAIL: systematic canary failure; remaining tasks "
               "NOT submitted", flush=True)
         return 2
     if args.canary:
-        print("canary products landed; proceed to Phase H/I QA gate "
-              "before any further export", flush=True)
+        print("canary products landed; require V2_RECOVERY_CANARY_PASS "
+              "(Phase H/I QA) before any further export", flush=True)
     return 0
 
 

@@ -64,6 +64,7 @@ from shapely.ops import unary_union  # noqa: E402
 
 from spartina.data.gee.auth import configured_project, initialize  # noqa: E402
 from spartina.data.gee.collections import collection_for  # noqa: E402
+from spartina.data.gee.grid import GridSpec as GeeGridSpec  # noqa: E402
 from spartina.data.national.census_join import s2_event_group_id  # noqa: E402
 from spartina.data.national.geometry import cell_polygon_wgs84  # noqa: E402
 from spartina.data.national.grid import GridKind, GridSpec, parse_cell_id  # noqa: E402
@@ -328,7 +329,7 @@ def _day_window(date_iso: str) -> tuple[str, str]:
 
 
 def _grid_coverage(
-    ee: Any, observed: Any, grid: GridSpec, region: dict[str, Any],
+    ee: Any, observed: Any, grid: GeeGridSpec, region: dict[str, Any],
 ) -> dict[str, Any]:
     """Observed fraction over the EXACT export grid.
 
@@ -370,7 +371,7 @@ def _grid_coverage(
 
 
 def live_s2_fraction(
-    ee: Any, scene_ids: list[str], date_iso: str, grid: GridSpec,
+    ee: Any, scene_ids: list[str], date_iso: str, grid: GeeGridSpec,
     region: dict[str, Any],
 ) -> dict[str, Any]:
     start, end = _day_window(date_iso)
@@ -404,7 +405,7 @@ def live_s2_fraction(
 
 
 def live_s1_fraction(
-    ee: Any, scene_id: str, date_iso: str, grid: GridSpec,
+    ee: Any, scene_id: str, date_iso: str, grid: GeeGridSpec,
     region: dict[str, Any],
 ) -> dict[str, Any]:
     """Dual-pol actual coverage on the exact export grid.
