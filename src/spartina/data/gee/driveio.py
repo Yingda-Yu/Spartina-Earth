@@ -41,8 +41,11 @@ def _credentials() -> Any:
     # the M1.6c real Sentinel-2 byte export.
     args = dict(ee.oauth.get_credentials_arguments())
     args.pop("token", None)
-    creds = Credentials(token=None, **args)
-    creds.refresh(Request())
+    # google-auth ships py.typed but Credentials.__init__ and the base
+    # refresh() remain unannotated (verified 2.59.0), so --strict needs
+    # targeted no-untyped-call ignores at this third-party boundary.
+    creds = Credentials(token=None, **args)  # type: ignore[no-untyped-call]
+    creds.refresh(Request())  # type: ignore[no-untyped-call]
     return creds
 
 
