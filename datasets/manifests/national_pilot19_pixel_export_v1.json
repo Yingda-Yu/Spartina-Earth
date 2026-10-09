@@ -1,0 +1,154 @@
+{
+  "manifest_id": "national_pilot19_pixel_export_v1",
+  "issue": 19,
+  "created_utc": "2026-10-09T05:53:41.663492+00:00",
+  "scope": "canary_5_products",
+  "canary": true,
+  "n_products_selected": 5,
+  "product_states": {
+    "LANDED": 5
+  },
+  "task_store_counts": {
+    "COMPLETED": 12
+  },
+  "n_tasks_planned": 12,
+  "total_landed_bytes": 37111466,
+  "total_landed_gib": 0.035,
+  "volume_cap_bytes": 4294967296,
+  "hard_stop": false,
+  "event_plan_csv_sha256": "ebc36a5a3b5e5f97ff603526e8e66a10e96a2344158748436d0b4aedb6f80769",
+  "gdrive_folder": "SpartinaEarthPilot19",
+  "products": [
+    {
+      "product_id": "NP19_R00226-C00080_L5_1990",
+      "cell_id": "CNA10K-R00226-C00080",
+      "sensor": "landsat5",
+      "year": 1990,
+      "coverage_tier": "STRICT_FULL",
+      "state": "LANDED",
+      "n_tasks_planned": 3,
+      "n_files_landed": 3,
+      "bytes": 2106851,
+      "manifest": "work/national/pilot19/manifests/NP19_R00226-C00080_L5_1990.json",
+      "sha_by_role": "{\"qapixel\": \"614db455b2efbfd893b1779bed5e3c73559dc24e959bbd6f3af6ec267eb472e6\", \"sr\": \"ee2c5294406c2e4e11f7625e0f0f900299c01f1fa829d4482326994b5a5d4f17\", \"valid\": \"07f8f008318e4f876d1add189d3da5a45700f24dfad5e2eb4b278e976bf34a80\"}"
+    },
+    {
+      "product_id": "NP19_R00264-C00132_L7_2000",
+      "cell_id": "CNA10K-R00264-C00132",
+      "sensor": "landsat7",
+      "year": 2000,
+      "coverage_tier": "STRICT_FULL",
+      "state": "LANDED",
+      "n_tasks_planned": 3,
+      "n_files_landed": 3,
+      "bytes": 3069677,
+      "manifest": "work/national/pilot19/manifests/NP19_R00264-C00132_L7_2000.json",
+      "sha_by_role": "{\"qapixel\": \"29d5961ece5fc43e659d379ac6f60acba684b337ac642b5aa5ad645750823ba3\", \"sr\": \"ff8cd63a3cb89a7f50be29aff21397cb2c0c7812fd1dabcdaa4a87983a25b28b\", \"valid\": \"58ff26889664558cadbbe680aaad50cd6e9f42d8c4711c88d1390a3c14664e10\"}"
+    },
+    {
+      "product_id": "NP19_R00311-C00156_L8_2021",
+      "cell_id": "CNA10K-R00311-C00156",
+      "sensor": "landsat8",
+      "year": 2021,
+      "coverage_tier": "STRICT_FULL",
+      "state": "LANDED",
+      "n_tasks_planned": 3,
+      "n_files_landed": 3,
+      "bytes": 4620402,
+      "manifest": "work/national/pilot19/manifests/NP19_R00311-C00156_L8_2021.json",
+      "sha_by_role": "{\"qapixel\": \"2e2c3ead6b4e925f86d43039b06508ae7d85c270a860bb7626b0dda81d8ad725\", \"sr\": \"10072509b92c0be763d40a9276ba4e784798c3129d3bebb7bdf09fb12509391e\", \"valid\": \"4968d89470ad3de558f09112d56aca927953c598e6a3570a0a29087c40d1c6e4\"}"
+    },
+    {
+      "product_id": "NP19_R00347-C00151_S1_2015_A",
+      "cell_id": "CNA10K-R00347-C00151",
+      "sensor": "sentinel1",
+      "year": 2015,
+      "coverage_tier": "S1_ACTUAL_FOOTPRINT",
+      "state": "LANDED",
+      "n_tasks_planned": 1,
+      "n_files_landed": 1,
+      "bytes": 12051099,
+      "manifest": "work/national/pilot19/manifests/NP19_R00347-C00151_S1_2015_A.json",
+      "sha_by_role": "{\"vvvh\": \"290117d17a9a3c316e3d6e5cee63f47c353f1268095ca95c527a9eca28d32b98\"}"
+    },
+    {
+      "product_id": "NP19_R00388-C00129_S2_2020",
+      "cell_id": "CNA10K-R00388-C00129",
+      "sensor": "sentinel2",
+      "year": 2020,
+      "coverage_tier": "STRICT_FULL",
+      "state": "LANDED",
+      "n_tasks_planned": 2,
+      "n_files_landed": 2,
+      "bytes": 15263437,
+      "manifest": "work/national/pilot19/manifests/NP19_R00388-C00129_S2_2020.json",
+      "sha_by_role": "{\"sr\": \"8312997f22dd9709b5e338ee98e63c535bedc21be9432d1de8a396daa58469d0\", \"valid\": \"ac076bfd5e0af5597f736b0e7e1844b7c7eafdd5655a890fc906ace4651deb5d\"}"
+    }
+  ],
+  "failures": [
+    {
+      "utc": "2026-10-09T05:04:58.513956+00:00",
+      "product_id": "NP19_R00347-C00151_S1_2015_A",
+      "cell_id": "CNA10K-R00347-C00151",
+      "sensor": "sentinel1",
+      "stage": "BUILD_OR_SUBMIT",
+      "detail": "ProvenanceError: GEE vs frozen plan cross-check failed for NP19_R00347-C00151_S1_2015_A productIdentifier: gee=None plan='S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804'",
+      "superseded": true,
+      "superseded_utc": "2026-10-09T05:38:21.916539+00:00",
+      "superseded_by": "successful_reactivation_run"
+    },
+    {
+      "utc": "2026-10-09T05:10:00.715709+00:00",
+      "product_id": "NP19_R00347-C00151_S1_2015_A",
+      "cell_id": "CNA10K-R00347-C00151",
+      "sensor": "sentinel1",
+      "stage": "BUILD_OR_SUBMIT",
+      "detail": "ProvenanceError: GEE vs frozen plan cross-check failed for NP19_R00347-C00151_S1_2015_A orbit pass: gee='ASCENDING' plan='ASC'",
+      "superseded": true,
+      "superseded_utc": "2026-10-09T05:38:21.916556+00:00",
+      "superseded_by": "successful_reactivation_run"
+    },
+    {
+      "utc": "2026-10-09T05:16:50.424451+00:00",
+      "product_id": "NP19_R00264-C00132_L7_2000",
+      "cell_id": "CNA10K-R00264-C00132",
+      "sensor": "landsat7",
+      "stage": "LAND_OR_VALIDATE",
+      "detail": "ProvenanceError: NP19_R00264-C00132_L7_2000: landsat scaling audit fail",
+      "superseded": true,
+      "superseded_utc": "2026-10-09T05:38:20.670484+00:00",
+      "superseded_by": "successful_reactivation_run"
+    },
+    {
+      "utc": "2026-10-09T05:17:07.117440+00:00",
+      "product_id": "NP19_R00311-C00156_L8_2021",
+      "cell_id": "CNA10K-R00311-C00156",
+      "sensor": "landsat8",
+      "stage": "LAND_OR_VALIDATE",
+      "detail": "ProvenanceError: NP19_R00311-C00156_L8_2021: landsat scaling audit fail",
+      "superseded": true,
+      "superseded_utc": "2026-10-09T05:38:21.392441+00:00",
+      "superseded_by": "successful_reactivation_run"
+    },
+    {
+      "utc": "2026-10-09T05:39:02.251428+00:00",
+      "product_id": "NP19_R00347-C00151_S1_2015_A",
+      "cell_id": "CNA10K-R00347-C00151",
+      "sensor": "sentinel1",
+      "stage": "LAND_OR_VALIDATE",
+      "detail": "ProvenanceError: NP19_R00347-C00151_S1_2015_A: S1 dB/identity audit failed (envelope=False, server_match=True)",
+      "superseded": true,
+      "superseded_utc": "2026-10-09T05:53:33.224630+00:00",
+      "superseded_by": "successful_reactivation_run"
+    }
+  ],
+  "git": {
+    "git_commit": "b96af345a9bf7f336f87c7619fad399e95eb1d8c",
+    "dirty_tree": true
+  },
+  "environment": {
+    "python": "3.11.16",
+    "earthengine_api": "1.7.46",
+    "rasterio": "1.4.3"
+  }
+}

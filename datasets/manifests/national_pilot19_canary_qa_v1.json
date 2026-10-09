@@ -1,0 +1,1964 @@
+{
+  "schema": "spartina_pilot19_canary_qa_v1",
+  "issue": "#19",
+  "created_utc": "2026-10-09T06:22:38.265855+00:00",
+  "live_gee_cross_checks": true,
+  "gate_verdict": "WARN",
+  "decision": "CANARY_PASS",
+  "coverage_gate_strict_full": 0.95,
+  "git": {
+    "git_commit": "b96af345a9bf7f336f87c7619fad399e95eb1d8c",
+    "dirty_tree": true
+  },
+  "environment": {
+    "python": "3.11.16",
+    "earthengine_api": "1.7.46",
+    "rasterio": "1.4.3"
+  },
+  "products": [
+    {
+      "product_id": "NP19_R00226-C00080_L5_1990",
+      "cell_id": "CNA10K-R00226-C00080",
+      "sensor": "landsat5",
+      "year": 1990,
+      "verdict": "WARN",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "sr",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_L5_1990_sr_19901029_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 2099141,
+                "size_bytes_actual": 2099141,
+                "sha256_manifest": "ee2c5294406c2e4e11f7625e0f0f900299c01f1fa829d4482326994b5a5d4f17",
+                "sha256_recomputed": "ee2c5294406c2e4e11f7625e0f0f900299c01f1fa829d4482326994b5a5d4f17"
+              },
+              {
+                "role": "valid",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_L5_1990_valid_19901029_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 2420,
+                "size_bytes_actual": 2420,
+                "sha256_manifest": "07f8f008318e4f876d1add189d3da5a45700f24dfad5e2eb4b278e976bf34a80",
+                "sha256_recomputed": "07f8f008318e4f876d1add189d3da5a45700f24dfad5e2eb4b278e976bf34a80"
+              },
+              {
+                "role": "qapixel",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_L5_1990_qapixel_19901029_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 5290,
+                "size_bytes_actual": 5290,
+                "sha256_manifest": "614db455b2efbfd893b1779bed5e3c73559dc24e959bbd6f3af6ec267eb472e6",
+                "sha256_recomputed": "614db455b2efbfd893b1779bed5e3c73559dc24e959bbd6f3af6ec267eb472e6"
+              }
+            ],
+            "task_states": {
+              "sr": "COMPLETED",
+              "valid": "COMPLETED",
+              "qapixel": "COMPLETED"
+            },
+            "n_bytes_manifest": 2106851
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "sr": {
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "count": 6,
+                "dtypes": [
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "SR_B1",
+                  "SR_B2",
+                  "SR_B3",
+                  "SR_B4",
+                  "SR_B5",
+                  "SR_B7"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "valid": {
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "VALID"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "qapixel": {
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "count": 1,
+                "dtypes": [
+                  "uint16"
+                ],
+                "descriptions": [
+                  "QA_PIXEL"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 49,
+            "panel_center_lon": 112.690503,
+            "rebuilt": {
+              "crs_epsg": 32649,
+              "transform": [
+                30.0,
+                0.0,
+                669780.0,
+                0.0,
+                -30.0,
+                2389170.0
+              ],
+              "width": 352,
+              "height": 360,
+              "bounds": [
+                669801.9595345336,
+                2378393.440255455,
+                680321.7810050887,
+                2389161.6652383734
+              ]
+            },
+            "header": {
+              "crs_epsg": 32649,
+              "transform": [
+                30.0,
+                0.0,
+                669780.0,
+                0.0,
+                -30.0,
+                2389170.0
+              ],
+              "width": 352,
+              "height": 360
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "WARN",
+          "detail": {
+            "n_cell_centre_pixels": 111109,
+            "observed_in_cell": 111109,
+            "observed_coverage": 1.0,
+            "coverage_tier": "STRICT_FULL",
+            "valid_in_cell": 0,
+            "valid_coverage": 0.0,
+            "gate": 0.95,
+            "valid_coverage_warn_below": 0.9
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.95); QA-valid clear-surface coverage only 0.0000: source scene cloud/QA quality, export semantics unaffected"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "geodata-1990",
+                "support_m": 30,
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "dtype": "float32",
+                "unique_sample": [],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "WARN",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 7,
+            "land_area_fraction_of_cell": 0.0,
+            "coastline_length_m_in_buffer": 1320.3347094319229
+          },
+          "note": "cell land fraction 0.000; verify coastal membership"
+        },
+        {
+          "name": "landsat_band_accounting",
+          "verdict": "PASS",
+          "detail": {
+            "sensor": "landsat5",
+            "n_sr_bands_expected": 6,
+            "sr_header": {
+              "count": 6,
+              "dtypes": [
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32"
+              ],
+              "descriptions": [
+                "SR_B1",
+                "SR_B2",
+                "SR_B3",
+                "SR_B4",
+                "SR_B5",
+                "SR_B7"
+              ]
+            },
+            "qapixel_dtype": [
+              "uint16"
+            ],
+            "valid_dtype": [
+              "uint8"
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "landsat_scaling_semantics",
+          "verdict": "PASS",
+          "detail": {
+            "formula": "SR = DN * 2.75e-5 - 0.2; fill DN=0 masked pre-scale",
+            "exact_minus_0p2_finite_pixels": 0,
+            "saturation_cap": 1.6022125,
+            "at_cap_finite_pixels": 0,
+            "at_cap_valid_pixels": 0,
+            "valid_percentiles": {
+              "SR_B1": [
+                0.08921749889850616,
+                0.08950789898633957,
+                0.10142750293016434,
+                0.1768919026851654,
+                0.17831750214099884
+              ],
+              "SR_B2": [
+                0.1260399967432022,
+                0.12664719700813293,
+                0.14614249765872955,
+                0.2303199994564056,
+                0.23502250015735626
+              ],
+              "SR_B3": [
+                0.11531499773263931,
+                0.11687919855117798,
+                0.14130249619483948,
+                0.21681420207023616,
+                0.22242750227451324
+              ],
+              "SR_B4": [
+                0.11696500331163406,
+                0.11696500331163406,
+                0.15824249386787415,
+                0.20251859426498411,
+                0.2043599933385849
+              ],
+              "SR_B5": [
+                0.057372499257326126,
+                0.05931619912385941,
+                0.190032497048378,
+                0.2443714028596878,
+                0.2447575032711029
+              ],
+              "SR_B7": [
+                0.03655499964952469,
+                0.038769299536943434,
+                0.13800249993801117,
+                0.18290779888629913,
+                0.18400999903678894
+              ]
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "landsat_valid_reconstruction",
+          "verdict": "PASS",
+          "detail": {
+            "rule": "bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 (RADSAT leg verified by live reducer)",
+            "qa_pixel_valid_pixels": 13,
+            "landed_valid_pixels": 13,
+            "landed_minus_qapixel_rule_pixels": 0,
+            "contradictions": 0,
+            "bit_fractions": {
+              "fill": 0.0,
+              "dilated": 0.0,
+              "cirrus": 0.0,
+              "cloud": 0.0,
+              "shadow": 0.0,
+              "snow": 0.0,
+              "clear": 0.00010258838383838383
+            },
+            "live": {
+              "attempted": true,
+              "live_valid_pixels": 13,
+              "landed_valid_pixels": 13,
+              "relative_difference": 0.0,
+              "tolerance": 0.002
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "sr",
+                "dtype": "float32",
+                "bands": 6,
+                "uncompressed_bytes": 3041280,
+                "actual_bytes": 2099141,
+                "lzw_ratio_uncompressed_over_actual": 1.44882120829425
+              },
+              {
+                "role": "valid",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 126720,
+                "actual_bytes": 2420,
+                "lzw_ratio_uncompressed_over_actual": 52.36363636363637
+              },
+              {
+                "role": "qapixel",
+                "dtype": "uint16",
+                "bands": 1,
+                "uncompressed_bytes": 253440,
+                "actual_bytes": 5290,
+                "lzw_ratio_uncompressed_over_actual": 47.90926275992439
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00226-C00080_L5_1990_quicklook.png",
+            "bytes": 610824
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00264-C00132_L7_2000",
+      "cell_id": "CNA10K-R00264-C00132",
+      "sensor": "landsat7",
+      "year": 2000,
+      "verdict": "WARN",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "sr",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_L7_2000_sr_20000925_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 3040847,
+                "size_bytes_actual": 3040847,
+                "sha256_manifest": "ff8cd63a3cb89a7f50be29aff21397cb2c0c7812fd1dabcdaa4a87983a25b28b",
+                "sha256_recomputed": "ff8cd63a3cb89a7f50be29aff21397cb2c0c7812fd1dabcdaa4a87983a25b28b"
+              },
+              {
+                "role": "valid",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_L7_2000_valid_20000925_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 7271,
+                "size_bytes_actual": 7271,
+                "sha256_manifest": "58ff26889664558cadbbe680aaad50cd6e9f42d8c4711c88d1390a3c14664e10",
+                "sha256_recomputed": "58ff26889664558cadbbe680aaad50cd6e9f42d8c4711c88d1390a3c14664e10"
+              },
+              {
+                "role": "qapixel",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_L7_2000_qapixel_20000925_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 21559,
+                "size_bytes_actual": 21559,
+                "sha256_manifest": "29d5961ece5fc43e659d379ac6f60acba684b337ac642b5aa5ad645750823ba3",
+                "sha256_recomputed": "29d5961ece5fc43e659d379ac6f60acba684b337ac642b5aa5ad645750823ba3"
+              }
+            ],
+            "task_states": {
+              "sr": "COMPLETED",
+              "valid": "COMPLETED",
+              "qapixel": "COMPLETED"
+            },
+            "n_bytes_manifest": 3069677
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "sr": {
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  604830.0,
+                  0.0,
+                  -30.0,
+                  2714520.0
+                ],
+                "width": 372,
+                "height": 374,
+                "count": 6,
+                "dtypes": [
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "SR_B1",
+                  "SR_B2",
+                  "SR_B3",
+                  "SR_B4",
+                  "SR_B5",
+                  "SR_B7"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "valid": {
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  604830.0,
+                  0.0,
+                  -30.0,
+                  2714520.0
+                ],
+                "width": 372,
+                "height": 374,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "VALID"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "qapixel": {
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  604830.0,
+                  0.0,
+                  -30.0,
+                  2714520.0
+                ],
+                "width": 372,
+                "height": 374,
+                "count": 1,
+                "dtypes": [
+                  "uint16"
+                ],
+                "descriptions": [
+                  "QA_PIXEL"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 50,
+            "panel_center_lon": 118.089678,
+            "rebuilt": {
+              "crs_epsg": 32650,
+              "transform": [
+                30.0,
+                0.0,
+                604830.0,
+                0.0,
+                -30.0,
+                2714520.0
+              ],
+              "width": 372,
+              "height": 374,
+              "bounds": [
+                604843.9500455498,
+                2703326.7576081147,
+                615983.5280383971,
+                2714501.04295568
+              ]
+            },
+            "header": {
+              "crs_epsg": 32650,
+              "transform": [
+                30.0,
+                0.0,
+                604830.0,
+                0.0,
+                -30.0,
+                2714520.0
+              ],
+              "width": 372,
+              "height": 374
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "WARN",
+          "detail": {
+            "n_cell_centre_pixels": 111069,
+            "observed_in_cell": 111069,
+            "observed_coverage": 1.0,
+            "coverage_tier": "STRICT_FULL",
+            "valid_in_cell": 39865,
+            "valid_coverage": 0.35892103107077583,
+            "gate": 0.95,
+            "valid_coverage_warn_below": 0.9
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.95); QA-valid clear-surface coverage only 0.3589: source scene cloud/QA quality, export semantics unaffected"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "WARN",
+          "detail": {
+            "adapters": [
+              {
+                "source": "geodata-2000",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  604830.0,
+                  0.0,
+                  -30.0,
+                  2714520.0
+                ],
+                "width": 372,
+                "height": 374,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0,
+                  1.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 7,
+                "positive_valid_fraction": 0.2857142857142857
+              }
+            ]
+          },
+          "note": "1 adapter(s) with <90% positive pixels QA-valid"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "PASS",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 23,
+            "land_area_fraction_of_cell": 0.6664970757910612,
+            "coastline_length_m_in_buffer": 53610.200354919085
+          },
+          "note": "coastline present; land fraction 0.666"
+        },
+        {
+          "name": "landsat_band_accounting",
+          "verdict": "PASS",
+          "detail": {
+            "sensor": "landsat7",
+            "n_sr_bands_expected": 6,
+            "sr_header": {
+              "count": 6,
+              "dtypes": [
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32"
+              ],
+              "descriptions": [
+                "SR_B1",
+                "SR_B2",
+                "SR_B3",
+                "SR_B4",
+                "SR_B5",
+                "SR_B7"
+              ]
+            },
+            "qapixel_dtype": [
+              "uint16"
+            ],
+            "valid_dtype": [
+              "uint8"
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "landsat_scaling_semantics",
+          "verdict": "PASS",
+          "detail": {
+            "formula": "SR = DN * 2.75e-5 - 0.2; fill DN=0 masked pre-scale",
+            "exact_minus_0p2_finite_pixels": 0,
+            "saturation_cap": 1.6022125,
+            "at_cap_finite_pixels": 43029,
+            "at_cap_valid_pixels": 2,
+            "valid_percentiles": {
+              "SR_B1": [
+                0.05025000125169754,
+                0.06443999707698822,
+                0.12832249701023102,
+                0.19519040286540978,
+                0.3134799897670746
+              ],
+              "SR_B2": [
+                0.051350001245737076,
+                0.08400460362434388,
+                0.14570249617099762,
+                0.22762499749660492,
+                0.3982349932193756
+              ],
+              "SR_B3": [
+                0.04612499848008156,
+                0.06948459923267365,
+                0.15153250098228455,
+                0.26593250036239624,
+                1.6022125482559204
+              ],
+              "SR_B4": [
+                0.06804250180721283,
+                0.12131000310182571,
+                0.23026500642299652,
+                0.35049501061439514,
+                0.47515249252319336
+              ],
+              "SR_B5": [
+                0.01889999955892563,
+                0.06168999895453453,
+                0.22256499528884888,
+                0.41327200174331635,
+                1.6022125482559204
+              ],
+              "SR_B7": [
+                0.004957499913871288,
+                0.0364999994635582,
+                0.17438499629497528,
+                0.3479804062843322,
+                0.627144992351532
+              ]
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "landsat_valid_reconstruction",
+          "verdict": "PASS",
+          "detail": {
+            "rule": "bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 (RADSAT leg verified by live reducer)",
+            "qa_pixel_valid_pixels": 52378,
+            "landed_valid_pixels": 52345,
+            "landed_minus_qapixel_rule_pixels": 0,
+            "contradictions": 0,
+            "bit_fractions": {
+              "fill": 0.0,
+              "dilated": 0.09746420562359841,
+              "cirrus": 0.0,
+              "cloud": 0.16916077281352424,
+              "shadow": 0.14670662986602265,
+              "snow": 0.0,
+              "clear": 0.42216520039100686
+            },
+            "live": {
+              "attempted": true,
+              "live_valid_pixels": 52345,
+              "landed_valid_pixels": 52345,
+              "relative_difference": 0.0,
+              "tolerance": 0.002
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "sr",
+                "dtype": "float32",
+                "bands": 6,
+                "uncompressed_bytes": 3339072,
+                "actual_bytes": 3040847,
+                "lzw_ratio_uncompressed_over_actual": 1.0980730040018456
+              },
+              {
+                "role": "valid",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 139128,
+                "actual_bytes": 7271,
+                "lzw_ratio_uncompressed_over_actual": 19.13464447806354
+              },
+              {
+                "role": "qapixel",
+                "dtype": "uint16",
+                "bands": 1,
+                "uncompressed_bytes": 278256,
+                "actual_bytes": 21559,
+                "lzw_ratio_uncompressed_over_actual": 12.906721090959692
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00264-C00132_L7_2000_quicklook.png",
+            "bytes": 489231
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00311-C00156_L8_2021",
+      "cell_id": "CNA10K-R00311-C00156",
+      "sensor": "landsat8",
+      "year": 2021,
+      "verdict": "WARN",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "sr",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_L8_2021_sr_20210920_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 4591204,
+                "size_bytes_actual": 4591204,
+                "sha256_manifest": "10072509b92c0be763d40a9276ba4e784798c3129d3bebb7bdf09fb12509391e",
+                "sha256_recomputed": "10072509b92c0be763d40a9276ba4e784798c3129d3bebb7bdf09fb12509391e"
+              },
+              {
+                "role": "valid",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_L8_2021_valid_20210920_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 5819,
+                "size_bytes_actual": 5819,
+                "sha256_manifest": "4968d89470ad3de558f09112d56aca927953c598e6a3570a0a29087c40d1c6e4",
+                "sha256_recomputed": "4968d89470ad3de558f09112d56aca927953c598e6a3570a0a29087c40d1c6e4"
+              },
+              {
+                "role": "qapixel",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_L8_2021_qapixel_20210920_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 23379,
+                "size_bytes_actual": 23379,
+                "sha256_manifest": "2e2c3ead6b4e925f86d43039b06508ae7d85c270a860bb7626b0dda81d8ad725",
+                "sha256_recomputed": "2e2c3ead6b4e925f86d43039b06508ae7d85c270a860bb7626b0dda81d8ad725"
+              }
+            ],
+            "task_states": {
+              "sr": "COMPLETED",
+              "valid": "COMPLETED",
+              "qapixel": "COMPLETED"
+            },
+            "n_bytes_manifest": 4620402
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "sr": {
+                "crs_epsg": 32651,
+                "transform": [
+                  30.0,
+                  0.0,
+                  315150.0,
+                  0.0,
+                  -30.0,
+                  3143490.0
+                ],
+                "width": 391,
+                "height": 385,
+                "count": 7,
+                "dtypes": [
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "SR_B1",
+                  "SR_B2",
+                  "SR_B3",
+                  "SR_B4",
+                  "SR_B5",
+                  "SR_B6",
+                  "SR_B7"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "valid": {
+                "crs_epsg": 32651,
+                "transform": [
+                  30.0,
+                  0.0,
+                  315150.0,
+                  0.0,
+                  -30.0,
+                  3143490.0
+                ],
+                "width": 391,
+                "height": 385,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "VALID"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "qapixel": {
+                "crs_epsg": 32651,
+                "transform": [
+                  30.0,
+                  0.0,
+                  315150.0,
+                  0.0,
+                  -30.0,
+                  3143490.0
+                ],
+                "width": 391,
+                "height": 385,
+                "count": 1,
+                "dtypes": [
+                  "uint16"
+                ],
+                "descriptions": [
+                  "QA_PIXEL"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 51,
+            "panel_center_lon": 121.173863,
+            "rebuilt": {
+              "crs_epsg": 32651,
+              "transform": [
+                30.0,
+                0.0,
+                315150.0,
+                0.0,
+                -30.0,
+                3143490.0
+              ],
+              "width": 391,
+              "height": 385,
+              "bounds": [
+                315166.618099145,
+                3131965.183669485,
+                326878.8112104698,
+                3143479.811713849
+              ]
+            },
+            "header": {
+              "crs_epsg": 32651,
+              "transform": [
+                30.0,
+                0.0,
+                315150.0,
+                0.0,
+                -30.0,
+                3143490.0
+              ],
+              "width": 391,
+              "height": 385
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "WARN",
+          "detail": {
+            "n_cell_centre_pixels": 111111,
+            "observed_in_cell": 111110,
+            "observed_coverage": 0.9999909999909999,
+            "coverage_tier": "STRICT_FULL",
+            "valid_in_cell": 98377,
+            "valid_coverage": 0.8853938853938854,
+            "gate": 0.95,
+            "valid_coverage_warn_below": 0.9
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.95); QA-valid clear-surface coverage only 0.8854: source scene cloud/QA quality, export semantics unaffected"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "WARN",
+          "detail": {
+            "adapters": [
+              {
+                "source": "cmsa-2021",
+                "support_m": 30,
+                "crs_epsg": 32651,
+                "transform": [
+                  30.0,
+                  0.0,
+                  315150.0,
+                  0.0,
+                  -30.0,
+                  3143490.0
+                ],
+                "width": 391,
+                "height": 385,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0,
+                  9.546826440498535e-09,
+                  9.29954495632046e-08,
+                  1.6701926597306738e-07,
+                  3.7713530787186755e-07,
+                  9.481990446147393e-07,
+                  1.4626816664531361e-06,
+                  1.8945488591270987e-06
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 9546,
+                "positive_valid_fraction": 0.9354703540750052
+              },
+              {
+                "source": "geodata-2020",
+                "support_m": 30,
+                "crs_epsg": 32651,
+                "transform": [
+                  30.0,
+                  0.0,
+                  315150.0,
+                  0.0,
+                  -30.0,
+                  3143490.0
+                ],
+                "width": 391,
+                "height": 385,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0,
+                  1.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 2036,
+                "positive_valid_fraction": 0.869351669941061
+              }
+            ]
+          },
+          "note": "1 adapter(s) with <90% positive pixels QA-valid"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "PASS",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 21,
+            "land_area_fraction_of_cell": 0.5662941853906074,
+            "coastline_length_m_in_buffer": 63449.91833068195
+          },
+          "note": "coastline present; land fraction 0.566"
+        },
+        {
+          "name": "landsat_band_accounting",
+          "verdict": "PASS",
+          "detail": {
+            "sensor": "landsat8",
+            "n_sr_bands_expected": 7,
+            "sr_header": {
+              "count": 7,
+              "dtypes": [
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32",
+                "float32"
+              ],
+              "descriptions": [
+                "SR_B1",
+                "SR_B2",
+                "SR_B3",
+                "SR_B4",
+                "SR_B5",
+                "SR_B6",
+                "SR_B7"
+              ]
+            },
+            "qapixel_dtype": [
+              "uint16"
+            ],
+            "valid_dtype": [
+              "uint8"
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "landsat_scaling_semantics",
+          "verdict": "PASS",
+          "detail": {
+            "formula": "SR = DN * 2.75e-5 - 0.2; fill DN=0 masked pre-scale",
+            "exact_minus_0p2_finite_pixels": 0,
+            "saturation_cap": 1.6022125,
+            "at_cap_finite_pixels": 0,
+            "at_cap_valid_pixels": 0,
+            "valid_percentiles": {
+              "SR_B1": [
+                -0.18388499319553375,
+                -0.0028767000325024094,
+                0.04208249971270561,
+                0.09218750149011612,
+                0.3343524932861328
+              ],
+              "SR_B2": [
+                -0.08565499633550644,
+                0.017304999753832817,
+                0.04945249855518341,
+                0.10590670317411435,
+                0.3801949918270111
+              ],
+              "SR_B3": [
+                0.01680999994277954,
+                0.03595000132918358,
+                0.07885000109672546,
+                0.1432275027036667,
+                0.4471299946308136
+              ],
+              "SR_B4": [
+                0.003967499826103449,
+                0.022749999538064003,
+                0.06496249884366989,
+                0.15339920639991772,
+                0.47520750761032104
+              ],
+              "SR_B5": [
+                -0.02009500004351139,
+                0.0025100000202655792,
+                0.21920999884605408,
+                0.4321358978748324,
+                0.5974724888801575
+              ],
+              "SR_B6": [
+                0.0016024999786168337,
+                0.010924999602138996,
+                0.13668249547481537,
+                0.27121248841285706,
+                0.7435525059700012
+              ],
+              "SR_B7": [
+                0.0013000000035390258,
+                0.007160799913108352,
+                0.06009500101208687,
+                0.1865576010942463,
+                0.8036674857139587
+              ]
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "landsat_valid_reconstruction",
+          "verdict": "PASS",
+          "detail": {
+            "rule": "bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 (RADSAT leg verified by live reducer)",
+            "qa_pixel_valid_pixels": 131713,
+            "landed_valid_pixels": 131713,
+            "landed_minus_qapixel_rule_pixels": 0,
+            "contradictions": 0,
+            "bit_fractions": {
+              "fill": 0.0,
+              "dilated": 0.05118411000763942,
+              "cirrus": 0.0,
+              "cloud": 0.03977148171521573,
+              "shadow": 0.058909888065898294,
+              "snow": 0.0,
+              "clear": 0.9090444082771448
+            },
+            "live": {
+              "attempted": true,
+              "live_valid_pixels": 131713,
+              "landed_valid_pixels": 131713,
+              "relative_difference": 0.0,
+              "tolerance": 0.002
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "sr",
+                "dtype": "float32",
+                "bands": 7,
+                "uncompressed_bytes": 4214980,
+                "actual_bytes": 4591204,
+                "lzw_ratio_uncompressed_over_actual": 0.9180554817429154
+              },
+              {
+                "role": "valid",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 150535,
+                "actual_bytes": 5819,
+                "lzw_ratio_uncompressed_over_actual": 25.869565217391305
+              },
+              {
+                "role": "qapixel",
+                "dtype": "uint16",
+                "bands": 1,
+                "uncompressed_bytes": 301070,
+                "actual_bytes": 23379,
+                "lzw_ratio_uncompressed_over_actual": 12.877796312930407
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00311-C00156_L8_2021_quicklook.png",
+            "bytes": 911277
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00347-C00151_S1_2015_A",
+      "cell_id": "CNA10K-R00347-C00151",
+      "sensor": "sentinel1",
+      "year": 2015,
+      "verdict": "PASS",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "vvvh",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00347-C00151_S1_2015_A_vvvh_20150918_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 12051099,
+                "size_bytes_actual": 12051099,
+                "sha256_manifest": "290117d17a9a3c316e3d6e5cee63f47c353f1268095ca95c527a9eca28d32b98",
+                "sha256_recomputed": "290117d17a9a3c316e3d6e5cee63f47c353f1268095ca95c527a9eca28d32b98"
+              }
+            ],
+            "task_states": {
+              "vvvh": "COMPLETED"
+            },
+            "n_bytes_manifest": 12051099
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "vvvh": {
+                "crs_epsg": 32651,
+                "transform": [
+                  10.0,
+                  0.0,
+                  330020.0,
+                  0.0,
+                  -10.0,
+                  3502310.0
+                ],
+                "width": 1180,
+                "height": 1147,
+                "count": 2,
+                "dtypes": [
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "VV",
+                  "VH"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 51,
+            "panel_center_lon": 121.270631,
+            "rebuilt": {
+              "crs_epsg": 32651,
+              "transform": [
+                10.0,
+                0.0,
+                330020.0,
+                0.0,
+                -10.0,
+                3502310.0
+              ],
+              "width": 1180,
+              "height": 1147,
+              "bounds": [
+                330026.03493011,
+                3490842.0203595865,
+                341819.0332209562,
+                3502302.5820904323
+              ]
+            },
+            "header": {
+              "crs_epsg": 32651,
+              "transform": [
+                10.0,
+                0.0,
+                330020.0,
+                0.0,
+                -10.0,
+                3502310.0
+              ],
+              "width": 1180,
+              "height": 1147
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "PASS",
+          "detail": {
+            "n_cell_centre_pixels": 999865,
+            "observed_in_cell": 999865,
+            "observed_coverage": 1.0,
+            "coverage_tier": "S1_ACTUAL_FOOTPRINT",
+            "gate": 0.5
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.5)"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "geodata-2015",
+                "support_m": 30,
+                "crs_epsg": 32651,
+                "transform": [
+                  30.0,
+                  0.0,
+                  330000.0,
+                  0.0,
+                  -30.0,
+                  3502320.0
+                ],
+                "width": 394,
+                "height": 383,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  10.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "PASS",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 4,
+            "land_area_fraction_of_cell": 0.3548225393198657,
+            "coastline_length_m_in_buffer": 12865.66852563347
+          },
+          "note": "coastline present; land fraction 0.355"
+        },
+        {
+          "name": "s1_identity_and_physics",
+          "verdict": "PASS",
+          "detail": {
+            "bands": {
+              "VV": {
+                "min": -37.166900634765625,
+                "p01": -20.67396745681763,
+                "p50": -13.678540706634521,
+                "p99": 4.2952886390686,
+                "max": 36.57382583618164,
+                "std": 5.43537317123184,
+                "finite_fraction": 1.0
+              },
+              "VH": {
+                "min": -55.17466354370117,
+                "p01": -43.17824985504151,
+                "p50": -23.336761474609375,
+                "p99": -6.661168808937085,
+                "max": 13.479226112365723,
+                "std": 7.436063464991064,
+                "finite_fraction": 1.0
+              }
+            },
+            "point_target_row_stripe_ratio": 101.20588235294117,
+            "live": {
+              "attempted": true,
+              "server_stats": {
+                "VV": {
+                  "min": -37.166901979348836,
+                  "max": 36.57382551266941,
+                  "p01": -20.73315748576474,
+                  "p50": -13.758216139224471,
+                  "p99": 4.239812179221098
+                },
+                "VH": {
+                  "min": -55.174662652470154,
+                  "max": 13.47922635648022,
+                  "p01": -43.242237430917896,
+                  "p50": -23.255751715482866,
+                  "p99": -6.75107347124605
+                }
+              },
+              "abs_deltas": {
+                "VV_min": 0.0,
+                "VV_max": 0.0,
+                "VV_p01": 0.0592,
+                "VV_p50": 0.0797,
+                "VV_p99": 0.0555,
+                "VH_min": 0.0,
+                "VH_max": 0.0,
+                "VH_p01": 0.064,
+                "VH_p50": 0.081,
+                "VH_p99": 0.0899
+              },
+              "checks": {
+                "VV_min": true,
+                "VV_max": true,
+                "VV_p01": true,
+                "VV_p50": true,
+                "VV_p99": true,
+                "VH_min": true,
+                "VH_max": true,
+                "VH_p01": true,
+                "VH_p50": true,
+                "VH_p99": true
+              },
+              "pass": true
+            },
+            "transform": "IDENTITY_SELECT_ONLY_NO_10LOG10"
+          },
+          "note": ""
+        },
+        {
+          "name": "s1_pass_orbit_footprint",
+          "verdict": "PASS",
+          "detail": {
+            "plan_pass": "",
+            "gee_pass": "ASCENDING",
+            "plan_relative_orbit": 171,
+            "gee_relative_orbit": 171,
+            "polarisation": [
+              "VV",
+              "VH"
+            ],
+            "source_product_id": "S1A_IW_GRDH_1SDV_20150918T095428_20150918T095453_007768_00ACD0_1804",
+            "productIdentifier_property_present": false,
+            "VV_finite_fraction": 1.0,
+            "VH_finite_fraction": 1.0,
+            "coverage_tier": "S1_ACTUAL_FOOTPRINT"
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "vvvh",
+                "dtype": "float32",
+                "bands": 2,
+                "uncompressed_bytes": 10827680,
+                "actual_bytes": 12051099,
+                "lzw_ratio_uncompressed_over_actual": 0.8984807111782918
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00347-C00151_S1_2015_A_quicklook.png",
+            "bytes": 2156662
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00388-C00129_S2_2020",
+      "cell_id": "CNA10K-R00388-C00129",
+      "sensor": "sentinel2",
+      "year": 2020,
+      "verdict": "PASS",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "sr",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00388-C00129_S2_2020_sr_20200918_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 15244575,
+                "size_bytes_actual": 15244575,
+                "sha256_manifest": "8312997f22dd9709b5e338ee98e63c535bedc21be9432d1de8a396daa58469d0",
+                "sha256_recomputed": "8312997f22dd9709b5e338ee98e63c535bedc21be9432d1de8a396daa58469d0"
+              },
+              {
+                "role": "valid",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00388-C00129_S2_2020_valid_20200918_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 18862,
+                "size_bytes_actual": 18862,
+                "sha256_manifest": "ac076bfd5e0af5597f736b0e7e1844b7c7eafdd5655a890fc906ace4651deb5d",
+                "sha256_recomputed": "ac076bfd5e0af5597f736b0e7e1844b7c7eafdd5655a890fc906ace4651deb5d"
+              }
+            ],
+            "task_states": {
+              "sr": "COMPLETED",
+              "valid": "COMPLETED"
+            },
+            "n_bytes_manifest": 15263437
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "sr": {
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  728870.0,
+                  0.0,
+                  -10.0,
+                  3935470.0
+                ],
+                "width": 1135,
+                "height": 1094,
+                "count": 4,
+                "dtypes": [
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B8"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "valid": {
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  728870.0,
+                  0.0,
+                  -10.0,
+                  3935470.0
+                ],
+                "width": 1135,
+                "height": 1094,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "VALID"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 50,
+            "panel_center_lon": 119.5854,
+            "rebuilt": {
+              "crs_epsg": 32650,
+              "transform": [
+                10.0,
+                0.0,
+                728870.0,
+                0.0,
+                -10.0,
+                3935470.0
+              ],
+              "width": 1135,
+              "height": 1094,
+              "bounds": [
+                728871.6256925534,
+                3924539.7565817437,
+                740218.7526308012,
+                3935465.224666055
+              ]
+            },
+            "header": {
+              "crs_epsg": 32650,
+              "transform": [
+                10.0,
+                0.0,
+                728870.0,
+                0.0,
+                -10.0,
+                3935470.0
+              ],
+              "width": 1135,
+              "height": 1094
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "PASS",
+          "detail": {
+            "n_cell_centre_pixels": 1000562,
+            "observed_in_cell": 1000562,
+            "observed_coverage": 1.0,
+            "coverage_tier": "STRICT_FULL",
+            "valid_in_cell": 996213,
+            "valid_coverage": 0.995653442765166,
+            "gate": 0.95,
+            "valid_coverage_warn_below": 0.9
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.95)"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "cmsa-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  728850.0,
+                  0.0,
+                  -30.0,
+                  3935490.0
+                ],
+                "width": 379,
+                "height": 366,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  20.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "geodata-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  728850.0,
+                  0.0,
+                  -30.0,
+                  3935490.0
+                ],
+                "width": 379,
+                "height": 366,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  20.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 10,
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  728870.0,
+                  0.0,
+                  -10.0,
+                  3935470.0
+                ],
+                "width": 1135,
+                "height": 1094,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  728850.0,
+                  0.0,
+                  -30.0,
+                  3935490.0
+                ],
+                "width": 379,
+                "height": 366,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  20.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "PASS",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 5,
+            "land_area_fraction_of_cell": 0.6812857136876056,
+            "coastline_length_m_in_buffer": 13447.435304269447
+          },
+          "note": "coastline present; land fraction 0.681"
+        },
+        {
+          "name": "s2_bands_scaling",
+          "verdict": "PASS",
+          "detail": {
+            "header": {
+              "count": 4,
+              "dtypes": [
+                "float32",
+                "float32",
+                "float32",
+                "float32"
+              ],
+              "descriptions": [
+                "B2",
+                "B3",
+                "B4",
+                "B8"
+              ]
+            },
+            "valid_unique": [
+              0,
+              1
+            ],
+            "scale": 10000.0,
+            "dn_like_pixels": 0,
+            "negative_pixels": 0,
+            "valid_percentiles": {
+              "B2": {
+                "p01": 0.022299999371170998,
+                "p50": 0.05660000070929527,
+                "p99": 0.19599999487400055,
+                "max": 1.3176000118255615
+              },
+              "B3": {
+                "p01": 0.031599998474121094,
+                "p50": 0.07400000095367432,
+                "p99": 0.21819999814033508,
+                "max": 1.6727999448776245
+              },
+              "B4": {
+                "p01": 0.019700000062584877,
+                "p50": 0.04540000110864639,
+                "p99": 0.24819999933242798,
+                "max": 1.6119999885559082
+              },
+              "B8": {
+                "p01": 0.00860000029206276,
+                "p50": 0.2329999953508377,
+                "p99": 0.40799999237060547,
+                "max": 1.555999994277954
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "s2_scl_policy_live",
+          "verdict": "PASS",
+          "detail": {
+            "policy_version": "s2_scl_qa_v1_1",
+            "valid_classes": [
+              4,
+              5,
+              6
+            ],
+            "not_valid_classes": [
+              0,
+              1,
+              2,
+              3,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "datatake_identifier": "GS2B_20200918T024549_018462_N05.00",
+            "contributing_source_product_ids": [
+              "S2B_MSIL2A_20200918T024549_N0500_R132_T50SQE_20230405T175958"
+            ],
+            "spacecraft": null,
+            "live": {
+              "attempted": true,
+              "n_scenes_for_ids": 1,
+              "live_datatakes": [
+                "GS2B_20200918T024549_018462_N05.00"
+              ],
+              "live_contributing_products": [
+                "S2B_MSIL2A_20200918T024549_N0500_R132_T50SQE_20230405T175958"
+              ],
+              "scl_class_counts": {
+                "2": 1948,
+                "4": 559754,
+                "5": 244870,
+                "6": 431176,
+                "7": 3878,
+                "8": 64
+              },
+              "live_valid_pixels": 1235800,
+              "live_valid_rule": "classes {4 vegetation, 5 bare, 6 water}",
+              "landed_valid_pixels": 1235800,
+              "relative_difference": 0.0,
+              "tolerance": 0.002,
+              "water_class_6_included_in_live_valid": true
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "sr",
+                "dtype": "float32",
+                "bands": 4,
+                "uncompressed_bytes": 19867040,
+                "actual_bytes": 15244575,
+                "lzw_ratio_uncompressed_over_actual": 1.3032203259192205
+              },
+              {
+                "role": "valid",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 1241690,
+                "actual_bytes": 18862,
+                "lzw_ratio_uncompressed_over_actual": 65.83024069557841
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00388-C00129_S2_2020_quicklook.png",
+            "bytes": 1737759
+          },
+          "note": ""
+        }
+      ]
+    }
+  ]
+}
