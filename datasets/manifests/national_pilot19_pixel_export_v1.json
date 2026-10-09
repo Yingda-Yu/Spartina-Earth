@@ -1,7 +1,7 @@
 {
   "manifest_id": "national_pilot19_pixel_export_v1",
   "issue": 19,
-  "created_utc": "2026-10-09T05:53:41.663492+00:00",
+  "created_utc": "2026-10-09T07:13:38.922909+00:00",
   "scope": "canary_5_products",
   "canary": true,
   "n_products_selected": 5,
@@ -9,7 +9,8 @@
     "LANDED": 5
   },
   "task_store_counts": {
-    "COMPLETED": 12
+    "COMPLETED": 70,
+    "ENQUEUED": 12
   },
   "n_tasks_planned": 12,
   "total_landed_bytes": 37111466,
@@ -140,10 +141,18 @@
       "superseded": true,
       "superseded_utc": "2026-10-09T05:53:33.224630+00:00",
       "superseded_by": "successful_reactivation_run"
+    },
+    {
+      "utc": "2026-10-09T06:43:41.155643+00:00",
+      "product_id": "NP19_R00260-C00128_L8_2020",
+      "cell_id": "CNA10K-R00260-C00128",
+      "sensor": "landsat8",
+      "stage": "LAND_OR_VALIDATE",
+      "detail": "ProvenanceError: NP19_R00260-C00128_L8_2020: landsat physical audit fail: ['sr_b1_no_nonfinite_in_valid', 'sr_b2_no_nonfinite_in_valid']"
     }
   ],
   "git": {
-    "git_commit": "b96af345a9bf7f336f87c7619fad399e95eb1d8c",
+    "git_commit": "61330590380f3f936acddb245ba35be7cc0eb3d9",
     "dirty_tree": true
   },
   "environment": {

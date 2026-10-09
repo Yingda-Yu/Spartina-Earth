@@ -105,14 +105,38 @@ def test_landsat_scaling_audit_band_accounting() -> None:
     assert not m.landsat_scaling_audit("landsat5", bad)["pass"]
 
 
+def test_role_revision_table() -> None:
+    # r2 landsat VALID (all-SR-bands-observed); every other component r1.
+    assert m.role_revision("landsat5", "valid") == "r2"
+    assert m.role_revision("landsat7", "valid") == "r2"
+    assert m.role_revision("landsat8", "valid") == "r2"
+    assert m.role_revision("landsat8", "sr") == "r1"
+    assert m.role_revision("landsat8", "qapixel") == "r1"
+    assert m.role_revision("sentinel2", "valid") == "r1"
+    assert m.role_revision("sentinel1", "vvvh") == "r1"
+
+
 def test_deterministic_naming() -> None:
     row = {"product_id": "NP19_R00226-C00080_L5_1990",
+           "sensor": "landsat5",
            "event_utc": "1990-10-29T00:00:00+00:00"}
     assert (m.prefix_for(row, "sr")
             == "spartina_pilot19_NP19_R00226-C00080_L5_1990_sr_19901029_r1")
     assert m.request_for(row, "qapixel") == (
         "NP19_R00226-C00080_L5_1990:qapixel:r1")
+    # Landsat VALID moved to r2 after the pilot D1 per-band nodata finding.
+    assert (m.prefix_for(row, "valid")
+            == "spartina_pilot19_NP19_R00226-C00080_L5_1990_valid_"
+               "19901029_r2")
+    assert m.request_for(row, "valid") == (
+        "NP19_R00226-C00080_L5_1990:valid:r2")
     assert m.date_tag(row) == "19901029"
+    # Non-landsat components keep r1.
+    s2 = {"product_id": "NP19_P_S2_2020", "sensor": "sentinel2",
+          "event_utc": "2020-09-18T02:45:49+00:00"}
+    assert m.request_for(s2, "valid") == "NP19_P_S2_2020:valid:r1"
+    assert (m.prefix_for(s2, "valid")
+            == "spartina_pilot19_NP19_P_S2_2020_valid_20200918_r1")
 
 
 def test_summarize_states_priority_and_counts() -> None:

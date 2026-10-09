@@ -13,9 +13,10 @@ Dimensions:
   checked against both EO headers and frozen label-adapter headers;
 * Landsat C02 L2 semantics: band accounting (6 L5/L7, 7 L8),
   SR = DN*2.75e-5 - 0.2 with fill masked before scaling (no exact
-  -0.2 leak), VALID reconstructed independently from raw QA_PIXEL bits
-  locally and from QA_PIXEL + QA_RADSAT through a LIVE independent GEE
-  reducer, reflectance percentiles, QA bit fractions, LZW ratios;
+  -0.2 leak), VALID reconstructed independently at revision r2 (raw
+  QA_PIXEL bits + QA_RADSAT + all SR bands observed) locally and through
+  a LIVE independent GEE reducer, reflectance percentiles, QA bit
+  fractions, LZW ratios;
 * Sentinel-2: s2_scl_qa_v1_1 semantics plus a LIVE independent SCL
   frequency histogram (valid exactly {4,5,6}; water valid;
   2/7/11 invalid), same-datatake grouping, contributing granule ids;
@@ -95,14 +96,29 @@ LIVE_DB_EXTREMA_TOL = 1.0
 LIVE_DB_PCT_TOL = 0.6
 ALBERS = CRS.from_proj4(CHINA_ALBERS_PROJ4)
 
-#: relevant-year label adapters per canary (sensor, year).
+#: relevant-year label adapters per (sensor, event year). GEODATA years
+#: are 1990/2000/2015/2020; CMSA covers 2017-2021; CM-SSM is 2020 only.
+#: Years without a contemporary adapter use the nearest frozen source and
+#: the comparison is recorded as cross-year (occupancy alignment only,
+#: never an accuracy claim).
 LABEL_SOURCES: dict[tuple[str, int], list[tuple[str, int]]] = {
     ("landsat5", 1990): [("geodata-1990", 30)],
+    ("landsat5", 2000): [("geodata-2000", 30)],
     ("landsat7", 2000): [("geodata-2000", 30)],
+    ("landsat8", 2015): [("geodata-2015", 30)],
+    ("landsat8", 2020): [("cmsa-2020", 30), ("geodata-2020", 30)],
     ("landsat8", 2021): [("cmsa-2021", 30), ("geodata-2020", 30)],
     ("sentinel1", 2015): [("geodata-2015", 30)],
+    ("sentinel1", 2020): [
+        ("cmsa-2020", 30), ("geodata-2020", 30), ("cmssm-2020", 10)],
+    ("sentinel1", 2021): [
+        ("cmsa-2021", 30), ("geodata-2020", 30), ("cmssm-2020", 10)],
+    ("sentinel2", 2015): [("geodata-2015", 30)],
     ("sentinel2", 2020): [
         ("cmsa-2020", 30), ("geodata-2020", 30),
+        ("cmssm-2020", 10), ("cmssm-2020", 30)],
+    ("sentinel2", 2021): [
+        ("cmsa-2021", 30), ("geodata-2020", 30),
         ("cmssm-2020", 10), ("cmssm-2020", 30)],
 }
 
@@ -676,7 +692,13 @@ def qa_landsat(ee: Any | None, mf: dict[str, Any]) -> list[Dimension]:
                 QA_CLOUD_SHADOW, QA_SNOW):
         blocked |= (qpx & (1 << bit)) != 0
     qpx_valid = clear & ~blocked
+    # r2: VALID must additionally sit on pixels where every landed SR band
+    # is finite/observed (interior per-band nodata under clear QA motivated
+    # the r2 revision during pilot D1).
+    observed_all = finite.all(axis=0)
     violations = int((valid & ~qpx_valid).sum())
+    r2_violations = int((valid & ~observed_all).sum())
+    radsat_only_excluded = int((qpx_valid & observed_all & ~valid).sum())
     bit_fractions = {
         name: float(((qpx & (1 << bit)) != 0).mean())
         for name, bit in (("fill", QA_FILL), ("dilated", QA_DILATED_CLOUD),
@@ -688,9 +710,13 @@ def qa_landsat(ee: Any | None, mf: dict[str, Any]) -> list[Dimension]:
     if violations:
         recon_problems.append(
             f"{violations} VALID pixels contradict QA_PIXEL bit rule")
+    if r2_violations:
+        recon_problems.append(
+            f"{r2_violations} r2 VALID pixels lack finite observations in "
+            "one or more SR bands")
     if ee is not None:
         try:
-            live_count = _live_landsat_valid_count(ee, mf, qpx_valid)
+            live_count = _live_landsat_valid_count(ee, mf)
             n_landed = int(valid.sum())
             rel = abs(live_count - n_landed) / max(n_landed, 1)
             live.update({"live_valid_pixels": live_count,
@@ -706,13 +732,17 @@ def qa_landsat(ee: Any | None, mf: dict[str, Any]) -> list[Dimension]:
     dims.append(Dimension(
         "landsat_valid_reconstruction",
         FAIL if recon_problems else (SKIPPED if ee is None else PASS),
-        {"rule": ("bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 "
-                  "(RADSAT leg verified by live reducer)"),
+        {"rule": ("r2: bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0; "
+                  "all SR bands observed (min mask == 1). RADSAT leg and "
+                  "all-observed leg verified by live reducer"),
          "qa_pixel_valid_pixels": int(qpx_valid.sum()),
+         "qa_clear_and_observed_pixels": int((qpx_valid & observed_all).sum()),
          "landed_valid_pixels": int(valid.sum()),
          "landed_minus_qapixel_rule_pixels": int(
              valid.sum() - (valid & qpx_valid).sum()),
          "contradictions": violations,
+         "r2_nan_under_valid_pixels": r2_violations,
+         "radsat_or_unobserved_excluded_pixels": radsat_only_excluded,
          "bit_fractions": bit_fractions, "live": live},
         "; ".join(recon_problems)))
 
@@ -722,9 +752,8 @@ def qa_landsat(ee: Any | None, mf: dict[str, Any]) -> list[Dimension]:
     return dims
 
 
-def _live_landsat_valid_count(ee: Any, mf: dict[str, Any],
-                              qpx_valid: np.ndarray[Any, Any]) -> int:
-    """Live independent valid-pixel count for the exact scene/region."""
+def _live_landsat_valid_count(ee: Any, mf: dict[str, Any]) -> int:
+    """Live independent r2 valid-pixel count for the exact scene/region."""
     rect, epsg, scale = _ee_rect(ee, mf)
     scene_id = str(mf["source_scene_ids"][0])
     img = (ee.ImageCollection(_DRIVER.collection_for(str(mf["sensor"])))
@@ -736,6 +765,11 @@ def _live_landsat_valid_count(ee: Any, mf: dict[str, Any],
                 QA_CLOUD_SHADOW, QA_SNOW):
         valid = valid.And(qpxb.bitwiseAnd(1 << bit).eq(0))
     valid = valid.And(radsat.eq(0))
+    # r2 all-SR-bands-observed leg; fill mask applied before scaling as in
+    # the export driver, so per-band nodata cannot hide under clear QA.
+    sr = img.select(list(sr_bands(str(mf["sensor"])))).updateMask(
+        qpxb.bitwiseAnd(1 << QA_FILL).eq(0))
+    valid = valid.And(sr.mask().reduce(ee.Reducer.min()).eq(1))
     raw = valid.reduceRegion(
         reducer=ee.Reducer.sum(), geometry=rect, crs=f"EPSG:{epsg}",
         scale=scale, bestEffort=False, tileScale=4).getInfo()

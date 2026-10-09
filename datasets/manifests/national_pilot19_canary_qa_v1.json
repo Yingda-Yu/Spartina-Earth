@@ -1,13 +1,13 @@
 {
   "schema": "spartina_pilot19_canary_qa_v1",
   "issue": "#19",
-  "created_utc": "2026-10-09T06:22:38.265855+00:00",
+  "created_utc": "2026-10-09T07:17:31.315280+00:00",
   "live_gee_cross_checks": true,
   "gate_verdict": "WARN",
   "decision": "CANARY_PASS",
   "coverage_gate_strict_full": 0.95,
   "git": {
-    "git_commit": "b96af345a9bf7f336f87c7619fad399e95eb1d8c",
+    "git_commit": "61330590380f3f936acddb245ba35be7cc0eb3d9",
     "dirty_tree": true
   },
   "environment": {
@@ -39,7 +39,7 @@
               },
               {
                 "role": "valid",
-                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_L5_1990_valid_19901029_r1.tif",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_L5_1990_valid_19901029_r2.tif",
                 "exists": true,
                 "size_bytes_manifest": 2420,
                 "size_bytes_actual": 2420,
@@ -343,11 +343,14 @@
           "name": "landsat_valid_reconstruction",
           "verdict": "PASS",
           "detail": {
-            "rule": "bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 (RADSAT leg verified by live reducer)",
+            "rule": "r2: bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0; all SR bands observed (min mask == 1). RADSAT leg and all-observed leg verified by live reducer",
             "qa_pixel_valid_pixels": 13,
+            "qa_clear_and_observed_pixels": 13,
             "landed_valid_pixels": 13,
             "landed_minus_qapixel_rule_pixels": 0,
             "contradictions": 0,
+            "r2_nan_under_valid_pixels": 0,
+            "radsat_or_unobserved_excluded_pixels": 0,
             "bit_fractions": {
               "fill": 0.0,
               "dilated": 0.0,
@@ -434,7 +437,7 @@
               },
               {
                 "role": "valid",
-                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_L7_2000_valid_20000925_r1.tif",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_L7_2000_valid_20000925_r2.tif",
                 "exists": true,
                 "size_bytes_manifest": 7271,
                 "size_bytes_actual": 7271,
@@ -742,11 +745,14 @@
           "name": "landsat_valid_reconstruction",
           "verdict": "PASS",
           "detail": {
-            "rule": "bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 (RADSAT leg verified by live reducer)",
+            "rule": "r2: bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0; all SR bands observed (min mask == 1). RADSAT leg and all-observed leg verified by live reducer",
             "qa_pixel_valid_pixels": 52378,
+            "qa_clear_and_observed_pixels": 52378,
             "landed_valid_pixels": 52345,
             "landed_minus_qapixel_rule_pixels": 0,
             "contradictions": 0,
+            "r2_nan_under_valid_pixels": 0,
+            "radsat_or_unobserved_excluded_pixels": 33,
             "bit_fractions": {
               "fill": 0.0,
               "dilated": 0.09746420562359841,
@@ -833,7 +839,7 @@
               },
               {
                 "role": "valid",
-                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_L8_2021_valid_20210920_r1.tif",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_L8_2021_valid_20210920_r2.tif",
                 "exists": true,
                 "size_bytes_manifest": 5819,
                 "size_bytes_actual": 5819,
@@ -1185,11 +1191,14 @@
           "name": "landsat_valid_reconstruction",
           "verdict": "PASS",
           "detail": {
-            "rule": "bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0 (RADSAT leg verified by live reducer)",
+            "rule": "r2: bit6 CLEAR set; bits 0-5 all clear; QA_RADSAT == 0; all SR bands observed (min mask == 1). RADSAT leg and all-observed leg verified by live reducer",
             "qa_pixel_valid_pixels": 131713,
+            "qa_clear_and_observed_pixels": 131713,
             "landed_valid_pixels": 131713,
             "landed_minus_qapixel_rule_pixels": 0,
             "contradictions": 0,
+            "r2_nan_under_valid_pixels": 0,
+            "radsat_or_unobserved_excluded_pixels": 0,
             "bit_fractions": {
               "fill": 0.0,
               "dilated": 0.05118411000763942,

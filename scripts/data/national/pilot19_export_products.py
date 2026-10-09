@@ -110,6 +110,16 @@ OUT_JSON = REPO_ROOT / "datasets/manifests/national_pilot19_pixel_export_v1.json
 
 GDRIVE_FOLDER = "SpartinaEarthPilot19"
 REVISION = "r1"
+#: Landsat VALID component revision r2: pilot D1 found QA-clear pixels with
+#: per-band SR nodata (interior B1/B2 NaN under clear QA_PIXEL). VALID now
+#: also requires every SR band observed. SR/QA_PIXEL stay r1 (same pixels).
+LANDSAT_VALID_REVISION = "r2"
+
+
+def role_revision(sensor: str, role: str) -> str:
+    if sensor.startswith("landsat") and role == "valid":
+        return LANDSAT_VALID_REVISION
+    return REVISION
 POLL_INTERVAL_S = 15
 TASK_TIMEOUT_S = 5400
 DRIVE_PROPAGATION_S = 180
@@ -268,11 +278,12 @@ def date_tag(row: dict[str, Any]) -> str:
 
 def prefix_for(row: dict[str, Any], role: str) -> str:
     return (f"spartina_pilot19_{row['product_id']}_{role}_"
-            f"{date_tag(row)}_{REVISION}")
+            f"{date_tag(row)}_{role_revision(str(row['sensor']), role)}")
 
 
 def request_for(row: dict[str, Any], role: str) -> str:
-    return f"{row['product_id']}:{role}:{REVISION}"
+    rev = role_revision(str(row["sensor"]), role)
+    return f"{row['product_id']}:{role}:{rev}"
 
 
 # ---------------------------------------------------------------------------
@@ -382,7 +393,13 @@ def build_landsat(
     valid = qa.bitwiseAnd(1 << landsat.QA_CLEAR).neq(0)
     for bit in blocked:
         valid = valid.And(qa.bitwiseAnd(1 << bit).eq(0))
-    valid = valid.And(radsat.eq(0)).toByte().unmask(0).rename("VALID")
+    valid = valid.And(radsat.eq(0))
+    # r2: QA_PIXEL clear does not guarantee per-band presence. Pilot D1
+    # observed interior B1/B2 nodata pixels under clear QA (R00260 L8 2020);
+    # require every SR band observed, matching the S2 contract.
+    observed_all_sr = sr.mask().reduce(ee.Reducer.min())
+    valid = (valid.And(observed_all_sr.eq(1))
+             .toByte().unmask(0).rename("VALID"))
     qa_raw = img.select("QA_PIXEL").toUint16().rename("QA_PIXEL")
     props = img.toDictionary(list(_LANDSAT_PROP_KEYS)).getInfo()
     config = {
@@ -396,8 +413,11 @@ def build_landsat(
         "native_resolution_m": 30.0,
         "upsampling": "FORBIDDEN; 30 m product stays on the 30 m grid",
         "qa_contract": {
-            "valid": ("QA_PIXEL clear bit6 and none of fill/dilated/"
-                      "cirrus/cloud/shadow/snow, plus QA_RADSAT == 0"),
+            "valid": ("r2: QA_PIXEL clear bit6 and none of fill/dilated/"
+                      "cirrus/cloud/shadow/snow, plus QA_RADSAT == 0, AND "
+                      "every SR band observed (per-band mask min == 1); "
+                      "r1 (QA+RADSAT only) superseded after pilot D1 found "
+                      "interior per-band nodata under clear QA"),
             "fill_dn0": ("fill bit0 pixels masked BEFORE scaling; DN=0 "
                          "never exported as reflectance -0.2"),
             "raw_qa_exported_separately": True},
@@ -1275,11 +1295,12 @@ class ExportScheduler:
             "grid_sha256": canonical_fingerprint(bundle.grid.to_dict()),
             "region": bundle.region,
             "build_revision": (
-                "pilot19 r1: national generalisation of M2.1b r4/r5; "
+                "pilot19 r1/r2: national generalisation of M2.1b r4/r5; "
                 "projected-CRS rectangle + explicit dimensions; Landsat "
                 "fill-before-scale DN=0 nodata semantics; L5/L7 six SR "
                 "bands; S2 s2_scl_qa_v1_1 x four-band observation mask; "
-                "S1 identity dB"),
+                "S1 identity dB; landsat VALID r2 intersects all-SR-bands-"
+                "observed (r1 VALID superseded after pilot D1 finding)"),
             "processing_config": bundle.proc,
             "qa": qa,
             "export_tasks": tasks,
@@ -1364,6 +1385,9 @@ class ExportScheduler:
             "updated_utc": _now(),
             "gdrive_folder": GDRIVE_FOLDER,
             "revision": REVISION,
+            "component_revisions": {
+                "default": REVISION,
+                "landsat:valid": LANDSAT_VALID_REVISION},
             "states": summary["states"],
             "total_landed_bytes": self.total_landed_bytes,
             "volume_cap_bytes": VOLUME_CAP_BYTES,
