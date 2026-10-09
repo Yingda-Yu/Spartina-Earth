@@ -1,33 +1,39 @@
-% Source: datasets/manifests/national_pilot19_storage_study_v1.{json,csv}
+% Source: datasets/manifests/national_pilot19_storage_study_v2.{json,csv}
 % Scenario arithmetic is an exact replay of the frozen Issue #19
-% selection policy over census v0_1 metadata; LZW byte factors were
-% measured on 27 real M2.1b GeoTIFF exports. No national pixels were
-% exported; GOLD = 0; scenarios bound provisioning, not policy.
+% selection policy over census v0_1 metadata. Per-component byte factors
+% are MEASURED on 52 landed Issue #19 pilot products (354,086,081
+% bytes); information-free windows (<0.5 finite) stay in landed bytes
+% but are excluded from factor estimation. Scenario bytes are
+% EXTRAPOLATED over v1 national grids and remain TODO_VERIFY until all
+% 194 pilot products land. GOLD = 0; scenarios bind provisioning, not
+% policy; the pilot run is halted (NO_GO_REQUIRES_FIX).
 \begin{table}[t]
 \centering
 \small
 \caption{First-pixel pilot scaling scenarios on the frozen
-\texttt{W10\_DOMAIN\_V1\_CORE\_FROZEN} (3{,}016 cells), computed without
-any pixel export. GEE tasks per bundle: Landsat 3 (SR, QA\_PIXEL,
-server-side valid), Sentinel-2 2 (SR, SCL-derived valid), Sentinel-1 1.
-The pilot row is the frozen plan; zero of 194 products have landed (GEE
-re-authentication outstanding). Minimal = five anchor slots
-(1990/2000/2015/2020/2021), one product per cell--slot, Sentinel-1 per
-orbit pass, 2000 L5$\rightarrow$L7 sequential fallback; standard = one
-gated product per cell $\times$ sensor $\times$ year, core sensor series
-plus the 2022--2025 Landsat-9 add-on. Byte ranges span the measured
-Sentinel-2 SR LZW spread (0.49--0.83); other components use measured
-means, except the six-band L5/L7 ratio, which is borrowed from L8/L9
-(\texttt{TODO\_EXPERIMENT}).}
+\texttt{W10\_DOMAIN\_V1\_CORE\_FROZEN} (3{,}016 cells). GEE tasks per
+bundle: Landsat 3 (SR, QA\_PIXEL, server-side valid), Sentinel-2 2 (SR,
+SCL-derived valid), Sentinel-1 1. The pilot row is the frozen plan with
+52/194 products LANDED before a systematic source-coverage hard stop;
+its bytes are recomputed from measured pilot factors. Minimal = five
+anchor slots (1990/2000/2015/2020/2021), one product per cell--slot,
+Sentinel-1 per orbit pass, 2000 L5$\rightarrow$L7 sequential fallback;
+standard = one gated product per cell $\times$ sensor $\times$ year,
+core sensor series plus the 2022--2025 Landsat-9 add-on. Byte ranges
+span the observed pilot per-component LZW spreads (covering windows
+only); the six-band L5/L7 ratios are now measured (1.70$\times$/
+1.07$\times$), replacing the earlier borrowed-factor
+\texttt{TODO\_EXPERIMENT}; national extrapolations remain
+\texttt{TODO\_VERIFY}.}
 \label{tab:pilot19scaling}
 \begin{tabular}{lrrr}
 \toprule
 Scenario & Products & GEE tasks & Bytes \\
 \midrule
-Pilot, 20 cells (planned; 0 landed) & 194 & 402 & 1.63 (1.46--1.74)\,GiB \\
-Minimal national anchors & 29{,}460 & 60{,}397 & 242 (218--258)\,GiB \\
-Standard annual core & 228{,}688 & 578{,}455 & 1.32 (1.22--1.39)\,TiB \\
-\quad + Landsat-9 add-on & 238{,}970 & 609{,}301 & 1.36 (1.26--1.43)\,TiB \\
+Pilot, 20 cells (52/194 landed) & 194 & 402 & 1.62 (1.27--1.76)\,GiB \\
+Minimal national anchors & 29{,}460 & 60{,}397 & 240 (188--260)\,GiB \\
+Standard annual core & 228{,}688 & 578{,}455 & 1.23 (0.97--1.37)\,TiB \\
+\quad + Landsat-9 add-on & 238{,}970 & 609{,}301 & 1.27 (1.00--1.41)\,TiB \\
 \bottomrule
 \end{tabular}
 \end{table}

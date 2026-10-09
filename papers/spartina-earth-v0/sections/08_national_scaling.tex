@@ -269,19 +269,23 @@ availability/gap matrices are versioned as run manifest
 \texttt{EO\_CENSUS\_RUN\_MANIFEST\_v0.json} together with
 \texttt{CHINA\_EO\_CENSUS\_SUPERSESSION\_v0\_1.json}; no census bytes
 are tracked in Git. A deterministic 20-cell first-pixel panel (five strata
-and four geometry-edge quotas, SHA-256 ranked on cell IDs) is designed
-but its pixel phase is explicitly \emph{not executed}: zero pixels have
-been downloaded. The panel was re-validated against the v1 membership audit
+and four geometry-edge quotas, SHA-256 ranked on cell IDs) entered its
+pixel phase under Issue~\#19 after the owner restored GEE
+authentication: a label- and pixel-blind five-product canary passed the
+full Phase~H/I gates, after one server-side valid-mask revision, and the
+fixed pilot was then partially exported before a systematic
+source-coverage finding halted it at 52 of 194 LANDED products
+(Section~\ref{sec:pilot19}). The panel was re-validated against the v1
+membership audit
 and all 20 cells are active members (19 mainland-coastal
 decisions---18 land-touching and one Chinese-side seawater cell---and
-one nearshore-island cell), so the design needs no revision when
-execution is later authorized. Issue~\#19 has since advanced the panel
-through every offline stage---a frozen 194-product event plan, derived
+one nearshore-island cell). Issue~\#19 completed every offline
+stage---a frozen 194-product event plan, derived
 label supports, a bridge to the frozen Issue~\#18 audit, a SILVER policy
 recommendation, split-preparation fields, and a measured storage study
-(Section~\ref{sec:pilot19})---while pixel export (Phases~D/E) and pixel
-QA remain blocked on owner GEE project configuration and
-re-authentication.
+(Section~\ref{sec:pilot19})---and the partial real-pixel evidence, the
+hard-stop finding, and the resulting production and benchmark verdicts
+are reported there.
 
 \begin{figure}[t]\centering
 \figplaceholder{Figure 5}{National scaling design schematic only:
@@ -316,8 +320,10 @@ pixels is opened in this study.
 
 \subsection{First-pixel pilot: label bridge and measured scaling evidence}
 \label{sec:pilot19}
-Issue~\#19 takes the 20-cell panel from design to a frozen, fully
-enumerated production plan without exporting a pixel. Under the
+Issue~\#19 takes the 20-cell panel from a frozen, fully
+enumerated production plan into a gated real-pixel export: 52 of 194
+products are LANDED and the run is halted on a systematic
+source-coverage finding. Under the
 predeclared selection policy (autumn window DOY~260--320, scene cloud
 $\le$0.30, full-cell coverage, plus a near-full tier at $\ge$0.90
 nominal-frame intersection), replaying the frozen v0\_1 census yields
@@ -336,26 +342,41 @@ admission is activated. The SILVER training policy exists only as a
 non-binding recommendation, and no train/validation/test assignment
 exists; both await explicit owner decisions in Issue~\#20.
 
-Storage is now measured where T0--T3 were estimated. From the 27 real
-M2.1b GeoTIFF exports (121.4\,MiB), LZW bytes per raw pixel average
-1.08$\times$ for seven-band Landsat-8/9 float32 SR, 0.70$\times$ for
-four-band Sentinel-2 SR (observed range 0.50--0.83, $n=10$), and
-1.11$\times$ for Sentinel-1 VV/VH; QA\_PIXEL and valid masks cost under
-0.16\,B and 0.05\,B per pixel, so reflectance dominates storage. Exact
+Storage is now measured at two layers where T0--T3 were estimated. The
+earlier M2.1b line---27 GeoTIFF exports, 121.4\,MiB---measured LZW
+bytes per raw pixel at 1.08$\times$ for seven-band Landsat-8/9 float32
+SR, 0.70$\times$ for four-band Sentinel-2 SR (observed range
+0.50--0.83, $n=10$), and 1.11$\times$ for Sentinel-1 VV/VH. The
+Issue~\#19 pilot replaces every borrowed assumption with direct
+landed-byte measurement over 52 products (354{,}086{,}081 bytes,
+0.33\,GiB; \texttt{MEASURED}): float32 SR LZW ratios are 1.70$\times$
+for six-band Landsat-5 ($n=8$), 1.07$\times$ for Landsat-7 ($n=2$), and
+0.95$\times$ for seven-band Landsat-8 ($n=17$); covering Sentinel-2
+windows give 1.34$\times$ ($n=8$, range 1.20--1.66) and Sentinel-1
+VV/VH 0.92$\times$ ($n=13$); QA\_PIXEL costs $\le$0.17\,B and valid
+masks $\le$0.08\,B per pixel, so reflectance still dominates storage.
+Four information-free windows (the three Sentinel-2 datatake-edge
+empties and one 12\,\%-covered Sentinel-1 frame; findings F1/F2 below)
+stay counted in landed bytes but are excluded from factor estimation.
+Differences from the M2.1b factors reflect window content and sensor
+generation; both layers are direct measurements, not estimates. Exact
 per-cell export grids---native UTM zone, edges densified to 21 points
 before projection---average 140{,}338 pixels at 30\,m and 1{,}258{,}542
 at 10\,m across the 3{,}016 frozen KEEP cells (zones 48--52). Replaying
 eligibility over the frozen census gives
 Table~\ref{tab:pilot19scaling}: the 194 pilot products map to 402 GEE
 tasks (three per Landsat bundle: SR, QA\_PIXEL, server-side valid; two
-per Sentinel-2; one per Sentinel-1) and 1.63\,GiB; a five-anchor-year
+per Sentinel-2; one per Sentinel-1) and 1.62 (1.27--1.76)\,GiB
+recomputed from pilot factors; a five-anchor-year
 minimal national run (1990, 2000, 2015, 2020, 2021) needs 60{,}397 tasks
-and $\approx$242\,GiB; the standard annual core needs 578{,}455 tasks
-and $\approx$1.32\,TiB ($\approx$1.36\,TiB with the 2022--2025
-Landsat-9 add-on). Ranges span the observed Sentinel-2 compression
-spread and all other components use measured means; the six-band L5/L7
-SR ratio is borrowed from L8/L9 and tagged
-\texttt{TODO\_EXPERIMENT}, because no L5/L7 M2.1b export exists.
+and 240 (188--260)\,GiB; the standard annual core needs 578{,}455 tasks
+and 1.23 (0.97--1.37)\,TiB (1.27 (1.00--1.41)\,TiB over 238{,}970
+products / 609{,}301 tasks with the 2022--2025 Landsat-9 add-on). The
+scenario bytes are \texttt{EXTRAPOLATED} from measured per-component
+pilot bytes over the v1 national grids; the borrowed six-band L5/L7
+\texttt{TODO\_EXPERIMENT} token is now closed by measurement, while
+the national figures remain \texttt{TODO\_VERIFY} until all 194 pilot
+products have landed.
 One-time national label supports add only $\approx$0.52\,GiB, projected
 from the measured 3.67\,MB over the 20 pilot cells. The 194 pilot
 products derive from 135 distinct source events (1.17--1.60 products per
@@ -365,20 +386,67 @@ footprint or retains per-cell redundancy is an explicit pending
 decision. Recorded GEE backend durations for $\le$10\,km tiles are short
 (component medians 0.19--0.57 minutes over 46 M2.1b tasks), but
 end-to-end throughput is bounded by task polling and Google Drive
-staging rather than compute, and live-project concurrency and download
-quotas remain \texttt{TODO\_VERIFY}. Crash recovery is already proven by
+staging rather than compute; the Issue~\#19 pilot observed the same on
+148 lifetime backend tasks---134 polled to COMPLETED plus 14 orphaned
+tasks synchronised once after the stop, every one COMPLETED with zero
+failures, cancellations, or retries---with $\approx$180\,s Drive
+propagation under 15\,s poll intervals and no quota probing.
+Live-project concurrency and download quotas remain
+\texttt{TODO\_VERIFY}. Crash recovery is already proven by
 the M2.1b r3$\rightarrow$r4$\rightarrow$r5 path: deterministic request
 IDs, non-terminal-task listing, three-attempt retry, prefix-based Drive
-rediscovery, and skip-if-landed idempotency. Accordingly
-\texttt{PILOT19\_PRODUCTION\_READINESS\_v1.json} records
-\texttt{NO\_GO\_FOR\_NATIONAL\_BATCH\_NOW}: zero of 194 planned products
-have landed, GEE re-authentication is an owner action, and the pilot
-pixel-QA gates---including the $\ge$0.95 post-export geometric-validity
-gate on seven near-full Landsat products, for which systematic
-misregistration is a stop condition---are \texttt{TODO\_EXPERIMENT}. A
-conditional GO applies only after those gates close; the scenarios bound
-provisioning, not policy, and no national export, split, training or
-SpartinaFM work is authorised by this study.
+rediscovery, and skip-if-landed idempotency; the Landsat r1$\rightarrow$r2
+valid revision exercised the same resume path.
+
+The pixel phase opened with a deterministic five-product canary, one
+product per sensor in fixed L5/L7/L8/S1/S2 order, ranked label- and
+pixel-blind on province and coastal-segment diversity (Guangdong 1990,
+Fujian 2000, Zhejiang 2021, Jiangsu 2015, Shandong 2020). Full
+Phase~H/I QA first exposed a Landsat valid-mask defect: QA\_PIXEL clear
+with QA\_RADSAT\,=\,0 does not guarantee per-band SR presence---interior
+blue/green windows are absent under nominally clear QA pixels. The
+server-side valid mask was revised (r2) to additionally require every
+SR band observed; live-server r2 reducer counts match the landed masks
+exactly (relative difference 0.0; zero NaN under VALID), and the
+canary then passed every gate: \texttt{CANARY\_PASS}.
+
+D1 resumed under r2 and reached 52 LANDED products (L5~8, L7~2, L8~17,
+Sentinel-1~14, Sentinel-2~11; each with local file, readable raster,
+complete manifest, and SHA-256) before full-pilot QA fired the
+predeclared geometric gate: four products FAIL cell coverage---three
+Sentinel-2 windows are 100\,\% NaN and one Sentinel-1 frame covers
+only 12\,\% of its cell---despite STRICT\_FULL\_CELL\_COVERED claims
+in the frozen plan. Live GEE verification root-caused this to event
+selection on nominal MGRS/frame geometry instead of actual raster masks
+(one 2020 plan tile was also one MGRS latitude band wrong); same-tile
+alternative revisits inside DOY~260--320 demonstrably cover the affected
+cells, so the export machinery itself is sound. A second Sentinel-1
+finding is the GEE border/no-signal floor near $-$80\,dB on partial
+frames, reproduced byte-identically from the server---a masking-policy
+decision, not an export or double-log defect. Per the hard-stop rule no
+further tasks were submitted (132 products never submitted, two active
+EXPORT\_FAILED, eight backend-completed products un-landed). Across the
+52 products QA returned 25~PASS / 23~WARN / 4~FAIL, and the 20\,\%
+live-server cross-check (14 reducer and identity comparisons) was exact
+throughout: no spatial misregistration against W10 cells, label
+adapters, or coastline, and no scaling, band-order, SCL, provenance, or
+label-inversion defect; low VALID fractions on the 1990/2000 Landsat
+windows are source cloud quality (WARN), and Landsat observed coverage
+is $\ge$0.999 on all 27 products.
+
+Accordingly \texttt{PILOT19\_PRODUCTION\_READINESS\_v2.json} records
+\texttt{NO\_GO\_REQUIRES\_FIX} and
+\texttt{NOT\_READY\_FOR\_ISSUE\_20}. Resume requires an
+owner-authorised revision of the frozen S2/S1 event selection under a
+live actual-mask $\ge$0.95 coverage gate, plus an explicit Sentinel-1
+floor-mask decision, after which D1 reruns to 194 within the same 20
+cells and Phase~H/I and storage are recomputed. Real pixels do not
+change the SILVER recommendation: all ten families retain their
+proposed tiers with license gates outstanding, GOLD remains zero, and
+agreement is not accuracy. The scenarios bound provisioning, not
+policy; no national export, split, training, or SpartinaFM work is
+authorised by this study, and any production GO remains an explicit
+owner decision.
 
 \input{tables/tab_pilot19_scaling}
 
