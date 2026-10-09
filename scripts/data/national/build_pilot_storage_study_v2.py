@@ -28,6 +28,7 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
+import rasterio  # noqa: E402
 
 from spartina.data.gee.landsat import sr_bands  # noqa: E402
 from spartina.data.gee.provenance import git_context  # noqa: E402
@@ -82,6 +83,7 @@ def measured_factors(
     buckets: dict[tuple[str, str], list[dict[str, Any]]] = {}
     by_sensor_bytes: dict[str, int] = {}
     total = 0
+    excluded: list[dict[str, Any]] = []
     for mf in mfs:
         sensor = str(mf["sensor"])
         by_sensor_bytes[sensor] = by_sensor_bytes.get(sensor, 0) \
@@ -89,8 +91,24 @@ def measured_factors(
         total += int(mf["n_bytes"])
         g = mf["grid_spec"]
         grid_px = int(g["width"]) * int(g["height"])
+        paths = {str(f["role"]): f["local_uri"] for f
+                 in mf["landed_files"]}
+        obs_role = "vvvh" if sensor == "sentinel1" else "sr"
+        with rasterio.open(paths[obs_role]) as ds:
+            finite = np.isfinite(ds.read()).all(axis=0)
+            finite_frac = float(finite.mean())
         for f in mf["landed_files"]:
             role = str(f["role"])
+            # Information-free windows (S2 datatake-edge empties, partial
+            # S1 footprints) compress anomalously and must not set national
+            # factors; they stay counted in landed bytes and are reported.
+            if finite_frac < 0.5:
+                excluded.append({
+                    "product_id": mf["product_id"], "sensor": sensor,
+                    "role": role, "finite_fraction": finite_frac,
+                    "reason": "observation coverage below 0.5; excluded "
+                              "from compression factor estimation"})
+                continue
             # band count for raw bytes: sr role has sensor SR bands,
             # qapixel/valid/vvvh declare their own band count implicitly.
             if role == "sr" and sensor.startswith("landsat"):
@@ -111,7 +129,8 @@ def measured_factors(
     factors = {f"{s}:{r}": component_factor(recs)
                for (s, r), recs in sorted(buckets.items())}
     totals = {"n_products": len(mfs), "bytes_measured": total,
-              "bytes_by_sensor": dict(sorted(by_sensor_bytes.items()))}
+              "bytes_by_sensor": dict(sorted(by_sensor_bytes.items())),
+              "coverage_excluded_components": excluded}
     return factors, totals
 
 

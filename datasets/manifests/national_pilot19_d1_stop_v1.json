@@ -1,0 +1,186 @@
+{
+  "benchmark_verdict": "NOT_READY_FOR_ISSUE_20",
+  "canary_verdict": "CANARY_PASS (r2 re-gate, live cross-checks exact); finding emerged in D1, not in the 5-canary sample",
+  "component_tasks_lifetime": {
+    "backend_states": {
+      "CANCELLED": 0,
+      "COMPLETED": 148,
+      "FAILED": 0
+    },
+    "by_revision": {
+      "r1": 120,
+      "r2": 28
+    },
+    "maximum_lifetime_tasks_after_r2": 485,
+    "note": "r2 VALID tasks exist for 28/83 landsat products; 31 r1 VALID tasks executed before the r2 revision are retained as superseded history; SR and QA_PIXEL tasks are r1 and adopted",
+    "planned_current_revision_tasks": 402,
+    "r1_valid_superseded_by_r2": null,
+    "r1_valid_superseded_records": 31,
+    "retries": 0,
+    "submitted_records": 148
+  },
+  "created_utc": "2026-10-09T08:28:42.177607+00:00",
+  "final_stop": "pilot remains inside Issue #19; no national production, no Issue #20, no model training, no SpartinaFM",
+  "findings": [
+    {
+      "at_risk_not_audited": "offline MGRS band-mismatch screen flags 4/42 S2 rows (cells C00128, C00154); all 31 un-landed S2 rows remain UNVERIFIED pending the re-selection gate",
+      "evidence_products": [
+        "NP19_R00260-C00128_S2_2020",
+        "NP19_R00260-C00128_S2_2021",
+        "NP19_R00274-C00147_S2_2020"
+      ],
+      "id": "F1_S2_SELECTED_DATATAKE_EDGE_EMPTY",
+      "live_verification": "GEE: planned tiles T50QNM (cell center is in MGRS 50RNM) and the T50RQN 2020 datatake do not contain the cell center (B2 mask 0); actual datatake-edge truncation, not cloud.",
+      "observation": "frozen plan marks these STRICT_FULL_CELL_COVERED on basis SAME_DATATAKE_MEMBER_TILE_UNION_COVERS_CELL, but the landed windows are 100% NaN (SR) / VALID all zero; independent grid rebuild PASSES, so the export geometry is correct.",
+      "qa_gate": "cell_geometry_coverage FAIL (gate 0.95)",
+      "recovery_confirmed": "same-tile revisits inside DOY 260-320 have B2 mask 1.0 at the center: R00260 2020-11-09/14 and 2021-09-30/10-05 (T50QNM); R00274 2020-11-09/14 (T50RQN); R00349 alternative revisits T51SUR 2020-10-10/15, 2021-09-20/25. Repair = re-select events with a live actual-mask coverage gate; frozen plan checksum requires owner-authorized revision.",
+      "root_cause": "offline event selection used nominal MGRS tile geometry/metadata, never actual raster-mask containment; specific datatakes at tile seams can be empty over a cell that other revisits of the same tile cover fully.",
+      "severity": "SYSTEMATIC_STOP"
+    },
+    {
+      "evidence_products": [
+        "NP19_R00264-C00132_S1_2020_A",
+        "NP19_R00274-C00147_S1_2020_A"
+      ],
+      "id": "F2_S1_ACTUAL_FOOTPRINT_PARTIAL",
+      "observation": "finite fraction 0.1214 and 0.7754 of the cell window despite coverage FULL_CELL_COVERED / S1_ACTUAL_FOOTPRINT",
+      "qa_gate": "cell_geometry_coverage FAIL below 0.5 (R00264); WARN (R00274)",
+      "root_cause": "same class as F1: planned footprint claim is not actual per-window content; S1 GRD frame edges",
+      "severity": "SYSTEMATIC_STOP"
+    },
+    {
+      "decision_required": "owner selects: treat <= -70 dB as non-observation mask (preferred) or widen hard envelope with strict tail cap; tests must not be weakened without an evidence-backed policy revision",
+      "evidence_products": [
+        "NP19_R00274-C00147_S1_2015_A",
+        "NP19_R00274-C00147_S1_2021_A"
+      ],
+      "id": "F3_S1_GEE_DB_FLOOR_BELOW_HARD_ENVELOPE",
+      "observation": "landing validation failed physical audit (physical=False, server_match=True): source pixels down to -80.03 dB in both bands / -75.37 dB VH on partial-footprint windows; live identity reducer matches landed bytes exactly",
+      "root_cause": "GEE S1_GRD no-signal/border floor values around -80 dB on partial frames; not an export or log-transform defect",
+      "severity": "POLICY_DECISION_REQUIRED"
+    }
+  ],
+  "gdrive_folder": "SpartinaEarthPilot19",
+  "git_commit": "dd8c84cf0ead83a106df702eb08140c64f5c11cf",
+  "issue": 19,
+  "lifecycle_honest_states": {
+    "EXPORT_FAILED_active": 2,
+    "LANDED": 52,
+    "LANDED_by_sensor": {
+      "landsat5": 8,
+      "landsat7": 2,
+      "landsat8": 17,
+      "sentinel1": 14,
+      "sentinel2": 11
+    },
+    "NOT_LANDED_never_submitted_estimate": 132,
+    "SELECTED_total": 194,
+    "SUBMITTED_backend_completed_pending_landing_products": 8,
+    "note": "LANDED satisfies file+readable+manifest+SHA-256; 4 LANDED products carry Phase H geometry FAIL (still LANDED, not failed exports); 14 orphaned component tasks were synced once from GEE after the stop: all COMPLETED"
+  },
+  "not_observed": "no spatial misregistration between correct-footprint products and W10 cells/label adapters/coastline; no wrong scaling, no wrong band order, no SCL policy error, no double log, no provenance loss, no label inversion; Landsat observed coverage >=0.999 in all 27 products (cloud-driven low VALID is WARN source quality)",
+  "product": "national_pilot19_d1_stop",
+  "production_verdict": "NO_GO_REQUIRES_FIX",
+  "qa_summary_52_products": {
+    "by_sensor": {
+      "landsat5": {
+        "all_nodata": 0,
+        "mean_finite_fraction": 1.0,
+        "mean_valid_fraction": 0.2068622548080218,
+        "n": 8,
+        "verdicts": {
+          "WARN": 8
+        }
+      },
+      "landsat7": {
+        "all_nodata": 0,
+        "mean_finite_fraction": 1.0,
+        "mean_valid_fraction": 0.27701536548672445,
+        "n": 2,
+        "verdicts": {
+          "WARN": 2
+        }
+      },
+      "landsat8": {
+        "all_nodata": 0,
+        "mean_finite_fraction": 0.9998287746993464,
+        "mean_valid_fraction": 0.8657993546682399,
+        "n": 17,
+        "verdicts": {
+          "PASS": 10,
+          "WARN": 7
+        }
+      },
+      "sentinel1": {
+        "all_nodata": 0,
+        "mean_finite_fraction": 0.9211985468923544,
+        "mean_valid_fraction": null,
+        "n": 14,
+        "verdicts": {
+          "FAIL": 1,
+          "PASS": 11,
+          "WARN": 2
+        }
+      },
+      "sentinel2": {
+        "all_nodata": 3,
+        "mean_finite_fraction": 0.7272727272727273,
+        "mean_valid_fraction": 0.6669805410166043,
+        "n": 11,
+        "verdicts": {
+          "FAIL": 3,
+          "PASS": 4,
+          "WARN": 4
+        }
+      }
+    },
+    "fail_dimensions": [
+      {
+        "name": "cell_geometry_coverage",
+        "note": "observed cell coverage 0.0000 below gate 0.95; QA-valid clear-surface coverage only 0.0000: source scene cloud/QA quality, export semantics unaffected",
+        "product_id": "NP19_R00260-C00128_S2_2020"
+      },
+      {
+        "name": "cell_geometry_coverage",
+        "note": "observed cell coverage 0.0000 below gate 0.95; QA-valid clear-surface coverage only 0.0000: source scene cloud/QA quality, export semantics unaffected",
+        "product_id": "NP19_R00260-C00128_S2_2021"
+      },
+      {
+        "name": "cell_geometry_coverage",
+        "note": "observed cell coverage 0.1214 below gate 0.5",
+        "product_id": "NP19_R00264-C00132_S1_2020_A"
+      },
+      {
+        "name": "cell_geometry_coverage",
+        "note": "observed cell coverage 0.0000 below gate 0.95; QA-valid clear-surface coverage only 0.0000: source scene cloud/QA quality, export semantics unaffected",
+        "product_id": "NP19_R00274-C00147_S2_2020"
+      }
+    ],
+    "live_subset_fraction": 0.2,
+    "live_subset_result": "14 live cross-checks (Landsat r2 valid counts, S2 SCL histograms, S1 server identity): all exact; relative difference 0.0 / identity pass True; zero NaN under r2 VALID on every landsat product checked, including the original R00260 L8 offender",
+    "verdict_counts": {
+      "FAIL": 4,
+      "PASS": 25,
+      "WARN": 23
+    }
+  },
+  "required_owner_actions": [
+    "authorize a revision of the frozen S2/S1 event selection for affected rows: live actual-mask coverage verification (>=0.95 near-full gate) before export; alternative revisits are proven available inside the DOY window",
+    "decide the S1 dB-floor mask/envelope policy (F3)",
+    "re-run D1 to all 194 under the revised selection + r2 VALID, then full Phase H/I; do not expand scope beyond the same 20 cells",
+    "recompute storage factors and readiness at 194 landed"
+  ],
+  "schema": "spartina_pilot19_d1_systematic_stop_v1",
+  "silver_policy": "remains non-binding recommendation only; no family status changes; GOLD=0; agreement != accuracy; no training activated; license gates unchanged",
+  "status": "D1_HALTED_SYSTEMATIC_GEOMETRIC_FINDING; per Issue #19 canary hard-stop rule extended to D1: no further tasks submitted; awaiting owner decision",
+  "storage_partial": {
+    "bytes_landed": 354086081,
+    "caveat": "PARTIAL 52/194; S2/S1 factors exclude information-free windows (<0.5 finite); TODO_VERIFY at 194 products",
+    "l5_sr_lzw_ratio_MEASURED": 1.7018481277717001,
+    "l7_sr_lzw_ratio_MEASURED": 1.0726215356728837,
+    "l8_sr_lzw_ratio_MEASURED": 0.9510301697289044,
+    "national_minimal_base_EXTRAPOLATED_bytes": 257696368240,
+    "national_standard_base_EXTRAPOLATED_bytes": 1400751586985,
+    "products_measured": 52
+  }
+}
