@@ -209,8 +209,9 @@ def _deltas(metrics: pd.DataFrame) -> pd.DataFrame:
                         raise TableIntegrityError(
                             f"delta {name} missing for {model}/{seed}")
                     hi, lo = by_var[hi_var], by_var[lo_var]
-                    row = {"model": model, "seed": seed, "split": split,
-                           "contrast": name}
+                    row: dict[str, Any] = {
+                        "model": model, "seed": seed, "split": split,
+                        "contrast": name}
                     for m in DELTA_METRICS:
                         row[f"delta_{m}"] = float(
                             getattr(hi, m) - getattr(lo, m))
@@ -235,8 +236,9 @@ def _means(
                 _require(len(cell) == expected_n,
                          f"means {model}/{variant}/{split}: "
                          f"{len(cell)} rows, expected {expected_n}")
-                row = {"model": model, "variant": variant, "split": split,
-                       "n_seeds": len(cell)}
+                row: dict[str, Any] = {
+                    "model": model, "variant": variant, "split": split,
+                    "n_seeds": len(cell)}
                 for m in CORE_METRICS:
                     vals = cell[f"arbitrated_core_{m}"].astype(float)
                     row[f"{m}_mean"] = float(vals.mean())

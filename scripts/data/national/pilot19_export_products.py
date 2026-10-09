@@ -627,7 +627,7 @@ SATURATION_IN_VALID_HARD_FRACTION = 1e-3
 
 def landsat_physical_audit(
     sensor: str, sr_path: str, valid_path: str,
-) -> tuple[dict[str, Any], dict[str, float]]:
+) -> tuple[dict[str, Any], dict[str, float | None]]:
     """Finite-robust, VALID-restricted physical audit of landed Landsat SR.
 
     Observed percentiles may legitimately reach the DN=65535 saturation
@@ -638,9 +638,15 @@ def landsat_physical_audit(
     n_bands = len(landsat.sr_bands(sensor))
     with rasterio.open(valid_path) as vd:
         valid = vd.read(1) == 1
-    stats: dict[str, float] = {}
+    stats: dict[str, float | None] = {}
     detail: dict[str, Any] = {"bands": {}}
     checks: dict[str, bool] = {}
+    zero_valid_window = int(valid.sum()) == 0
+    warnings: list[str] = []
+    if zero_valid_window:
+        warnings.append(
+            "no QA-valid surface pixels in window (source scene "
+            "quality: cloud/QA; export itself faithful)")
     with rasterio.open(sr_path) as sr:
         observed = sr.dataset_mask() > 0
         for i in range(1, n_bands + 1):
@@ -649,25 +655,37 @@ def landsat_physical_audit(
             finite = np.isfinite(arr)
             of = observed & finite
             vf = of & valid
-            if int(vf.sum()) == 0:
+            n_of = int(of.sum())
+            n_vf = int(vf.sum())
+            if n_of == 0:
                 raise ProvenanceError(
-                    f"{sr_path}:{band} has no finite VALID pixels")
+                    f"{sr_path}:{band} fully nodata (export defect)")
             nonfinite_observed = int((observed & ~finite).sum())
             nonfinite_valid = int((valid & ~finite).sum())
             po = np.percentile(arr[of], [0, 1, 50, 99, 100])
-            pv = np.percentile(arr[vf], [0, 1, 50, 99, 100])
             for key, value in zip(
                     ("min", "p01", "p50", "p99", "max"), po, strict=True):
                 stats[f"{band}_obs_{key}"] = float(value)
-            for key, value in zip(
-                    ("min", "p01", "p50", "p99", "max"), pv, strict=True):
-                stats[f"{band}_valid_{key}"] = float(value)
-            stats[f"{band}_observed_px"] = int(of.sum())
-            stats[f"{band}_valid_px"] = int(vf.sum())
+            stats[f"{band}_observed_px"] = n_of
+            stats[f"{band}_valid_px"] = n_vf
             sat = np.isclose(arr, SR_SATURATION_CAP, atol=1e-5)
             sat_observed = int((of & sat).sum())
             sat_valid = int((vf & sat).sum())
-            sat_frac = sat_valid / max(int(vf.sum()), 1)
+            sat_frac = sat_valid / max(n_vf, 1)
+            if n_vf > 0:
+                pv = np.percentile(arr[vf], [0, 1, 50, 99, 100])
+                for key, value in zip(
+                        ("min", "p01", "p50", "p99", "max"), pv,
+                        strict=True):
+                    stats[f"{band}_valid_{key}"] = float(value)
+                range_ok = bool(pv[1] >= -0.30 and pv[3] <= 1.30)
+                ordered_ok = bool(
+                    pv[0] <= pv[1] <= pv[2] <= pv[3] <= pv[4])
+            else:
+                for key in ("min", "p01", "p50", "p99", "max"):
+                    stats[f"{band}_valid_{key}"] = None
+                range_ok = True  # vacuous: zero-valid is a quality WARN
+                ordered_ok = True
             detail["bands"][band] = {
                 "nonfinite_observed_pixels": nonfinite_observed,
                 "nonfinite_valid_pixels": nonfinite_valid,
@@ -676,14 +694,14 @@ def landsat_physical_audit(
                 "saturated_valid_pixels": sat_valid,
                 "saturated_valid_fraction": sat_frac}
             checks[f"{band}_no_nonfinite_in_valid"] = nonfinite_valid == 0
-            checks[f"{band}_valid_physical_range"] = (
-                pv[1] >= -0.30 and pv[3] <= 1.30)
-            checks[f"{band}_valid_ordered"] = (
-                pv[0] <= pv[1] <= pv[2] <= pv[3] <= pv[4])
+            checks[f"{band}_valid_physical_range"] = range_ok
+            checks[f"{band}_valid_ordered"] = ordered_ok
             checks[f"{band}_saturation_in_valid_below_hard_fraction"] = (
                 sat_frac <= SATURATION_IN_VALID_HARD_FRACTION)
     detail["sensor"] = sensor
     detail["n_sr_bands"] = n_bands
+    detail["zero_valid_pixels"] = zero_valid_window
+    detail["warnings"] = warnings
     detail["valid_pixel_physical_range"] = [-0.30, 1.30]
     detail["saturation_cap"] = SR_SATURATION_CAP
     detail["saturation_policy"] = (

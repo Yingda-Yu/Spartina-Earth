@@ -662,28 +662,38 @@ def qa_landsat(ee: Any | None, mf: dict[str, Any]) -> list[Dimension]:
     cap = float(_DRIVER.SR_SATURATION_CAP)
     at_cap = int((finite & np.isclose(sr, cap, atol=1e-6)).sum())
     at_cap_valid = int((valid & np.isclose(sr, cap, atol=1e-6)).sum())
+    n_valid_l = int(valid.sum())
     pct: dict[str, list[float]] = {}
     for i, name in enumerate(names):
         vals = sr[i][valid & np.isfinite(sr[i])]
-        pct[name] = [float(v) for v in
-                     np.percentile(vals, [0, 1, 50, 99, 100])]
-    sem_problems = []
+        pct[name] = ([float(v) for v in
+                      np.percentile(vals, [0, 1, 50, 99, 100])]
+                     if vals.size else [])
+    sem_problems: list[str] = []
+    sem_warn: list[str] = []
     if neg02:
         sem_problems.append(f"{neg02} finite pixels at exact -0.2 (DN=0 leak)")
-    bad_range = [n for n, q in pct.items() if q[1] < -0.30 or q[3] > 1.30]
+    bad_range = [n for n, q in pct.items()
+                 if q and (q[1] < -0.30 or q[3] > 1.30)]
+    if n_valid_l == 0:
+        sem_warn.append(
+            "no QA-valid surface pixels in window (source scene "
+            "quality; export faithful)")
     if bad_range:
         sem_problems.append(f"VALID p01/p99 outside [-0.30,1.30]: {bad_range}")
     if at_cap_valid > max(1, int(0.001 * valid.sum())):
         sem_problems.append(
             f"{at_cap_valid} saturated pixels inside VALID")
     dims.append(Dimension(
-        "landsat_scaling_semantics", FAIL if sem_problems else PASS,
+        "landsat_scaling_semantics",
+        FAIL if sem_problems else (WARN if sem_warn else PASS),
         {"formula": "SR = DN * 2.75e-5 - 0.2; fill DN=0 masked pre-scale",
+         "valid_pixels": n_valid_l,
          "exact_minus_0p2_finite_pixels": neg02,
          "saturation_cap": cap, "at_cap_finite_pixels": at_cap,
          "at_cap_valid_pixels": at_cap_valid,
          "valid_percentiles": pct},
-        "; ".join(sem_problems)))
+        "; ".join(sem_problems + sem_warn)))
 
     # Independent VALID reconstruction from the raw QA_PIXEL bytes.
     clear = (qpx & (1 << QA_CLEAR)) != 0
@@ -799,26 +809,39 @@ def qa_s2(ee: Any | None, mf: dict[str, Any]) -> list[Dimension]:
     finite = dsmask & np.isfinite(sr).all(axis=0)
     dn_like = int((np.abs(sr) > 100.0).any(axis=0)[finite].sum())
     negatives = int((sr < 0.0).any(axis=0)[finite].sum())
-    stats: dict[str, dict[str, float]] = {}
+    n_valid_s2 = int((valid == 1).sum())
+    stats: dict[str, dict[str, float | None]] = {}
     for i, name in enumerate(sr_hdr["descriptions"]):
         vals = sr[i][valid == 1]
         vals = vals[np.isfinite(vals)]
-        stats[str(name)] = {
-            "p01": float(np.percentile(vals, 1)),
-            "p50": float(np.percentile(vals, 50)),
-            "p99": float(np.percentile(vals, 99)),
-            "max": float(vals.max())}
+        if vals.size:
+            stats[str(name)] = {
+                "p01": float(np.percentile(vals, 1)),
+                "p50": float(np.percentile(vals, 50)),
+                "p99": float(np.percentile(vals, 99)),
+                "max": float(vals.max())}
+        else:
+            stats[str(name)] = {"p01": None, "p50": None,
+                                "p99": None, "max": None}
+    s2_warn: list[str] = []
+    if n_valid_s2 == 0:
+        s2_warn.append(
+            "no SCL-valid surface pixels in window (source scene "
+            "quality: cloud/dark/unclassified; export faithful)")
     if dn_like:
         problems.append(f"{dn_like} pixels look like unscaled DN")
     if negatives:
         problems.append(f"{negatives} negative reflectance pixels")
+    s2_verdict = FAIL if problems else (WARN if s2_warn else PASS)
     dims.append(Dimension(
-        "s2_bands_scaling", FAIL if problems else PASS,
+        "s2_bands_scaling", s2_verdict,
         {"header": {k: sr_hdr[k] for k in ("count", "dtypes",
                                            "descriptions")},
          "valid_unique": sorted(uvals), "scale": 10000.0,
+         "valid_pixels": n_valid_s2,
          "dn_like_pixels": dn_like, "negative_pixels": negatives,
-         "valid_percentiles": stats}, "; ".join(problems)))
+         "valid_percentiles": stats},
+        "; ".join(problems + s2_warn)))
 
     cfg = mf["processing_config"]
     policy = cfg["scl_qa_policy"]
@@ -913,27 +936,35 @@ def qa_s1(ee: Any | None, mf: dict[str, Any],
         vh = ds.read(2).astype("float64")
         dsmask = ds.dataset_mask() > 0
     fv, fh = dsmask & np.isfinite(vv), dsmask & np.isfinite(vh)
-    stats = {
-        "VV": {k: float(v) for k, v in zip(
-            ("min", "p01", "p50", "p99", "max"),
-            np.percentile(vv[fv], [0, 1, 50, 99, 100]), strict=True)},
-        "VH": {k: float(v) for k, v in zip(
-            ("min", "p01", "p50", "p99", "max"),
-            np.percentile(vh[fh], [0, 1, 50, 99, 100]), strict=True)}}
-    stats["VV"]["std"] = float(vv[fv].std())
-    stats["VH"]["std"] = float(vh[fh].std())
-    stats["VV"]["finite_fraction"] = float(fv.mean())
-    stats["VH"]["finite_fraction"] = float(fh.mean())
-    if stats["VV"]["std"] <= 0 or stats["VH"]["std"] <= 0:
+
+    def _s1_band_stats(b: np.ndarray[Any, Any],
+                       m: np.ndarray[Any, Any]) -> dict[str, Any] | None:
+        vals = b[m]
+        if not vals.size:
+            return None
+        out: dict[str, Any] = {
+            k: float(v) for k, v in zip(
+                ("min", "p01", "p50", "p99", "max"),
+                np.percentile(vals, [0, 1, 50, 99, 100]), strict=True)}
+        out["std"] = float(vals.std())
+        out["finite_fraction"] = float(m.mean())
+        return out
+
+    stats: dict[str, dict[str, Any] | None] = {
+        "VV": _s1_band_stats(vv, fv), "VH": _s1_band_stats(vh, fh)}
+    if stats["VV"] is None or stats["VH"] is None:
+        problems.append("all-nodata VV/VH band in window")
+    elif (stats["VV"]["std"] <= 0 or stats["VH"]["std"] <= 0):
         problems.append("constant band")
-    hard = ((vv[fv] < _DRIVER.S1_DB_HARD_MIN)
-            | (vv[fv] > _DRIVER.S1_DB_HARD_MAX)
-            | (vh[fh] < _DRIVER.S1_DB_HARD_MIN)
-            | (vh[fh] > _DRIVER.S1_DB_HARD_MAX))
-    if int(hard.sum()):
-        problems.append("pixels beyond hard dB envelope")
+    n_hard = int(
+        ((vv[fv] < _DRIVER.S1_DB_HARD_MIN)
+         | (vv[fv] > _DRIVER.S1_DB_HARD_MAX)).sum()
+        + ((vh[fh] < _DRIVER.S1_DB_HARD_MIN)
+           | (vh[fh] > _DRIVER.S1_DB_HARD_MAX)).sum())
+    if n_hard:
+        problems.append(f"{n_hard} pixels beyond hard dB envelope")
     # stripe / block morphology of point-target tail
-    tail = vv > _DRIVER.S1_DB_BULK_MAX
+    tail = (vv > _DRIVER.S1_DB_BULK_MAX) & fv
     row_frac = tail.mean(axis=1).max()
     stripe_ratio = float(row_frac / max(float(tail.mean()), 1e-12))
     live: dict[str, Any] = {"attempted": ee is not None}
@@ -943,12 +974,19 @@ def qa_s1(ee: Any | None, mf: dict[str, Any],
             checks: dict[str, bool] = {}
             deltas: dict[str, float] = {}
             for band in ("VV", "VH"):
+                bstats = stats[band]
+                if bstats is None:
+                    checks[f"{band}_finite_pixels"] = False
+                    problems.append(f"live cross-check skipped: {band} "
+                                    "has no finite landed pixels")
+                    continue
                 for stat, tol in (("min", LIVE_DB_EXTREMA_TOL),
                                   ("max", LIVE_DB_EXTREMA_TOL),
                                   ("p01", LIVE_DB_PCT_TOL),
                                   ("p50", LIVE_DB_PCT_TOL),
                                   ("p99", LIVE_DB_PCT_TOL)):
-                    d = abs(stats[band][stat] - live_stats[band][stat])
+                    d = abs(float(bstats[stat])
+                            - float(live_stats[band][stat]))
                     deltas[f"{band}_{stat}"] = round(d, 4)
                     checks[f"{band}_{stat}"] = d <= tol
             live = {"attempted": True, "server_stats": live_stats,
@@ -997,8 +1035,10 @@ def qa_s1(ee: Any | None, mf: dict[str, Any],
          "productIdentifier_property_present":
              mf["processing_config"].get(
                  "productIdentifier_property_present"),
-         "VV_finite_fraction": stats["VV"]["finite_fraction"],
-         "VH_finite_fraction": stats["VH"]["finite_fraction"],
+         "VV_finite_fraction": (stats["VV"]["finite_fraction"]
+                                if stats["VV"] is not None else None),
+         "VH_finite_fraction": (stats["VH"]["finite_fraction"]
+                                if stats["VH"] is not None else None),
          "coverage_tier": mf.get("coverage_tier")},
         "; ".join(pass_problems)))
 

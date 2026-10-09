@@ -256,6 +256,25 @@ def test_landsat_physical_audit_nonfinite_in_valid_fails(tmp_path) -> None:  # t
     assert not detail["pass"]
 
 
+def test_landsat_physical_audit_zero_valid_warns_but_passes(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    import numpy as np
+
+    band = np.full((4, 4), 0.1, dtype="float32")
+    sr = tmp_path / "sr.tif"
+    valid = tmp_path / "valid.tif"
+    _write_float_geotiff(sr, [band] * 6)
+    _write_valid_byte(valid, np.zeros((4, 4), dtype="uint8"))
+    detail, stats = m.landsat_physical_audit(
+        "landsat5", str(sr), str(valid))
+    # Zero QA-valid surface pixels is source-scene quality, not an export
+    # defect: the product lands with an explicit warning.
+    assert detail["zero_valid_pixels"]
+    assert detail["warnings"]
+    assert detail["pass"]
+    assert stats["sr_b1_valid_px"] == 0
+    assert stats["sr_b1_valid_p50"] is None
+
+
 def test_landsat_physical_audit_saturation_rules(tmp_path) -> None:  # type: ignore[no-untyped-def]
     import numpy as np
 

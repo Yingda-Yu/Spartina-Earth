@@ -41,8 +41,8 @@ def _credentials() -> Any:
     # the M1.6c real Sentinel-2 byte export.
     args = dict(ee.oauth.get_credentials_arguments())
     args.pop("token", None)
-    creds = Credentials(token=None, **args)  # type: ignore[no-untyped-call]
-    creds.refresh(Request())  # type: ignore[no-untyped-call]
+    creds = Credentials(token=None, **args)
+    creds.refresh(Request())
     return creds
 
 
