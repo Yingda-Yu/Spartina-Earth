@@ -32,6 +32,7 @@ cross-checks, quicklooks) are reused unchanged from
 from __future__ import annotations
 
 import argparse
+import functools
 import importlib.util
 import json
 import sys
@@ -41,6 +42,7 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT / "src"))
+sys.path.insert(0, str(REPO_ROOT / "scripts/data/national"))
 
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
@@ -65,6 +67,11 @@ OUT_JSON = REPO_ROOT / "datasets/manifests/national_pilot19_canary_qa_v2.json"
 ACTUAL_MASK_GATE = 0.95
 INTERIOR_ERODE_PX = 3
 INTERIOR_FAIL_FRAC = 1e-4
+#: Any all-band interior hole at or above 1 ha is a structural FAIL
+#: regardless of the window-wide coverage fraction (canary mandate:
+#: "no systematic NaN interior"). Band-limited source-scene fill is
+#: classified separately (see dim_interior_nan).
+STRUCTURAL_HOLE_AREA_M2 = 10_000.0
 FLOOR_EDGE_NEAR_PX = 3
 FLOOR_INTERIOR_FAIL_FRAC = 1e-3
 LIVE_DB_EXTREMA_TOL = 1.0
@@ -113,6 +120,20 @@ def _paths(mf: dict[str, Any]) -> dict[str, Path]:
 
 def _sha256(path: Path) -> str:
     return str(QA1._sha256(path))  # noqa: SLF001 -- frozen helper
+
+
+@functools.lru_cache(maxsize=1)
+def _v1_landed_pids() -> frozenset[str]:
+    """Product slots that reached LANDED under the V1 run.
+
+    Authoritative source is the frozen V1 export progress ledger
+    (state re-validated against manifests + re-hashed bytes by the
+    exporter). Only these slots may carry an archived V0 manifest.
+    """
+    doc = json.loads(_DRIVER.PROGRESS_JSON_V1.read_text("utf-8"))
+    return frozenset(
+        str(p["product_id"]) for p in doc.get("products", [])
+        if str(p.get("state")) == "LANDED")
 
 
 # ---------------------------------------------------------------------------
@@ -212,18 +233,15 @@ def _s1_dualpol(path: Path) -> dict[str, Any]:
             "floor": floor, "valid": valid}
 
 
-def dim_actual_mask_v2(mf: dict[str, Any], pixel_m: float) -> Dimension:
+def dim_actual_mask_v2(
+    mf: dict[str, Any], pixel_m: float, plan_row: dict[str, Any],
+) -> Dimension:
     paths = _paths(mf)
     sensor = str(mf["sensor"])
     problems: list[str] = []
     detail: dict[str, Any] = {}
-    if sensor == "sentinel2":
-        observed, per_band = _s2_observed(paths["sr"])
-        detail["per_band_finite_fraction"] = per_band
-        total = int(observed.size)
-        n_obs = int(observed.sum())
-        basis = _DRIVER.BASIS_S2_V2
-    else:
+    is_landsat = sensor.startswith("landsat")
+    if sensor == "sentinel1":
         d = _s1_dualpol(paths["vvvh"])
         observed = d["valid"]
         total = int(observed.size)
@@ -231,10 +249,18 @@ def dim_actual_mask_v2(mf: dict[str, Any], pixel_m: float) -> Dimension:
         detail["dualpol_finite_fraction"] = float(d["dual"].mean())
         detail["floor_area_fraction"] = float(d["floor"].mean())
         basis = _DRIVER.BASIS_S1_V2
+    else:
+        # Same all-required-SR-bands-finite rule for S2 and inherited
+        # Landsat windows.
+        observed, per_band = _s2_observed(paths["sr"])
+        detail["per_band_finite_fraction"] = per_band
+        total = int(observed.size)
+        n_obs = int(observed.sum())
+        basis = (_DRIVER.BASIS_LANDSAT_INHERITED if is_landsat
+                 else _DRIVER.BASIS_S2_V2)
     byte_fraction = n_obs / total
     # Independent inside-W10-cell fraction (the cell is the product unit).
-    hdr = QA1._header(paths["sr"] if sensor == "sentinel2"
-                      else paths["vvvh"])
+    hdr = QA1._header(paths["sr"] if "sr" in paths else paths["vvvh"])
     inside = QA1.centre_in_cell(str(mf["cell_id"]), int(mf["utm_zone"]),
                                 hdr, pixel_m)
     in_cell = float((observed & inside).sum() / max(int(inside.sum()), 1))
@@ -246,87 +272,345 @@ def dim_actual_mask_v2(mf: dict[str, Any], pixel_m: float) -> Dimension:
         "actual_observed_fraction_in_w10_cell": in_cell,
         "gate": ACTUAL_MASK_GATE,
         "independently_recomputed": True})
+    warns: list[str] = []
+    # Owner F1 eligibility is the in-W10-cell fraction. The covering
+    # export grid over-covers the cell; a grid shortfall is evidence
+    # (WARN) but not an eligibility failure.
     if byte_fraction < ACTUAL_MASK_GATE:
-        problems.append(
+        warns.append(
             f"grid actual-mask fraction {byte_fraction:.4f} < "
-            f"{ACTUAL_MASK_GATE}")
+            f"{ACTUAL_MASK_GATE} (in-cell {in_cell:.4f})")
     if in_cell < ACTUAL_MASK_GATE:
         problems.append(
             f"in-cell actual-mask fraction {in_cell:.4f} < "
             f"{ACTUAL_MASK_GATE}")
+    n_cell = int(inside.sum())
+    n_cell_obs = int((observed & inside).sum())
     # Cross-check the manifest's own landing-gate record pixel-for-pixel.
     rec = mf.get("qa", {}).get("actual_mask_v2", {})
     if not rec:
         problems.append("manifest missing qa.actual_mask_v2 record")
     else:
-        # S2 records observed_pixels; the S1 token records valid_pixels.
-        count_key = ("observed_pixels" if sensor == "sentinel2"
-                     else "valid_pixels")
+        if int(rec.get("grid_pixels", -1)) != total:
+            problems.append(
+                f"manifest grid_pixels {rec.get('grid_pixels')} != "
+                f"recomputed {total}")
+        # S2 records observed_pixels; S1 token records valid_pixels; the
+        # inherited Landsat record carries the joint observed_pixels.
+        count_key = ("valid_pixels" if sensor == "sentinel1"
+                     else "observed_pixels")
         if int(rec.get(count_key, -1)) != n_obs:
             problems.append(
                 f"manifest {count_key} {rec.get(count_key)} != "
                 f"recomputed {n_obs}")
+        # Owner F1 denominator: in-W10-cell counts on every refreshed
+        # record (S2, S1 token, inherited Landsat).
+        if int(rec.get("cell_pixels", -1)) != n_cell:
+            problems.append("manifest cell_pixels != recomputed")
+        if int(rec.get("observed_in_cell_pixels", -1)) != n_cell_obs:
+            problems.append(
+                "manifest observed_in_cell_pixels != recomputed")
+        if abs(float(rec.get(
+                "actual_observed_fraction_in_w10_cell", -1))
+                - in_cell) > 1e-12:
+            problems.append(
+                "manifest in-cell fraction disagrees with bytes")
         if abs(float(rec.get("actual_observed_fraction", -1))
                - byte_fraction) > 1e-12:
             problems.append("manifest actual fraction disagrees with bytes")
+        rec_bands = rec.get("per_band_finite_fraction", {})
+        for band, frac in detail.get("per_band_finite_fraction", {}).items():
+            if abs(float(rec_bands.get(band, -1)) - frac) > 1e-12:
+                problems.append(
+                    f"manifest per-band fraction {band} disagrees")
         gate = rec.get("gate", {})
-        if not gate.get("gate_pass") or not gate.get("pass"):
+        if not gate.get("gate_pass") or gate.get("pass") is False:
             problems.append("landing gate record not PASS")
+        if gate.get("gate_status_conflict"):
+            problems.append(
+                "landing gate records a byte/plan gate-status conflict")
+        plan_frac = plan_row.get("v2_actual_observed_fraction")
+        if is_landsat:
+            # Inherited rows carry no re-measured V2 plan fraction.
+            if not gate.get("plan_agreement_pass"):
+                problems.append("landing gate plan agreement not PASS")
+        elif plan_frac is not None and str(plan_frac) != "":
+            pf = float(plan_frac)
+            gpf = gate.get("plan_v2_fraction")
+            if gpf is None or abs(float(gpf) - pf) > 1e-12:
+                problems.append(
+                    "manifest plan fraction disagrees with frozen V2 plan")
+            independent_conflict = (
+                (in_cell >= ACTUAL_MASK_GATE) != (pf >= ACTUAL_MASK_GATE))
+            if independent_conflict:
+                problems.append(
+                    "independent bytes vs V2 plan disagree on the 0.95 gate")
+            elif not gate.get("plan_agreement_pass"):
+                # Both sides pass; residual delta is the documented
+                # fractional edge-mask reduceRegion artifact -> WARN.
+                codes = ";".join(str(w.get("code")) for w in gate.get(
+                    "crosscheck_warnings", []))
+                warns.append(
+                    f"plan proxy delta beyond pixel tolerance but both "
+                    f"sides PASS the gate ({codes})")
         detail["manifest_gate"] = gate
-    if not problems:
-        note = f"actual-mask coverage {byte_fraction:.4f} grid / " \
-               f"{in_cell:.4f} in cell (gate {ACTUAL_MASK_GATE})"
+    if problems:
+        verdict = FAIL
+    elif warns:
+        verdict = WARN
     else:
-        note = "; ".join(problems)
-    return QA1.Dimension("actual_mask_v2_gate",
-                         FAIL if problems else PASS, detail, note)
+        verdict = PASS
+    note = "; ".join(problems + warns) or (
+        f"actual-mask coverage {byte_fraction:.4f} grid / "
+        f"{in_cell:.4f} in cell (gate {ACTUAL_MASK_GATE})")
+    return QA1.Dimension("actual_mask_v2_gate", verdict, detail, note)
 
 
 # ---------------------------------------------------------------------------
 # interior NaN / hole morphology
 # ---------------------------------------------------------------------------
 
+def classify_interior_morphology(
+    any_bad: np.ndarray[Any, Any],
+    all_bad: np.ndarray[Any, Any],
+    band_bad: list[np.ndarray[Any, Any]],
+    band_names: list[str],
+    inside_cell: np.ndarray[Any, Any],
+    pixel_m: float,
+) -> tuple[list[str], list[str], dict[str, Any]]:
+    """Classify non-observation morphology on the W10-cell support.
+
+    PILOT_EVENT_SELECTION_V2 defines eligibility over the exact W10
+    Albers cell (pixel-centre rule), not the ~27% larger covering
+    export window; the systematic-interior test uses the SAME support.
+    Two physically distinct all-band populations are separated by
+    connectivity:
+
+    * **enclosed interior holes** -- connected non-observation
+      components that do not touch the export-window border. These are
+      genuine acquisition/geometry holes surrounded by observed data,
+      i.e. the V1 failure mode this gate exists to catch. Any component
+      >= STRUCTURAL_HOLE_AREA_M2 intersecting the cell, or a total
+      in-cell hole fraction >= INTERIOR_FAIL_FRAC, is a hard FAIL;
+    * **footprint/frame-edge slivers** -- components contiguous with the
+      window border that intrude into the cell corner (S1 GRD frame
+      edges, scene-footprint bites). They are edge geometry by
+      construction: quantified (area, maximum penetration past the cell
+      boundary) and reported as WARN, never counted as interior holes.
+
+    Band-limited fill (some required bands non-finite while others carry
+    signal; e.g. Landsat LaSRC aerosol-inversion fill) is reported
+    separately as WARN. Window-margin (outside-cell) pixels are
+    evidence only.
+    """
+    h, w = all_bad.shape
+    problems: list[str] = []
+    warns: list[str] = []
+
+    # Legacy window-eroded statistics (evidence; the export window is
+    # not the V2 scientific support).
+    window_interior = np.zeros((h, w), dtype=bool)
+    window_interior[INTERIOR_ERODE_PX:h - INTERIOR_ERODE_PX,
+                    INTERIOR_ERODE_PX:w - INTERIOR_ERODE_PX] = True
+    wi_any = window_interior & any_bad
+    wi_all = window_interior & all_bad
+
+    # W10-cell support.
+    cell_all = inside_cell & all_bad
+    cell_any = inside_cell & any_bad
+    cell_limited = cell_any & ~all_bad
+    cell_support = int(inside_cell.sum())
+    cell_frac = float(cell_all.sum() / max(cell_support, 1))
+    inside_eroded = ndimage.binary_erosion(
+        inside_cell, iterations=INTERIOR_ERODE_PX)
+    er_support = int(inside_eroded.sum())
+    er_all = inside_eroded & all_bad
+    cell_eroded_frac = float(er_all.sum() / max(er_support, 1))
+
+    # Connected components; window-border-touching == footprint/frame.
+    labelled, n_comp = ndimage.label(all_bad)
+    border_labels = set(np.unique(np.concatenate(
+        [labelled[0, :], labelled[-1, :],
+         labelled[:, 0], labelled[:, -1]])).tolist()) - {0}
+    sizes = np.bincount(labelled.ravel())
+    in_cell_labels = np.unique(labelled[cell_all])
+    in_cell_labels = in_cell_labels[in_cell_labels != 0]
+
+    hole_labels = [int(i) for i in in_cell_labels if i not in border_labels]
+    edge_labels_cell = [int(i) for i in in_cell_labels
+                        if i in border_labels]
+    hole_pixels_in_cell = int(sum(
+        int(cell_all[labelled == i].sum()) for i in hole_labels))
+    # Largest enclosed component is measured over its FULL extent: it is
+    # surrounded by observed data, and any part inside the cell makes the
+    # whole hole in-scope.
+    largest_hole = max((int(sizes[i]) for i in hole_labels), default=0)
+    largest_hole_area_m2 = largest_hole * pixel_m * pixel_m
+    hole_frac_in_cell = float(
+        hole_pixels_in_cell / max(cell_support, 1))
+
+    edge_px = int(cell_all.sum() - sum(
+        int(cell_all[labelled == i].sum()) for i in hole_labels))
+    edge_area_m2 = edge_px * pixel_m * pixel_m
+    edge_penetration_px = 0.0
+    if edge_labels_cell:
+        edge_mask = np.isin(labelled, edge_labels_cell) & inside_cell
+        dist = ndimage.distance_transform_edt(inside_cell)
+        edge_penetration_px = float(dist[edge_mask].max(initial=0.0))
+
+    limited_by_band = {
+        band_names[i]: int((cell_limited & band_bad[i]).sum())
+        for i in range(len(band_bad))
+        if bool((cell_limited & band_bad[i]).any())}
+
+    detail = {
+        "support": "W10_ALBERS_CELL_PIXEL_CENTRES",
+        "interior_erode_px": INTERIOR_ERODE_PX,
+        # legacy window evidence (kept for cross-revision comparison)
+        "interior_pixels": int(window_interior.sum()),
+        "interior_nonobserved_pixels": int(wi_any.sum()),
+        "interior_nonobserved_fraction": float(
+            wi_any.sum() / max(int(window_interior.sum()), 1)),
+        "interior_all_band_pixels": int(wi_all.sum()),
+        "interior_all_band_fraction": float(
+            wi_all.sum() / max(int(window_interior.sum()), 1)),
+        # W10-cell evidence
+        "cell_pixels": cell_support,
+        "cell_all_band_pixels": int(cell_all.sum()),
+        "cell_all_band_fraction": cell_frac,
+        "cell_eroded_pixels": er_support,
+        "cell_eroded_all_band_pixels": int(er_all.sum()),
+        "cell_eroded_all_band_fraction": cell_eroded_frac,
+        "interior_hole_components": len(hole_labels),
+        "interior_hole_pixels_in_cell": hole_pixels_in_cell,
+        "interior_hole_fraction_in_cell": hole_frac_in_cell,
+        "largest_interior_hole_pixels": largest_hole,
+        "largest_interior_hole_area_m2": largest_hole_area_m2,
+        "largest_interior_hole_fraction": largest_hole / float(h * w),
+        "footprint_edge_components_in_cell": len(edge_labels_cell),
+        "footprint_edge_pixels_in_cell": edge_px,
+        "footprint_edge_area_m2_in_cell": edge_area_m2,
+        "footprint_edge_fraction_in_cell": float(
+            edge_px / max(cell_support, 1)),
+        "footprint_edge_max_penetration_px": edge_penetration_px,
+        "footprint_edge_max_penetration_m": edge_penetration_px * pixel_m,
+        "window_margin_all_band_pixels": int((all_bad & ~inside_cell).sum()),
+        "band_limited_pixels": int(cell_limited.sum()),
+        "band_limited_by_band": limited_by_band,
+        "n_components_total": int(n_comp)}
+
+    if largest_hole_area_m2 >= STRUCTURAL_HOLE_AREA_M2:
+        problems.append(
+            f"structural enclosed interior hole {largest_hole} px "
+            f"({largest_hole_area_m2:.0f} m^2) intersects the W10 cell, "
+            f">= {STRUCTURAL_HOLE_AREA_M2:.0f} m^2")
+    if hole_frac_in_cell >= INTERIOR_FAIL_FRAC:
+        problems.append(
+            f"systematic enclosed interior non-observation in W10 cell: "
+            f"{hole_frac_in_cell:.6f} >= {INTERIOR_FAIL_FRAC}")
+    if cell_limited.any():
+        warns.append(
+            f"{int(cell_limited.sum())} band-limited fill pixels in cell "
+            f"(not all bands): {limited_by_band}")
+    if edge_px:
+        warns.append(
+            f"{edge_px} frame/footprint-edge non-observation pixels "
+            f"({edge_area_m2:.0f} m^2, {edge_px / max(cell_support, 1):.4%} "
+            f"of cell; max penetration {edge_penetration_px * pixel_m:.0f} m) "
+            "contiguous with the scene edge")
+    if hole_pixels_in_cell and not problems:
+        warns.append(
+            f"{hole_pixels_in_cell} sporadic enclosed interior non-"
+            "observed pixels below structural thresholds")
+    return problems, warns, detail
+
+
 def dim_interior_nan(mf: dict[str, Any]) -> Dimension:
+    """Interior non-observation morphology over the W10-cell support.
+
+    PILOT_EVENT_SELECTION_V2 defines the scientific support as the exact
+    W10 Albers cell (pixel-centre rule), not the covering export window.
+    Two physically distinct all-band populations are separated by
+    connectivity by :func:`classify_interior_morphology`:
+
+    * **enclosed interior holes** -- components not touching the window
+      border; a hard FAIL above the structural-area / fraction thresholds
+      (the V1 failure mode this gate exists to catch);
+    * **frame/footprint-edge slivers** -- components contiguous with the
+      window border intruding into the cell corner; quantified WARN
+      evidence, never an interior hole.
+
+    Band-limited fill (only some required bands non-finite; Landsat
+    LaSRC aerosol-inversion fill) is WARN with morphology. Window-margin
+    pixels outside the cell are evidence only.
+    """
     paths = _paths(mf)
     sensor = str(mf["sensor"])
-    if sensor == "sentinel2":
-        observed, _ = _s2_observed(paths["sr"])
+    band_bad: list[np.ndarray[Any, Any]] = []
+    band_names: list[str] = []
+    transform: Any
+    zone: int
+    if "sr" in paths:
+        with rasterio.open(paths["sr"]) as ds:
+            for i in range(1, ds.count + 1):
+                b = ds.read(i)
+                band_bad.append(~np.isfinite(b))
+                band_names.append(str(ds.descriptions[i - 1]) or f"band_{i}")
+            h, w = ds.height, ds.width
+            transform = ds.transform
+            zone = int(ds.crs.to_epsg()) - 32600
     else:
-        observed = _s1_dualpol(paths["vvvh"])["valid"]
-    h, w = observed.shape
-    interior = np.zeros((h, w), dtype=bool)
-    interior[INTERIOR_ERODE_PX:h - INTERIOR_ERODE_PX,
-             INTERIOR_ERODE_PX:w - INTERIOR_ERODE_PX] = True
-    interior_bad = interior & ~observed
-    interior_frac = float(interior_bad.sum() / max(int(interior.sum()), 1))
-    # Largest non-observed component that does not touch the window edge
-    # (a geometric interior hole, as opposed to a footprint-edge bite).
-    holes, n_holes = ndimage.label(~observed)
-    edge_labels = np.unique(np.concatenate(
-        [holes[0, :], holes[-1, :], holes[:, 0], holes[:, -1]]))
-    edge_labels = set(edge_labels.tolist()) - {0}
-    sizes = np.bincount(holes.ravel())
-    interior_hole_sizes = [
-        int(sizes[i]) for i in range(1, n_holes + 1) if i not in edge_labels]
-    largest_hole = max(interior_hole_sizes, default=0)
-    detail = {
-        "interior_erode_px": INTERIOR_ERODE_PX,
-        "interior_pixels": int(interior.sum()),
-        "interior_nonobserved_pixels": int(interior_bad.sum()),
-        "interior_nonobserved_fraction": interior_frac,
-        "n_interior_hole_components": len(interior_hole_sizes),
-        "largest_interior_hole_pixels": largest_hole,
-        "largest_interior_hole_fraction": largest_hole / float(h * w)}
-    if interior_frac >= INTERIOR_FAIL_FRAC:
+        d = _s1_dualpol(paths["vvvh"])
+        with rasterio.open(paths["vvvh"]) as ds:
+            transform = ds.transform
+            zone = int(ds.crs.to_epsg()) - 32600
+        pol_bad = (~d["fin_vv"]) | (d["vv"] <= _DRIVER.S1_FLOOR_DB)
+        pol_bad_h = (~d["fin_vh"]) | (d["vh"] <= _DRIVER.S1_FLOOR_DB)
+        band_bad = [pol_bad, pol_bad_h]
+        band_names = ["VV", "VH"]
+        h, w = pol_bad.shape
+    any_bad = np.logical_or.reduce(band_bad)
+    all_bad = np.logical_and.reduce(band_bad)
+    pixel_m = 30.0 if sensor.startswith("landsat") else 10.0
+
+    from build_pilot_label_supports_v1 import (  # noqa: PLC0415
+        cell_polygon_utm,
+        pixel_centres_in_cell,
+    )
+
+    cell_poly = cell_polygon_utm(str(mf["cell_id"]), zone)
+    inside_cell = pixel_centres_in_cell(
+        cell_poly, transform, h, w, int(pixel_m))
+
+    problems, warns, detail = classify_interior_morphology(
+        any_bad, all_bad, band_bad, band_names, inside_cell, pixel_m)
+
+    # Frozen r2 rule: the derived VALID token must never mark a
+    # non-observed pixel valid (window-wide check, stricter than cell).
+    if "valid" in paths:
+        with rasterio.open(paths["valid"]) as ds:
+            valid = ds.read(1) == 1
+        wi = np.zeros((h, w), dtype=bool)
+        wi[INTERIOR_ERODE_PX:h - INTERIOR_ERODE_PX,
+           INTERIOR_ERODE_PX:w - INTERIOR_ERODE_PX] = True
+        valid_overlap = int((wi & any_bad & valid).sum())
+        detail["interior_nonobserved_marked_valid"] = valid_overlap
+        if valid_overlap:
+            problems.append(
+                f"{valid_overlap} interior non-observed pixels marked "
+                "VALID (r2 exclusion violated)")
+    else:
+        detail["interior_nonobserved_marked_valid"] = None
+
+    if problems:
         verdict = FAIL
-        note = (f"systematic interior non-observation: "
-                f"{interior_frac:.6f} >= {INTERIOR_FAIL_FRAC}")
-    elif interior_frac > 0:
+        note = "; ".join(problems + warns)
+    elif warns:
         verdict = WARN
-        note = f"{int(interior_bad.sum())} sporadic interior non-observed pixels"
+        note = "; ".join(warns)
     else:
         verdict = PASS
-        note = "no interior non-observed pixels"
+        note = "no interior non-observed pixels in W10 cell"
     return QA1.Dimension("interior_nan_scan", verdict, detail, note)
 
 
@@ -577,13 +861,25 @@ def dim_repair_provenance(
     problems: list[str] = []
     detail: dict[str, Any] = {}
     change = str(plan_row.get("v2_change"))
+    is_landsat = str(mf["sensor"]).startswith("landsat")
     es = mf.get("event_selection", {})
+    want_revision = (_DRIVER.SELECTION_V1_LANDSAT_INHERITED if is_landsat
+                     else _DRIVER.SELECTION_V2)
+    want_eligibility = ("SELECTED" if is_landsat
+                        else _DRIVER.STATUS_V2_ELIGIBLE)
+    planned_es = es.get("actual_observed_fraction_planned")
+    plan_frac = plan_row.get("v2_actual_observed_fraction")
+    plan_frac_null = plan_frac is None or (
+        isinstance(plan_frac, float) and np.isnan(plan_frac))
+    if planned_es is None or plan_frac_null:
+        planned_check = planned_es is None and plan_frac_null
+    else:
+        assert plan_frac is not None
+        planned_check = abs(float(planned_es) - float(plan_frac)) < 1e-12
     checks = {
-        "revision_pilot_event_selection_v2":
-            es.get("revision") == _DRIVER.SELECTION_V2,
+        "selection_revision": es.get("revision") == want_revision,
         "plan_checksum": es.get("plan_csv_sha256") == plan_checksum,
-        "eligibility_v2_eligible":
-            es.get("eligibility_status") == _DRIVER.STATUS_V2_ELIGIBLE,
+        "eligibility": es.get("eligibility_status") == want_eligibility,
         "v2_change_matches_plan": es.get("v2_change") == change,
         "v2_change_matches_canary":
             es.get("v2_change") == canary_v2_change,
@@ -591,10 +887,7 @@ def dim_repair_provenance(
         "label_independent": es.get("label_independent") is True,
         "threshold_relaxation_forbidden":
             es.get("threshold_relaxation_forbidden") is True,
-        "planned_fraction_matches_plan": abs(
-            float(es.get("actual_observed_fraction_planned", -1))
-            - float(plan_row.get("v2_actual_observed_fraction", -1)))
-        < 1e-12,
+        "planned_fraction_matches_plan": planned_check,
         "manifest_event_date_matches_v2_plan":
             str(mf.get("acquisition_utc_planned", ""))[:10]
             == str(plan_row.get("event_utc"))[:10],
@@ -602,63 +895,128 @@ def dim_repair_provenance(
     detail["event_selection_checks"] = checks
     problems.extend(k for k, ok in checks.items() if not ok)
     pid = str(mf["product_id"])
+    v1_landed = pid in _v1_landed_pids()
+    detail["v1_landed"] = v1_landed
     archived_manifest = SUPERSEDED_MANIFEST_DIR / f"{pid}.json"
-    if not archived_manifest.exists():
-        problems.append("archived V0 manifest copy missing")
+    if change not in (_DRIVER.CHANGE_KEPT, _DRIVER.CHANGE_REPLACED,
+                      _DRIVER.CHANGE_LANDSAT):
+        problems.append(f"unknown v2_change {change}")
+    if v1_landed:
+        # Slots that reached LANDED under V1 must have a move/copy of
+        # their V0 manifest, with history verified against it.
+        if not archived_manifest.exists():
+            problems.append("archived V0 manifest copy missing")
+        else:
+            old = json.loads(archived_manifest.read_text("utf-8"))
+            detail["archived_v0_schema"] = old.get("schema")
+            old_sha = {f["role"]: f["sha256"] for f in old["landed_files"]}
+            if change in (_DRIVER.CHANGE_KEPT, _DRIVER.CHANGE_LANDSAT):
+                # Raw bytes must be byte-identical to the V0 record
+                # (metadata-only enrichment; no resubmission). Applies to
+                # KEPT sentinel events and inherited Landsat windows.
+                kept: dict[str, bool] = {}
+                for f in mf["landed_files"]:
+                    if f.get("derivation"):
+                        continue
+                    kept[f["role"]] = old_sha.get(f["role"]) == f["sha256"]
+                detail["kept_raw_sha_matches_v0"] = kept
+                if not all(kept.values()):
+                    problems.append("retained raw bytes differ from V0 SHA")
+                if str(old.get("acquisition_utc_planned", ""))[:10] != str(
+                        mf.get("acquisition_utc_planned", ""))[:10]:
+                    problems.append("retained event date changed")
+            elif change == _DRIVER.CHANGE_REPLACED:
+                entry = supersession.get("products", {}).get(pid)
+                if entry is None:
+                    problems.append("supersession index entry missing")
+                else:
+                    archived_files: list[dict[str, Any]] = []
+                    for rec in entry.get("archived_files", []):
+                        ap = SUPERSEDED_PRODUCT_DIR / rec["name"]
+                        ok = ap.exists() and _sha256(ap) == rec["sha256"]
+                        archived_files.append(
+                            {"name": rec["name"], "exists_and_sha_ok": ok})
+                        if not ok:
+                            problems.append(
+                                f"archived byte {rec['name']} "
+                                "missing/hash bad")
+                    detail["archived_files"] = archived_files
+                    detail["v1_event_utc"] = entry.get("v1_event_utc")
+                    detail["v2_event_utc"] = entry.get("v2_event_utc")
+                    if str(entry.get("v2_event_utc", ""))[:10] != str(
+                            plan_row.get("event_utc"))[:10]:
+                        problems.append("index v2 event != plan event")
     else:
-        old = json.loads(archived_manifest.read_text("utf-8"))
-        detail["archived_v0_schema"] = old.get("schema")
-        old_sha = {f["role"]: f["sha256"] for f in old["landed_files"]}
-        if change == _DRIVER.CHANGE_KEPT:
-            # Raw bytes must be byte-identical to the V0 record (metadata
-            # only enrichment; no resubmission).
-            kept: dict[str, bool] = {}
-            for f in mf["landed_files"]:
-                if f.get("derivation"):
-                    continue
-                kept[f["role"]] = old_sha.get(f["role"]) == f["sha256"]
-            detail["kept_raw_sha_matches_v0"] = kept
-            if not all(kept.values()):
-                problems.append("KEPT raw bytes differ from V0 SHA record")
-            if str(old.get("acquisition_utc_planned", ""))[:10] != str(
-                    mf.get("acquisition_utc_planned", ""))[:10]:
-                problems.append("KEPT event date changed")
-        elif change == _DRIVER.CHANGE_REPLACED:
+        # D1 was halted mid-pilot: this slot was never LANDED under V1, so
+        # no genuine V0 manifest/bytes can exist. The enrichment preflight
+        # nevertheless copies each manifest aside before rewriting it, so
+        # a slot first landed under V2 may carry a PRE-REFRESH V2 SNAPSHOT
+        # in the archive folder. Discriminate by manifest content: a V2
+        # snapshot already carries the V2 event-selection block / actual
+        # mask record; a genuine V0 manifest does not.
+        if archived_manifest.exists():
+            old = json.loads(archived_manifest.read_text("utf-8"))
+            old_rev = old.get("event_selection", {}).get("revision")
+            is_v2_snapshot = (
+                old.get("qa", {}).get("actual_mask_v2") is not None
+                or old_rev == _DRIVER.SELECTION_V2
+                or old_rev == _DRIVER.SELECTION_V1_LANDSAT_INHERITED)
+            if not is_v2_snapshot:
+                problems.append(
+                    "archived genuine V0 manifest exists for a slot never "
+                    "LANDED under V1")
+            else:
+                # Metadata-only V2 refresh: every current non-derived
+                # component must be byte-identical to the snapshot and the
+                # event date must not have moved.
+                old_sha = {f["role"]: f["sha256"]
+                           for f in old.get("landed_files", [])}
+                same: dict[str, bool] = {}
+                for f in mf["landed_files"]:
+                    if f.get("derivation"):
+                        continue
+                    same[f["role"]] = old_sha.get(f["role"]) == f["sha256"]
+                detail["v2_snapshot_sha_continuity"] = same
+                if not same or not all(same.values()):
+                    problems.append(
+                        "pre-refresh V2 snapshot bytes differ from current")
+                if str(old.get("acquisition_utc_planned", ""))[:10] != str(
+                        mf.get("acquisition_utc_planned", ""))[:10]:
+                    problems.append(
+                        "pre-refresh V2 snapshot event date changed")
+                detail["archived_manifest_class"] = "PRE_REFRESH_V2_SNAPSHOT"
+        if change == _DRIVER.CHANGE_REPLACED:
             entry = supersession.get("products", {}).get(pid)
             if entry is None:
                 problems.append("supersession index entry missing")
+            elif entry.get("archived_manifest") is not None:
+                problems.append(
+                    "index claims archived V0 bytes for a never-landed "
+                    "slot")
             else:
-                archived_files: list[dict[str, Any]] = []
-                for rec in entry.get("archived_files", []):
-                    ap = SUPERSEDED_PRODUCT_DIR / rec["name"]
-                    ok = ap.exists() and _sha256(ap) == rec["sha256"]
-                    archived_files.append(
-                        {"name": rec["name"], "exists_and_sha_ok": ok})
-                    if not ok:
-                        problems.append(
-                            f"archived byte {rec['name']} missing/hash bad")
-                detail["archived_files"] = archived_files
-                detail["v1_event_utc"] = entry.get("v1_event_utc")
                 detail["v2_event_utc"] = entry.get("v2_event_utc")
                 if str(entry.get("v2_event_utc", ""))[:10] != str(
                         plan_row.get("event_utc"))[:10]:
                     problems.append("index v2 event != plan event")
-            # New bytes must carry the r2 revision + V2 date; no r1 file
-            # for the new event may exist (old-event orphan rule).
-            for role in _DRIVER.COMPONENTS[str(mf["sensor"])]:
-                expect_prefix = _DRIVER.prefix_for(
-                    plan_row, role, plan_version="v2")
-                got = {Path(f["local_uri"]).name for f in mf["landed_files"]
-                       if f["role"] == role}
-                if got != {f"{expect_prefix}.tif"}:
-                    problems.append(
-                        f"{role}: expected {expect_prefix}.tif, got {got}")
-        else:
-            problems.append(f"unknown v2_change {change}")
+    # Every component file must carry the plan-correct revision
+    # (r1 retained / r2 replaced; derived tokens checked separately).
+    for role in _DRIVER.COMPONENTS[str(mf["sensor"])]:
+        expect_prefix = _DRIVER.prefix_for(
+            plan_row, role, plan_version="v2")
+        got = {Path(f["local_uri"]).name for f in mf["landed_files"]
+               if f["role"] == role}
+        if got != {f"{expect_prefix}.tif"}:
+            problems.append(
+                f"{role}: expected {expect_prefix}.tif, got {got}")
     detail["v2_change"] = change
-    return QA1.Dimension(
-        "repair_provenance", FAIL if problems else PASS, detail,
-        "; ".join(problems) or f"{change}: V0 history preserved and verified")
+    if problems:
+        note = "; ".join(problems)
+    elif v1_landed:
+        note = f"{change}: V0 history preserved and verified"
+    else:
+        note = f"{change}: fresh V2 landing (slot never LANDED under V1)"
+    return QA1.Dimension("repair_provenance", FAIL if problems else PASS,
+                         detail, note)
 
 
 # ---------------------------------------------------------------------------
@@ -689,11 +1047,13 @@ def run_product(
             eo_valid = ds.read(1) == 1
     dims.append(QA1.dim_label_alignment(mf, supports, eo_valid, eo_observed))
     dims.append(QA1.dim_coastline(mf, panel_row))
-    if sensor == "sentinel2":
+    if sensor.startswith("landsat"):
+        dims.extend(QA1.qa_landsat(ee, mf))
+    elif sensor == "sentinel2":
         dims.extend(QA1.qa_s2(ee, mf))
     else:
         dims.extend(qa_s1_v2(ee, mf, plan_row))
-    dims.append(dim_actual_mask_v2(mf, pixel_m))
+    dims.append(dim_actual_mask_v2(mf, pixel_m, plan_row))
     dims.append(dim_interior_nan(mf))
     if sensor == "sentinel1":
         dims.append(dim_s1_floor_token(mf))

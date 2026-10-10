@@ -917,6 +917,44 @@ def s2_sr_actual_mask(sr_path: str) -> dict[str, Any]:
                 "per_band_finite_fraction": per_band}
 
 
+def mask_in_w10_cell_fraction(
+    observed: np.ndarray[Any, Any], transform: Any,
+    cell_id: str, utm_zone: int, pixel_m: float,
+) -> dict[str, Any]:
+    """Observed fraction of a boolean mask INSIDE the W10 cell.
+
+    Owner F1 defines production eligibility on actual observed coverage
+    over the W10 cell (pixel-centre rule), not on the larger covering
+    export grid. The grid fraction is recorded separately as evidence.
+    """
+    from build_pilot_label_supports_v1 import (  # noqa: PLC0415
+        cell_polygon_utm,
+        pixel_centres_in_cell,
+    )
+
+    h, w = observed.shape
+    inside = pixel_centres_in_cell(
+        cell_polygon_utm(cell_id, utm_zone), transform, h, w, int(pixel_m))
+    n_inside = int(inside.sum())
+    n_obs = int((observed & inside).sum())
+    return {"cell_pixels": n_inside,
+            "observed_in_cell_pixels": n_obs,
+            "actual_observed_fraction_in_w10_cell": (
+                n_obs / n_inside if n_inside else 0.0)}
+
+
+def sr_in_w10_cell_fraction(
+    sr_path: str, cell_id: str, utm_zone: int, pixel_m: float,
+) -> dict[str, Any]:
+    """Joint all-required-SR-band observed fraction INSIDE the W10 cell."""
+    with rasterio.open(sr_path) as src:
+        observed = np.ones((src.height, src.width), dtype=bool)
+        for i in range(1, src.count + 1):
+            observed &= np.isfinite(src.read(i))
+        return mask_in_w10_cell_fraction(
+            observed, src.transform, cell_id, utm_zone, pixel_m)
+
+
 def s1_dualpol_valid_v2_stats(vvvh_path: str) -> dict[str, Any]:
     """Dual-pol validity statistics from identity-preserved VV/VH bytes.
 
@@ -992,6 +1030,98 @@ def actual_mask_gate_check(
         "agreement_tolerance": tol,
         "plan_agreement_pass": agrees,
         "pass": gate_pass and agrees}
+
+
+def landsat_inherited_gate(
+    grid_stats: dict[str, Any], cell_stats: dict[str, Any],
+) -> dict[str, Any]:
+    """Inherited-Landsat V2 gate record.
+
+    Eligibility is the actual joint all-SR-band observed fraction INSIDE
+    the W10 cell (owner F1), >= 0.95. The full covering-grid fraction is
+    carried as evidence; a grid shortfall with the cell passing is not an
+    eligibility failure (the export grid deliberately over-covers the
+    cell by ~27%). Inherited rows have no V2 plan fraction to agree with.
+    """
+    cell_frac = float(
+        cell_stats["actual_observed_fraction_in_w10_cell"])
+    grid_frac = float(grid_stats["actual_observed_fraction"])
+    gate = actual_mask_gate_check(
+        cell_frac, ACTUAL_MASK_GATE, "LANDED_BYTES_V1_INHERITED")
+    gate["gate"] = (
+        "actual_observed_fraction_in_w10_cell >= "
+        f"{ACTUAL_MASK_GATE}")
+    gate["plan_v2_fraction"] = None
+    gate["abs_delta"] = None
+    gate["plan_agreement_pass"] = True
+    gate["pass"] = gate["gate_pass"]
+    gate["grid_byte_fraction"] = grid_frac
+    gate["grid_fraction_below_gate"] = grid_frac < ACTUAL_MASK_GATE
+    return gate
+
+
+#: Residual live-proxy vs landed-byte deltas at mosaic/footprint edges are
+#: known to exceed the pixel tolerance (fractional edge-mask resampling in
+#: reduceRegion; documented for S1 during V2 selection). They are tolerated
+#: ONLY while both evidence sides independently pass the 0.95 gate and the
+#: event identity is unchanged; a delta that flips the gate is a hard fail.
+PROXY_CROSSCHECK_WARN = "LIVE_PROXY_EDGE_RESAMPLING_CROSSCHECK_DELTA"
+
+
+def v2_replay_actual_mask_gate(
+    cell_frac: float, grid_frac: float, plan_frac: Any,
+    evidence_source: str,
+) -> dict[str, Any]:
+    """Gate for S2/S1 slots replayed under PILOT_EVENT_SELECTION_V2.
+
+    Eligibility authority is the ACTUAL landed raster mask measured INSIDE
+    the W10 cell (owner F1): ``cell_frac >= 0.95``. The plan-time live
+    reduceRegion fraction was measured on the covering grid and stays a
+    cross-check on the like-for-like grid byte fraction:
+
+    * bytes and plan on opposite sides of the 0.95 gate => hard failure
+      (``gate_status_conflict``), exactly the STOP rule used during V2
+      S1 selection;
+    * both pass but their fractions differ beyond tolerance because of the
+      documented fractional edge-mask proxy artifact => recorded WARN,
+      product still eligible (actual bytes, not the proxy, decide);
+    * bytes below 0.95 => hard failure regardless of the plan.
+    """
+    pf = float(plan_frac) if plan_frac not in (None, "") else None
+    byte_pass = cell_frac >= ACTUAL_MASK_GATE
+    plan_gate = (pf >= ACTUAL_MASK_GATE) if pf is not None else None
+    delta = abs(grid_frac - pf) if pf is not None else None
+    tol = (ACTUAL_MASK_LANDED_TOL if str(evidence_source).startswith("LANDED")
+           else ACTUAL_MASK_LIVE_TOL)
+    agrees = bool(delta <= tol) if delta is not None else True
+    conflict = plan_gate is not None and (byte_pass != plan_gate)
+    warnings: list[dict[str, Any]] = []
+    if (delta is not None and not agrees and byte_pass
+            and bool(plan_gate)):
+        warnings.append({
+            "code": PROXY_CROSSCHECK_WARN,
+            "abs_delta": float(delta), "tolerance": tol,
+            "detail": ("landed bytes and the V2 live reduceRegion proxy "
+                       "both pass the 0.95 actual-mask gate; the residual "
+                       "delta is the documented fractional edge-mask "
+                       "resampling bias at mosaic/footprint edges; the "
+                       "actual observed raster over the W10 cell remains "
+                       "the eligibility authority (owner F1)")})
+    return {
+        "gate": (f"actual_observed_fraction_in_w10_cell >= "
+                 f"{ACTUAL_MASK_GATE}"),
+        "gate_pass": byte_pass,
+        "byte_fraction": float(cell_frac),
+        "byte_grid_fraction": float(grid_frac),
+        "plan_v2_fraction": pf,
+        "plan_evidence_source": str(evidence_source),
+        "plan_gate_pass": plan_gate,
+        "gate_status_conflict": bool(conflict),
+        "abs_delta": (float(delta) if delta is not None else None),
+        "agreement_tolerance": float(tol),
+        "plan_agreement_pass": agrees,
+        "crosscheck_warnings": warnings,
+        "pass": bool(byte_pass and not conflict)}
 
 
 #: Bulk-plausibility sigma0 dB envelope inherited from the M2.1b Zhejiang
@@ -1393,16 +1523,21 @@ def _v2_gate_from_landed(
     """Actual-mask block + any new derived file records for a V1 product."""
     new_files: list[dict[str, Any]] = []
     if sensor == "sentinel2":
-        stats = s2_sr_actual_mask(str(local_files["sr"]))
-        gate = actual_mask_gate_check(
+        sr_path = str(local_files["sr"])
+        stats = s2_sr_actual_mask(sr_path)
+        cell = sr_in_w10_cell_fraction(
+            sr_path, str(doc["cell_id"]), int(doc["utm_zone"]), 10.0)
+        gate = v2_replay_actual_mask_gate(
+            cell["actual_observed_fraction_in_w10_cell"],
             stats["actual_observed_fraction"],
-            float(row["v2_actual_observed_fraction"]),
-            str(row["v2_evidence_source"]))
+            row.get("v2_actual_observed_fraction"),
+            str(row.get("v2_evidence_source", "")))
         if not gate["pass"]:
             raise ProvenanceError(
                 f"{row['product_id']}: retained S2 bytes fail V2 gate "
                 f"during enrichment: {gate}")
-        return {"coverage_basis": BASIS_S2_V2, **stats, "gate": gate}, []
+        return ({"coverage_basis": BASIS_S2_V2, **stats, **cell,
+                 "gate": gate}, [])
     if sensor == "sentinel1":
         vvvh = local_files["vvvh"]
         token_path = PRODUCT_DIR / (
@@ -1413,10 +1548,16 @@ def _v2_gate_from_landed(
         if info["count"] != 1 or info["dtypes"] != ["uint8"]:
             raise ProvenanceError(
                 f"{row['product_id']}: derived token must be 1x uint8")
-        gate = actual_mask_gate_check(
-            tok["actual_observed_fraction"],
-            float(row["v2_actual_observed_fraction"]),
-            str(row["v2_evidence_source"]))
+        with rasterio.open(token_path) as td:
+            tok_mask = td.read(1) == 1
+            cell = mask_in_w10_cell_fraction(
+                tok_mask, td.transform, str(doc["cell_id"]),
+                int(doc["utm_zone"]), 10.0)
+        gate = v2_replay_actual_mask_gate(
+            cell["actual_observed_fraction_in_w10_cell"],
+            float(tok["actual_observed_fraction"]),
+            row.get("v2_actual_observed_fraction"),
+            str(row.get("v2_evidence_source", "")))
         if not gate["pass"]:
             raise ProvenanceError(
                 f"{row['product_id']}: retained S1 token fails V2 gate: "
@@ -1445,27 +1586,26 @@ def _v2_gate_from_landed(
         block = {"coverage_basis": BASIS_S1_V2,
                  "validity_token": S1_VALID_V2_TOKEN,
                  "token_role": S1_VALID_V2_ROLE,
-                 "token_file": token_path.name, **tok, "gate": gate}
+                 "token_file": token_path.name, **tok, **cell, "gate": gate}
         return block, new_files
-    # Inherited landsat: metadata-only V2 bump, byte fraction from the
-    # audited V1 r2 landing (no new bytes).
-    bands = doc["qa"]["observed"]["bands"]
-    frac = min(float(b["finite_fraction"]) for b in bands.values())
-    if frac < ACTUAL_MASK_GATE:
+    # Inherited landsat: metadata-only V2 bump (no new bytes). The joint
+    # all-required-SR-band observed fraction is re-measured on the landed
+    # bytes; the V1 audit's per-band fractions cannot give the joint
+    # intersection (min over bands overstates it when non-finite pixels
+    # differ between bands). Eligibility is the owner F1 W10-cell
+    # fraction; the full-grid fraction is evidence only.
+    sr_path = str(local_files["sr"])
+    stats = s2_sr_actual_mask(sr_path)
+    cell = sr_in_w10_cell_fraction(
+        sr_path, str(doc["cell_id"]), int(doc["utm_zone"]), 30.0)
+    frac = cell["actual_observed_fraction_in_w10_cell"]
+    gate = landsat_inherited_gate(stats, cell)
+    if not gate["pass"]:
         raise ProvenanceError(
-            f"{row['product_id']}: inherited Landsat fraction {frac} < "
-            f"{ACTUAL_MASK_GATE}; STOP for owner review")
-    return {"coverage_basis": BASIS_LANDSAT_INHERITED,
-            "actual_observed_fraction": frac,
-            "per_band_finite_fraction": {
-                b["name"]: b["finite_fraction"] for b in bands.values()},
-            "grid_pixels": doc["qa"]["observed"]["grid_pixels"],
-            "gate": {"gate": f"actual_observed_fraction >= {ACTUAL_MASK_GATE}",
-                     "gate_pass": True,
-                     "byte_fraction": frac,
-                     "plan_v2_fraction": None,
-                     "plan_evidence_source": "LANDED_BYTES_V1_INHERITED",
-                     "pass": True}}, []
+            f"{row['product_id']}: inherited Landsat in-W10-cell fraction "
+            f"{frac} < {ACTUAL_MASK_GATE}; STOP for owner review")
+    return {"coverage_basis": BASIS_LANDSAT_INHERITED, **stats, **cell,
+            "gate": gate}, []
 
 
 def enrich_retained_products_to_v2(
@@ -1484,9 +1624,16 @@ def enrich_retained_products_to_v2(
         if not mpath.exists():
             continue  # not landed yet -> exported fresh by the scheduler
         doc = json.loads(mpath.read_text(encoding="utf-8"))
+        # Records written before the in-W10-cell correction lack the
+        # owner-denominator fields; refresh those metadata-only (raw bytes
+        # and SHA-256 untouched; the S1 token is rewritten identically).
+        block = doc.get("qa", {}).get("actual_mask_v2", {})
+        stale_missing_cell = (
+            "actual_observed_fraction_in_w10_cell" not in block)
         if (doc.get("schema") == SCHEMA_V1
                 and doc.get("event_selection", {}).get("plan_csv_sha256")
-                == plan_checksum):
+                == plan_checksum
+                and not stale_missing_cell):
             continue
         for frec in doc["landed_files"]:
             if sha256_file(frec["local_uri"]) != frec["sha256"]:
@@ -1777,7 +1924,7 @@ class ExportScheduler:
         qa = validate_bundle(self.ee, bundle, landed)
         if self.plan_version == "v2":
             qa["actual_mask_v2"] = self._v2_actual_mask_extras(
-                row, bundle, landed, qa, files)
+                row, bundle, landed, files)
         product_bytes = sum(int(f["size_bytes"]) for f in files)
         if self.total_landed_bytes + product_bytes > VOLUME_CAP_BYTES:
             raise ProvenanceError(
@@ -1884,29 +2031,33 @@ class ExportScheduler:
     # -- V2 actual-mask extras + derived s1_dualpol_valid_v2 ---------------
     def _v2_actual_mask_extras(
         self, row: dict[str, Any], bundle: Bundle,
-        landed: dict[str, Path], qa: dict[str, Any],
-        files: list[dict[str, Any]],
+        landed: dict[str, Path], files: list[dict[str, Any]],
     ) -> dict[str, Any]:
         """Verify the 0.95 actual-mask gate on landed bytes; derive token.
 
         S2: all-four-SR-band finite fraction. S1: derive the local
         s1_dualpol_valid_v2 uint8 token from the identity vvvh raster
         (raw bytes untouched), verify its grid, and gate on its coverage.
-        Landsat: inherited V1 r2 products; byte fraction is the min
-        all-SR-band finite fraction already audited at landing.
+        Landsat: inherited V1 r2 products; the joint all-SR-band finite
+        fraction is re-measured on the landed bytes at landing.
         """
         sensor = str(row["sensor"])
         if sensor == "sentinel2":
-            stats = s2_sr_actual_mask(str(landed["sr"]))
-            gate = actual_mask_gate_check(
+            sr_path = str(landed["sr"])
+            stats = s2_sr_actual_mask(sr_path)
+            cell = sr_in_w10_cell_fraction(
+                sr_path, str(row["cell_id"]), int(bundle.zone), 10.0)
+            gate = v2_replay_actual_mask_gate(
+                cell["actual_observed_fraction_in_w10_cell"],
                 stats["actual_observed_fraction"],
-                float(row["v2_actual_observed_fraction"]),
-                str(row["v2_evidence_source"]))
+                row.get("v2_actual_observed_fraction"),
+                str(row.get("v2_evidence_source", "")))
             if not gate["pass"]:
                 raise ProvenanceError(
                     f"{row['product_id']}: S2 landed bytes fail V2 actual "
                     f"mask gate: {gate}")
-            return {"coverage_basis": BASIS_S2_V2, **stats, "gate": gate}
+            return {"coverage_basis": BASIS_S2_V2, **stats, **cell,
+                    "gate": gate}
         if sensor == "sentinel1":
             vvvh = landed["vvvh"]
             token_prefix = prefix_for(
@@ -1920,10 +2071,16 @@ class ExportScheduler:
                 raise ProvenanceError(
                     f"{row['product_id']}: {S1_VALID_V2_TOKEN} must be a "
                     f"single uint8 band, got {tok_info['dtypes']}")
-            gate = actual_mask_gate_check(
-                tok["actual_observed_fraction"],
-                float(row["v2_actual_observed_fraction"]),
-                str(row["v2_evidence_source"]))
+            with rasterio.open(token_path) as td:
+                tok_mask = td.read(1) == 1
+                cell = mask_in_w10_cell_fraction(
+                    tok_mask, td.transform, str(row["cell_id"]),
+                    int(bundle.zone), 10.0)
+            gate = v2_replay_actual_mask_gate(
+                cell["actual_observed_fraction_in_w10_cell"],
+                float(tok["actual_observed_fraction"]),
+                row.get("v2_actual_observed_fraction"),
+                str(row.get("v2_evidence_source", "")))
             if not gate["pass"]:
                 raise ProvenanceError(
                     f"{row['product_id']}: S1 token fails V2 actual mask "
@@ -1954,28 +2111,22 @@ class ExportScheduler:
                     "validity_token": S1_VALID_V2_TOKEN,
                     "token_role": S1_VALID_V2_ROLE,
                     "token_file": token_path.name,
-                    **tok, "gate": gate}
-        # Inherited landsat: reuse audited per-band finite fractions.
-        bands = qa["observed"]["bands"]
-        frac = min(float(b["finite_fraction"]) for b in bands.values())
-        gate = actual_mask_gate_check(
-            frac, ACTUAL_MASK_GATE, "LANDED_BYTES_V1_INHERITED")
-        # Inherited rows carry no V2 live fraction; only the hard gate
-        # applies (the plan-agreement tolerance is informational here).
-        gate["plan_v2_fraction"] = None
-        gate["abs_delta"] = None
-        gate["plan_agreement_pass"] = True
-        gate["pass"] = gate["gate_pass"]
+                    **tok, **cell, "gate": gate}
+        # Inherited landsat: JOINT all-required-SR-band observed
+        # fraction measured on the landed bytes; eligibility is the
+        # in-W10-cell fraction (owner F1), grid fraction is evidence.
+        sr_path = str(landed["sr"])
+        stats = s2_sr_actual_mask(sr_path)
+        cell = sr_in_w10_cell_fraction(
+            sr_path, str(row["cell_id"]), int(bundle.zone), 30.0)
+        frac = cell["actual_observed_fraction_in_w10_cell"]
+        gate = landsat_inherited_gate(stats, cell)
         if not gate["pass"]:
             raise ProvenanceError(
-                f"{row['product_id']}: inherited Landsat observed fraction "
-                f"{frac} below {ACTUAL_MASK_GATE}; owner review required")
-        return {"coverage_basis": BASIS_LANDSAT_INHERITED,
-                "actual_observed_fraction": frac,
-                "per_band_finite_fraction": {
-                    b["name"]: b["finite_fraction"]
-                    for b in bands.values()},
-                "grid_pixels": qa["observed"]["grid_pixels"],
+                f"{row['product_id']}: inherited Landsat in-W10-cell "
+                f"fraction {frac} below {ACTUAL_MASK_GATE}; owner review "
+                "required")
+        return {"coverage_basis": BASIS_LANDSAT_INHERITED, **stats, **cell,
                 "gate": gate}
 
     # -- main loop ---------------------------------------------------------

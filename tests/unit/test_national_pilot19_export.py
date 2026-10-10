@@ -535,6 +535,74 @@ def test_s2_sr_actual_mask_requires_all_four_bands(tmp_path) -> None:  # type: i
     assert stats["per_band_finite_fraction"]["B2"] == 15 / 16
 
 
+def test_landsat_inherited_gate_rules() -> None:
+    # Eligibility follows the in-W10-cell joint fraction (owner F1);
+    # the grid fraction is evidence and may fall below 0.95 while the
+    # cell passes.
+    grid = {"actual_observed_fraction": 0.94}
+    cell_ok = {"actual_observed_fraction_in_w10_cell": 0.98}
+    gate = m.landsat_inherited_gate(grid, cell_ok)
+    assert gate["gate_pass"] and gate["pass"]
+    assert gate["grid_fraction_below_gate"]
+    assert gate["plan_v2_fraction"] is None
+    # Cell below 0.95 fails even when the full grid passes.
+    fail = m.landsat_inherited_gate(
+        {"actual_observed_fraction": 0.96},
+        {"actual_observed_fraction_in_w10_cell": 0.949})
+    assert not fail["gate_pass"] and not fail["pass"]
+
+
+def test_landsat_inherited_block_joint_not_min_per_band(
+        tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import numpy as np
+    import pytest
+    import rasterio
+    from rasterio.transform import from_origin
+
+    bands = [np.full((10, 10), 0.1, dtype="float32") for _ in range(7)]
+    # Disjoint fill populations: min(per-band)=0.95 overstates the joint
+    # intersection 0.90 -- the Issue #19 V2 bug.
+    bands[0].ravel()[0:5] = np.nan
+    bands[1].ravel()[5:10] = np.nan
+    sr = tmp_path / "sr.tif"
+    with rasterio.open(
+            sr, "w", driver="GTiff", height=10, width=10, count=7,
+            dtype="float32", crs="EPSG:32650",
+            transform=from_origin(500000.0, 3400000.0, 30.0, 30.0)) as dst:
+        for i, arr in enumerate(bands, start=1):
+            dst.write(arr, i)
+            dst.set_band_description(i, f"SR_B{i}")
+    assert m.s2_sr_actual_mask(str(sr))["actual_observed_fraction"] == 0.90
+    row = {"product_id": "NP19_X_L8_2015", "sensor": "landsat8"}
+    doc = {"cell_id": "CNA10K-R00000-C00000", "utm_zone": 50}
+
+    def fake_cell(path: str, cell_id: str, zone: int,  # noqa: ARG001
+                  pixel_m: float) -> dict[str, float]:  # noqa: ARG001
+        return {"cell_pixels": 100, "observed_in_cell_pixels": 90,
+                "actual_observed_fraction_in_w10_cell": 0.90}
+
+    monkeypatch.setattr(m, "sr_in_w10_cell_fraction", fake_cell)
+    with pytest.raises(m.ProvenanceError):
+        m._v2_gate_from_landed(
+            "landsat8", doc, row, {"sr": sr})  # noqa: SLF001
+
+    def fake_cell_ok(path: str, cell_id: str, zone: int,  # noqa: ARG001
+                     pixel_m: float) -> dict[str, float]:  # noqa: ARG001
+        return {"cell_pixels": 100, "observed_in_cell_pixels": 98,
+                "actual_observed_fraction_in_w10_cell": 0.98}
+
+    monkeypatch.setattr(m, "sr_in_w10_cell_fraction", fake_cell_ok)
+    block, new_files = m._v2_gate_from_landed(
+        "landsat8", doc, row, {"sr": sr})  # noqa: SLF001
+    assert new_files == []
+    assert block["coverage_basis"] == m.BASIS_LANDSAT_INHERITED
+    assert block["actual_observed_fraction"] == 0.90
+    assert block["actual_observed_fraction_in_w10_cell"] == 0.98
+    assert block["observed_pixels"] == 90
+    assert block["gate"]["gate_pass"] and block["gate"]["pass"]
+    assert block["gate"]["grid_fraction_below_gate"]
+
+
 def test_actual_mask_gate_check_rules() -> None:
     ok = m.actual_mask_gate_check(1.0, 1.0, "LANDED_BYTES")
     assert ok["pass"]
@@ -547,6 +615,50 @@ def test_actual_mask_gate_check_rules() -> None:
     assert live["pass"]
     landed = m.actual_mask_gate_check(0.999, 1.0, "LANDED_BYTES")
     assert not landed["plan_agreement_pass"]
+
+
+def test_v2_replay_gate_both_pass_proxy_delta_is_warn_not_fail() -> None:
+    # R00445-C00159 S2: bytes cover the W10 cell fully (1.0) while the
+    # plan-time live reduceRegion proxy measured 0.9603 (fractional
+    # edge-mask resampling at the two-granule mosaic edge). Both sides
+    # pass 0.95 -> eligible, disagreement recorded as a WARN only.
+    gate = m.v2_replay_actual_mask_gate(
+        1.0, 1.0, 0.9602704987320372, "LIVE_GEE_EXPORT_GRID")
+    assert gate["gate_pass"] and gate["pass"]
+    assert not gate["gate_status_conflict"]
+    assert not gate["plan_agreement_pass"]
+    assert [w["code"] for w in gate["crosscheck_warnings"]] == [
+        m.PROXY_CROSSCHECK_WARN]
+
+
+def test_v2_replay_gate_gate_flip_is_hard_failure() -> None:
+    # Bytes pass but the plan proxy failed (or vice versa): the two
+    # evidence streams disagree ON the gate -> conflict, never eligible.
+    bytes_pass_plan_fail = m.v2_replay_actual_mask_gate(
+        0.99, 0.99, 0.90, "LIVE_GEE_EXPORT_GRID")
+    assert bytes_pass_plan_fail["gate_pass"]
+    assert bytes_pass_plan_fail["gate_status_conflict"]
+    assert not bytes_pass_plan_fail["pass"]
+    bytes_fail_plan_pass = m.v2_replay_actual_mask_gate(
+        0.90, 0.90, 0.99, "LIVE_GEE_EXPORT_GRID")
+    assert not bytes_fail_plan_pass["gate_pass"]
+    assert bytes_fail_plan_pass["gate_status_conflict"]
+    assert not bytes_fail_plan_pass["pass"]
+    assert bytes_fail_plan_pass["crosscheck_warnings"] == []
+
+
+def test_v2_replay_gate_both_fail_is_failure_without_conflict() -> None:
+    gate = m.v2_replay_actual_mask_gate(
+        0.80, 0.80, 0.85, "LIVE_GEE_EXPORT_GRID")
+    assert not gate["gate_pass"] and not gate["pass"]
+    assert not gate["gate_status_conflict"]
+
+
+def test_v2_replay_gate_exact_landed_evidence_agrees() -> None:
+    gate = m.v2_replay_actual_mask_gate(
+        0.971, 0.971, 0.971, "LANDED_BYTES")
+    assert gate["pass"] and gate["plan_agreement_pass"]
+    assert gate["crosscheck_warnings"] == []
 
 
 def test_old_event_orphan_predicate() -> None:

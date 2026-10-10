@@ -1,7 +1,7 @@
 {
   "product": "national_pilot19_s1_floor_audit_v2",
   "issue": 19,
-  "created_utc": "2026-10-09T13:54:26.404239+00:00",
+  "created_utc": "2026-10-10T14:07:25.559888+00:00",
   "policy_token": "s1_dualpol_valid_v2",
   "policy_decision": {
     "rule": "s1_dualpol_valid_v2 pixel observed iff VV source mask present AND VH source mask present AND finite(VV) AND finite(VH) AND VV > -70 dB AND VH > -70 dB",
@@ -14,9 +14,9 @@
     "violations": [],
     "verdict": "POLICY_CONFIRMED_S1_DUALPOL_VALID_V2"
   },
-  "n_landed_products": 14,
-  "n_quarantined_unlanded_rasters": 2,
-  "diagnostic_figure": "/data/yingda/Spartina-Earth/work/national/pilot19/qa/s1_extreme_floor_edge_localization.png",
+  "n_landed_products": 67,
+  "n_quarantined_unlanded_rasters": 0,
+  "diagnostic_figure": null,
   "products": [
     {
       "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_S1_2020_A_vvvh_20201010_r1.tif",
@@ -712,22 +712,22 @@
       "manifest": "work/national/pilot19/manifests/NP19_R00264-C00132_S1_2015_A.json"
     },
     {
-      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_S1_2020_A_vvvh_20201019_r1.tif",
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_S1_2020_A_vvvh_20201012_r2.tif",
       "resolution_m": 10.0,
       "grid_height": 1119,
       "grid_width": 1115,
       "bands": [
         {
           "band": "VV",
-          "finite_fraction": 0.1214056432513014,
-          "n_finite": 151476,
+          "finite_fraction": 1.0,
+          "n_finite": 1247685,
           "n_grid_pixels": 1247685,
-          "min_db": -30.911663055419922,
-          "p001_db": -22.981289434432984,
-          "p01_db": -19.252307415008545,
-          "p50_db": -8.31084156036377,
-          "p99_db": 7.879685282707214,
-          "max_db": 34.19545364379883,
+          "min_db": -38.18067932128906,
+          "p001_db": -27.620969230651855,
+          "p01_db": -24.46403694152832,
+          "p50_db": -9.258042335510254,
+          "p99_db": 8.00130943298331,
+          "max_db": 33.260860443115234,
           "n_at_or_below_floor": 0,
           "fraction_at_or_below_floor_of_finite": 0.0,
           "discrete_values_at_or_below_minus65_db": []
@@ -737,24 +737,24 @@
           "finite_fraction": 1.0,
           "n_finite": 1247685,
           "n_grid_pixels": 1247685,
-          "min_db": -46.0319938659668,
-          "p001_db": -33.10980146789551,
-          "p01_db": -29.345959701538085,
-          "p50_db": -15.349430084228516,
-          "p99_db": -1.4607121276855477,
-          "max_db": 31.184444427490234,
+          "min_db": -61.864986419677734,
+          "p001_db": -35.07376316833496,
+          "p01_db": -31.36333251953125,
+          "p50_db": -16.206562042236328,
+          "p99_db": -2.210820770263741,
+          "max_db": 19.822023391723633,
           "n_at_or_below_floor": 0,
           "fraction_at_or_below_floor_of_finite": 0.0,
           "discrete_values_at_or_below_minus65_db": []
         }
       ],
-      "dualpol_observed_fraction": 0.1214056432513014,
-      "s1_dualpol_valid_v2_fraction_of_grid": 0.1214056432513014,
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
       "floor_masked_pixels": 0,
       "floor_masked_fraction_of_observed": 0.0,
       "band_asymmetric_frame_edge": {
         "vv_present_vh_missing_pixels": 0,
-        "vh_present_vv_missing_pixels": 1096209
+        "vh_present_vv_missing_pixels": 0
       },
       "floor_edge_localization": {
         "n_floor_pixels": 0,
@@ -866,44 +866,121 @@
       "manifest": "work/national/pilot19/manifests/NP19_R00264-C00132_S1_2021_A.json"
     },
     {
-      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00274-C00147_S1_2020_A_vvvh_20201014_r1.tif",
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00274-C00147_S1_2015_A_vvvh_20151115_r2.tif",
       "resolution_m": 10.0,
       "grid_height": 1120,
       "grid_width": 1122,
       "bands": [
         {
           "band": "VV",
-          "finite_fraction": 0.7753740132416603,
-          "n_finite": 974366,
+          "finite_fraction": 1.0,
+          "n_finite": 1256640,
           "n_grid_pixels": 1256640,
-          "min_db": -45.69999313354492,
-          "p001_db": -17.43313883781433,
-          "p01_db": -15.119903993606567,
-          "p50_db": -9.365030288696289,
-          "p99_db": -4.17202973365784,
-          "max_db": 14.501053810119629,
+          "min_db": -34.20978927612305,
+          "p001_db": -25.593911251068114,
+          "p01_db": -23.414053993225096,
+          "p50_db": -18.005602836608887,
+          "p99_db": -13.248040685653686,
+          "max_db": 23.12109375,
           "n_at_or_below_floor": 0,
           "fraction_at_or_below_floor_of_finite": 0.0,
           "discrete_values_at_or_below_minus65_db": []
         },
         {
           "band": "VH",
-          "finite_fraction": 0.7753740132416603,
-          "n_finite": 974366,
+          "finite_fraction": 1.0,
+          "n_finite": 1256640,
           "n_grid_pixels": 1256640,
-          "min_db": -57.11573791503906,
-          "p001_db": -36.36056352615356,
-          "p01_db": -32.36987438201904,
-          "p50_db": -25.15976905822754,
-          "p99_db": -19.4761643409729,
-          "max_db": -1.0891125202178955,
+          "min_db": -47.14720153808594,
+          "p001_db": -47.14296340942383,
+          "p01_db": -47.132139625549314,
+          "p50_db": -34.47749900817871,
+          "p99_db": -26.862219161987298,
+          "max_db": 7.972537994384766,
           "n_at_or_below_floor": 0,
           "fraction_at_or_below_floor_of_finite": 0.0,
           "discrete_values_at_or_below_minus65_db": []
         }
       ],
-      "dualpol_observed_fraction": 0.7753740132416603,
-      "s1_dualpol_valid_v2_fraction_of_grid": 0.7753740132416603,
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00274-C00147_S1_2015_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00274-C00147_S1_2015_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00274-C00147_S1_2020_A_vvvh_20201007_r2.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1120,
+      "grid_width": 1122,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1256640,
+          "n_grid_pixels": 1256640,
+          "min_db": -26.291288375854492,
+          "p001_db": -20.133576557159422,
+          "p01_db": -18.2108984375,
+          "p50_db": -13.065205574035645,
+          "p99_db": -8.50647739410399,
+          "max_db": 14.475874900817871,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1256640,
+          "n_grid_pixels": 1256640,
+          "min_db": -42.99488067626953,
+          "p001_db": -38.738555500030515,
+          "p01_db": -35.80557418823242,
+          "p50_db": -28.534981727600098,
+          "p99_db": -23.028513965606663,
+          "max_db": 0.873526394367218,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
       "floor_masked_pixels": 0,
       "floor_masked_fraction_of_observed": 0.0,
       "band_asymmetric_frame_edge": {
@@ -941,6 +1018,83 @@
       "product_id": "NP19_R00274-C00147_S1_2020_A",
       "evidence_class": "LANDED",
       "manifest": "work/national/pilot19/manifests/NP19_R00274-C00147_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00274-C00147_S1_2021_A_vvvh_20211014_r2.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1120,
+      "grid_width": 1122,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1256640,
+          "n_grid_pixels": 1256640,
+          "min_db": -27.65182113647461,
+          "p001_db": -21.850363073348998,
+          "p01_db": -19.80733417510986,
+          "p50_db": -14.54675817489624,
+          "p99_db": -9.998727092742916,
+          "max_db": 22.86949920654297,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1256640,
+          "n_grid_pixels": 1256640,
+          "min_db": -62.393531799316406,
+          "p001_db": -44.22810395431519,
+          "p01_db": -38.85074287414551,
+          "p50_db": -31.69118595123291,
+          "p99_db": -25.640498161315907,
+          "max_db": 8.610034942626953,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00274-C00147_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00274-C00147_S1_2021_A.json"
     },
     {
       "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00279-C00143_S1_2015_A_vvvh_20151022_r1.tif",
@@ -1020,6 +1174,930 @@
       "manifest": "work/national/pilot19/manifests/NP19_R00279-C00143_S1_2015_A.json"
     },
     {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_S1_2015_A_vvvh_20151012_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1152,
+      "grid_width": 1172,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1350144,
+          "n_grid_pixels": 1350144,
+          "min_db": -48.27864456176758,
+          "p001_db": -27.480512931823732,
+          "p01_db": -23.168082733154296,
+          "p50_db": -8.796717166900635,
+          "p99_db": 2.1490989661216755,
+          "max_db": 22.364110946655273,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1350144,
+          "n_grid_pixels": 1350144,
+          "min_db": -55.98732376098633,
+          "p001_db": -48.27470015335083,
+          "p01_db": -35.04667163848877,
+          "p50_db": -16.21634006500244,
+          "p99_db": -5.9925337934494,
+          "max_db": 7.02151346206665,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00311-C00156_S1_2015_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00311-C00156_S1_2015_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_S1_2020_A_vvvh_20201014_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1152,
+      "grid_width": 1172,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1350144,
+          "n_grid_pixels": 1350144,
+          "min_db": -36.526153564453125,
+          "p001_db": -26.487059328079223,
+          "p01_db": -23.725137004852296,
+          "p50_db": -11.763135433197021,
+          "p99_db": -1.0169456923007845,
+          "max_db": 24.182479858398438,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1350144,
+          "n_grid_pixels": 1350144,
+          "min_db": -52.492496490478516,
+          "p001_db": -38.162313621520994,
+          "p01_db": -34.57738471984863,
+          "p50_db": -18.311766624450684,
+          "p99_db": -8.604959907531738,
+          "max_db": 8.215432167053223,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00311-C00156_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00311-C00156_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00311-C00156_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1152,
+      "grid_width": 1172,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1350144,
+          "n_grid_pixels": 1350144,
+          "min_db": -32.54084396362305,
+          "p001_db": -22.034418642044066,
+          "p01_db": -18.924253997802733,
+          "p50_db": -10.077047348022461,
+          "p99_db": 1.5051824438572035,
+          "max_db": 17.805387496948242,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1350144,
+          "n_grid_pixels": 1350144,
+          "min_db": -46.67549514770508,
+          "p001_db": -33.58521264648437,
+          "p01_db": -29.803180389404297,
+          "p50_db": -16.935750007629395,
+          "p99_db": -6.148204054832452,
+          "max_db": 9.134363174438477,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00311-C00156_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00311-C00156_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00331-C00150_S1_2015_A_vvvh_20151012_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1149,
+      "grid_width": 1177,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1352373,
+          "n_grid_pixels": 1352373,
+          "min_db": -47.41464614868164,
+          "p001_db": -24.953142219543455,
+          "p01_db": -21.2196923828125,
+          "p50_db": -10.23913288116455,
+          "p99_db": 1.7952182435989554,
+          "max_db": 30.288406372070312,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1352373,
+          "n_grid_pixels": 1352373,
+          "min_db": -55.612464904785156,
+          "p001_db": -48.23750163269043,
+          "p01_db": -48.15299331665039,
+          "p50_db": -18.436796188354492,
+          "p99_db": -9.080494384765618,
+          "max_db": 18.78582191467285,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00331-C00150_S1_2015_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00331-C00150_S1_2015_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00331-C00150_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1149,
+      "grid_width": 1177,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1352373,
+          "n_grid_pixels": 1352373,
+          "min_db": -31.038541793823242,
+          "p001_db": -21.12368118286133,
+          "p01_db": -17.72366828918457,
+          "p50_db": -9.06204891204834,
+          "p99_db": 2.967900276184084,
+          "max_db": 34.39527893066406,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1352373,
+          "n_grid_pixels": 1352373,
+          "min_db": -51.644046783447266,
+          "p001_db": -35.84698324584961,
+          "p01_db": -31.932109756469725,
+          "p50_db": -19.4383487701416,
+          "p99_db": -8.507776222229001,
+          "max_db": 10.154030799865723,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00331-C00150_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00331-C00150_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00331-C00150_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1149,
+      "grid_width": 1177,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1352373,
+          "n_grid_pixels": 1352373,
+          "min_db": -28.88638687133789,
+          "p001_db": -21.11636368560791,
+          "p01_db": -18.411048126220702,
+          "p50_db": -10.371146202087402,
+          "p99_db": 4.8017054176330625,
+          "max_db": 32.70995330810547,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1352373,
+          "n_grid_pixels": 1352373,
+          "min_db": -54.149681091308594,
+          "p001_db": -35.15531884765625,
+          "p01_db": -31.22750305175781,
+          "p50_db": -17.499855041503906,
+          "p99_db": -7.221193046569824,
+          "max_db": 9.479412078857422,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00331-C00150_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00331-C00150_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00334-C00163_S1_2015_A_vvvh_20151012_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1150,
+      "grid_width": 1178,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1354700,
+          "n_grid_pixels": 1354700,
+          "min_db": -48.0684700012207,
+          "p001_db": -31.701798292160035,
+          "p01_db": -27.162858333587646,
+          "p50_db": -19.051908493041992,
+          "p99_db": 3.261603534221651,
+          "max_db": 34.55416488647461,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1354700,
+          "n_grid_pixels": 1354700,
+          "min_db": -64.04100799560547,
+          "p001_db": -47.36791955184937,
+          "p01_db": -47.31331256866455,
+          "p50_db": -27.17089080810547,
+          "p99_db": -7.543649311065673,
+          "max_db": 22.8895263671875,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00334-C00163_S1_2015_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00334-C00163_S1_2015_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00334-C00163_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1150,
+      "grid_width": 1178,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1354700,
+          "n_grid_pixels": 1354700,
+          "min_db": -38.6823616027832,
+          "p001_db": -25.734495418548583,
+          "p01_db": -22.468834705352783,
+          "p50_db": -14.997080326080322,
+          "p99_db": 1.8336826622486135,
+          "max_db": 35.93470001220703,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1354700,
+          "n_grid_pixels": 1354700,
+          "min_db": -56.06785202026367,
+          "p001_db": -39.45521070098877,
+          "p01_db": -35.511536598205566,
+          "p50_db": -28.040475845336914,
+          "p99_db": -8.429916038513177,
+          "max_db": 18.6162109375,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00334-C00163_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00334-C00163_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00334-C00163_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1150,
+      "grid_width": 1178,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1354700,
+          "n_grid_pixels": 1354700,
+          "min_db": -32.25797653198242,
+          "p001_db": -23.36478063392639,
+          "p01_db": -20.423122482299803,
+          "p50_db": -13.534350872039795,
+          "p99_db": 1.9237995946407342,
+          "max_db": 33.50461196899414,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1354700,
+          "n_grid_pixels": 1354700,
+          "min_db": -52.61794662475586,
+          "p001_db": -37.165977577209475,
+          "p01_db": -33.42590099334717,
+          "p50_db": -25.47429084777832,
+          "p99_db": -8.019871091842651,
+          "max_db": 18.306377410888672,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00334-C00163_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00334-C00163_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00346-C00154_S1_2015_A_vvvh_20150918_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1180,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -39.404571533203125,
+          "p001_db": -26.915756605148314,
+          "p01_db": -23.871154193878173,
+          "p50_db": -16.95814037322998,
+          "p99_db": -4.39881129264834,
+          "max_db": 29.76416015625,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -59.762752532958984,
+          "p001_db": -47.610922016143796,
+          "p01_db": -44.19118366241455,
+          "p50_db": -26.76453399658203,
+          "p99_db": -11.086447181701669,
+          "max_db": 10.862765312194824,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00346-C00154_S1_2015_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00346-C00154_S1_2015_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00346-C00154_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1180,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -35.85919189453125,
+          "p001_db": -26.41368825531006,
+          "p01_db": -23.408795223236083,
+          "p50_db": -16.340893745422363,
+          "p99_db": -4.645970821380655,
+          "max_db": 30.174100875854492,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -54.108150482177734,
+          "p001_db": -39.89346132659912,
+          "p01_db": -36.06801074981689,
+          "p50_db": -28.5725154876709,
+          "p99_db": -11.318509349823,
+          "max_db": 10.320501327514648,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00346-C00154_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00346-C00154_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00346-C00154_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1180,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -35.269813537597656,
+          "p001_db": -25.78280210494995,
+          "p01_db": -22.958427276611328,
+          "p50_db": -16.114858627319336,
+          "p99_db": -4.764963402748155,
+          "max_db": 22.118078231811523,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -48.159767150878906,
+          "p001_db": -38.353510639190674,
+          "p01_db": -34.583851737976076,
+          "p50_db": -26.99783229827881,
+          "p99_db": -11.008338546752949,
+          "max_db": 10.2466459274292,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00346-C00154_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00346-C00154_S1_2021_A.json"
+    },
+    {
       "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00347-C00151_S1_2015_A_vvvh_20150918_r1.tif",
       "resolution_m": 10.0,
       "grid_height": 1147,
@@ -1097,162 +2175,54 @@
       "manifest": "work/national/pilot19/manifests/NP19_R00347-C00151_S1_2015_A.json"
     },
     {
-      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00274-C00147_S1_2015_A_vvvh_20151017_r1.tif",
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00347-C00151_S1_2020_A_vvvh_20201015_r1.tif",
       "resolution_m": 10.0,
-      "grid_height": 1120,
-      "grid_width": 1122,
+      "grid_height": 1147,
+      "grid_width": 1180,
       "bands": [
         {
           "band": "VV",
-          "finite_fraction": 0.3096145276292335,
-          "n_finite": 389074,
-          "n_grid_pixels": 1256640,
-          "min_db": -80.03118896484375,
-          "p001_db": -22.586690076828003,
-          "p01_db": -13.848933725357055,
-          "p50_db": -8.031599044799805,
-          "p99_db": -3.0164691567420925,
-          "max_db": 3.6477441787719727,
-          "n_at_or_below_floor": 2,
-          "fraction_at_or_below_floor_of_finite": 5.140410307550749e-06,
-          "discrete_values_at_or_below_minus65_db": [
-            {
-              "value_db": -80.031,
-              "pixels": 2
-            },
-            {
-              "value_db": -67.979,
-              "pixels": 1
-            }
-          ]
-        },
-        {
-          "band": "VH",
-          "finite_fraction": 0.3096145276292335,
-          "n_finite": 389074,
-          "n_grid_pixels": 1256640,
-          "min_db": -80.03118896484375,
-          "p001_db": -49.39630834960938,
-          "p01_db": -48.36137008666992,
-          "p50_db": -25.476802825927734,
-          "p99_db": -19.2043208694458,
-          "max_db": -1.478849172592163,
-          "n_at_or_below_floor": 13,
-          "fraction_at_or_below_floor_of_finite": 3.341266699907987e-05,
-          "discrete_values_at_or_below_minus65_db": [
-            {
-              "value_db": -80.031,
-              "pixels": 13
-            },
-            {
-              "value_db": -66.859,
-              "pixels": 1
-            },
-            {
-              "value_db": -65.398,
-              "pixels": 1
-            },
-            {
-              "value_db": -65.239,
-              "pixels": 1
-            }
-          ]
-        }
-      ],
-      "dualpol_observed_fraction": 0.3096145276292335,
-      "s1_dualpol_valid_v2_fraction_of_grid": 0.30960418258212374,
-      "floor_masked_pixels": 13,
-      "floor_masked_fraction_of_observed": 3.341266699907987e-05,
-      "band_asymmetric_frame_edge": {
-        "vv_present_vh_missing_pixels": 0,
-        "vh_present_vv_missing_pixels": 0
-      },
-      "floor_edge_localization": {
-        "n_floor_pixels": 13,
-        "fraction_of_grid": 1.0345047109752992e-05,
-        "fraction_of_observed": 3.341266699907987e-05,
-        "beyond_interior_margins_m": {
-          "50": {
-            "pixels": 0,
-            "fraction_of_floor": 0.0,
-            "fraction_of_observed_interior": 0.0
-          },
-          "500": {
-            "pixels": 0,
-            "fraction_of_floor": 0.0,
-            "fraction_of_observed_interior": 0.0
-          },
-          "1000": {
-            "pixels": 0,
-            "fraction_of_floor": 0.0,
-            "fraction_of_observed_interior": 0.0
-          }
-        },
-        "touching_nonobserved_2px_fraction": 1.0,
-        "distance_to_nonobserved_edge_m": {
-          "max": 10.0,
-          "p95": 10.0,
-          "p99": 10.0
-        }
-      },
-      "product_id": "NP19_R00274-C00147_S1_2015_A",
-      "evidence_class": "QUARANTINED_UNLANDED",
-      "manifest": null
-    },
-    {
-      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00274-C00147_S1_2021_A_vvvh_20211015_r1.tif",
-      "resolution_m": 10.0,
-      "grid_height": 1120,
-      "grid_width": 1122,
-      "bands": [
-        {
-          "band": "VV",
-          "finite_fraction": 0.7777135854341737,
-          "n_finite": 977306,
-          "n_grid_pixels": 1256640,
-          "min_db": -57.055240631103516,
-          "p001_db": -18.81011661529541,
-          "p01_db": -16.339979553222655,
-          "p50_db": -10.5902681350708,
-          "p99_db": -5.492295622825624,
-          "max_db": 27.527021408081055,
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -32.70191955566406,
+          "p001_db": -24.479891653060914,
+          "p01_db": -21.648435287475586,
+          "p50_db": -14.216734409332275,
+          "p99_db": 5.202241153717018,
+          "max_db": 36.28609848022461,
           "n_at_or_below_floor": 0,
           "fraction_at_or_below_floor_of_finite": 0.0,
           "discrete_values_at_or_below_minus65_db": []
         },
         {
           "band": "VH",
-          "finite_fraction": 0.7777135854341737,
-          "n_finite": 977306,
-          "n_grid_pixels": 1256640,
-          "min_db": -75.37442779541016,
-          "p001_db": -37.76289081573486,
-          "p01_db": -33.647301864624026,
-          "p50_db": -26.44112491607666,
-          "p99_db": -21.626915168762213,
-          "max_db": 14.539956092834473,
-          "n_at_or_below_floor": 1,
-          "fraction_at_or_below_floor_of_finite": 1.0232209768486021e-06,
-          "discrete_values_at_or_below_minus65_db": [
-            {
-              "value_db": -75.374,
-              "pixels": 1
-            }
-          ]
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -53.50596237182617,
+          "p001_db": -37.80905602264404,
+          "p01_db": -33.88867427825928,
+          "p50_db": -25.286745071411133,
+          "p99_db": -6.220719141960196,
+          "max_db": 11.312402725219727,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
         }
       ],
-      "dualpol_observed_fraction": 0.7777135854341737,
-      "s1_dualpol_valid_v2_fraction_of_grid": 0.7777127896613191,
-      "floor_masked_pixels": 1,
-      "floor_masked_fraction_of_observed": 1.0232209768486021e-06,
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
       "band_asymmetric_frame_edge": {
         "vv_present_vh_missing_pixels": 0,
         "vh_present_vv_missing_pixels": 0
       },
       "floor_edge_localization": {
-        "n_floor_pixels": 1,
-        "fraction_of_grid": 7.95772854596384e-07,
-        "fraction_of_observed": 1.0232209768486021e-06,
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
         "beyond_interior_margins_m": {
           "50": {
             "pixels": 0,
@@ -1270,20 +2240,2956 @@
             "fraction_of_observed_interior": 0.0
           }
         },
-        "touching_nonobserved_2px_fraction": 1.0,
+        "touching_nonobserved_2px_fraction": 0.0,
         "distance_to_nonobserved_edge_m": {
-          "max": 10.0,
-          "p95": 10.0,
-          "p99": 10.0
+          "max": null,
+          "p95": null,
+          "p99": null
         }
       },
-      "product_id": "NP19_R00274-C00147_S1_2021_A",
-      "evidence_class": "QUARANTINED_UNLANDED",
-      "manifest": null
+      "product_id": "NP19_R00347-C00151_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00347-C00151_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00347-C00151_S1_2021_A_vvvh_20211022_r2.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1180,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -37.406166076660156,
+          "p001_db": -27.161055751800536,
+          "p01_db": -24.061460666656494,
+          "p50_db": -15.63648796081543,
+          "p99_db": 5.328963027000401,
+          "max_db": 33.47456741333008,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353460,
+          "n_grid_pixels": 1353460,
+          "min_db": -51.839576721191406,
+          "p001_db": -37.658043853759764,
+          "p01_db": -33.74338775634766,
+          "p50_db": -25.185276985168457,
+          "p99_db": -5.622303071022054,
+          "max_db": 13.63550853729248,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00347-C00151_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00347-C00151_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00349-C00154_S1_2015_A_vvvh_20150918_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1181,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 0.9940499347781312,
+          "n_finite": 1346547,
+          "n_grid_pixels": 1354607,
+          "min_db": -37.48229217529297,
+          "p001_db": -26.235643871307374,
+          "p01_db": -23.48318576812744,
+          "p50_db": -11.592816352844238,
+          "p99_db": -3.788986210823057,
+          "max_db": 22.537099838256836,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 0.9940499347781312,
+          "n_finite": 1346547,
+          "n_grid_pixels": 1354607,
+          "min_db": -47.56058883666992,
+          "p001_db": -47.37711419677734,
+          "p01_db": -38.412056579589844,
+          "p50_db": -18.070743560791016,
+          "p99_db": -10.202135257720947,
+          "max_db": 10.10059928894043,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 0.9940499347781312,
+      "s1_dualpol_valid_v2_fraction_of_grid": 0.9940499347781312,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00349-C00154_S1_2015_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00349-C00154_S1_2015_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00349-C00154_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1181,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1354607,
+          "n_grid_pixels": 1354607,
+          "min_db": -35.1425895690918,
+          "p001_db": -26.033866077423095,
+          "p01_db": -23.143857307434082,
+          "p50_db": -12.144891738891602,
+          "p99_db": -4.3086176967621075,
+          "max_db": 29.881092071533203,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1354607,
+          "n_grid_pixels": 1354607,
+          "min_db": -53.200260162353516,
+          "p001_db": -39.0573928527832,
+          "p01_db": -35.028376998901365,
+          "p50_db": -18.7343692779541,
+          "p99_db": -10.677042274475102,
+          "max_db": 14.459362983703613,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00349-C00154_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00349-C00154_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00349-C00154_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1147,
+      "grid_width": 1181,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1354607,
+          "n_grid_pixels": 1354607,
+          "min_db": -33.35964584350586,
+          "p001_db": -25.209094020843505,
+          "p01_db": -22.491735343933104,
+          "p50_db": -10.931168556213379,
+          "p99_db": -2.9484462261200086,
+          "max_db": 27.273265838623047,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1354607,
+          "n_grid_pixels": 1354607,
+          "min_db": -49.896549224853516,
+          "p001_db": -37.17358187866211,
+          "p01_db": -33.25419319152832,
+          "p50_db": -16.742258071899414,
+          "p99_db": -9.55395389556885,
+          "max_db": 12.451010704040527,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00349-C00154_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00349-C00154_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00388-C00129_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1094,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -39.358951568603516,
+          "p001_db": -27.463546129226685,
+          "p01_db": -22.711625537872315,
+          "p50_db": -11.075549125671387,
+          "p99_db": 0.7833254837990536,
+          "max_db": 26.31094741821289,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -55.72157669067383,
+          "p001_db": -36.27840465927124,
+          "p01_db": -32.366541061401364,
+          "p50_db": -18.05974769592285,
+          "p99_db": -7.554045243263173,
+          "max_db": 16.33985710144043,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00388-C00129_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00388-C00129_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00388-C00129_S1_2020_D_vvvh_20201020_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1094,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -43.90151596069336,
+          "p001_db": -29.605911121368408,
+          "p01_db": -25.815086250305175,
+          "p50_db": -11.360145092010498,
+          "p99_db": 2.2207806086540347,
+          "max_db": 26.26649284362793,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -49.686424255371094,
+          "p001_db": -36.55890435791016,
+          "p01_db": -32.52651378631592,
+          "p50_db": -18.523256301879883,
+          "p99_db": -8.793245010375937,
+          "max_db": 14.133858680725098,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00388-C00129_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00388-C00129_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00388-C00129_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1094,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -37.41832733154297,
+          "p001_db": -24.590446325302125,
+          "p01_db": -20.707594776153563,
+          "p50_db": -10.861327171325684,
+          "p99_db": 0.5526090371609054,
+          "max_db": 24.047094345092773,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -48.97676086425781,
+          "p001_db": -35.2797527923584,
+          "p01_db": -31.372297763824463,
+          "p50_db": -18.058039665222168,
+          "p99_db": -7.606954021453845,
+          "max_db": 13.75881576538086,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00388-C00129_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00388-C00129_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00388-C00129_S1_2021_D_vvvh_20211015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1094,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -33.874385833740234,
+          "p001_db": -24.232032609939576,
+          "p01_db": -20.38059139251709,
+          "p50_db": -10.64714002609253,
+          "p99_db": 2.8882194328308497,
+          "max_db": 27.99727439880371,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241690,
+          "n_grid_pixels": 1241690,
+          "min_db": -51.28753662109375,
+          "p001_db": -35.79117506027222,
+          "p01_db": -31.891049880981445,
+          "p50_db": -17.786778450012207,
+          "p99_db": -8.305377082824622,
+          "max_db": 14.806286811828613,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00388-C00129_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00388-C00129_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00391-C00132_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1136,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -47.96599197387695,
+          "p001_db": -30.72301228904724,
+          "p01_db": -26.916426849365234,
+          "p50_db": -17.116860389709473,
+          "p99_db": -3.547419161796566,
+          "max_db": 19.41960334777832,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -52.344993591308594,
+          "p001_db": -38.23899941253662,
+          "p01_db": -34.248853607177736,
+          "p50_db": -27.015888214111328,
+          "p99_db": -11.390346012115472,
+          "max_db": 3.9838476181030273,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00391-C00132_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00391-C00132_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00391-C00132_S1_2020_D_vvvh_20201020_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1136,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -40.032012939453125,
+          "p001_db": -30.68255298233032,
+          "p01_db": -26.946691780090333,
+          "p50_db": -15.478643417358398,
+          "p99_db": -4.4640022945404025,
+          "max_db": 26.271223068237305,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -57.509521484375,
+          "p001_db": -38.6570502281189,
+          "p01_db": -34.5413956451416,
+          "p50_db": -27.18680477142334,
+          "p99_db": -11.48302351951599,
+          "max_db": 10.105704307556152,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00391-C00132_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00391-C00132_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00391-C00132_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1136,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -36.12044906616211,
+          "p001_db": -26.01601469421387,
+          "p01_db": -22.826884231567384,
+          "p50_db": -15.688098430633545,
+          "p99_db": -3.937903287410736,
+          "max_db": 19.10630226135254,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -49.0970573425293,
+          "p001_db": -37.13766435623169,
+          "p01_db": -33.23378059387207,
+          "p50_db": -25.898059844970703,
+          "p99_db": -11.55637575149536,
+          "max_db": 6.627538681030273,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00391-C00132_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00391-C00132_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00391-C00132_S1_2021_D_vvvh_20211015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1136,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -32.31884765625,
+          "p001_db": -23.631195781707763,
+          "p01_db": -20.919662342071533,
+          "p50_db": -14.383935451507568,
+          "p99_db": -3.964519898891447,
+          "max_db": 24.64405059814453,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1241648,
+          "n_grid_pixels": 1241648,
+          "min_db": -54.80012893676758,
+          "p001_db": -37.668490715026856,
+          "p01_db": -33.84072593688965,
+          "p50_db": -26.493942260742188,
+          "p99_db": -10.506364030838002,
+          "max_db": 9.865099906921387,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00391-C00132_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00391-C00132_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00411-C00151_S1_2020_A_vvvh_20201016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -39.47393798828125,
+          "p001_db": -28.24966663169861,
+          "p01_db": -24.352505435943602,
+          "p50_db": -10.27968454360962,
+          "p99_db": 2.5569945764541586,
+          "max_db": 35.17803192138672,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -54.57604217529297,
+          "p001_db": -36.1684962387085,
+          "p01_db": -32.082562637329104,
+          "p50_db": -17.409831047058105,
+          "p99_db": -9.189703121185307,
+          "max_db": 20.121932983398438,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00411-C00151_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00411-C00151_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00411-C00151_S1_2020_D_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -45.0592041015625,
+          "p001_db": -30.66178960418701,
+          "p01_db": -26.644736576080323,
+          "p50_db": -10.60837173461914,
+          "p99_db": 0.12196201041340712,
+          "max_db": 31.82512092590332,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -47.688865661621094,
+          "p001_db": -35.12049582290649,
+          "p01_db": -31.145095691680908,
+          "p50_db": -17.527060508728027,
+          "p99_db": -7.702025222778323,
+          "max_db": 20.425731658935547,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00411-C00151_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00411-C00151_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00411-C00151_S1_2021_A_vvvh_20211017_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -39.39850616455078,
+          "p001_db": -27.430567028045655,
+          "p01_db": -23.41806686401367,
+          "p50_db": -10.156713962554932,
+          "p99_db": 2.8192426896095246,
+          "max_db": 33.90620422363281,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -52.4690055847168,
+          "p001_db": -37.06186212539673,
+          "p01_db": -33.311709785461424,
+          "p50_db": -17.538633346557617,
+          "p99_db": -9.129721994400025,
+          "max_db": 19.788331985473633,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00411-C00151_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00411-C00151_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00411-C00151_S1_2021_D_vvvh_20211022_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -39.56970977783203,
+          "p001_db": -28.793091485977172,
+          "p01_db": -23.967717971801758,
+          "p50_db": -10.601709365844727,
+          "p99_db": 0.2744696640968318,
+          "max_db": 30.963048934936523,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1357928,
+          "n_grid_pixels": 1357928,
+          "min_db": -48.52859878540039,
+          "p001_db": -35.30622057723999,
+          "p01_db": -31.281578941345217,
+          "p50_db": -17.853832244873047,
+          "p99_db": -7.600660562515262,
+          "max_db": 19.398927688598633,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00411-C00151_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00411-C00151_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00413-C00121_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -47.04015350341797,
+          "p001_db": -33.80598429870606,
+          "p01_db": -30.02049289703369,
+          "p50_db": -13.99649429321289,
+          "p99_db": -4.56212013244629,
+          "max_db": 10.37059211730957,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -50.83899688720703,
+          "p001_db": -36.94906183624268,
+          "p01_db": -33.03830856323242,
+          "p50_db": -24.39099884033203,
+          "p99_db": -13.029623336791994,
+          "max_db": -1.2554993629455566,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00413-C00121_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00413-C00121_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00413-C00121_S1_2020_D_vvvh_20201020_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -52.46748733520508,
+          "p001_db": -34.732689743041995,
+          "p01_db": -30.886533203125,
+          "p50_db": -14.712539672851562,
+          "p99_db": -4.0344064998626745,
+          "max_db": 13.437603950500488,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -51.431297302246094,
+          "p001_db": -38.039782402038576,
+          "p01_db": -34.042401809692386,
+          "p50_db": -24.34917640686035,
+          "p99_db": -13.103889102935792,
+          "max_db": -0.30020302534103394,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00413-C00121_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00413-C00121_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00413-C00121_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -37.78479766845703,
+          "p001_db": -27.61841889953613,
+          "p01_db": -24.063752746582033,
+          "p50_db": -13.849688529968262,
+          "p99_db": -5.31551307678223,
+          "max_db": 16.137815475463867,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -56.99643325805664,
+          "p001_db": -35.94781936645508,
+          "p01_db": -32.04471206665039,
+          "p50_db": -23.51107406616211,
+          "p99_db": -12.928500957489014,
+          "max_db": -3.152675151824951,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00413-C00121_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00413-C00121_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00413-C00121_S1_2021_D_vvvh_20211015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1093,
+      "grid_width": 1135,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -39.06601333618164,
+          "p001_db": -29.22956669998169,
+          "p01_db": -25.522678604125975,
+          "p50_db": -15.187653541564941,
+          "p99_db": -4.9089181232452415,
+          "max_db": 8.55259895324707,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1240555,
+          "n_grid_pixels": 1240555,
+          "min_db": -54.10030746459961,
+          "p001_db": -37.398597885131835,
+          "p01_db": -33.561644592285155,
+          "p50_db": -23.2449893951416,
+          "p99_db": -11.098798751831058,
+          "max_db": -4.930254936218262,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00413-C00121_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00413-C00121_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00417-C00135_S1_2020_A_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -42.71647262573242,
+          "p001_db": -31.166685905456543,
+          "p01_db": -27.517011375427245,
+          "p50_db": -19.39119815826416,
+          "p99_db": -3.185090692043313,
+          "max_db": 25.426856994628906,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -55.05165481567383,
+          "p001_db": -39.74224641036987,
+          "p01_db": -35.797313652038575,
+          "p50_db": -28.543234825134277,
+          "p99_db": -10.800163450241092,
+          "max_db": 6.107288837432861,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00417-C00135_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00417-C00135_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00417-C00135_S1_2020_D_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -42.72079086303711,
+          "p001_db": -28.986110195159913,
+          "p01_db": -26.168302516937256,
+          "p50_db": -19.769378662109375,
+          "p99_db": -3.6335668492317206,
+          "max_db": 19.433326721191406,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -67.75731658935547,
+          "p001_db": -46.6229179763794,
+          "p01_db": -40.042956886291506,
+          "p50_db": -32.62421417236328,
+          "p99_db": -11.399266920089726,
+          "max_db": 8.952496528625488,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": [
+            {
+              "value_db": -67.757,
+              "pixels": 1
+            }
+          ]
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00417-C00135_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00417-C00135_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00417-C00135_S1_2021_A_vvvh_20211016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -39.129798889160156,
+          "p001_db": -28.38105513381958,
+          "p01_db": -25.123582630157472,
+          "p50_db": -17.81790065765381,
+          "p99_db": -2.946127564907075,
+          "max_db": 24.389230728149414,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -51.23427963256836,
+          "p001_db": -38.141328525543216,
+          "p01_db": -34.27845306396485,
+          "p50_db": -27.02033519744873,
+          "p99_db": -10.864294834136963,
+          "max_db": 9.532488822937012,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00417-C00135_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00417-C00135_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00417-C00135_S1_2021_D_vvvh_20211022_r2.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1187,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -48.68256759643555,
+          "p001_db": -35.248683753967285,
+          "p01_db": -31.578843059539796,
+          "p50_db": -23.13169574737549,
+          "p99_db": -3.651052234172822,
+          "max_db": 21.838844299316406,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1360302,
+          "n_grid_pixels": 1360302,
+          "min_db": -67.25430297851562,
+          "p001_db": -45.34750963592529,
+          "p01_db": -41.18978313446045,
+          "p50_db": -33.15202331542969,
+          "p99_db": -11.448031492233278,
+          "max_db": 7.994067192077637,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": [
+            {
+              "value_db": -67.254,
+              "pixels": 1
+            }
+          ]
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00417-C00135_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00417-C00135_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00429-C00140_S1_2020_A_vvvh_20201016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1186,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -38.32382583618164,
+          "p001_db": -27.068921546936036,
+          "p01_db": -22.99513339996338,
+          "p50_db": -7.573351621627808,
+          "p99_db": 9.116135883331298,
+          "max_db": 35.62392044067383,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -43.73686218261719,
+          "p001_db": -31.773962421417238,
+          "p01_db": -27.943912506103516,
+          "p50_db": -14.77711534500122,
+          "p99_db": -1.3868851184844981,
+          "max_db": 20.490333557128906,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00429-C00140_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00429-C00140_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00429-C00140_S1_2020_D_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1186,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -39.382198333740234,
+          "p001_db": -27.424428844451903,
+          "p01_db": -23.385130310058592,
+          "p50_db": -7.013032913208008,
+          "p99_db": 9.020098352432234,
+          "max_db": 32.87889099121094,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -46.16175842285156,
+          "p001_db": -34.028330688476565,
+          "p01_db": -30.070649337768554,
+          "p50_db": -14.284485816955566,
+          "p99_db": -0.5211798012256975,
+          "max_db": 22.179533004760742,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00429-C00140_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00429-C00140_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00429-C00140_S1_2021_A_vvvh_20211017_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1186,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -55.8218994140625,
+          "p001_db": -23.838948583602907,
+          "p01_db": -19.937028789520262,
+          "p50_db": -7.54848051071167,
+          "p99_db": 9.08874173164367,
+          "max_db": 33.831756591796875,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -46.783329010009766,
+          "p001_db": -32.645497951507565,
+          "p01_db": -28.790497970581054,
+          "p50_db": -14.787430763244629,
+          "p99_db": -1.299142986536028,
+          "max_db": 19.70210838317871,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00429-C00140_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00429-C00140_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00429-C00140_S1_2021_D_vvvh_20211022_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1146,
+      "grid_width": 1186,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -40.29648208618164,
+          "p001_db": -27.85887427330017,
+          "p01_db": -23.817726135253906,
+          "p50_db": -8.05700159072876,
+          "p99_db": 7.841563391685473,
+          "max_db": 34.08253479003906,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1359156,
+          "n_grid_pixels": 1359156,
+          "min_db": -49.0935173034668,
+          "p001_db": -34.28583894729614,
+          "p01_db": -30.356630897521974,
+          "p50_db": -15.107693195343018,
+          "p99_db": -1.2103073656559094,
+          "max_db": 23.696020126342773,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00429-C00140_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00429-C00140_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00434-C00149_S1_2015_D_vvvh_20151007_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1185,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -36.96847152709961,
+          "p001_db": -24.015377725601198,
+          "p01_db": -21.44880317687988,
+          "p50_db": -14.881903648376465,
+          "p99_db": -3.5197221636771685,
+          "max_db": 18.614479064941406,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -58.451255798339844,
+          "p001_db": -49.986039585113524,
+          "p01_db": -45.54861667633057,
+          "p50_db": -27.176051139831543,
+          "p99_db": -11.217393474578845,
+          "max_db": 13.63420295715332,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00434-C00149_S1_2015_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00434-C00149_S1_2015_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00434-C00149_S1_2020_A_vvvh_20201016_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1185,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -52.7156982421875,
+          "p001_db": -39.210295249938966,
+          "p01_db": -35.32396167755127,
+          "p50_db": -26.10923480987549,
+          "p99_db": -5.334255027770892,
+          "max_db": 16.39712142944336,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -56.07342529296875,
+          "p001_db": -40.92449889373779,
+          "p01_db": -36.82484287261963,
+          "p50_db": -29.51661205291748,
+          "p99_db": -11.738671646118153,
+          "max_db": 4.216947078704834,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00434-C00149_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00434-C00149_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00434-C00149_S1_2020_D_vvvh_20201015_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1185,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -51.597469329833984,
+          "p001_db": -32.99149253463745,
+          "p01_db": -29.03674045562744,
+          "p50_db": -15.493575096130371,
+          "p99_db": -4.478162794113147,
+          "max_db": 13.348152160644531,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -55.22050094604492,
+          "p001_db": -38.39500110626221,
+          "p01_db": -34.50342590332031,
+          "p50_db": -27.340415000915527,
+          "p99_db": -11.438050374984737,
+          "max_db": 4.066895484924316,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00434-C00149_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00434-C00149_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00434-C00149_S1_2021_A_vvvh_20211017_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1185,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -36.27458572387695,
+          "p001_db": -26.043064823150633,
+          "p01_db": -22.727943897247314,
+          "p50_db": -15.537723541259766,
+          "p99_db": -4.889622645378017,
+          "max_db": 17.229705810546875,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -53.37181091308594,
+          "p001_db": -41.435061977386475,
+          "p01_db": -37.343505973815915,
+          "p50_db": -29.823060989379883,
+          "p99_db": -11.401518754959097,
+          "max_db": 2.6782281398773193,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00434-C00149_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00434-C00149_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00434-C00149_S1_2021_D_vvvh_20211017_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1185,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -37.96682357788086,
+          "p001_db": -27.662702989578246,
+          "p01_db": -24.44441816329956,
+          "p50_db": -17.15885353088379,
+          "p99_db": -5.481729178428648,
+          "max_db": 16.861896514892578,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1355640,
+          "n_grid_pixels": 1355640,
+          "min_db": -57.2844352722168,
+          "p001_db": -40.70333159637451,
+          "p01_db": -36.67344665527344,
+          "p50_db": -29.242671966552734,
+          "p99_db": -11.997772455215436,
+          "max_db": 13.553491592407227,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00434-C00149_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00434-C00149_S1_2021_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00445-C00159_S1_2015_D_vvvh_20151007_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1183,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -30.668228149414062,
+          "p001_db": -22.48265611076355,
+          "p01_db": -19.251284027099608,
+          "p50_db": -7.9967663288116455,
+          "p99_db": -1.0505765438079886,
+          "max_db": 19.92015838623047,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -47.47913360595703,
+          "p001_db": -34.537525276184084,
+          "p01_db": -28.463258266448975,
+          "p50_db": -14.385179042816162,
+          "p99_db": -8.835218944549561,
+          "max_db": 14.903221130371094,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00445-C00159_S1_2015_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00445-C00159_S1_2015_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00445-C00159_S1_2020_A_vvvh_20201011_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1183,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -36.886817932128906,
+          "p001_db": -25.866620496749878,
+          "p01_db": -22.262409534454346,
+          "p50_db": -9.970159530639648,
+          "p99_db": -3.1912159657478374,
+          "max_db": 18.514114379882812,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -44.33937454223633,
+          "p001_db": -34.186693225860594,
+          "p01_db": -30.036614208221437,
+          "p50_db": -16.234642028808594,
+          "p99_db": -10.218201656341552,
+          "max_db": 9.17146110534668,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00445-C00159_S1_2020_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00445-C00159_S1_2020_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00445-C00159_S1_2020_D_vvvh_20201010_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1183,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -40.22165298461914,
+          "p001_db": -30.01673603439331,
+          "p01_db": -25.913994674682616,
+          "p50_db": -9.77683973312378,
+          "p99_db": -3.013133120536805,
+          "max_db": 17.3001766204834,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -48.33137130737305,
+          "p001_db": -34.71077917098999,
+          "p01_db": -30.933478298187257,
+          "p50_db": -16.37998390197754,
+          "p99_db": -10.46579231262207,
+          "max_db": 8.460397720336914,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00445-C00159_S1_2020_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00445-C00159_S1_2020_D.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00445-C00159_S1_2021_A_vvvh_20211018_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1183,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -38.654109954833984,
+          "p001_db": -28.36847236442566,
+          "p01_db": -24.093734436035156,
+          "p50_db": -10.186352729797363,
+          "p99_db": -3.4108608365058912,
+          "max_db": 16.100013732910156,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -55.769046783447266,
+          "p001_db": -34.1840888671875,
+          "p01_db": -30.166584453582765,
+          "p50_db": -16.458020210266113,
+          "p99_db": -10.428990468978883,
+          "max_db": 11.793174743652344,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00445-C00159_S1_2021_A",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00445-C00159_S1_2021_A.json"
+    },
+    {
+      "raster": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00445-C00159_S1_2021_D_vvvh_20211017_r1.tif",
+      "resolution_m": 10.0,
+      "grid_height": 1144,
+      "grid_width": 1183,
+      "bands": [
+        {
+          "band": "VV",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -42.1317253112793,
+          "p001_db": -28.77936612892151,
+          "p01_db": -24.500320987701414,
+          "p50_db": -10.611469745635986,
+          "p99_db": -3.159273998737337,
+          "max_db": 19.679515838623047,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        },
+        {
+          "band": "VH",
+          "finite_fraction": 1.0,
+          "n_finite": 1353352,
+          "n_grid_pixels": 1353352,
+          "min_db": -50.03837966918945,
+          "p001_db": -35.486653964996336,
+          "p01_db": -31.349911441802977,
+          "p50_db": -17.45131206512451,
+          "p99_db": -11.079727325439453,
+          "max_db": 8.821159362792969,
+          "n_at_or_below_floor": 0,
+          "fraction_at_or_below_floor_of_finite": 0.0,
+          "discrete_values_at_or_below_minus65_db": []
+        }
+      ],
+      "dualpol_observed_fraction": 1.0,
+      "s1_dualpol_valid_v2_fraction_of_grid": 1.0,
+      "floor_masked_pixels": 0,
+      "floor_masked_fraction_of_observed": 0.0,
+      "band_asymmetric_frame_edge": {
+        "vv_present_vh_missing_pixels": 0,
+        "vh_present_vv_missing_pixels": 0
+      },
+      "floor_edge_localization": {
+        "n_floor_pixels": 0,
+        "fraction_of_grid": 0.0,
+        "fraction_of_observed": 0.0,
+        "beyond_interior_margins_m": {
+          "50": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "500": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          },
+          "1000": {
+            "pixels": 0,
+            "fraction_of_floor": 0.0,
+            "fraction_of_observed_interior": 0.0
+          }
+        },
+        "touching_nonobserved_2px_fraction": 0.0,
+        "distance_to_nonobserved_edge_m": {
+          "max": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "product_id": "NP19_R00445-C00159_S1_2021_D",
+      "evidence_class": "LANDED",
+      "manifest": "work/national/pilot19/manifests/NP19_R00445-C00159_S1_2021_D.json"
     }
   ],
   "git": {
-    "git_commit": "ec945328e6742ffb9b39deb1c6bce24863c5339d",
+    "git_commit": "30ca090470c5f294f4669a20ebd058ccd8303d13",
     "dirty_tree": true
   }
 }

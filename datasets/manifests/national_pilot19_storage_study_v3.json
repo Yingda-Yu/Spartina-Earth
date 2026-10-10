@@ -1,0 +1,360 @@
+{
+  "product": "national_pilot19_storage_study_v3",
+  "issue": "#19",
+  "selection_revision": "PILOT_EVENT_SELECTION_V2",
+  "phase": "post-V2-recovery measured revision",
+  "created_utc": "2026-10-10T14:27:54.599247+00:00",
+  "git": {
+    "git_commit": "30ca090470c5f294f4669a20ebd058ccd8303d13",
+    "dirty_tree": true
+  },
+  "status": "MEASURED V2 pilot bytes; national EXTRAPOLATED; Landsat-9 TODO_VERIFY",
+  "selection_counts": {
+    "v1_selected_slots": 194,
+    "v2_plan_status_counts": {
+      "V2_ELIGIBLE": 104,
+      "SELECTED": 83,
+      "NO_ELIGIBLE_EVENT_ACTUAL_MASK": 7
+    },
+    "v2_change_counts": {
+      "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK": 87,
+      "V1_INHERITED_LANDSAT": 83,
+      "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK": 17,
+      "V1_SELECTED_BUT_NO_ELIGIBLE_ACTUAL_MASK": 7
+    },
+    "v2_replaced_deterministic_next_ranked": 17,
+    "v2_no_eligible_at_plan_stage": 7,
+    "v2_eligible_at_plan_stage": 187,
+    "eligible_sensor_counts": {
+      "sentinel1": 67,
+      "landsat8": 50,
+      "sentinel2": 37,
+      "landsat5": 27,
+      "landsat7": 6
+    },
+    "replacement_candidate_rows_evaluated": 86,
+    "landed_after_actual_byte_gate": 184,
+    "landing_actual_mask_rejections": 3,
+    "scientific_denominator": "V2_LANDED_PRODUCTS",
+    "note": "194 V1-selected slots: 83 Landsat outcomes inherited unchanged, 87 S1/S2 events kept, 17 deterministically replaced, and 7 found no eligible event at the plan stage; 187 went to export, 184 passed the actual in-W10-cell byte gate and 3 were honestly rejected. The count is never forced back to 187 or 194."
+  },
+  "pilot_v2": {
+    "planned_eligible": 187,
+    "landed": 184,
+    "honest_actual_mask_shortfall": [
+      {
+        "product_id": "NP19_R00346-C00154_L8_2021",
+        "reason": "ProvenanceError: NP19_R00346-C00154_L8_2021: inherited Landsat in-W10-cell fraction 0.9490249743414301 below 0.95; owner review required",
+        "evidence_token": "V2_PLANNED_ELIGIBLE_BUT_ACTUAL_MASK_FAIL_NOT_LANDED"
+      },
+      {
+        "product_id": "NP19_R00347-C00151_L5_1990",
+        "reason": "ProvenanceError: NP19_R00347-C00151_L5_1990: inherited Landsat in-W10-cell fraction 0.700516660965994 below 0.95; owner review required",
+        "evidence_token": "V2_PLANNED_ELIGIBLE_BUT_ACTUAL_MASK_FAIL_NOT_LANDED"
+      },
+      {
+        "product_id": "NP19_R00347-C00151_L5_2000",
+        "reason": "ProvenanceError: NP19_R00347-C00151_L5_2000: inherited Landsat in-W10-cell fraction 0.78544168211849 below 0.95; owner review required",
+        "evidence_token": "V2_PLANNED_ELIGIBLE_BUT_ACTUAL_MASK_FAIL_NOT_LANDED"
+      }
+    ],
+    "n_products": 184,
+    "bytes_measured": 1639339598,
+    "bytes_by_sensor": {
+      "landsat5": 62526679,
+      "landsat7": 17675511,
+      "landsat8": 210254461,
+      "sentinel1": 772704630,
+      "sentinel2": 576178317
+    },
+    "coverage_excluded_components": []
+  },
+  "pilot_v2_study_bytes": 354086081,
+  "measured_component_factors": {
+    "landsat5:qapixel": {
+      "n_samples": 25,
+      "raw_bytes_per_pixel": 2.0,
+      "lzw_ratio_mean": 27.33650325346436,
+      "lzw_ratio_min": 9.104892579888066,
+      "lzw_ratio_max": 48.2848,
+      "bytes_per_pixel_mean": 0.09227675269525823,
+      "bytes_per_pixel_min": 0.04142090264431043,
+      "bytes_per_pixel_max": 0.2196621192893401,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat5:sr": {
+      "n_samples": 25,
+      "raw_bytes_per_pixel": 24.0,
+      "lzw_ratio_mean": 1.4755283573353146,
+      "lzw_ratio_min": 1.021545710551987,
+      "lzw_ratio_max": 3.055052175205828,
+      "bytes_per_pixel_mean": 17.396971116250644,
+      "bytes_per_pixel_min": 7.855839646464647,
+      "bytes_per_pixel_max": 23.493809187482885,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat5:valid": {
+      "n_samples": 25,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 32.28707257205997,
+      "lzw_ratio_min": 7.370585083061334,
+      "lzw_ratio_max": 55.78758949880668,
+      "bytes_per_pixel_mean": 0.038954554009654675,
+      "bytes_per_pixel_min": 0.017925133689839574,
+      "bytes_per_pixel_max": 0.13567443950930627,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat7:qapixel": {
+      "n_samples": 6,
+      "raw_bytes_per_pixel": 2.0,
+      "lzw_ratio_mean": 24.372715828693476,
+      "lzw_ratio_min": 11.785894843276036,
+      "lzw_ratio_max": 39.37662675689745,
+      "bytes_per_pixel_mean": 0.09910820933224988,
+      "bytes_per_pixel_min": 0.05079155236804706,
+      "bytes_per_pixel_max": 0.16969436997319035,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat7:sr": {
+      "n_samples": 6,
+      "raw_bytes_per_pixel": 24.0,
+      "lzw_ratio_mean": 1.2236805566155133,
+      "lzw_ratio_min": 1.047170067343922,
+      "lzw_ratio_max": 1.5255666775766659,
+      "bytes_per_pixel_mean": 19.949540845773964,
+      "bytes_per_pixel_min": 15.731859087354707,
+      "bytes_per_pixel_max": 22.918913315460234,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat7:valid": {
+      "n_samples": 6,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 24.30872242862742,
+      "lzw_ratio_min": 19.13464447806354,
+      "lzw_ratio_max": 31.5744920993228,
+      "bytes_per_pixel_mean": 0.0427500004676269,
+      "bytes_per_pixel_min": 0.03167113494191242,
+      "bytes_per_pixel_max": 0.05226122707147375,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat8:qapixel": {
+      "n_samples": 49,
+      "raw_bytes_per_pixel": 2.0,
+      "lzw_ratio_mean": 26.788108108453287,
+      "lzw_ratio_min": 12.022408518415512,
+      "lzw_ratio_max": 48.839845124956,
+      "bytes_per_pixel_mean": 0.08847934251284725,
+      "bytes_per_pixel_min": 0.04095017080588668,
+      "bytes_per_pixel_max": 0.16635601734348562,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat8:sr": {
+      "n_samples": 49,
+      "raw_bytes_per_pixel": 28.0,
+      "lzw_ratio_mean": 0.9514151087542555,
+      "lzw_ratio_min": 0.8745254793512685,
+      "lzw_ratio_max": 1.1861225903374815,
+      "bytes_per_pixel_mean": 29.562886972848705,
+      "bytes_per_pixel_min": 23.606328914141415,
+      "bytes_per_pixel_max": 32.0173633142978,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "landsat8:valid": {
+      "n_samples": 49,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 34.33713322890069,
+      "lzw_ratio_min": 20.37215450139521,
+      "lzw_ratio_max": 48.409830833067346,
+      "bytes_per_pixel_mean": 0.03060443778736044,
+      "bytes_per_pixel_min": 0.02065696125748345,
+      "bytes_per_pixel_max": 0.04908660985913462,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "sentinel1:dualpol_valid_v2": {
+      "n_samples": 67,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 85.62833269255076,
+      "lzw_ratio_min": 77.64254445964433,
+      "lzw_ratio_max": 88.46917273673257,
+      "bytes_per_pixel_mean": 0.011696340826780166,
+      "bytes_per_pixel_min": 0.011303372339377579,
+      "bytes_per_pixel_max": 0.012879536689060498,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "sentinel1:vvvh": {
+      "n_samples": 67,
+      "raw_bytes_per_pixel": 8.0,
+      "lzw_ratio_mean": 0.9050390429008289,
+      "lzw_ratio_min": 0.8732808653933264,
+      "lzw_ratio_max": 0.9288271086047664,
+      "bytes_per_pixel_mean": 8.84114760245569,
+      "bytes_per_pixel_min": 8.61301304181051,
+      "bytes_per_pixel_max": 9.160855707512603,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "sentinel2:sr": {
+      "n_samples": 37,
+      "raw_bytes_per_pixel": 16.0,
+      "lzw_ratio_mean": 1.345571591695953,
+      "lzw_ratio_min": 1.1656425248849624,
+      "lzw_ratio_max": 1.7637503308519942,
+      "bytes_per_pixel_mean": 12.054427159370439,
+      "bytes_per_pixel_min": 9.071578737717978,
+      "bytes_per_pixel_max": 13.726335182888977,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    },
+    "sentinel2:valid": {
+      "n_samples": 37,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 62.59611803965865,
+      "lzw_ratio_min": 21.412238852241607,
+      "lzw_ratio_max": 89.53109288171474,
+      "bytes_per_pixel_mean": 0.019320584268619417,
+      "bytes_per_pixel_min": 0.011169304068712353,
+      "bytes_per_pixel_max": 0.046702262519143896,
+      "evidence_token": "MEASURED_PILOT19_V2_LANDED_BYTES"
+    }
+  },
+  "national_scenarios_recomputed": {
+    "national_minimal_anchors": {
+      "n_products": 29460,
+      "n_gee_tasks": 60397,
+      "bytes_low": 220042086423,
+      "bytes_base": 259151647231,
+      "bytes_high": 283720987893,
+      "evidence_token": "EXTRAPOLATED_PILOT19_V2_MEASURED_FACTORS_V1_GRIDS"
+    },
+    "national_standard_annual": {
+      "n_products": 238970,
+      "n_gee_tasks": 609301,
+      "bytes_low": 1112540301803,
+      "bytes_base": 1392879975367,
+      "bytes_high": 1569589174090,
+      "evidence_token": "EXTRAPOLATED_PILOT19_V2_MEASURED_FACTORS_V1_GRIDS"
+    },
+    "pilot_20_cell": {
+      "n_products": 194,
+      "n_gee_tasks": 402,
+      "bytes_low": 1484092908,
+      "bytes_base": 1751698119,
+      "bytes_high": 1918492913,
+      "evidence_token": "EXTRAPOLATED_PILOT19_V2_MEASURED_FACTORS_V1_GRIDS"
+    }
+  },
+  "national_denominator_note": "national scenarios reuse the V1 grid-pixel decomposition; the V2 actual-mask shortfall rate is NOT used to shrink the national denominator (national eligibility is unmeasured)",
+  "operations": {
+    "gee_export_tasks_recorded_total": 422,
+    "gee_tasks_completed": 415,
+    "gee_tasks_enqueued_or_active": 7,
+    "stale_enqueued_reconciliation": {
+      "n_non_completed_records": 7,
+      "plan_stage_no_eligible_orphans": [
+        {
+          "request_id": "NP19_R00279-C00143_S1_2021_A:vvvh:r1",
+          "task_id": "task-5f1f4f2bbcfb55c5",
+          "backend_task_id": "SOGVH2AYK5WXO4BEIGCIHHBR",
+          "last_poll_state": "READY",
+          "last_poll_utc": "2026-10-09T08:01:57.179792+00:00",
+          "plan_v2_status": "NO_ELIGIBLE_EVENT_ACTUAL_MASK"
+        },
+        {
+          "request_id": "NP19_R00279-C00143_S1_2020_A:vvvh:r1",
+          "task_id": "task-90d4a998522d52e5",
+          "backend_task_id": "XSKMH2DIGD7U5PEORYZVZVFQ",
+          "last_poll_state": "RUNNING",
+          "last_poll_utc": "2026-10-09T08:01:57.157518+00:00",
+          "plan_v2_status": "NO_ELIGIBLE_EVENT_ACTUAL_MASK"
+        }
+      ],
+      "bytes_validated_after_interrupted_poll": [
+        {
+          "request_id": "NP19_R00264-C00132_L8_2020:valid:r1",
+          "task_id": "task-2ca59d5a28225738",
+          "backend_task_id": "BHGEEB6BW6RH4KCSRWPB22PW",
+          "last_poll_state": "READY",
+          "last_poll_utc": "2026-10-09T06:46:48.271431+00:00",
+          "manifest_state": "COMPLETED",
+          "landed_sha256_verified": true
+        },
+        {
+          "request_id": "NP19_R00264-C00132_L8_2021:valid:r1",
+          "task_id": "task-860abe4803bb5500",
+          "backend_task_id": "ZHDIQPRZ2IYXZ2XLBVGADCJI",
+          "last_poll_state": "READY",
+          "last_poll_utc": "2026-10-09T06:46:48.296483+00:00",
+          "manifest_state": "COMPLETED",
+          "landed_sha256_verified": true
+        },
+        {
+          "request_id": "NP19_R00279-C00143_S2_2021:valid:r1",
+          "task_id": "task-92b6aa48f25c5ed0",
+          "backend_task_id": "OE5CZNGMFSVO6P2QXGXZ3GNL",
+          "last_poll_state": "READY",
+          "last_poll_utc": "2026-10-09T08:01:57.257712+00:00",
+          "manifest_state": "COMPLETED",
+          "landed_sha256_verified": true
+        },
+        {
+          "request_id": "NP19_R00279-C00143_S2_2021:sr:r1",
+          "task_id": "task-cb8666eb059054c7",
+          "backend_task_id": "UTTKJB27DU6BV7RNVGM5IUWH",
+          "last_poll_state": "READY",
+          "last_poll_utc": "2026-10-09T08:01:57.238956+00:00",
+          "manifest_state": "COMPLETED",
+          "landed_sha256_verified": true
+        },
+        {
+          "request_id": "NP19_R00264-C00132_L8_2015:valid:r1",
+          "task_id": "task-d9be2fe79d3954e8",
+          "backend_task_id": "MXZ3QK6LZLMH7JDWBNCGRIYO",
+          "last_poll_state": "READY",
+          "last_poll_utc": "2026-10-09T06:46:48.245685+00:00",
+          "manifest_state": "COMPLETED",
+          "landed_sha256_verified": true
+        }
+      ],
+      "unresolved_records": [],
+      "note": "task records left ENQUEUED by the interrupted 2026-10-09 polling session. Orphans are explained either by the V2 plan-stage NO_ELIGIBLE_EVENT_ACTUAL_MASK decision or by components whose Drive output was validated in a later session (manifest COMPLETED, SHA-256 re-verified here). Backend output of plan-excluded tasks is unused staging."
+    },
+    "backend_retry_attempts_distribution": {
+      "0": 422
+    },
+    "backend_retry_note": "attempts counts resubmissions after backend failure; 0 for every record means all tasks completed on first submission (polling was interrupted by process restarts, never by GEE task failure)",
+    "poll_observations_per_task": {
+      "min": 2,
+      "max": 37,
+      "mean": 12.597156398104266
+    },
+    "backend_states_observed": {
+      "COMPLETED": 415,
+      "READY": 4377,
+      "RUNNING": 524
+    },
+    "records_with_errors": 0,
+    "local_derived_components": "s1_dualpol_valid_v2 token per landed S1 product (no GEE task, no Drive download)",
+    "drive_staging_folder": "SpartinaEarthPilot19",
+    "concurrency_observed": 7,
+    "poll_interval_s": 15,
+    "task_timeout_s": 5400,
+    "resumability_evidence": [
+      "task store keyed by request_id: COMPLETED backend tasks are adopted on restart instead of resubmitted",
+      "progress ledger re-validates manifest SHA-256 before resume",
+      "retained V1 products enriched idempotently; failure entries superseded on successful reactivation",
+      "superseded V1 bytes/manifests archived, never deleted"
+    ],
+    "progress_states": {
+      "SELECTED": 0,
+      "SUBMITTED": 0,
+      "RUNNING": 0,
+      "LANDED": 184,
+      "EXPORT_FAILED": 3
+    },
+    "volume_cap_bytes": 4294967296
+  },
+  "evidence_tokens": {
+    "MEASURED_PILOT19_V2_LANDED_BYTES": "real landed V2 pilot component bytes (includes local S1 validity token)",
+    "EXTRAPOLATED_PILOT19_V2_MEASURED_FACTORS_V1_GRIDS": "v1 national grid pixels times V2 measured per-component bytes-per-pixel",
+    "EXTRAPOLATED_L8_FACTOR_LANDSAT9_TODO_VERIFY": "no Landsat-9 pilot product; L8 factor carried forward as TODO_VERIFY",
+    "V2_PLANNED_ELIGIBLE_BUT_ACTUAL_MASK_FAIL_NOT_LANDED": "planned V2-eligible slot that failed the actual-mask gate on landed bytes; counted out of the measured pilot, never backfilled"
+  }
+}
