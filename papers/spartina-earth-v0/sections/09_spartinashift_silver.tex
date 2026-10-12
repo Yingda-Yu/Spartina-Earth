@@ -1,0 +1,226 @@
+\section{SpartinaShift-Silver v0.1: frozen-protocol conventional baselines}\label{sec:silverbench}
+
+This section reports the first model benchmark executed on the real
+Issue~\#19 V2 pixels: 20 fixed W10 cells, 184 landed products, actual
+in-cell valid masks. The benchmark is SILVER-only throughout (GOLD\,=\,0),
+and every metric is a statement about agreement with a named label
+source, never about mapping accuracy. The protocol was frozen before any
+training run (\texttt{SPARTINASHIFT\_SILVER\_V0\_1\_PROTOCOL}, frozen
+2026-10-12, SHA-256 \texttt{24037877\ldots}); its checksum, the split
+and support-matrix hashes, the git commit, seed, full configuration,
+checkpoint hash and software environment are recorded in every run
+manifest. Rights follow the frozen policy: GEODATA layers are
+\texttt{SILVER\_TRAINING\_ELIGIBLE\_INTERNAL\_RESEARCH\_ONLY}, CMSA is
+\texttt{SILVER\_TRAINING\_ELIGIBLE\_NONCOMMERCIAL}, and CM-SSM is
+\texttt{EXTERNAL\_REFERENCE\_ONLY} under a source-license conflict---it
+is never trained or tuned on. The finding is an honest negative. On
+spatially disjoint held-out cells every conventional baseline performs
+at chance after a threshold frozen on validation data, in both
+evaluation years, with or without SAR. Diagnostic controls show that the
+within-scene spectral signal is real and the pipeline recovers it; what
+collapses is transfer, and the collapse is localised to measured support
+failures rather than to model capacity.
+
+\subsection{Frozen design: cell-disjoint split, 30\,m support, locked selection}
+The W10 Albers 10\,km cell is the only split unit. Patches, dates,
+modalities and years of one cell inherit its role, cross-role cell
+footprints are separated by a 250\,m buffer (the measured minimum
+cross-role gap is 80\,km), and the split---11 train, 3 validation, 4
+test cells, with two named 2020 witness cells inside the test set---was
+drawn once and never reseeded. Training uses CMSA 2020 labels on
+Sentinel-2 B2/B3/B4/B8; tests are opened on CMSA 2020 (reference year)
+and CMSA 2021 (cross-year). Labels follow the fractional rule: a pixel
+is binary-positive at mapped fraction $\geq$0.90, MIXED pixels (0 to
+0.90, product-specific lower bound) are excluded from both the binary
+loss and the primary metrics and are described separately, and unknown
+or EO-invalid pixels are ignored. SILVER background is never treated as
+a verified ecological negative.
+
+All observations are analysed on the 30\,m label grid: native 10\,m
+Sentinel-1/2 data are averaged down with a sub-pixel validity rule, and
+no label pixel is ever upsampled. Patches are 128\,px (3.84\,km on the
+ground), 128 per training cell per epoch with a 0.5 positive-patch
+fraction, with six deterministic geometric augmentations. Per-band
+p005/p995 clip bounds and mean/std come from valid pixels of train cells
+only, separately per arm. Hyperparameters are fixed by the protocol
+with no search: a pixel Random Forest (300 trees, 20{,}000-pixel cap per
+train cell, \texttt{sqrt} features, minimum leaf 2, EO bands plus NDVI;
+the SAR arm adds VV, VH and the VV$-$VH dB difference), U-Net and
+DeepLabV3+ with ResNet18 ImageNet encoders (40 epochs), and
+SegFormer-B0 with a replaced segmentation head (30 epochs); networks use
+0.5 BCE plus 0.5 soft-Dice loss with positive weight capped at 20,
+AdamW with cosine schedule and three warm-up epochs, and mixed
+precision. Each run uses seeds 17, 42 and 2026. One decision threshold
+per run is selected on pooled validation IoU over a fixed 0.05--0.95
+grid, with patience-10 early stopping on the same quantity; the test
+cells are opened only after the checkpoint and threshold are frozen.
+Uncertainty is reported as per-cell values on independent cells, plus a
+descriptive 1\,000\,m spatial-block bootstrap (1\,000 replicates, blocks
+never cross cell boundaries); with only two positive test cells, no
+inferential cell-level claim is made.
+
+The support itself is the first result (Table~\ref{tab:silversupport}).
+Only five of the 20 cells contain any CMSA-2020 pure-positive pixels:
+two train, one validation and two test cells. One train cell has
+virtually no within-scene NDVI separation, and one test cell has zero
+EO-valid positive pixels in 2020. The executed campaign comprises 24
+training runs (tasks C2 and C5, four models by three seeds) and 12
+frozen-checkpoint agreement evaluations (task C4); tasks C1 and C3
+executed zero runs by pre-registered support rule.
+
+\input{tables/tab_silver_support}
+
+\subsection{Task C2: cross-year Sentinel-2 baselines at chance}
+Table~\ref{tab:silverc2} reports pooled held-out IoU and F1. No model
+reaches a usable operating point. Pooled test IoU is at most 0.003 in
+2020 and 0.020 in 2021, and the latter value is a single DeepLabV3+
+seed (mean 0.020, SD 0.028); U-Net scores exactly zero in both years on
+every seed. Every spatial-block 95\% interval includes zero.
+Validation is already weak---the best mean validation IoU is 0.038
+(U-Net) on a single positive validation cell containing 149 positive
+pixels---so the frozen thresholds are selected on almost no signal.
+Rank information nonetheless survives where positives exist: on cell
+R00413 in 2021 the per-cell AUPRC is 0.297 for one U-Net run even
+though thresholded IoU at its frozen validation threshold is 0.000,
+which locates the failure partly in threshold transfer rather than in
+wholly uninformative scores. The networks also issue false alarms on
+the two background-only test cells (e.g.\ 447\,ha of predicted positive
+area there for one U-Net seed in 2020). Seed spread is large relative
+to every mean, and MIXED-pixel probability--fraction rank correlations
+stay weak (0.16 in 2020 and 0.24 in 2021 for the same run), reported
+descriptively only.
+
+\input{tables/tab_silver_c2}
+
+\subsection{Why the models fail: same-scene signal, no transferable rule}
+Four diagnostic controls, computed once and versioned with the
+benchmark, separate ``no signal'' from ``no transfer''. None uses test
+selection.
+
+First, the same-scene ceiling is high. A Random Forest trained and
+thresholded within one scene reaches IoU 0.388, 0.478, 0.430 and 0.630
+on the four positive cells with usable overlap (R00236, R00311, R00349,
+R00413); R00334 is not estimable because it has zero EO-valid positive
+pixels. Where a scene contains separated Spartina cover, the features,
+labels and evaluation machinery recover it.
+
+Second, cross-scene transfer collapses even between the two strongly
+separable scenes. Training on R00349 and evaluating R00413 gives IoU
+0.035, and the reverse gives 0.027; the two scenes differ in absolute
+reflectance even though each is internally separable, so a decision
+rule learned on one does not carry to the other.
+
+Third, temporal transfer inside the same scene is weak: a 2020 model
+applied to the same cell in 2021 reaches IoU 0.176 on R00349 and 0.024
+on R00413. Fourth, the acquisition calendar is single-date: each
+cell-year contains one autumn Sentinel-2 event, and on R00413 the two
+dates are 2020-09-18 and 2021-11-12---day-of-year 262 versus 316, 420
+calendar days apart. The nominal ``cross-year'' test therefore embeds a
+large phenology and acquisition shift that a single-date training set
+cannot span.
+
+The support pathologies compound this. The only positive training cell
+with wide coverage (R00311) has just 19.7\,\% of its pure-positive
+pixels under valid EO and an NDVI gap of $-$0.005; the other strong
+train cell (R00349) supplies most of the usable signal but does not
+transfer; the validation set contains one positive cell with 149
+pixels; and the test cell R00334 contributes 14 positive pixels in 2020,
+none of them EO-valid, and 8 in 2021. A pipeline explanation for the
+near-zero scores is thus not supported by the controls; a support
+explanation is.
+
+\subsection{Tasks C1 and C3: pre-registered non-runs}
+Two planned tasks were refused before training by the frozen protocol,
+and their records contain no metrics beyond
+\texttt{NOT\_RUN\_INSUFFICIENT\_SUPPORT}. C1 (GEODATA cross-year on
+Landsat~8, 2015$\rightarrow$2020) requires at least five positive cells
+per year for a spatial binary split; GEODATA is sparse inside the
+panel, with three pure-positive cells in 2015 and three in 2020, only
+two of them positive in both years, even though 14 cells are EO-eligible
+in both years. C3 (cross-region) fails its frozen minimums in all seven
+provinces present---at least four held-out cells with two positive, and
+eight remaining cells with three positive outside---including its best
+case, Zhejiang, which holds two positive cells but only two cells in
+total. No regional split was manufactured by relaxing these rules.
+
+\subsection{Task C4: cross-source agreement at 2020, without tuning}
+C4 reuses each frozen C2 checkpoint, its training-only normalization
+and its validation-selected threshold verbatim: no retraining, no
+threshold adjustment, and CM-SSM is never used for model selection in
+any form. Agreement is then measured against GEODATA 2020 on the two
+positive test cells and against CM-SSM 2020 on those cells plus the two
+named witness cells (Table~\ref{tab:silverc4}). Agreement is negligible
+throughout, and the label sources disagree with each other at cell
+scale. On R00413 CMSA maps 1{,}335 pure-positive pixels and GEODATA
+1{,}542, while CM-SSM maps zero; on R00334 GEODATA maps 40 and CM-SSM
+136. The witness background cell R00445 is zero in both sources. With
+no GOLD labels this disagreement cannot be adjudicated---near-zero
+agreement of a CMSA-trained model with CM-SSM is neither a model error
+nor a CM-SSM error---and the result is reported strictly as
+external-reference agreement under the CM-SSM license restriction. The
+Random Forest GEODATA interval narrowly excludes zero
+([0.0022, 0.0150]) at an IoU magnitude of 0.008; nothing else excludes
+zero.
+
+\input{tables/tab_silver_c4}
+
+\subsection{Task C5: adding Sentinel-1 does not rescue the support}
+The modality ablation repeats the ladder with six channels
+(S2 B2/B3/B4/B8 plus S1-A VV/VH) on the 17 cells with paired products
+(one Fujian cell is excluded for lack of S1-A; roles are 10/3/4), with
+identical held-out cells, frozen patch geometry, seeds and budget, and
+per-arm train-only normalization. Table~\ref{tab:silverc5} shows the
+comparison. Movement is within seed noise and in both directions: U-Net
+rises from exactly zero to 0.016 mean IoU in 2020 (SD 0.009) while
+DeepLabV3+ falls from 0.020 to 0.003 in 2021; no arm produces a stable
+positive result. The pairing itself is season-matched, not
+date-matched: all 34 cell-year pairs fall inside the 30-day window but
+the median gap is 22.5 days (range 1--30), only five pairs are within
+seven days and none is simultaneous, and the five-pair $\leq$7-day
+subset is pre-registered as insufficient for its own inference. The
+extra channels also damage stability---mean expected calibration error
+for DeepLabV3+ on 2020 test pixels rises from 0.009 to 0.111 and its
+mean predicted positive area on background cells rises from 333 to
+9{,}641\,ha---while U-Net validation IoU rises to 0.133 (SD 0.091)
+without any matching test gain, the same single-cell validation
+overfitting seen in C2.
+
+\input{tables/tab_silver_c5}
+
+\subsection{What the v0.1 benchmark establishes---and what it does not}
+Five statements are supported by executed runs. The frozen protocol
+runs end to end with complete provenance and leakage-safe cell
+splits; conventional pixel and segmentation baselines are at chance on
+spatially disjoint cells at this support level; within-scene spectral
+signal demonstrably exists, so the null result is a transfer failure;
+the transfer failure is explained by measured mechanisms---sparse and
+partly invalid positive support, a zero-separation training cell,
+single-date acquisitions with large inter-year phenology offsets, and
+substantial disagreement among independent SILVER sources; and adding
+Sentinel-1 under season-matched pairing does not repair any of them.
+Equally explicitly, the benchmark establishes no accuracy claim
+(GOLD\,=\,0), nothing about the intrinsic cross-region
+transferability of \emph{Spartina alterniflora} spectra, and nothing
+about whether higher-capacity models would succeed---the experiment was
+not run, and the diagnosed bottlenecks (zero valid positives, one
+separable cross-scene pair, 22-day median optical--SAR gaps) are not
+capacity bottlenecks. Twenty cells and two positive test cells are a
+pilot support for freezing protocol and instrumentation, not benchmark
+v1. The defensible next gate is support repair---more positive cells,
+multi-date seasonal composites rather than one event per year, denser
+near-simultaneous optical--SAR pairing, and GOLD-verified labels---before
+model capacity is increased; the corresponding Stage-1 readiness token
+is recorded with the benchmark registry and issue report rather than
+inferred from these numbers.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 8}{SpartinaShift-Silver v0.1 evidence panel
+(design only): (a)~SPLIT-S2 cell roles on the 20-cell panel with the
+five CMSA-positive cells; (b)~same-scene IoU ceiling (0.39--0.63)
+versus cross-scene (0.035/0.027) and temporal transfer (0.176/0.024);
+(c)~held-out IoU of the four models, both years, with spatial-block
+95\% intervals all including zero; (d)~2020 per-cell positive counts
+for CMSA, GEODATA and CM-SSM showing source disagreement. All panels
+annotated GOLD\,=\,0 and ``agreement, not accuracy''.}
+\label{fig:silverbench}
+\end{figure}

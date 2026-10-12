@@ -1,0 +1,29 @@
+% Source: benchmarks/spartinashift/silver_v0_1/results/C2/*_s2_seed*.json
+% and aggregate_C2_s2.json (frozen protocol checksum 24037877...;
+% split SPLIT-S2; git 66549b0). 12 runs = 4 models x seeds 17/42/2026.
+\begin{table}[t]
+\centering
+\small
+\caption{Task C2: CMSA-2020 $\rightarrow$ 2020/2021 cross-year
+Sentinel-2 baselines, spatially disjoint W10 cells (11/3/4; only two
+positive test cells). Values are pooled IoU/F1 over the two positive
+held-out cells, mean$\pm$SD over the three seeds. The bracketed interval
+is the union across seeds of the 1\,000\,m spatial-block bootstrap 95\%
+intervals (1\,000 replicates; blocks never cross cells; 15--411 blocks
+per seed). VAL IoU is pooled over the single positive validation cell
+(R00236, 149 positive pixels); the decision threshold is chosen on VAL
+only, once per run. Every TEST 95\% interval includes 0.}
+\label{tab:silverc2}
+\begin{tabular}{lrrrlrl}
+\toprule
+& \multicolumn{1}{c}{VAL 2020} & \multicolumn{3}{c}{TEST 2020} & \multicolumn{2}{c}{TEST 2021} \\
+\cmidrule(lr){2-2}\cmidrule(lr){3-5}\cmidrule(lr){6-7}
+Model & IoU & IoU & block CI95 & F1 & IoU & F1 \\
+\midrule
+RF pixel      & 0.0011\,$\pm$\,0.0001 & 0.0013\,$\pm$\,0.0001 & [0.0003, 0.0027] & 0.0026 & 0.0001 & 0.0002 \\
+U-Net         & 0.0378\,$\pm$\,0.0131 & 0.0000 & [0, 0] & 0.0000 & 0.0000 & 0.0000 \\
+DeepLabV3+    & 0.0250\,$\pm$\,0.0180 & 0.0004\,$\pm$\,0.0005 & [0, 0.0034] & 0.0008 & 0.0202\,$\pm$\,0.0275 & 0.0382 \\
+SegFormer-B0  & 0.0330\,$\pm$\,0.0110 & 0.0033\,$\pm$\,0.0036 & [0, 0.0222] & 0.0065 & 0.0004\,$\pm$\,0.0006 & 0.0008 \\
+\bottomrule
+\end{tabular}
+\end{table}

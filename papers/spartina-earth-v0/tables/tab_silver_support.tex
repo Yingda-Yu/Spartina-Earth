@@ -1,0 +1,28 @@
+% Source: benchmarks/spartinashift/silver_v0_1/results/C2/failure_analysis_C2.json
+% and SPARTINASHIFT_SILVER_V0_1_PROTOCOL.json (frozen, checksum
+% 24037877...). CMSA 2020 is the C2 training label; GOLD = 0.
+\begin{table}[t]
+\centering
+\small
+\caption{SpartinaShift-Silver v0.1 (SPLIT-S2) binary-positive support on
+the 20-cell Issue~\#19 V2 panel at 30\,m. Only five cells contain
+CMSA-2020 pure-positive pixels (fraction $\geq$0.90): two train, one
+validation, two test. EO-valid positives intersect the actual Sentinel-2
+valid mask inside each cell; the NDVI gap is positive-minus-background
+mean NDVI on 2020 valid pixels. All other 15 cells are source-background
+only, and SILVER background is never a verified ecological negative.}
+\label{tab:silversupport}
+\begin{tabular}{llrrrr}
+\toprule
+Role & Cell (province) & Pure+ px & EO-valid+ & EO-valid \% & NDVI gap \\
+\midrule
+train & R00311 (Zhejiang) & 3{,}981 & 784 & 19.7 & $-$0.005 \\
+train & R00349 (Jiangsu) & 5{,}849 & 3{,}257 & 55.7 & +0.532 \\
+val   & R00236 (Guangdong) & 149 & 135 & 90.6 & +0.104 \\
+test  & R00334 (Zhejiang) & 14 & 0 & 0.0 & n/a \\
+test  & R00413 (Shandong) & 1{,}335 & 1{,}322 & 99.0 & +0.486 \\
+\midrule
+\multicolumn{6}{l}{Other 15 cells (9 train, 2 val, 2 test): 0 pure-positive pixels} \\
+\bottomrule
+\end{tabular}
+\end{table}

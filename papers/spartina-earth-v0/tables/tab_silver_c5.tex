@@ -1,0 +1,29 @@
+% Source: benchmarks/spartinashift/silver_v0_1/results/C5/*.json,
+% aggregate_C5_s2_s1.json and date_gap_ledger.json. 12 new runs on the
+% 17 S2/S1-A paired cells (R00279 excluded, no S1-A product).
+\begin{table}[t]
+\centering
+\small
+\caption{Task C5 modality ablation: pooled held-out IoU, optical-only
+(S2, 4\,ch, frozen C2 runs) versus optical+SAR (S2+S1-A, 6\,ch, 12 new
+runs), identical held-out cells, frozen patch geometry, seeds and
+training budget; per-arm train-only normalization. Mean$\pm$SD over
+seeds 17/42/2026. The 34 S2--S1-A cell-year pairs are all within the
+30-day season window (median gap 22.5\,d, range 1--30\,d; five within
+7\,d; zero simultaneous), so the comparison is season-matched rather
+than date-matched. Adding SAR moves no model off chance on the held-out
+cells.}
+\label{tab:silverc5}
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{TEST 2020 IoU} & \multicolumn{2}{c}{TEST 2021 IoU} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Model & S2 & S2+S1-A & S2 & S2+S1-A \\
+\midrule
+RF pixel      & 0.0013 & 0.0059\,$\pm$\,0.0001 & 0.0001 & 0.0001 \\
+U-Net         & 0.0000 & 0.0158\,$\pm$\,0.0085 & 0.0000 & 0.0071\,$\pm$\,0.0065 \\
+DeepLabV3+    & 0.0004 & 0.0028\,$\pm$\,0.0018 & 0.0202 & 0.0025\,$\pm$\,0.0018 \\
+SegFormer-B0  & 0.0033 & 0.0036\,$\pm$\,0.0032 & 0.0004 & 0.0070\,$\pm$\,0.0020 \\
+\bottomrule
+\end{tabular}
+\end{table}
