@@ -138,6 +138,11 @@ OUT_CSV = OUT_V1_CSV
 OUT_JSON = OUT_V1_JSON
 
 GDRIVE_FOLDER = "SpartinaEarthPilot19"
+#: Manifest provenance tag. Issue #21 reuses this driver verbatim for the
+#: v0.2 support expansion with a separate Drive folder/task store/work dir;
+#: the tag is a module global so that reuse records its own issue without
+#: forking the scheduler. Default keeps Issue #19 manifests unchanged.
+ISSUE_TAG = "#19 M2.5 national 20-cell pilot"
 REVISION = "r1"
 #: Landsat VALID component revision r2: pilot D1 found QA-clear pixels with
 #: per-band SR nodata (interior B1/B2 NaN under clear QA). VALID now
@@ -1959,7 +1964,7 @@ class ExportScheduler:
         manifest = {
             "schema": SCHEMA_V1 if is_v2 else SCHEMA_V0,
             "product_id": pid,
-            "issue": "#19 M2.5 national 20-cell pilot",
+            "issue": ISSUE_TAG,
             **({"event_selection":
                 event_selection_block(row, self.plan_checksum)} if is_v2
                else {}),

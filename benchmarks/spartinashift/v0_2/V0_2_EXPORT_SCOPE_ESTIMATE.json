@@ -1,0 +1,59 @@
+{
+  "byte_table_quantile": "p90_of_issue19_landed_sr_components",
+  "cap_breaches": {},
+  "component_task_contract": {
+    "landsat5": 3,
+    "landsat7": 3,
+    "landsat8": 3,
+    "sentinel1": 1,
+    "sentinel2": 2
+  },
+  "component_tasks_by_sensor": {
+    "landsat": 489,
+    "sentinel1": 279,
+    "sentinel2": 560
+  },
+  "counts": {
+    "landsat_eligible_observations": 163,
+    "new_cells": 53,
+    "s1_primary_pairs_lte7d": 279,
+    "s2_eligible_events": 280
+  },
+  "document_checksum": "243a384ec420175ab0d6ca14f194171aaf4921ae7506a2353f3673f8b239e9f5",
+  "generated_utc": "2026-10-12T14:57:59.954662+00:00",
+  "git_commit": "5081afdee6116a4460c10395127035ac14961714",
+  "hard_caps": {
+    "gee_component_tasks": 10000,
+    "landed_eo_bytes": 42949672960,
+    "new_cells": 96
+  },
+  "issue": 21,
+  "landsat_eligible_by_sensor": {
+    "landsat5": 0,
+    "landsat7": 28,
+    "landsat8": 135
+  },
+  "no_support_weakening_rule": "projection only; scientific support is never trimmed to fit a cap; any breach is an owner-review STOP",
+  "phase": "H",
+  "plan_checksums": {
+    "landsat_plan": "599f395de48ddde330d34408eee4a568a3398ad37fea384b310f93d6aca119bd",
+    "s1_pairing_ledger": "08906836d5600029043fe66d56cfe98bc80a684cb8d12f62f93fb577069ab86c",
+    "s2_plan": "1cf79c98714e3f961363d253ab033d07a302af2de2fd6b0a1f0bd0cde2cdd3d8"
+  },
+  "product": "V0_2_EXPORT_SCOPE_ESTIMATE",
+  "projected_gee_component_tasks": 1328,
+  "projected_landed_eo_bytes": 9141694423,
+  "projected_landed_eo_gib": 8.514,
+  "size_table_bytes_per_product": {
+    "landsat_observation": 4598682,
+    "s1_pair": 12064703,
+    "s2_event": 17950204
+  },
+  "size_table_evidence": "p90/median GeoTIFF bytes of landed Issue #19 pilot SR components under work/national/pilot19/products; S2 valid and Landsat valid/QA_PIXEL components are < 0.1 MiB each and the locally derived S1 dualpol token ~15 KiB, counted as negligible against the 40 GiB cap but included in task rules",
+  "size_table_median_bytes": {
+    "landsat_observation": 3977213,
+    "s1_pair": 11836419,
+    "s2_event": 15244575
+  },
+  "verdict": "WITHIN_CAP_PROCEED_PHASE_H_EXPORT"
+}
