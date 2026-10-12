@@ -1,0 +1,396 @@
+{
+  "agreement": {
+    "CM_SSM_2020": {
+      "agreement_is_not_accuracy": true,
+      "block_bootstrap": {
+        "block_m": 1000,
+        "block_px": 33,
+        "ci_level": 0.95,
+        "f1_ci95": [
+          0.0,
+          0.0
+        ],
+        "iou_ci95": [
+          0.0,
+          0.0
+        ],
+        "n_blocks": 45,
+        "precision_ci95": [
+          0.0,
+          0.0
+        ],
+        "recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "reps": 1000,
+        "resample_unit": "spatial_block"
+      },
+      "language": "external-reference agreement; CM-SSM never trained or tuned",
+      "mixed_agreement": {
+        "mae_prob_fraction": 0.4165709912776947,
+        "mean_fraction_mixed": 0.4203585386276245,
+        "mean_prob_on_mixed": 0.0037875594571232796,
+        "n_mixed_pixels": 33,
+        "pearson_prob_fraction": -0.10906787843373023,
+        "spearman_prob_fraction": 0.0752005347593583
+      },
+      "n_cells": 3,
+      "per_cell": [
+        {
+          "abs_area_error_ha": 132.3,
+          "auprc": 0.0009223711440949297,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.006529754847174076,
+          "cell_id": "CNA10K-R00334-C00163",
+          "ece": 0.008040212205366336,
+          "f1": 0.0,
+          "iou": 0.0,
+          "label_source": "CM-SSM_2020",
+          "n_mixed_pixels": 457,
+          "n_positive_pixels": 136,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 150839,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 65,
+            "n_ref": 15,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 11
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 65,
+            "n_ref": 15,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 11
+          },
+          "positive_cell": true,
+          "precision": 0.0,
+          "pred_area_ha": 144.54,
+          "recall": 0.0,
+          "ref_area_ha": 12.24,
+          "rel_area_error": 10.808823529411764,
+          "signed_area_bias": 10.808823529411764,
+          "threshold": 0.17
+        },
+        {
+          "abs_area_error_ha": 62.55,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.00272577291831223,
+          "cell_id": "CNA10K-R00413-C00121",
+          "ece": 0.003953557125849385,
+          "f1": 0.0,
+          "iou": 0.0,
+          "label_source": "CM-SSM_2020",
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 138335,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 12,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 12,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": true,
+          "precision": 0.0,
+          "pred_area_ha": 62.55,
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.17
+        },
+        {
+          "abs_area_error_ha": 0.0,
+          "auprc": null,
+          "bf1_30m": null,
+          "bf1_60m": null,
+          "brier": 7.944978956724811e-09,
+          "cell_id": "CNA10K-R00445-C00159",
+          "ece": 4.7564237320329994e-05,
+          "f1": null,
+          "iou": null,
+          "label_source": "CM-SSM_2020",
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 150890,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 0,
+            "n_ref": 0,
+            "patch_precision": null,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 0,
+            "n_ref": 0,
+            "patch_precision": null,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": null,
+          "pred_area_ha": 0.0,
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.17
+        }
+      ],
+      "pooled": {
+        "abs_area_error_ha": 194.85,
+        "auprc": 0.00031120281107718,
+        "bf1_30m": 0.0,
+        "bf1_60m": 0.0,
+        "brier": 0.0030950331925935484,
+        "ece": 0.0037577228533388213,
+        "f1": 0.0,
+        "iou": 0.0,
+        "n_positive_pixels": 136,
+        "n_valid_pixels": 440064,
+        "patch_025": {
+          "n_matches": 0,
+          "n_pred": 77,
+          "n_ref": 15,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 11
+        },
+        "patch_050": {
+          "n_matches": 0,
+          "n_pred": 77,
+          "n_ref": 15,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 11
+        },
+        "precision": 0.0,
+        "pred_area_ha": 207.09,
+        "recall": 0.0,
+        "ref_area_ha": 12.24,
+        "rel_area_error": 15.919117647058824,
+        "signed_area_bias": 15.919117647058824,
+        "threshold": 0.17
+      },
+      "positive_test_cells": [
+        "CNA10K-R00334-C00163",
+        "CNA10K-R00413-C00121"
+      ],
+      "rights": "EXTERNAL_REFERENCE_ONLY_SOURCE_LICENSE_CONFLICT",
+      "witness_2020_cells": [
+        "CNA10K-R00413-C00121",
+        "CNA10K-R00445-C00159"
+      ]
+    },
+    "GEODATA_2020": {
+      "agreement_is_not_accuracy": true,
+      "block_bootstrap": {
+        "block_m": 1000,
+        "block_px": 33,
+        "ci_level": 0.95,
+        "f1_ci95": [
+          0.0,
+          0.04760665537201706
+        ],
+        "iou_ci95": [
+          0.0,
+          0.02438374196184277
+        ],
+        "n_blocks": 37,
+        "precision_ci95": [
+          0.0,
+          0.056191743580371004
+        ],
+        "recall_ci95": [
+          0.0,
+          0.059145210743359024
+        ],
+        "reps": 1000,
+        "resample_unit": "spatial_block"
+      },
+      "language": "cross-source agreement",
+      "mixed_agreement": {
+        "n_mixed_pixels": 0
+      },
+      "n_cells": 2,
+      "per_cell": [
+        {
+          "abs_area_error_ha": 101.88,
+          "auprc": 0.0004166666666666667,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.007652933620764673,
+          "cell_id": "CNA10K-R00334-C00163",
+          "ece": 0.009161875708599231,
+          "f1": 0.0,
+          "iou": 0.0,
+          "label_source": "GEODATA_2020",
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 40,
+          "n_unknown_pixels": 55296,
+          "n_valid_pixels": 96000,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 48,
+            "n_ref": 3,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 1
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 48,
+            "n_ref": 3,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 1
+          },
+          "positive_cell": true,
+          "precision": 0.0,
+          "pred_area_ha": 105.48,
+          "recall": 0.0,
+          "ref_area_ha": 3.6,
+          "rel_area_error": 28.3,
+          "signed_area_bias": 28.3,
+          "threshold": 0.17
+        },
+        {
+          "abs_area_error_ha": 76.23,
+          "auprc": 0.060069137865571255,
+          "bf1_30m": 0.07153046668025269,
+          "bf1_60m": 0.09644825474586649,
+          "brier": 0.01353170528351884,
+          "cell_id": "CNA10K-R00413-C00121",
+          "ece": 0.013463963600745992,
+          "f1": 0.025033527045149755,
+          "iou": 0.012675418741511997,
+          "label_source": "GEODATA_2020",
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 1542,
+          "n_unknown_pixels": 8,
+          "n_valid_pixels": 138327,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 12,
+            "n_ref": 8,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 12,
+            "n_ref": 8,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": true,
+          "precision": 0.04028776978417266,
+          "pred_area_ha": 62.55,
+          "recall": 0.018158236057068743,
+          "ref_area_ha": 138.78,
+          "rel_area_error": 0.5492866407263295,
+          "signed_area_bias": -0.5492866407263295,
+          "threshold": 0.17
+        }
+      ],
+      "pooled": {
+        "abs_area_error_ha": 25.65,
+        "auprc": 0.032075683342484264,
+        "bf1_30m": 0.036823331934536296,
+        "bf1_60m": 0.04879182156133828,
+        "brier": 0.011123267162327508,
+        "ece": 0.01159863785821711,
+        "f1": 0.016236590316033632,
+        "iou": 0.008184741303712365,
+        "n_positive_pixels": 1582,
+        "n_valid_pixels": 234327,
+        "patch_025": {
+          "n_matches": 0,
+          "n_pred": 60,
+          "n_ref": 11,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 1
+        },
+        "patch_050": {
+          "n_matches": 0,
+          "n_pred": 60,
+          "n_ref": 11,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 1
+        },
+        "precision": 0.014997321906802356,
+        "pred_area_ha": 168.03,
+        "recall": 0.017699115044247787,
+        "ref_area_ha": 142.38,
+        "rel_area_error": 0.18015170670037928,
+        "signed_area_bias": 0.18015170670037928,
+        "threshold": 0.17
+      },
+      "rights": "SILVER_TRAINING_ELIGIBLE_INTERNAL_RESEARCH_ONLY"
+    }
+  },
+  "agreement_is_not_accuracy": true,
+  "created_utc": "2026-10-12T07:33:18Z",
+  "model": "segformer_b0",
+  "no_new_training": true,
+  "no_tuning_on_these_labels": true,
+  "protocol_checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2",
+  "protocol_name": "SPARTINASHIFT_SILVER_V0_1_PROTOCOL",
+  "province_of": {
+    "CNA10K-R00334-C00163": "Zhejiang",
+    "CNA10K-R00413-C00121": "Shandong",
+    "CNA10K-R00445-C00159": "Liaoning"
+  },
+  "reuses": {
+    "arm": "s2",
+    "c2_checkpoint_sha256": "518363bd937e8fa6cc888ada6592255b66093f119138a36c5d45c43a575c2b19",
+    "c2_run_dir": "runs/silver_v0_1/C2/segformer_b0/seed-2026/C2_segformer_b0_seed-2026_20261012T071924Z",
+    "c2_summary": "benchmarks/spartinashift/silver_v0_1/results/C2/segformer_b0_s2_seed2026.json",
+    "frozen_val_threshold": 0.17,
+    "task": "C2"
+  },
+  "seed": 2026,
+  "splits_sha256": "07bc6d190c5242360e6285e989f2e40b04289d8fe20c47b8376df30a6cd6eb3e",
+  "status": "COMPLETED",
+  "support_matrix_sha256": "00496666a696b59bdf057ffe10509d2294e61c08b717665c3384bc99013f203a",
+  "task": "C4"
+}

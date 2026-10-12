@@ -1,0 +1,2056 @@
+{
+  "arm": "s2_s1",
+  "artifacts": {
+    "checkpoint": "best.pt",
+    "checkpoint_sha256": "6d6a1609a4992b3622f8545f8f6223904c1bf70a8984607816217056ab650c58",
+    "checkpoint_size_bytes": 49456093,
+    "run_dir": "runs/silver_v0_1/C5/deeplabv3plus/seed-17/C5_deeplabv3plus_seed-17_20261012T073843Z",
+    "test_outputs": "runs/silver_v0_1/C5/deeplabv3plus/seed-17/C5_deeplabv3plus_seed-17_20261012T073843Z/test_outputs.npz"
+  },
+  "cells": {
+    "test": [
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00413-C00121",
+      "CNA10K-R00445-C00159",
+      "CNA10K-R00434-C00149"
+    ],
+    "train": [
+      "CNA10K-R00346-C00154",
+      "CNA10K-R00311-C00156",
+      "CNA10K-R00411-C00151",
+      "CNA10K-R00260-C00128",
+      "CNA10K-R00391-C00132",
+      "CNA10K-R00264-C00132",
+      "CNA10K-R00349-C00154",
+      "CNA10K-R00347-C00151",
+      "CNA10K-R00274-C00147",
+      "CNA10K-R00388-C00129"
+    ],
+    "val": [
+      "CNA10K-R00429-C00140",
+      "CNA10K-R00226-C00080",
+      "CNA10K-R00236-C00083"
+    ]
+  },
+  "config": {
+    "base_lr": 0.001,
+    "batch_size": 16,
+    "encoder": "resnet18",
+    "encoder_weights": "ImageNet",
+    "family": "smp.DeepLabV3Plus",
+    "max_epochs": 40,
+    "weight_decay": 0.0001
+  },
+  "created_utc": "2026-10-12T07:41:57Z",
+  "environment": {
+    "cuda": "11.8",
+    "hostname": "GuanchaoTong",
+    "numpy": "1.26.4",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "python": "3.11.16",
+    "sklearn": "1.5.2",
+    "smp": "0.4.0",
+    "torch": "2.5.1+cu118",
+    "transformers": "4.46.3"
+  },
+  "evaluation": {
+    "test_2020": {
+      "block_bootstrap": {
+        "block_m": 1000,
+        "block_px": 33,
+        "ci_level": 0.95,
+        "f1_ci95": [
+          0.0,
+          0.0016726377790214405
+        ],
+        "iou_ci95": [
+          0.0,
+          0.0008370189057715841
+        ],
+        "n_blocks": 112,
+        "precision_ci95": [
+          0.0,
+          0.0010756429954227862
+        ],
+        "recall_ci95": [
+          0.0,
+          0.007611979520637941
+        ],
+        "reps": 1000,
+        "resample_unit": "spatial_block"
+      },
+      "mixed_agreement": {
+        "mae_prob_fraction": 0.4327169358730316,
+        "mean_fraction_mixed": 0.4359515905380249,
+        "mean_prob_on_mixed": 0.005655459128320217,
+        "n_mixed_pixels": 798,
+        "pearson_prob_fraction": 0.008573195575456903,
+        "spearman_prob_fraction": -0.06432729795371947
+      },
+      "n_cells": 4,
+      "n_positive_cells": 2,
+      "per_cell": [
+        {
+          "abs_area_error_ha": 47.52,
+          "auprc": 9.25815709770001e-05,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.001426330999971571,
+          "cell_id": "CNA10K-R00334-C00163",
+          "ece": 0.0017831017097444046,
+          "eo_valid_fraction": 0.6268374576988156,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 78,
+          "n_positive_pixels": 14,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 151218,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 99,
+            "n_ref": 5,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 5
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 99,
+            "n_ref": 5,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 5
+          },
+          "positive_cell": true,
+          "precision": 0.0,
+          "pred_area_ha": 48.78,
+          "province": "Zhejiang",
+          "recall": 0.0,
+          "ref_area_ha": 1.26,
+          "rel_area_error": 37.714285714285715,
+          "signed_area_bias": 37.714285714285715,
+          "threshold": 0.05,
+          "year": 2020
+        },
+        {
+          "abs_area_error_ha": 407.16,
+          "auprc": 0.005942600668444628,
+          "bf1_30m": 0.002304147465437788,
+          "bf1_60m": 0.005179669796050502,
+          "brier": 0.030804685588855227,
+          "cell_id": "CNA10K-R00413-C00121",
+          "ece": 0.03461344306330619,
+          "eo_valid_fraction": 0.9333285141142877,
+          "f1": 0.0005560189046427579,
+          "iou": 0.00027808676307007786,
+          "n_mixed_pixels": 823,
+          "n_positive_pixels": 1335,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 137512,
+          "patch_025": {
+            "n_matches": 1,
+            "n_pred": 46,
+            "n_ref": 33,
+            "patch_precision": 0.021739130434782608,
+            "patch_recall": 0.030303030303030304,
+            "small_patch_recall": 0.041666666666666664,
+            "small_ref_count": 24
+          },
+          "patch_050": {
+            "n_matches": 1,
+            "n_pred": 46,
+            "n_ref": 33,
+            "patch_precision": 0.021739130434782608,
+            "patch_recall": 0.030303030303030304,
+            "small_patch_recall": 0.041666666666666664,
+            "small_ref_count": 24
+          },
+          "positive_cell": true,
+          "precision": 0.0003413551800648575,
+          "pred_area_ha": 527.31,
+          "province": "Shandong",
+          "recall": 0.00149812734082397,
+          "ref_area_ha": 120.15,
+          "rel_area_error": 3.3887640449438203,
+          "signed_area_bias": 3.3887640449438203,
+          "threshold": 0.05,
+          "year": 2020
+        },
+        {
+          "abs_area_error_ha": 2.97,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 1.1504079024966125e-05,
+          "cell_id": "CNA10K-R00445-C00159",
+          "ece": 7.959043006129073e-05,
+          "eo_valid_fraction": 0.998966134269998,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 150890,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 2,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 2,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": 0.0,
+          "pred_area_ha": 2.97,
+          "province": "Liaoning",
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05,
+          "year": 2020
+        },
+        {
+          "abs_area_error_ha": 83.79,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.001546427545267516,
+          "cell_id": "CNA10K-R00434-C00149",
+          "ece": 0.0026275435310298967,
+          "eo_valid_fraction": 0.995712108158261,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 150890,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 2,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 2,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": 0.0,
+          "pred_area_ha": 83.79,
+          "province": "Liaoning",
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05,
+          "year": 2020
+        }
+      ],
+      "pooled": {
+        "abs_area_error_ha": 541.44,
+        "auprc": 0.0015308307267340024,
+        "bf1_30m": 0.0013850415512465376,
+        "bf1_60m": 0.0037356992762082658,
+        "brier": 0.007936829433265914,
+        "ece": 0.009107713332547963,
+        "f1": 0.0004590314436538903,
+        "iou": 0.0002295684113865932,
+        "n_positive_pixels": 1349,
+        "n_valid_pixels": 590510,
+        "patch_025": {
+          "n_matches": 1,
+          "n_pred": 149,
+          "n_ref": 38,
+          "patch_precision": 0.006711409395973154,
+          "patch_recall": 0.02631578947368421,
+          "small_patch_recall": 0.034482758620689655,
+          "small_ref_count": 29
+        },
+        "patch_050": {
+          "n_matches": 1,
+          "n_pred": 149,
+          "n_ref": 38,
+          "patch_precision": 0.006711409395973154,
+          "patch_recall": 0.02631578947368421,
+          "small_patch_recall": 0.034482758620689655,
+          "small_ref_count": 29
+        },
+        "precision": 0.00027155465037338765,
+        "pred_area_ha": 662.85,
+        "recall": 0.0014825796886582653,
+        "ref_area_ha": 121.41,
+        "rel_area_error": 4.459599703484062,
+        "signed_area_bias": 4.459599703484062,
+        "threshold": 0.05
+      },
+      "strata": {
+        "background_cells": {
+          "abs_area_error_ha": 86.76,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.0007789658121462408,
+          "ece": 0.0013535669560476677,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_positive_pixels": 0,
+          "n_valid_pixels": 301780,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 4,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 4,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "precision": 0.0,
+          "pred_area_ha": 86.76,
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05
+        },
+        "positive_cells": {
+          "abs_area_error_ha": 454.68,
+          "auprc": 0.0037274784627740754,
+          "bf1_30m": 0.0017730496453900709,
+          "bf1_60m": 0.004382360996987127,
+          "brier": 0.015418213714710492,
+          "ece": 0.01740582498321774,
+          "f1": 0.0005161290322580645,
+          "iou": 0.0002581311306143521,
+          "n_positive_pixels": 1349,
+          "n_valid_pixels": 288730,
+          "patch_025": {
+            "n_matches": 1,
+            "n_pred": 145,
+            "n_ref": 38,
+            "patch_precision": 0.006896551724137931,
+            "patch_recall": 0.02631578947368421,
+            "small_patch_recall": 0.034482758620689655,
+            "small_ref_count": 29
+          },
+          "patch_050": {
+            "n_matches": 1,
+            "n_pred": 145,
+            "n_ref": 38,
+            "patch_precision": 0.006896551724137931,
+            "patch_recall": 0.02631578947368421,
+            "small_patch_recall": 0.034482758620689655,
+            "small_ref_count": 29
+          },
+          "precision": 0.0003124511795032026,
+          "pred_area_ha": 576.09,
+          "recall": 0.0014825796886582653,
+          "ref_area_ha": 121.41,
+          "rel_area_error": 3.7449962935507783,
+          "signed_area_bias": 3.7449962935507783,
+          "threshold": 0.05
+        }
+      }
+    },
+    "test_2021": {
+      "block_bootstrap": {
+        "block_m": 1000,
+        "block_px": 33,
+        "ci_level": 0.95,
+        "f1_ci95": [
+          0.0,
+          0.0
+        ],
+        "iou_ci95": [
+          0.0,
+          0.0
+        ],
+        "n_blocks": 57,
+        "precision_ci95": [
+          0.0,
+          0.0
+        ],
+        "recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "reps": 1000,
+        "resample_unit": "spatial_block"
+      },
+      "mixed_agreement": {
+        "mae_prob_fraction": 0.3934018611907959,
+        "mean_fraction_mixed": 0.3935507535934448,
+        "mean_prob_on_mixed": 0.00014889746671542525,
+        "n_mixed_pixels": 621,
+        "pearson_prob_fraction": 0.06069977812711966,
+        "spearman_prob_fraction": 0.08643927802825024
+      },
+      "n_cells": 4,
+      "n_positive_cells": 2,
+      "per_cell": [
+        {
+          "abs_area_error_ha": 103.32,
+          "auprc": 9.998576823999156e-05,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.0006504908682461314,
+          "cell_id": "CNA10K-R00334-C00163",
+          "ece": 0.0023241884735588007,
+          "eo_valid_fraction": 0.994203415820643,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 23,
+          "n_positive_pixels": 8,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 151273,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 20,
+            "n_ref": 1,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 1
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 20,
+            "n_ref": 1,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 1
+          },
+          "positive_cell": true,
+          "precision": 0.0,
+          "pred_area_ha": 104.04,
+          "province": "Zhejiang",
+          "recall": 0.0,
+          "ref_area_ha": 0.72,
+          "rel_area_error": 143.5,
+          "signed_area_bias": 143.5,
+          "threshold": 0.05,
+          "year": 2021
+        },
+        {
+          "abs_area_error_ha": 0.72,
+          "auprc": 0.009697204708576646,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.013693488551604393,
+          "cell_id": "CNA10K-R00413-C00121",
+          "ece": 0.014463288459590195,
+          "eo_valid_fraction": 0.9877471355766798,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 601,
+          "n_positive_pixels": 1427,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 137734,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 23,
+            "n_ref": 13,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 6
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 23,
+            "n_ref": 13,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 6
+          },
+          "positive_cell": true,
+          "precision": 0.0,
+          "pred_area_ha": 127.71,
+          "province": "Shandong",
+          "recall": 0.0,
+          "ref_area_ha": 128.43,
+          "rel_area_error": 0.005606166783461808,
+          "signed_area_bias": -0.005606166783461808,
+          "threshold": 0.05,
+          "year": 2021
+        },
+        {
+          "abs_area_error_ha": 0.0,
+          "auprc": null,
+          "bf1_30m": null,
+          "bf1_60m": null,
+          "brier": 5.95999311112264e-09,
+          "cell_id": "CNA10K-R00445-C00159",
+          "ece": 7.307678970391862e-06,
+          "eo_valid_fraction": 0.9997945523228842,
+          "f1": null,
+          "iou": null,
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 150890,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 0,
+            "n_ref": 0,
+            "patch_precision": null,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 0,
+            "n_ref": 0,
+            "patch_precision": null,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": null,
+          "pred_area_ha": 0.0,
+          "province": "Liaoning",
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05,
+          "year": 2021
+        },
+        {
+          "abs_area_error_ha": 1.89,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 4.111399873945736e-06,
+          "cell_id": "CNA10K-R00434-C00149",
+          "ece": 0.0003207246553399934,
+          "eo_valid_fraction": 0.9993107561799986,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 150890,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 5,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 5,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": 0.0,
+          "pred_area_ha": 1.89,
+          "province": "Liaoning",
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05,
+          "year": 2021
+        }
+      ],
+      "pooled": {
+        "abs_area_error_ha": 104.49,
+        "auprc": 0.001981747690149363,
+        "bf1_30m": 0.0,
+        "bf1_60m": 0.0,
+        "brier": 0.003360063653582793,
+        "ece": 0.0033942746343375275,
+        "f1": 0.0,
+        "iou": 0.0,
+        "n_positive_pixels": 1435,
+        "n_valid_pixels": 590787,
+        "patch_025": {
+          "n_matches": 0,
+          "n_pred": 48,
+          "n_ref": 14,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 7
+        },
+        "patch_050": {
+          "n_matches": 0,
+          "n_pred": 48,
+          "n_ref": 14,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 7
+        },
+        "precision": 0.0,
+        "pred_area_ha": 233.64,
+        "recall": 0.0,
+        "ref_area_ha": 129.15,
+        "rel_area_error": 0.8090592334494774,
+        "signed_area_bias": 0.8090592334494774,
+        "threshold": 0.05
+      },
+      "strata": {
+        "background_cells": {
+          "abs_area_error_ha": 1.89,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 2.058679933528429e-06,
+          "ece": 0.00016401617054248628,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_positive_pixels": 0,
+          "n_valid_pixels": 301780,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 5,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 5,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "precision": 0.0,
+          "pred_area_ha": 1.89,
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05
+        },
+        "positive_cells": {
+          "abs_area_error_ha": 102.6,
+          "auprc": 0.004038174142904826,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 0.006866479556823456,
+          "ece": 0.007096985988869127,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_positive_pixels": 1435,
+          "n_valid_pixels": 289007,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 43,
+            "n_ref": 14,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 7
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 43,
+            "n_ref": 14,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 7
+          },
+          "precision": 0.0,
+          "pred_area_ha": 231.75,
+          "recall": 0.0,
+          "ref_area_ha": 129.15,
+          "rel_area_error": 0.794425087108014,
+          "signed_area_bias": 0.794425087108014,
+          "threshold": 0.05
+        }
+      }
+    },
+    "val_2020": {
+      "n_cells": 3,
+      "n_positive_cells": 1,
+      "per_cell": [
+        {
+          "abs_area_error_ha": 1.62,
+          "auprc": null,
+          "bf1_30m": 0.0,
+          "bf1_60m": 0.0,
+          "brier": 9.264893490425275e-07,
+          "cell_id": "CNA10K-R00429-C00140",
+          "ece": 1.853697234284654e-05,
+          "eo_valid_fraction": 0.9994791254582377,
+          "f1": 0.0,
+          "iou": 0.0,
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 151668,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 1,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 1,
+            "n_ref": 0,
+            "patch_precision": 0.0,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": 0.0,
+          "pred_area_ha": 1.62,
+          "province": "Liaoning",
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05,
+          "year": 2020
+        },
+        {
+          "abs_area_error_ha": 0.0,
+          "auprc": null,
+          "bf1_30m": null,
+          "bf1_60m": null,
+          "brier": 4.786976613333667e-08,
+          "cell_id": "CNA10K-R00226-C00080",
+          "ece": 1.548803993500769e-05,
+          "eo_valid_fraction": 0.9997632575757576,
+          "f1": null,
+          "iou": null,
+          "n_mixed_pixels": 0,
+          "n_positive_pixels": 0,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 126720,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 0,
+            "n_ref": 0,
+            "patch_precision": null,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 0,
+            "n_ref": 0,
+            "patch_precision": null,
+            "patch_recall": null,
+            "small_patch_recall": null,
+            "small_ref_count": 0
+          },
+          "positive_cell": false,
+          "precision": null,
+          "pred_area_ha": 0.0,
+          "province": "Guangdong",
+          "recall": null,
+          "ref_area_ha": 0.0,
+          "rel_area_error": null,
+          "signed_area_bias": null,
+          "threshold": 0.05,
+          "year": 2020
+        },
+        {
+          "abs_area_error_ha": 2.97,
+          "auprc": 0.021863307217624344,
+          "bf1_30m": 0.06191950464396286,
+          "bf1_60m": 0.10901318133238332,
+          "brier": 0.00120001391059682,
+          "cell_id": "CNA10K-R00236-C00083",
+          "ece": 0.001181725700392511,
+          "eo_valid_fraction": 0.8618920987634837,
+          "f1": 0.03773584905660377,
+          "iou": 0.019230769230769232,
+          "n_mixed_pixels": 255,
+          "n_positive_pixels": 149,
+          "n_unknown_pixels": 0,
+          "n_valid_pixels": 126472,
+          "patch_025": {
+            "n_matches": 0,
+            "n_pred": 15,
+            "n_ref": 9,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 4
+          },
+          "patch_050": {
+            "n_matches": 0,
+            "n_pred": 15,
+            "n_ref": 9,
+            "patch_precision": 0.0,
+            "patch_recall": 0.0,
+            "small_patch_recall": 0.0,
+            "small_ref_count": 4
+          },
+          "positive_cell": true,
+          "precision": 0.04310344827586207,
+          "pred_area_ha": 10.44,
+          "province": "Guangdong",
+          "recall": 0.03355704697986577,
+          "ref_area_ha": 13.41,
+          "rel_area_error": 0.2214765100671141,
+          "signed_area_bias": -0.2214765100671141,
+          "threshold": 0.05,
+          "year": 2020
+        }
+      ],
+      "pooled": {
+        "abs_area_error_ha": 1.35,
+        "auprc": 0.017073708205182756,
+        "bf1_30m": 0.055710306406685235,
+        "bf1_60m": 0.09829746225505945,
+        "brier": 0.0003752278420796225,
+        "ece": 0.00036318042962827605,
+        "f1": 0.0353356890459364,
+        "iou": 0.017985611510791366,
+        "n_positive_pixels": 149,
+        "n_valid_pixels": 404860,
+        "patch_025": {
+          "n_matches": 0,
+          "n_pred": 16,
+          "n_ref": 9,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 4
+        },
+        "patch_050": {
+          "n_matches": 0,
+          "n_pred": 16,
+          "n_ref": 9,
+          "patch_precision": 0.0,
+          "patch_recall": 0.0,
+          "small_patch_recall": 0.0,
+          "small_ref_count": 4
+        },
+        "precision": 0.03731343283582089,
+        "pred_area_ha": 12.06,
+        "recall": 0.03355704697986577,
+        "ref_area_ha": 13.41,
+        "rel_area_error": 0.10067114093959731,
+        "signed_area_bias": -0.10067114093959731,
+        "threshold": 0.05
+      }
+    }
+  },
+  "git_commit": "66549b01e36dd4e4d6247a5d6d3020225c6f24e9",
+  "git_dirty": true,
+  "gpu": {
+    "driver": "580.159.03",
+    "id": 0,
+    "model": "NVIDIA GeForce RTX 3090",
+    "vram_mib": 24576
+  },
+  "model": "deeplabv3plus",
+  "normalization": {
+    "mean": [
+      0.0682249665260315,
+      0.09080828726291656,
+      0.082936592400074,
+      0.1558256298303604,
+      -12.604909896850586,
+      -21.796436309814453
+    ],
+    "n_valid_pixels": 1341158,
+    "p_high": [
+      0.21222221851348877,
+      0.2418222278356552,
+      0.2686888873577118,
+      0.46764445304870605,
+      3.147407054901123,
+      -6.860838890075684
+    ],
+    "p_low": [
+      0.008122222498059273,
+      0.02674499899148941,
+      0.011966667138040066,
+      0.0023666666820645332,
+      -23.873855590820312,
+      -32.58223342895508
+    ],
+    "source": "TRAIN cells only, train-year EO, valid pixels",
+    "std": [
+      0.03261462226510048,
+      0.035214174538850784,
+      0.0469929464161396,
+      0.13062481582164764,
+      5.060638427734375,
+      6.673348426818848
+    ],
+    "train_cells_used": [
+      "CNA10K-R00346-C00154",
+      "CNA10K-R00311-C00156",
+      "CNA10K-R00411-C00151",
+      "CNA10K-R00260-C00128",
+      "CNA10K-R00391-C00132",
+      "CNA10K-R00264-C00132",
+      "CNA10K-R00349-C00154",
+      "CNA10K-R00347-C00151",
+      "CNA10K-R00274-C00147",
+      "CNA10K-R00388-C00129"
+    ]
+  },
+  "pos_weight": 20.0,
+  "pos_weight_cap": 20.0,
+  "pretrained": {
+    "channel_inflation": "mean RGB kernel -> replicate -> *3/C",
+    "license": "BSD-3-Clause (weights); ImageNet terms for data",
+    "name": "torchvision resnet18 ImageNet classification weights",
+    "pretrained": true,
+    "url": "https://download.pytorch.org/models/resnet18-5c106cde.pth",
+    "version": "torchvision 0.20.1 / ResNet18_Weights.IMAGENET1K_V1",
+    "weights_sha256": null
+  },
+  "protocol_checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2",
+  "protocol_name": "SPARTINASHIFT_SILVER_V0_1_PROTOCOL",
+  "seed": 17,
+  "smoke": false,
+  "split_id": "SPLIT-S2",
+  "splits_sha256": "07bc6d190c5242360e6285e989f2e40b04289d8fe20c47b8376df30a6cd6eb3e",
+  "status": "COMPLETED",
+  "support_matrix_sha256": "00496666a696b59bdf057ffe10509d2294e61c08b717665c3384bc99013f203a",
+  "task": "C5",
+  "training": {
+    "best_epoch": 29,
+    "early_stop_patience": 10,
+    "epochs_run": 40,
+    "history": [
+      {
+        "epoch": 0,
+        "lr": 0.0003333333333333333,
+        "train_loss": 0.6863555859774351,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.00020493042444114464,
+        "val_threshold": 0.05
+      },
+      {
+        "epoch": 1,
+        "lr": 0.0006666666666666666,
+        "train_loss": 0.3860173527151346,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 2,
+        "lr": 0.001,
+        "train_loss": 0.34234389252960684,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 3,
+        "lr": 0.001,
+        "train_loss": 0.3016687068156898,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 4,
+        "lr": 0.0009981987442712632,
+        "train_loss": 0.2683094152715057,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 5,
+        "lr": 0.0009928079551738544,
+        "train_loss": 0.25236812718212603,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0019428254232583958,
+        "val_threshold": 0.06
+      },
+      {
+        "epoch": 6,
+        "lr": 0.0009838664734667494,
+        "train_loss": 0.2427023692522198,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 7,
+        "lr": 0.0009714387227305421,
+        "train_loss": 0.21082509893458337,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 8,
+        "lr": 0.0009556142451940679,
+        "train_loss": 0.21039921722840518,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 9,
+        "lr": 0.0009365070565805941,
+        "train_loss": 0.17066032052971422,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 10,
+        "lr": 0.0009142548246219211,
+        "train_loss": 0.16571167367510498,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 11,
+        "lr": 0.0008890178771592198,
+        "train_loss": 0.16039702612906695,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0020491803278688526,
+        "val_threshold": 0.06
+      },
+      {
+        "epoch": 12,
+        "lr": 0.0008609780469772622,
+        "train_loss": 0.16071467127185315,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 13,
+        "lr": 0.0008303373616950407,
+        "train_loss": 0.11798042480368168,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 14,
+        "lr": 0.0007973165881521434,
+        "train_loss": 0.17381477921735494,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 15,
+        "lr": 0.0007621536417786159,
+        "train_loss": 0.15550444615073503,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0015564202334630351,
+        "val_threshold": 0.05
+      },
+      {
+        "epoch": 16,
+        "lr": 0.0007251018724088366,
+        "train_loss": 0.1368754367576912,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0017985611510791368,
+        "val_threshold": 0.07
+      },
+      {
+        "epoch": 17,
+        "lr": 0.0006864282388901544,
+        "train_loss": 0.14754992033122108,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0014919806042521448,
+        "val_threshold": 0.07
+      },
+      {
+        "epoch": 18,
+        "lr": 0.0006464113856382752,
+        "train_loss": 0.13834285500925034,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 19,
+        "lr": 0.0006053396349978632,
+        "train_loss": 0.12089590814430266,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.002386634844868735,
+        "val_threshold": 0.06
+      },
+      {
+        "epoch": 20,
+        "lr": 0.0005635089098734394,
+        "train_loss": 0.14095487656304612,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 21,
+        "lr": 0.0005212206015980742,
+        "train_loss": 0.13192878917325288,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.016260162601626018,
+        "val_threshold": 0.06
+      },
+      {
+        "epoch": 22,
+        "lr": 0.00047877939840192596,
+        "train_loss": 0.12317704397719353,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.011583011583011582,
+        "val_threshold": 0.1
+      },
+      {
+        "epoch": 23,
+        "lr": 0.0004364910901265606,
+        "train_loss": 0.1132439278298989,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 24,
+        "lr": 0.000394660365002137,
+        "train_loss": 0.10520679623587056,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.012145748987854251,
+        "val_threshold": 0.07
+      },
+      {
+        "epoch": 25,
+        "lr": 0.00035358861436172485,
+        "train_loss": 0.12171686197398231,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.015444015444015444,
+        "val_threshold": 0.06
+      },
+      {
+        "epoch": 26,
+        "lr": 0.00031357176110984573,
+        "train_loss": 0.10635088654235006,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.0,
+        "val_threshold": 0.5
+      },
+      {
+        "epoch": 27,
+        "lr": 0.00027489812759116326,
+        "train_loss": 0.11015321504091843,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.006185567010309278,
+        "val_threshold": 0.05
+      },
+      {
+        "epoch": 28,
+        "lr": 0.00023784635822138422,
+        "train_loss": 0.10903416705550625,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.008130081300813009,
+        "val_threshold": 0.07
+      },
+      {
+        "epoch": 29,
+        "lr": 0.0002026834118478567,
+        "train_loss": 0.09906614001374692,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.017985611510791366,
+        "val_threshold": 0.05
+      },
+      {
+        "epoch": 30,
+        "lr": 0.00016966263830495937,
+        "train_loss": 0.09004837294924073,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.00796812749003984,
+        "val_threshold": 0.12
+      },
+      {
+        "epoch": 31,
+        "lr": 0.0001390219530227378,
+        "train_loss": 0.09627644266001881,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.011029411764705883,
+        "val_threshold": 0.1
+      },
+      {
+        "epoch": 32,
+        "lr": 0.00011098212284078036,
+        "train_loss": 0.11381832350743934,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.012605042016806723,
+        "val_threshold": 0.16
+      },
+      {
+        "epoch": 33,
+        "lr": 8.574517537807896e-05,
+        "train_loss": 0.1230918173561804,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.01020408163265306,
+        "val_threshold": 0.19
+      },
+      {
+        "epoch": 34,
+        "lr": 6.349294341940592e-05,
+        "train_loss": 0.09600936755305156,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.014492753623188406,
+        "val_threshold": 0.14
+      },
+      {
+        "epoch": 35,
+        "lr": 4.43857548059321e-05,
+        "train_loss": 0.09840398632222787,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.015706806282722512,
+        "val_threshold": 0.17
+      },
+      {
+        "epoch": 36,
+        "lr": 2.85612772694579e-05,
+        "train_loss": 0.10161216349806637,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.013043478260869565,
+        "val_threshold": 0.15
+      },
+      {
+        "epoch": 37,
+        "lr": 1.6133526533250563e-05,
+        "train_loss": 0.1086525599937886,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.013824884792626729,
+        "val_threshold": 0.24
+      },
+      {
+        "epoch": 38,
+        "lr": 7.1920448261457715e-06,
+        "train_loss": 0.12741860800888388,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.015015015015015015,
+        "val_threshold": 0.05
+      },
+      {
+        "epoch": 39,
+        "lr": 1.8012557287367392e-06,
+        "train_loss": 0.09754687024396844,
+        "val_audit": {
+          "n_val_positive_pixels": 149,
+          "per_cell": [
+            {
+              "cell_id": "CNA10K-R00429-C00140",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00226-C00080",
+              "n_positive_pixels": 0,
+              "positive_cell": false
+            },
+            {
+              "cell_id": "CNA10K-R00236-C00083",
+              "n_positive_pixels": 149,
+              "positive_cell": true
+            }
+          ]
+        },
+        "val_iou_2020": 0.012244897959183673,
+        "val_threshold": 0.15
+      }
+    ],
+    "n_params": null,
+    "peak_vram_mib": 356.88330078125,
+    "train_wall_s": 191.83420538902283,
+    "val_iou_2020": 0.017985611510791366,
+    "val_threshold": 0.05
+  }
+}

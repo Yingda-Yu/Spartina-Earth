@@ -21,6 +21,7 @@ from spartina.benchmark.silver.runner import (  # noqa: E402
     ALL_MODELS,
     NEURAL_MODELS,
     build_c2_spec,
+    build_c5_spec,
     load_frozen_inputs,
     run_neural,
     run_rf,
@@ -29,7 +30,7 @@ from spartina.benchmark.silver.runner import (  # noqa: E402
 
 def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--task", choices=["C2"], default="C2")
+    ap.add_argument("--task", choices=["C2", "C5"], default="C2")
     ap.add_argument("--arm", choices=["s2", "s2_s1"], default="s2")
     ap.add_argument("--model", required=True,
                     choices=[*ALL_MODELS, "all"])
@@ -47,7 +48,10 @@ def main() -> int:
     protocol, splits, matrix = load_frozen_inputs()
     print(f"[runner] protocol checksum verified: "
           f"{protocol['checksum'][:16]}...")
-    task = build_c2_spec(matrix, splits, arm=args.arm)
+    if args.task == "C5" and args.arm != "s2_s1":
+        raise SystemExit("C5 optical+SAR arm requires --arm s2_s1")
+    task = (build_c5_spec(protocol, matrix, splits) if args.task == "C5"
+            else build_c2_spec(matrix, splits, arm=args.arm))
     print(f"[runner] {args.task}/{args.arm}: "
           f"{sum(c.role == 'train' for c in task.cells.values())} train / "
           f"{sum(c.role == 'val' for c in task.cells.values())} val / "

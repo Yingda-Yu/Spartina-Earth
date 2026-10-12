@@ -1,0 +1,48 @@
+{
+  "bands": [
+    "SR_B1",
+    "SR_B2",
+    "SR_B3",
+    "SR_B4",
+    "SR_B5",
+    "SR_B6",
+    "SR_B7"
+  ],
+  "emitted_utc": "2026-10-12T07:30:04Z",
+  "eo_sensor": "landsat8",
+  "evidence": {
+    "binary_split_minimum": {
+      "n_positive_test": 2,
+      "n_positive_train": 2,
+      "n_positive_val": 1,
+      "required_per_year": 5
+    },
+    "eo_eligible_cells_both_years": 14,
+    "geodata_pure_positive_cells_2015": [
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00391-C00132",
+      "CNA10K-R00413-C00121"
+    ],
+    "geodata_pure_positive_cells_2020": [
+      "CNA10K-R00264-C00132",
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00413-C00121"
+    ],
+    "positive_cells_both_years": [
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00413-C00121"
+    ],
+    "reason": "GEODATA is a sparse product within these W10 cells: pure-positive pixels (fraction >= 0.90) occur in 3 cells in 2015 and 3 cells in 2020 (2 in both); no spatial train/val/test binary split meets the frozen minimums. No C1 training is run; the EO/label support ledger is retained for evidence.",
+    "verdict": "INSUFFICIENT_SUPPORT"
+  },
+  "git_commit": "66549b01e36dd4e4d6247a5d6d3020225c6f24e9",
+  "metrics": "NOT_RUN_INSUFFICIENT_SUPPORT",
+  "protocol_checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2",
+  "protocol_name": "SPARTINASHIFT_SILVER_V0_1_PROTOCOL",
+  "runs_executed": 0,
+  "runs_planned": 0,
+  "splits_sha256": "07bc6d190c5242360e6285e989f2e40b04289d8fe20c47b8376df30a6cd6eb3e",
+  "support_matrix_sha256": "00496666a696b59bdf057ffe10509d2294e61c08b717665c3384bc99013f203a",
+  "task": "C1",
+  "verdict": "INSUFFICIENT_SUPPORT"
+}

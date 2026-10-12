@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import json
-
 import numpy as np
 import pytest
 
@@ -11,6 +9,8 @@ from spartina.benchmark.silver import runner as R
 from spartina.benchmark.silver.protocol import (
     BLOCK_BOOTSTRAP_M,
     SEEDS,
+)
+from spartina.benchmark.silver.protocol import (
     protocol_checksum as frozen_checksum,
 )
 from spartina.evaluation.metrics import evaluate_view
@@ -145,3 +145,20 @@ def test_seeds_are_frozen():
         R.run_rf(None, seed=1)  # type: ignore[arg-type]
     with pytest.raises(ValueError):
         R.run_neural(None, "unet", seed=1, gpu_index=0)  # type: ignore[arg-type]
+
+
+def test_c5_optical_sar_spec(frozen):
+    protocol, splits, matrix, _ = frozen
+    task = R.build_c5_spec(protocol, matrix, splits)
+    assert task.task == "C5" and task.arm == "s2_s1"
+    assert task.in_channels == 6
+    # 17 eligible cells; R00279 excluded (no S1-A); roles inherited
+    assert len(task.cells) == 17
+    counts = {r: len(task.cells_of(r)) for r in ("train", "val", "test")}
+    assert counts == {"train": 10, "val": 3, "test": 4}
+    excluded = "CNA10K-R00279-C00143"
+    assert excluded not in task.cells
+    for spec in task.cells.values():
+        assert set(spec.extra_product_by_year) == {2020, 2021}
+        assert all(pid.split("_")[2] == "S1" and pid.endswith("_A")
+                   for pid in spec.extra_product_by_year.values())

@@ -163,13 +163,17 @@ def _resolve_product(
     return rows[0]["product_id"]
 
 
-def build_c2_spec(matrix: list[dict[str, str]], splits: dict[str, Any],
-                  arm: str = "s2") -> TaskSpec:
+def _build_s2_task_spec(
+    task_name: str, matrix: list[dict[str, str]], splits: dict[str, Any],
+    arm: str, allowed_cells: set[str] | None = None,
+) -> TaskSpec:
     years = (2020, 2021)
     cells: dict[str, CellSpec] = {}
     positive = set(splits["positive_cells"])
     for role in ("train", "val", "test"):
         for cell_id in splits[role]:
+            if allowed_cells is not None and cell_id not in allowed_cells:
+                continue
             products: dict[int, str] = {}
             extra: dict[int, str] = {}
             labels: dict[int, str] = {}
@@ -190,9 +194,30 @@ def build_c2_spec(matrix: list[dict[str, str]], splits: dict[str, Any],
                 label_by_year=labels)
     n_channels = 6 if arm == "s2_s1" else 4
     return TaskSpec(
-        task="C2", arm=arm, split_id="SPLIT-S2", label_family="CMSA",
+        task=task_name, arm=arm, split_id="SPLIT-S2", label_family="CMSA",
         train_year=2020, eval_years=years, in_channels=n_channels,
         cells=cells)
+
+
+def build_c2_spec(matrix: list[dict[str, str]], splits: dict[str, Any],
+                  arm: str = "s2") -> TaskSpec:
+    return _build_s2_task_spec("C2", matrix, splits, arm)
+
+
+def build_c5_spec(
+    protocol: dict[str, Any], matrix: list[dict[str, str]],
+    splits: dict[str, Any],
+) -> TaskSpec:
+    eligible = set(protocol["tasks"]["C5_modality_ablation"]
+                   ["optical_sar_arm"]["eligible_cells"])
+    task = _build_s2_task_spec("C5", matrix, splits, "s2_s1",
+                               allowed_cells=eligible)
+    missing = eligible - set(task.cells)
+    if missing:
+        raise ValueError(f"C5 eligible cells missing from spec: {sorted(missing)}")
+    if len(task.cells) != len(eligible):
+        raise ValueError("C5 cell count mismatch")
+    return task
 
 
 # ---------------------------------------------------------------------------
@@ -271,8 +296,17 @@ class CellPatchDataset(Dataset[tuple[torch.Tensor, torch.Tensor,
             arrays = open_cell(spec, task.train_year)
             masks = cell_masks(arrays, task.label_family, task.train_year)
             x = apply_norm(arrays.features, arrays.valid, norm)
+            # Frozen C5 identity: the optical+SAR arm samples the SAME
+            # patch geometry as the optical arm, so origins use the
+            # Sentinel-2-only validity mask (labels are identical).
+            sampling_valid = arrays.valid
+            if task.arm == "s2_s1":
+                optical = load_cell_arrays(
+                    spec.cell_id, spec.product_by_year[task.train_year],
+                    spec.label_by_year[task.train_year])
+                sampling_valid = optical.valid
             origins = sample_patch_origins(
-                arrays.valid, masks["y"], n_patches=n_patches,
+                sampling_valid, masks["y"], n_patches=n_patches,
                 patch=self.patch, positive_fraction=POSITIVE_PATCH_FRACTION,
                 seed=_cell_seed(seed, spec.cell_id))
             self.items.append((x, masks["y"], masks["binary_valid"], origins))
@@ -360,9 +394,17 @@ def rf_feature_volume(
     norm: NormStats, band_names: tuple[str, ...],
 ) -> np.ndarray[Any, Any]:
     normed = apply_norm(raw, valid, norm)
+    extras: list[np.ndarray[Any, Any]] = []
     if "B8" in band_names:
-        ndvi = ndvi_volume(raw, band_names)[-1]
-        normed = np.concatenate([normed, ndvi[None]], axis=0)
+        extras.append(ndvi_volume(raw, band_names)[-1])
+    if "VV" in band_names and "VH" in band_names:
+        # S1 GRD is stored in dB; the VV-VH log-ratio is their dB
+        # difference (frozen rf_pixel feature spec).
+        extras.append((raw[band_names.index("VV")]
+                       - raw[band_names.index("VH")]).astype(np.float32))
+    if extras:
+        normed = np.concatenate(
+            [normed, *[e[None] for e in extras]], axis=0)
     return normed.astype(np.float32)
 
 
