@@ -1,0 +1,179 @@
+{
+  "by_province": {
+    "Fujian": 3,
+    "Guangdong": 3,
+    "Guangxi": 3,
+    "Hebei": 3,
+    "Jiangsu": 3,
+    "Shandong": 3,
+    "Tianjin": 3,
+    "Zhejiang": 3
+  },
+  "checksum": "fab2137fc527e474b49f8aac718dcb5fb0cd59bfd5abd8a1c68ade1ef214a7ff",
+  "deficits_max_attainable": [],
+  "document_checksum": "d93e8820c012b4466da42a880be9114dca59c2028014b303a9f23d7ebcb7d3e8",
+  "final_roles_status": "PRE_REGISTERED_ROLES_NOT_ASSIGNED",
+  "generated_utc": "2026-10-12T13:36:15.824887+00:00",
+  "git_commit": "bd8b81fb7200f81a7e15c290d3b970777561dd74",
+  "hard_exclusion_rule": "no Stage-1 test/witness cell and no other DEVELOPMENT cell is eligible as a primary v0.2 test cell; reserve members are sealed from training, tuning and inspection until QA completes and the future v0.2 protocol freezes roles",
+  "issue": 21,
+  "members": [
+    {
+      "cell_id": "CNA10K-R00222-C00043",
+      "province": "Guangxi",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00223-C00049",
+      "province": "Guangxi",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00224-C00049",
+      "province": "Guangxi",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00231-C00083",
+      "province": "Guangdong",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00233-C00083",
+      "province": "Guangdong",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00233-C00090",
+      "province": "Guangdong",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00292-C00144",
+      "province": "Fujian",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00294-C00150",
+      "province": "Fujian",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00297-C00151",
+      "province": "Fujian",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00311-C00155",
+      "province": "Zhejiang",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00331-C00162",
+      "province": "Zhejiang",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00332-C00162",
+      "province": "Zhejiang",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00355-C00151",
+      "province": "Jiangsu",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00363-C00142",
+      "province": "Jiangsu",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00377-C00133",
+      "province": "Jiangsu",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00403-C00139",
+      "province": "Shandong",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00407-C00121",
+      "province": "Shandong",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00409-C00153",
+      "province": "Shandong",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00420-C00107",
+      "province": "Hebei",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00421-C00106",
+      "province": "Tianjin",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00426-C00109",
+      "province": "Tianjin",
+      "stratum": "background"
+    },
+    {
+      "cell_id": "CNA10K-R00428-C00109",
+      "province": "Tianjin",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00428-C00110",
+      "province": "Hebei",
+      "stratum": "positive"
+    },
+    {
+      "cell_id": "CNA10K-R00430-C00118",
+      "province": "Hebei",
+      "stratum": "background"
+    }
+  ],
+  "model_output_influence": false,
+  "n_background": 8,
+  "n_cells": 24,
+  "n_positive": 16,
+  "n_provinces": 8,
+  "panel_csv_sha256": "6d527dc8822298283264f2365944b00e18c4d21bebdc6f846865b8b28304c3fb",
+  "panel_name": "SPARTINASHIFT_V0_2_CELL_PANEL",
+  "panel_selection_checksum": "f52a1bf91f70e2cf8f1e7d16affe601b34298b58830c19ff1590a54b54d5c149",
+  "phase": "C",
+  "requirements_checksum": "661e75f25b6691e0316e7656856012e8e781bd878da6030e5de9a3105a5896a5",
+  "reserve_csv_sha256": "ff1d50acad08b53202e1b72459722054a236aadca5486f6598ddd9c9687109bb",
+  "reserve_name": "V0_2_FRESH_NEW_CELL_TEST_RESERVE",
+  "sealed_until": "acquisition QA completes and the future SpartinaShift v0.2 protocol freezes final train/val/test roles",
+  "selection_rule": {
+    "background_per_province": 1,
+    "positive_per_province": 2,
+    "province_order": "(panel positive count desc, province asc)",
+    "provinces_used": [
+      "Fujian",
+      "Jiangsu",
+      "Shandong",
+      "Zhejiang",
+      "Guangdong",
+      "Guangxi",
+      "Hebei",
+      "Tianjin"
+    ],
+    "rank": "slot-salted SHA-256 hash rank, then cell_id"
+  },
+  "stage1_inspected_test_witness": [
+    "CNA10K-R00334-C00163",
+    "CNA10K-R00413-C00121",
+    "CNA10K-R00434-C00149",
+    "CNA10K-R00445-C00159"
+  ],
+  "stage1_panel_status": "DEVELOPMENT_INSTRUMENTATION_ONLY",
+  "stage1_test_witness_eligible": false
+}
