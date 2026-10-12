@@ -1,0 +1,97 @@
+{
+  "protocol_name": "SPARTINASHIFT_SILVER_V0_1_PROTOCOL",
+  "protocol_version": "v0.1-frozen",
+  "status": "FROZEN_PRE_TRAINING",
+  "frozen_utc": "2026-10-12T06:10:32.699393+00:00",
+  "git_commit": "5b2ec20ffc0748f7cff23ba2474689c0549e40a7",
+  "protocol_checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2",
+  "splits": {
+    "SPLIT-S2": {
+      "split_id": "SPLIT-S2",
+      "train": [
+        "CNA10K-R00346-C00154",
+        "CNA10K-R00311-C00156",
+        "CNA10K-R00411-C00151",
+        "CNA10K-R00260-C00128",
+        "CNA10K-R00279-C00143",
+        "CNA10K-R00391-C00132",
+        "CNA10K-R00264-C00132",
+        "CNA10K-R00349-C00154",
+        "CNA10K-R00347-C00151",
+        "CNA10K-R00274-C00147",
+        "CNA10K-R00388-C00129"
+      ],
+      "val": [
+        "CNA10K-R00429-C00140",
+        "CNA10K-R00226-C00080",
+        "CNA10K-R00236-C00083"
+      ],
+      "test": [
+        "CNA10K-R00334-C00163",
+        "CNA10K-R00413-C00121",
+        "CNA10K-R00445-C00159",
+        "CNA10K-R00434-C00149"
+      ],
+      "positive_cells": [
+        "CNA10K-R00236-C00083",
+        "CNA10K-R00311-C00156",
+        "CNA10K-R00334-C00163",
+        "CNA10K-R00349-C00154",
+        "CNA10K-R00413-C00121"
+      ],
+      "positive_by_role": {
+        "train": [
+          "CNA10K-R00311-C00156",
+          "CNA10K-R00349-C00154"
+        ],
+        "val": [
+          "CNA10K-R00236-C00083"
+        ],
+        "test": [
+          "CNA10K-R00334-C00163",
+          "CNA10K-R00413-C00121"
+        ]
+      },
+      "witness_2020": [
+        "CNA10K-R00413-C00121",
+        "CNA10K-R00445-C00159"
+      ],
+      "province_of": {
+        "CNA10K-R00334-C00163": "Zhejiang",
+        "CNA10K-R00413-C00121": "Shandong",
+        "CNA10K-R00445-C00159": "Liaoning",
+        "CNA10K-R00434-C00149": "Liaoning",
+        "CNA10K-R00429-C00140": "Liaoning",
+        "CNA10K-R00226-C00080": "Guangdong",
+        "CNA10K-R00236-C00083": "Guangdong",
+        "CNA10K-R00346-C00154": "Shanghai",
+        "CNA10K-R00311-C00156": "Zhejiang",
+        "CNA10K-R00411-C00151": "Shandong",
+        "CNA10K-R00260-C00128": "Fujian",
+        "CNA10K-R00279-C00143": "Fujian",
+        "CNA10K-R00391-C00132": "Shandong",
+        "CNA10K-R00264-C00132": "Fujian",
+        "CNA10K-R00349-C00154": "Jiangsu",
+        "CNA10K-R00347-C00151": "Jiangsu",
+        "CNA10K-R00274-C00147": "Fujian",
+        "CNA10K-R00388-C00129": "Shandong"
+      },
+      "buffer_check": {
+        "buffer_m": 250.0,
+        "n_cross_role_pairs_closer_than_buffer": 0,
+        "min_cross_role_gap_m": 80000.0,
+        "overlaps": [],
+        "crs_proj4": "+proj=aea +lat_1=25 +lat_2=47 +lat_0=0 +lon_0=105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+      },
+      "rules": {
+        "n_train": 11,
+        "n_val": 3,
+        "n_test": 4,
+        "n_witness": 2,
+        "n_positive_train": 2,
+        "n_positive_val": 1,
+        "n_positive_test": 2
+      }
+    }
+  }
+}

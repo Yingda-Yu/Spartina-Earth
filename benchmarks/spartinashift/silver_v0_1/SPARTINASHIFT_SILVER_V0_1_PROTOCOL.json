@@ -1,0 +1,473 @@
+{
+  "protocol_name": "SPARTINASHIFT_SILVER_V0_1_PROTOCOL",
+  "protocol_version": "v0.1-frozen",
+  "issue": 20,
+  "stage": "STAGE_1",
+  "status": "FROZEN_PRE_TRAINING",
+  "frozen_utc": "2026-10-12T06:10:32.699393+00:00",
+  "git_commit": "5b2ec20ffc0748f7cff23ba2474689c0549e40a7",
+  "gold_label_cells": 0,
+  "phase_a_inputs": {
+    "support_matrix_csv": "benchmarks/spartinashift/silver_v0_1/support_matrix_v0_1.csv",
+    "support_matrix_sha256": "00496666a696b59bdf057ffe10509d2294e61c08b717665c3384bc99013f203a",
+    "support_matrix_summary": "benchmarks/spartinashift/silver_v0_1/support_matrix_v0_1_summary.json"
+  },
+  "rights_policy": {
+    "GEODATA": "SILVER_TRAINING_ELIGIBLE_INTERNAL_RESEARCH_ONLY",
+    "CMSA": "SILVER_TRAINING_ELIGIBLE_NONCOMMERCIAL",
+    "CM-SSM": "EXTERNAL_REFERENCE_ONLY_SOURCE_LICENSE_CONFLICT",
+    "gold": 0,
+    "agreement_is_not_accuracy": true,
+    "cmssm_never_trained_or_tuned": true
+  },
+  "splits": {
+    "SPLIT-S2": {
+      "split_id": "SPLIT-S2",
+      "train": [
+        "CNA10K-R00346-C00154",
+        "CNA10K-R00311-C00156",
+        "CNA10K-R00411-C00151",
+        "CNA10K-R00260-C00128",
+        "CNA10K-R00279-C00143",
+        "CNA10K-R00391-C00132",
+        "CNA10K-R00264-C00132",
+        "CNA10K-R00349-C00154",
+        "CNA10K-R00347-C00151",
+        "CNA10K-R00274-C00147",
+        "CNA10K-R00388-C00129"
+      ],
+      "val": [
+        "CNA10K-R00429-C00140",
+        "CNA10K-R00226-C00080",
+        "CNA10K-R00236-C00083"
+      ],
+      "test": [
+        "CNA10K-R00334-C00163",
+        "CNA10K-R00413-C00121",
+        "CNA10K-R00445-C00159",
+        "CNA10K-R00434-C00149"
+      ],
+      "positive_cells": [
+        "CNA10K-R00236-C00083",
+        "CNA10K-R00311-C00156",
+        "CNA10K-R00334-C00163",
+        "CNA10K-R00349-C00154",
+        "CNA10K-R00413-C00121"
+      ],
+      "positive_by_role": {
+        "train": [
+          "CNA10K-R00311-C00156",
+          "CNA10K-R00349-C00154"
+        ],
+        "val": [
+          "CNA10K-R00236-C00083"
+        ],
+        "test": [
+          "CNA10K-R00334-C00163",
+          "CNA10K-R00413-C00121"
+        ]
+      },
+      "witness_2020": [
+        "CNA10K-R00413-C00121",
+        "CNA10K-R00445-C00159"
+      ],
+      "province_of": {
+        "CNA10K-R00334-C00163": "Zhejiang",
+        "CNA10K-R00413-C00121": "Shandong",
+        "CNA10K-R00445-C00159": "Liaoning",
+        "CNA10K-R00434-C00149": "Liaoning",
+        "CNA10K-R00429-C00140": "Liaoning",
+        "CNA10K-R00226-C00080": "Guangdong",
+        "CNA10K-R00236-C00083": "Guangdong",
+        "CNA10K-R00346-C00154": "Shanghai",
+        "CNA10K-R00311-C00156": "Zhejiang",
+        "CNA10K-R00411-C00151": "Shandong",
+        "CNA10K-R00260-C00128": "Fujian",
+        "CNA10K-R00279-C00143": "Fujian",
+        "CNA10K-R00391-C00132": "Shandong",
+        "CNA10K-R00264-C00132": "Fujian",
+        "CNA10K-R00349-C00154": "Jiangsu",
+        "CNA10K-R00347-C00151": "Jiangsu",
+        "CNA10K-R00274-C00147": "Fujian",
+        "CNA10K-R00388-C00129": "Shandong"
+      },
+      "buffer_check": {
+        "buffer_m": 250.0,
+        "n_cross_role_pairs_closer_than_buffer": 0,
+        "min_cross_role_gap_m": 80000.0,
+        "overlaps": [],
+        "crs_proj4": "+proj=aea +lat_1=25 +lat_2=47 +lat_0=0 +lon_0=105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+      },
+      "rules": {
+        "n_train": 11,
+        "n_val": 3,
+        "n_test": 4,
+        "n_witness": 2,
+        "n_positive_train": 2,
+        "n_positive_val": 1,
+        "n_positive_test": 2
+      }
+    }
+  },
+  "tasks": {
+    "C1_cross_year_geodata_l8": {
+      "verdict": "INSUFFICIENT_SUPPORT",
+      "detail": {
+        "verdict": "INSUFFICIENT_SUPPORT",
+        "eo_eligible_cells_both_years": 14,
+        "geodata_pure_positive_cells_2015": [
+          "CNA10K-R00334-C00163",
+          "CNA10K-R00391-C00132",
+          "CNA10K-R00413-C00121"
+        ],
+        "geodata_pure_positive_cells_2020": [
+          "CNA10K-R00264-C00132",
+          "CNA10K-R00334-C00163",
+          "CNA10K-R00413-C00121"
+        ],
+        "positive_cells_both_years": [
+          "CNA10K-R00334-C00163",
+          "CNA10K-R00413-C00121"
+        ],
+        "binary_split_minimum": {
+          "n_positive_train": 2,
+          "n_positive_val": 1,
+          "n_positive_test": 2,
+          "required_per_year": 5
+        },
+        "reason": "GEODATA is a sparse product within these W10 cells: pure-positive pixels (fraction >= 0.90) occur in 3 cells in 2015 and 3 cells in 2020 (2 in both); no spatial train/val/test binary split meets the frozen minimums. No C1 training is run; the EO/label support ledger is retained for evidence."
+      },
+      "eo_sensor": "landsat8",
+      "bands": [
+        "SR_B1",
+        "SR_B2",
+        "SR_B3",
+        "SR_B4",
+        "SR_B5",
+        "SR_B6",
+        "SR_B7"
+      ],
+      "runs_planned": 0
+    },
+    "C2_cross_year_cmsa_s2": {
+      "verdict": "SUPPORTED",
+      "split": "SPLIT-S2",
+      "eo_sensor": "sentinel2",
+      "bands": [
+        "B2",
+        "B3",
+        "B4",
+        "B8"
+      ],
+      "train_year": 2020,
+      "eval_years": [
+        2020,
+        2021
+      ],
+      "train_label": "CMSA_2020",
+      "runs_planned": 12
+    },
+    "C3_cross_region": {
+      "verdict": "INSUFFICIENT_SUPPORT_ALL_REGIONS",
+      "rules": {
+        "min_total_holdout_cells": 4,
+        "min_total_remaining_cells": 8,
+        "min_positive_holdout_cells": 2,
+        "min_positive_outside": 3
+      },
+      "regions": {
+        "INSUFFICIENT_SUPPORT_FOR_REGION_FUJIAN": {
+          "c2_total_cells": 4,
+          "c2_positive_cells": 0,
+          "c2_positive_cells_outside": 5,
+          "c1_total_cells": 4,
+          "c1_both_year_positive_cells": 0,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 positive held cells 0 < 2",
+            "C1 both-year positive held cells 0 < 2"
+          ]
+        },
+        "INSUFFICIENT_SUPPORT_FOR_REGION_GUANGDONG": {
+          "c2_total_cells": 2,
+          "c2_positive_cells": 1,
+          "c2_positive_cells_outside": 4,
+          "c1_total_cells": 0,
+          "c1_both_year_positive_cells": 0,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 total held cells 2 < 4",
+            "C2 positive held cells 1 < 2",
+            "C1 both-year positive held cells 0 < 2"
+          ]
+        },
+        "INSUFFICIENT_SUPPORT_FOR_REGION_JIANGSU": {
+          "c2_total_cells": 2,
+          "c2_positive_cells": 1,
+          "c2_positive_cells_outside": 4,
+          "c1_total_cells": 1,
+          "c1_both_year_positive_cells": 0,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 total held cells 2 < 4",
+            "C2 positive held cells 1 < 2",
+            "C1 both-year positive held cells 0 < 2"
+          ]
+        },
+        "INSUFFICIENT_SUPPORT_FOR_REGION_LIAONING": {
+          "c2_total_cells": 3,
+          "c2_positive_cells": 0,
+          "c2_positive_cells_outside": 5,
+          "c1_total_cells": 3,
+          "c1_both_year_positive_cells": 0,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 total held cells 3 < 4",
+            "C2 positive held cells 0 < 2",
+            "C1 both-year positive held cells 0 < 2"
+          ]
+        },
+        "INSUFFICIENT_SUPPORT_FOR_REGION_SHANDONG": {
+          "c2_total_cells": 4,
+          "c2_positive_cells": 1,
+          "c2_positive_cells_outside": 4,
+          "c1_total_cells": 5,
+          "c1_both_year_positive_cells": 1,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 positive held cells 1 < 2",
+            "C1 both-year positive held cells 1 < 2"
+          ]
+        },
+        "INSUFFICIENT_SUPPORT_FOR_REGION_SHANGHAI": {
+          "c2_total_cells": 1,
+          "c2_positive_cells": 0,
+          "c2_positive_cells_outside": 5,
+          "c1_total_cells": 0,
+          "c1_both_year_positive_cells": 0,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 total held cells 1 < 4",
+            "C2 positive held cells 0 < 2",
+            "C1 both-year positive held cells 0 < 2"
+          ]
+        },
+        "INSUFFICIENT_SUPPORT_FOR_REGION_ZHEJIANG": {
+          "c2_total_cells": 2,
+          "c2_positive_cells": 2,
+          "c2_positive_cells_outside": 3,
+          "c1_total_cells": 1,
+          "c1_both_year_positive_cells": 1,
+          "verdict": "INSUFFICIENT_SUPPORT",
+          "reasons": [
+            "C2 total held cells 2 < 4",
+            "C1 both-year positive held cells 1 < 2"
+          ]
+        }
+      }
+    },
+    "C4_cross_source_2020": {
+      "verdict": "SUPPORTED",
+      "reuses_runs_from": "C2_cross_year_cmsa_s2",
+      "split": "SPLIT-S2",
+      "agreement_evaluations": [
+        {
+          "label": "GEODATA_2020",
+          "cells": "positive test cells where GEODATA maps",
+          "language": "cross-source agreement"
+        },
+        {
+          "label": "CM-SSM_2020",
+          "support_m": 30,
+          "cells": "witness_2020 (primary) and positive test",
+          "rights": "EXTERNAL_REFERENCE_ONLY_SOURCE_LICENSE_CONFLICT",
+          "language": "external-reference agreement; never tuned"
+        }
+      ],
+      "no_new_training": true,
+      "runs_planned": 0
+    },
+    "C5_modality_ablation": {
+      "verdict": "SUPPORTED",
+      "optical_arm": {
+        "reuses_runs_from": "C2_cross_year_cmsa_s2",
+        "bands": [
+          "B2",
+          "B3",
+          "B4",
+          "B8"
+        ]
+      },
+      "optical_sar_arm": {
+        "split": "SPLIT-S2",
+        "eligible_cells": [
+          "CNA10K-R00226-C00080",
+          "CNA10K-R00236-C00083",
+          "CNA10K-R00260-C00128",
+          "CNA10K-R00264-C00132",
+          "CNA10K-R00274-C00147",
+          "CNA10K-R00311-C00156",
+          "CNA10K-R00334-C00163",
+          "CNA10K-R00346-C00154",
+          "CNA10K-R00347-C00151",
+          "CNA10K-R00349-C00154",
+          "CNA10K-R00388-C00129",
+          "CNA10K-R00391-C00132",
+          "CNA10K-R00411-C00151",
+          "CNA10K-R00413-C00121",
+          "CNA10K-R00429-C00140",
+          "CNA10K-R00434-C00149",
+          "CNA10K-R00445-C00159"
+        ],
+        "excluded_cells_no_s1a": [
+          "CNA10K-R00279-C00143"
+        ],
+        "bands": [
+          "B2",
+          "B3",
+          "B4",
+          "B8",
+          "VV",
+          "VH"
+        ],
+        "runs_planned": 12
+      },
+      "identity_requirements": "identical cell roles, patch geometry, seeds, budget; per-arm train-only normalization"
+    }
+  },
+  "model_configs": {
+    "rf_pixel": {
+      "family": "random_forest_pixel",
+      "n_estimators": 300,
+      "class_weight": "balanced_subsample",
+      "max_features": "sqrt",
+      "min_samples_leaf": 2,
+      "pixel_cap_per_train_cell": 20000,
+      "features": "EO bands + NDVI; S1 arm adds VV, VH and VV-VH log-ratio"
+    },
+    "unet": {
+      "family": "smp.Unet",
+      "encoder": "resnet18",
+      "encoder_weights": "ImageNet",
+      "max_epochs": 40,
+      "base_lr": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 16
+    },
+    "deeplabv3plus": {
+      "family": "smp.DeepLabV3Plus",
+      "encoder": "resnet18",
+      "encoder_weights": "ImageNet",
+      "max_epochs": 40,
+      "base_lr": 0.001,
+      "weight_decay": 0.0001,
+      "batch_size": 16
+    },
+    "segformer_b0": {
+      "family": "huggingface.Segformer-B0",
+      "pretrained": "nvidia/segformer-b0-finetuned-ade-512-512",
+      "max_epochs": 30,
+      "base_lr": 0.0006,
+      "weight_decay": 0.0001,
+      "batch_size": 16,
+      "head_replaced": true,
+      "logits_upsampled_to_input": true
+    }
+  },
+  "protocol_items_1_to_17": {
+    "1_eligible_sets": "C1 GEODATA 2015->2020 / Landsat 8: 14 EO-eligible cells but only 3 GEODATA pure-positive cells per year (2 in both) -> INSUFFICIENT_SUPPORT, no split, no training. C2 CMSA 2020->2021 / Sentinel-2: 18 EO-eligible cells, of which 5 carry CMSA pure-positive pixels in BOTH years (R00236 Guangdong, R00311/R00334 Zhejiang, R00349 Jiangsu, R00413 Shandong) -> SUPPORTED on SPLIT-S2. C4 reuses C2 trained models for cross-source agreement; C5 restricts SPLIT-S2 roles to the 17 cells with a landed S1-A 2020 product (all 5 positive cells qualify). C3: all provinces INSUFFICIENT, see task verdicts. Missing/zero-support cells are reported, never substituted.",
+    "2_cell_grouping": "The W10 Albers 10 km cell is the only split unit. Patches, scenes, dates, modalities and years of one cell inherit the cell's single role; patches are never split across roles.",
+    "3_region_grouping": "Province (frozen region_province) is the cross-region unit. The CMSA positive core covers 4 provinces with at most 2 positive cells each (Zhejiang), and total C2 cells per province are below the >=4/remaining >=8 rule except Fujian (4, 0 positive) and Shandong (4, 1 positive); every province is frozen INSUFFICIENT_SUPPORT_FOR_REGION_<name> for C3, no run.",
+    "4_train_val_test": "SPLIT-S2 (18 cells): 11 train (2 positive + 9 background), 3 val (1 positive + 2 background), 4 test (2 positive + 2 background); 2 witness cells (1 positive, 1 background from a different province). Roles are the first admissible combination in the deterministic SHA-256 scan; exact lists in splits_v0_1.json. No C1 split exists.",
+    "5_leakage_buffer": "Cross-role cell AABBs in China Albers metres must be >= 250 m apart, verified with spartina.evaluation.splits.find_cross_split_overlaps; temporal grouping holds because each cell has one role. Min cross-role gap and zero-violation requirement are recorded per split.",
+    "6_seeds": {
+      "values": [
+        17,
+        42,
+        2026
+      ],
+      "scope": "weight init, patch order, RF subsampling and geometric augmentation draws. The cell split is frozen ONCE (deterministic SHA-256 scan) and is never reseeded."
+    },
+    "7_normalization": {
+      "percentile_low": 0.005,
+      "percentile_high": 0.995,
+      "rule": "per-band p005/p995 clip bounds and mean/std from VALID pixels of TRAIN-role cells ONLY, separately per arm (S2, S2+S1); val/test/witness never contribute; post-clip NaN/non-finite -> 0.0; statistics persisted with every run"
+    },
+    "8_patch_extraction": {
+      "patch_px": 128,
+      "patch_resolution_m": 30,
+      "patch_ground_m": 3840,
+      "train_stride_px": 64,
+      "inference_stride_px": 128,
+      "patches_per_train_cell_per_epoch": 128,
+      "positive_patch_fraction": 0.5,
+      "rule": "patches drawn only AFTER cell roles are frozen; half the training patches contain >=1 SOURCE_MAPPED_POSITIVE pixel, half are random valid windows; deterministic 6-way flips/rotations per seed; full-cell tiled inference on the 30 m grid; padded border predictions ignored; no 30 m->10 m upsampling anywhere",
+      "10m_to_30m": "native 10 m S1/S2 EO is averaged (rasterio average resampling) to the 30 m label grid; an aggregated 30 m pixel is valid only when >= 5 of 9 constituent 10 m pixels are valid, else NaN, applied per band"
+    },
+    "9_mixed_unknown_handling": {
+      "positive_threshold_fraction": 0.9,
+      "mixed_lower_fraction_geodata": 0.1,
+      "terms": {
+        "SOURCE_MAPPED_POSITIVE": "label fraction >= 0.90 (pure positive)",
+        "SOURCE_BACKGROUND_WEAK": "valid EO pixels with mapped fraction 0 outside gridcode-0/outside-source-window regions; GEODATA in-window mapped background",
+        "MIXED": "0.10 < fraction < 0.90 (GEODATA) or 0 < fraction < 0.90 (CMSA/CM-SSM); excluded from binary training and primary binary metrics; reported separately and used by the continuous fraction agreement view",
+        "UNKNOWN_IGNORE": "NaN/outside-source-window, CMSA gridcode 0 (UNKNOWN_GRIDCODE_ZERO_TODO_VERIFY), invalid EO; ignored in every loss and metric"
+      },
+      "note": "SILVER background is never a verified ecological negative; source-background agreement is never reported as ecological specificity"
+    },
+    "10_model_selection_data": "All hyperparameters are fixed here (no open-ended HPO). Pos-weight derives from TRAIN valid pixels only (cap 20). Decision threshold: VALIDATION only (grid 0.05-0.95 step 0.01, max validation IoU, ties toward 0.5); threshold 0.5 also reported. TEST and witness never influence sampling, normalization, class weighting, thresholds, early stopping, architecture or source choice.",
+    "11_early_stopping": {
+      "monitor": "validation IoU",
+      "patience_epochs": 10,
+      "schedule": "AdamW; cosine LR; 3 warm-up epochs; batch 16; AMP; max epochs per model in model_configs; early stopping reads validation only"
+    },
+    "12_held_out_eval_sets": "C2 test cells evaluated after the run is frozen: 2020 (reference) and 2021 (cross-year shift). Positive and background-only test cells are reported as separate strata; patch counts AND independent held-out CELL counts are both reported. C4 adds cross-source agreement rows on the same cells. C5 reports paired-arm differences on identical cells/patches/seeds.",
+    "13_witness_2020": "Two named witness_2020 cells (splits_v0_1.json): one CMSA-positive test cell and one background-only test cell from another province; excluded from every selection/tuning path. CM-SSM is evaluated on witness/TEST cells as external reference only and is never trained, validated, thresholded or tuned against.",
+    "14_modality_pairing": {
+      "rule": "season-matched S2/S1 acquisitions within 30 days in the autumn DOY 260-320 window; per-cell date gaps are ledgered (Phase A) and carried in run metadata; observations are NEVER described as simultaneous",
+      "near_date_sensitivity": "the <= 7-day subset among the 17 C5 cells (5 cells) is descriptive-only and marked INSUFFICIENT_SUPPORT for its own split",
+      "arms": "optical = S2 B2/B3/B4/B8 (4 ch); optical_sar = S2 + VV/VH (6 ch); identical cells, patch geometry, seeds and compute budget; independent train-only normalization per arm"
+    },
+    "15_metrics": [
+      "IoU",
+      "Dice/F1",
+      "precision",
+      "recall",
+      "area_bias (predicted/source mapped km2)",
+      "patch_precision_recall (8-connected, Hungarian, IoS>=0.5)",
+      "boundary_F1 at tau = 1, 2, 4 px",
+      "calibration: ECE(15 bins), Brier score",
+      "positive-stratum vs background-only-cell stratum; pure-positive vs MIXED reported separately",
+      "continuous fraction agreement (probability vs source fraction on non-unknown pixels)",
+      "source-background agreement (never ecological specificity)",
+      "all cross-source numbers are AGREEMENT/reproduction, never accuracy; GOLD = 0"
+    ],
+    "16_uncertainty": {
+      "primary": "per-cell metric values on independent held-out cells; with only 2 positive test cells no inferential cell-level interval is claimed: individual cell values and their range are reported",
+      "secondary_descriptive": "1000 m spatial block resampling (1000 replicates, 95% percentile) pooled over positive held-out cells, explicitly labelled descriptive; pixel bootstrap is forbidden",
+      "reporting": "mean across seeds 17/42/2026 with all per-seed values"
+    },
+    "17_compute_budget": {
+      "gpus": "at most 3x RTX 3090; nvidia-smi before each launch",
+      "models": [
+        "rf_pixel",
+        "unet",
+        "deeplabv3plus",
+        "segformer_b0"
+      ],
+      "seeds": [
+        17,
+        42,
+        2026
+      ],
+      "max_epochs": {
+        "unet": 40,
+        "deeplabv3plus": 40,
+        "segformer_b0": 30
+      },
+      "rf": "CPU; pixel cap per train cell persisted",
+      "no_hpo": "fixed configs; no architecture search"
+    }
+  },
+  "checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2"
+}
