@@ -1,0 +1,249 @@
+{
+  "acquisition_rules": {
+    "landsat": {
+      "cell_years": [
+        2015,
+        2020
+      ],
+      "collection": "Collection 2 Level-2 science products",
+      "harmonization": "no silent spectral harmonization across sensors; if fewer valid dates exist than desired, record the deficit honestly",
+      "nominal_frame_tier": "WRS2_NOMINAL_FRAME_NEAR_FULL_TOLERANCE_V1",
+      "observations_per_cell_year_desired": [
+        2,
+        3
+      ],
+      "postexport_actual_mask_valid_min": 0.95,
+      "preserve": [
+        "source sensor identity (L5/L7/L8/L9)",
+        "QA_PIXEL semantics",
+        "physical scaling (Collection 2 L2 reflectance/temperature)",
+        "actual-mask eligibility"
+      ],
+      "qa_band": "QA_PIXEL"
+    },
+    "phenology": {
+      "autumn_doy_end": 320,
+      "autumn_doy_start": 260,
+      "season_tag": "AUTUMN_PRIMARY_V1_CANDIDATE",
+      "target_doy": 290,
+      "window_note": "identical to the frozen Issue #19 V2 predeclared autumn window; target DOY is a tie-break only"
+    },
+    "sentinel1": {
+      "full_ledger_required": true,
+      "instrument_mode": "IW",
+      "polarizations": [
+        "VV",
+        "VH"
+      ],
+      "preserve": [
+        "ASC/DESC pass direction",
+        "relative orbit number"
+      ],
+      "primary_pairing_gap_days_max": 7,
+      "ranking": [
+        "minimum absolute S2-S1 date gap",
+        "existing s1_dualpol_valid_v2 / actual-mask quality rule",
+        "deterministic source ID tie-break"
+      ],
+      "threshold_widen_rule": "the primary 7-day threshold is not widened after seeing support; any wider sensitivity tier must be frozen before training as a separate tier",
+      "unpaired_optical_rule": "if no <=7 day pair exists, preserve the optical sample and mark the modality slot UNAVAILABLE; the optical sample is never dropped",
+      "validity_definition": "finite VV AND finite VH AND both values > -70 dB on the landed grid",
+      "validity_token": "s1_dualpol_valid_v2"
+    },
+    "sentinel2": {
+      "cell_years": [
+        2020,
+        2021
+      ],
+      "coverage_basis": "SAME_DATATAKE_MEMBER_TILE_UNION_COVERS_CELL",
+      "label_use": "label appearance is never used",
+      "max_datatakes_per_cell_year": 3,
+      "postexport_actual_mask_valid_min": 0.95,
+      "qa_policy": "s2_scl_qa_v1_1",
+      "scene_cloud_fraction_max": 0.3,
+      "spread_rule": "selected datatakes must be spread across the predeclared window; near-duplicate dates are forbidden; ranking is deterministic (cloud asc, |doy-target| asc, event_id asc) after a predeclared date-spacing partition of the window"
+    },
+    "views": {
+      "multi_date_representation_freeze": "The deterministic MULTI_DATE_SEASONAL representation (date ordering, missingness, QA propagation, aggregation rule, band semantics) is frozen in Phase F BEFORE any training; candidate forms are temporal stack, robust median/medoid, and fixed-date-slot stack with missing masks. The choice is made on data semantics only, never on model performance.",
+      "views": [
+        "SINGLE_EVENT_CANONICAL",
+        "MULTI_DATE_SEASONAL"
+      ]
+    }
+  },
+  "checksum": "661e75f25b6691e0316e7656856012e8e781bd878da6030e5de9a3105a5896a5",
+  "fresh_test_reserve": {
+    "final_roles_assigned_now": false,
+    "membership": "new cells only (not Stage-1 panel cells)",
+    "model_output_influence": false,
+    "name": "V0_2_FRESH_NEW_CELL_TEST_RESERVE",
+    "note": "final train/val/test roles are frozen by the future v0.2 protocol after acquisition QA completes, without revisiting Stage-1 performance",
+    "old_test_witness_eligible_as_primary_test": false,
+    "strata_represented": [
+      "region",
+      "positive/background"
+    ]
+  },
+  "generated_utc": "2026-10-12T12:41:05.771914+00:00",
+  "git_commit": "fc13e52a314b0fdb3aa342f40a843e441fa61b91",
+  "hard_scope_caps": {
+    "max_gee_component_tasks": 10000,
+    "max_landed_eo_gib": 40,
+    "max_new_cells": 96,
+    "no_national_batch": true,
+    "owner_review_stop": "projected scope exceeding ANY cap stops for owner review; scientific support is not silently weakened to fit the caps"
+  },
+  "input_artifacts": [
+    {
+      "path": "datasets/manifests/china_coastal_cells_v1_1_core_frozen.csv",
+      "sha256": "935624f3e5bb85b0072c218eacf184b0d125992c8f012d519382a50798cf7b53"
+    },
+    {
+      "path": "work/national/strata/strata_china_albers_W10000.csv",
+      "sha256": "998d5f61f160b57406c4933e8120837e505ece7def69d47c29fbbacdf579a430"
+    },
+    {
+      "path": "work/issue18/derived/s30_cells.csv",
+      "sha256": "4463cbd1d095bc8ff6716004f3a4f4b3ed44b4ab7517f92467385abcd96a1025"
+    },
+    {
+      "path": "work/issue18/derived/s10_cells.csv",
+      "sha256": "bb0036b595001de54cc4eeb2e887d26a3f4fa202ee8c0c50435fc521abdd9a13"
+    },
+    {
+      "path": "work/national/census_r1/products/china_cell_event_census_v0_1.parquet",
+      "sha256": "4aba63b4754dbf3f89be44e374abbac7c6fc81252414d314e6837b8354918569"
+    },
+    {
+      "path": "datasets/manifests/national_first_pixel_panel_v1.json",
+      "sha256": "d060e5f7078135c88e5718909b042053340c69136877154914e89a885bb6027f"
+    },
+    {
+      "path": "benchmarks/spartinashift/silver_v0_1/SPARTINASHIFT_SILVER_V0_1_PROTOCOL.json",
+      "sha256": "59f8f48d8a60c5b866ca1742e0a686e75283da0c7709a9a65087072fa2d988b8"
+    },
+    {
+      "path": "benchmarks/spartinashift/silver_v0_1/splits_v0_1.json",
+      "sha256": "07bc6d190c5242360e6285e989f2e40b04289d8fe20c47b8376df30a6cd6eb3e"
+    }
+  ],
+  "issue": 21,
+  "phase": "A",
+  "production_contracts": {
+    "guard": "ee.batch.Export guard; metadata-only census has zero pixel exports",
+    "reuse": "Issue #19 V2 production contracts (national_pilot_event_plan_v2 / pilot19 export)"
+  },
+  "requirements_name": "SPARTINASHIFT_V0_2_SUPPORT_REQUIREMENTS",
+  "requirements_version": "v0.2-requirements-frozen",
+  "scientific_interpretation": {
+    "forbidden_claim": "Issue #20 / Stage 1 must not be stated to prove that model capacity is sufficient.",
+    "stage1_statement": "Within-scene separability exists, but the current benchmark support is too weak to attribute cross-scene/temporal collapse to model capacity."
+  },
+  "selection_inputs": {
+    "forbidden": [
+      "any model prediction or model-derived feature",
+      "Stage-1 failure maps, error maps, or per-cell errors",
+      "model uncertainty, confidence, or calibration outputs",
+      "Stage-1 test/evaluation performance of any kind",
+      "label appearance or content visible in downloaded imagery",
+      "any redesign of the panel after seeing imagery or pixels"
+    ],
+    "legal": [
+      "frozen W10 geography and registry (W10_DOMAIN_V1_CORE_FROZEN, production_eligible=true)",
+      "target-independent region/province groups and coastal-segment attribution",
+      "mainland/island operational class",
+      "named label-source presence/area: GEODATA 1990/2000/2015/2020, CMSA 2017-2021 (gridcode=2 positive), CM-SSM 2020 (external-reference only, never a training/tuning label)",
+      "Issue #18 pre-model agreement/disagreement strata (exclusive_stratum / agreement categories)",
+      "patch/area class derived from named label products",
+      "EO availability and QA metadata from the metadata-only national census (event counts, coverage basis, cloud metadata); no pixels"
+    ]
+  },
+  "selection_universe": {
+    "cell_id_tie_break": "cell_id ascending",
+    "domain_token": "W10_DOMAIN_V1_CORE_FROZEN",
+    "excluded_cells": 298,
+    "keep_cells": 3016,
+    "production_eligible_required": true,
+    "provisional_cells": 5,
+    "selection_namespace": "SPARTINASHIFT_V0_2_CELL_SELECTION",
+    "selection_unit": "W10 cell (China Albers equal-area, 10 km)"
+  },
+  "silver_v0_1_protocol_checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2",
+  "stage1_panel": {
+    "cell_ids": [
+      "CNA10K-R00226-C00080",
+      "CNA10K-R00236-C00083",
+      "CNA10K-R00260-C00128",
+      "CNA10K-R00264-C00132",
+      "CNA10K-R00274-C00147",
+      "CNA10K-R00279-C00143",
+      "CNA10K-R00311-C00156",
+      "CNA10K-R00331-C00150",
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00346-C00154",
+      "CNA10K-R00347-C00151",
+      "CNA10K-R00349-C00154",
+      "CNA10K-R00388-C00129",
+      "CNA10K-R00391-C00132",
+      "CNA10K-R00411-C00151",
+      "CNA10K-R00413-C00121",
+      "CNA10K-R00417-C00135",
+      "CNA10K-R00429-C00140",
+      "CNA10K-R00434-C00149",
+      "CNA10K-R00445-C00159"
+    ],
+    "eligible_as_primary_v02_test": false,
+    "inspected_test_witness_cell_ids": [
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00413-C00121",
+      "CNA10K-R00434-C00149",
+      "CNA10K-R00445-C00159"
+    ],
+    "note": "the original 20 Issue #19/#20 cells are development and instrumentation only for v0.2; inspected Stage-1 test/witness cells are excluded from the pristine primary v0.2 test reserve",
+    "panel_manifest": "datasets/manifests/national_first_pixel_panel_v1.json",
+    "splits_manifest": "benchmarks/spartinashift/silver_v0_1/splits_v0_1.json",
+    "status": "DEVELOPMENT_INSTRUMENTATION_ONLY"
+  },
+  "status": "FROZEN_PRE_SELECTION",
+  "support_goals": {
+    "attainability_policy": "Goals are never forced. If a requirement cannot be met from the frozen inputs, the maximum attainable support and the shortfall are reported honestly; no threshold is relaxed after seeing imagery or model outputs.",
+    "cmsa_temporal": {
+      "anchor_years": [
+        2020,
+        2021
+      ],
+      "background_cells_min": 24,
+      "background_comparability_note": "'comparable background/control support' is predeclared to mean at least the same cell count as the positive target",
+      "label_family": "CMSA",
+      "positive_cells_usable_both_years_min": 24,
+      "positive_definition": "gridcode=2 CMSA polygon presence/area in BOTH 2020 and 2021 for the same W10 cell; gridcode=0 polygons are UNKNOWN and never count as positive or background evidence",
+      "regions_min": 4
+    },
+    "cross_region": {
+      "defensible_region_holdouts_min": 4,
+      "held_region_cells_min": 4,
+      "held_region_positive_cells_min": 2,
+      "outside_pool_cells_min": 12,
+      "outside_pool_positive_cells_min": 4,
+      "region_definition": "target-independent province attribution (Natural Earth 10 m admin-1 v5.1.1; centroid-in-province, else unique nearest province within 25 km with a >300 m second-province margin, else UNKNOWN); UNKNOWN cannot anchor a holdout"
+    },
+    "geodata_temporal": {
+      "anchor_years": [
+        2015,
+        2020
+      ],
+      "background_cells_min": 12,
+      "label_family": "GEODATA",
+      "positive_cells_usable_both_years_min": 12,
+      "positive_definition": "named GEODATA Spartina presence/area in BOTH 2015 and 2020 for the same W10 cell (national 30 m product; fractional area support, no synthetic upsampling)",
+      "regions_min": 3
+    },
+    "near_synchronous": {
+      "gap_semantics": "absolute |S2 date - S1 date| in calendar days",
+      "paired_cells_min": 24,
+      "paired_positive_cells_min": 12,
+      "primary_pairing_gap_days_max": 7,
+      "simultaneous_rule": "a pair is called 'simultaneous' only when the gap is exactly 0 days; otherwise the numeric gap is reported"
+    }
+  }
+}
