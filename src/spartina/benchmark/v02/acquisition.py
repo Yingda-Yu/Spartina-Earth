@@ -95,8 +95,12 @@ LANDSAT_PLAN_NAME: Final[str] = "V0_2_LANDSAT_ACQUISITION_PLAN"
 PAIRING_LEDGER_NAME: Final[str] = "V0_2_S1_PAIRING_LEDGER"
 
 #: Keys that never enter a document checksum.
+#: ``checksum`` is a legacy field written by the Phase A/B/C freeze scripts;
+#: excluded so the canonical body of documents frozen before the VOLATILE_KEYS
+#: standardisation (see freeze_v0_2_requirements.py, freeze_v02_cell_panel.py,
+#: freeze_v02_test_reserve.py) matches the later A.document_checksum bodies.
 VOLATILE_KEYS: Final[frozenset[str]] = frozenset(
-    {"generated_utc", "git_commit", "document_checksum"})
+    {"generated_utc", "git_commit", "document_checksum", "checksum"})
 
 
 # ---------------------------------------------------------------------------

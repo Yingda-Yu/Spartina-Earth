@@ -1,0 +1,102 @@
+{
+  "product": "V0_2_EXPORT_QA_SUMMARY",
+  "issue": 21,
+  "phase": "I",
+  "generated_utc": "2026-10-18T07:48:56.395039+00:00",
+  "plan_checksums": {
+    "s2": "1cf79c98714e3f961363d253ab033d07a302af2de2fd6b0a1f0bd0cde2cdd3d8",
+    "landsat": "599f395de48ddde330d34408eee4a568a3398ad37fea384b310f93d6aca119bd",
+    "pairing": "08906836d5600029043fe66d56cfe98bc80a684cb8d12f62f93fb577069ab86c",
+    "scope_estimate": "243a384ec420175ab0d6ca14f194171aaf4921ae7506a2353f3673f8b239e9f5"
+  },
+  "verdict": "QA_PASS_WITH_HONEST_SOURCE_REJECTIONS",
+  "scope_products_expected": 722,
+  "products_landed": 722,
+  "products_missing_manifest": [],
+  "unexpected_manifests": [],
+  "open_export_failures": [],
+  "products_failing_checks": {},
+  "honest_source_rejections": {
+    "V02_R00355-C00151_L8_2015_L": "ZERO_QA_VALID_SURFACE_PIXELS"
+  },
+  "honest_rejection_policy": "Issue #19 class: exports byte-faithful, physical audit pass, every SR band finite, but QA_PIXEL surface mask zero over the cell. Counted out of the accepted denominator; not a systematic failure. Does not trigger QA_FAIL.",
+  "by_sensor": {
+    "sentinel2": {
+      "n_landed": 280,
+      "n_failed_checks": 0,
+      "w10_fraction_min": 0.999673759887277,
+      "w10_fraction_median": 1.0,
+      "n_below_gate": 0
+    },
+    "sentinel1": {
+      "n_landed": 279,
+      "n_failed_checks": 0,
+      "w10_fraction_min": 0.992505436859406,
+      "w10_fraction_median": 1.0,
+      "n_below_gate": 0
+    },
+    "landsat5": {
+      "n_landed": 0,
+      "n_failed_checks": 0,
+      "w10_fraction_min": null,
+      "w10_fraction_median": null,
+      "n_below_gate": 0
+    },
+    "landsat7": {
+      "n_landed": 28,
+      "n_failed_checks": 0,
+      "w10_fraction_min": 0.956196032882238,
+      "w10_fraction_median": 0.9878009225849375,
+      "n_below_gate": 0
+    },
+    "landsat8": {
+      "n_landed": 135,
+      "n_failed_checks": 0,
+      "w10_fraction_min": 0.95135743550493,
+      "w10_fraction_median": 1.0,
+      "n_below_gate": 0
+    }
+  },
+  "label_support_alignment": {
+    "positive_cells": 28,
+    "positive_cells_with_any_landed_eo": 28,
+    "positive_cells_without_any_landed_eo": []
+  },
+  "qa_contracts": [
+    "landed sha256",
+    "locked transform/dimensions/CRS rebuild",
+    "actual-mask 0.95 gate replay (grid + W10 cell)",
+    "physical scaling/band order/QA semantics",
+    "S1 pass/orbit identity + server dB identity",
+    "S2 same-datatake + s2_scl_qa_v1_1 VALID",
+    "no all-NaN/all-zero informative raster",
+    "Issue #21 provenance + bound plan checksums"
+  ],
+  "figures": {
+    "pair_gap_distribution": {
+      "path": "work/issue21/qa/v02_pair_gap_distribution.png",
+      "sha256": "6742153099752ec296ff77c930e2410511961281af2a483ce0830fdb9548076a"
+    },
+    "actual_mask_distributions": {
+      "path": "work/issue21/qa/v02_actual_mask_distributions.png",
+      "sha256": "99512f519ad91f3b1b15b33eacaef1fb5467982e8fc749d22ce41421256f3e9a"
+    },
+    "sentinel2": {
+      "path": "work/issue21/qa/v02_contact_sentinel2.png",
+      "sha256": "5d710b0c269e1f8086f588dacb6d5af5f5f2493f543922250e9e4b0a441830a0"
+    },
+    "sentinel1": {
+      "path": "work/issue21/qa/v02_contact_sentinel1.png",
+      "sha256": "67b457a54c32bd2685c597581fa00b18ff288be6d35480e22202c792b54498f2"
+    },
+    "landsat7": {
+      "path": "work/issue21/qa/v02_contact_landsat7.png",
+      "sha256": "b865764954dd0b28b3daa78d6c4b0aa8fdfdd010f8d3c486a3d9e89ecd5761bf"
+    },
+    "landsat8": {
+      "path": "work/issue21/qa/v02_contact_landsat8.png",
+      "sha256": "b913d1365943c4093d133b62d1c076b04b855c2d5703f1bee6426ba96a837cbc"
+    }
+  },
+  "document_checksum": "ffad07c7bb70b60d0956532b97b054d0c30665d4b8b0a44fcf5e01626c2ef6ab"
+}

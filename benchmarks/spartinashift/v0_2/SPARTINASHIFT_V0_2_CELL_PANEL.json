@@ -1,7 +1,7 @@
 {
   "checksum": "04d5acfa5b955d15b3782ab96cd127181372314fbca502b71d56f08e121cd3ea",
   "deficits_max_attainable": [],
-  "document_checksum": "f37018ef87a9428737ea9fe2fae746023a945b861b4498c609ac7163acba66a0",
+  "document_checksum": "04d5acfa5b955d15b3782ab96cd127181372314fbca502b71d56f08e121cd3ea",
   "exclusion_ledger": {
     "n_eligible_rank_excluded": 2943,
     "n_outside_domain": 303,
