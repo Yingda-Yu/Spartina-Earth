@@ -17,7 +17,6 @@ from __future__ import annotations
 from typing import Any, Final
 
 from spartina.benchmark.v02.acquisition import (
-    document_checksum as document_checksum,
     ACTUAL_MASK_GATE,
     LANDSAT_TARGET_PER_CELL_YEAR,
     MAX_DATATAKES_PER_CELL_YEAR,

@@ -286,7 +286,8 @@ def requirements_checksum(document: dict[str, Any]) -> str:
     Mirrors the canonical v0.1 protocol-checksum convention.
     """
     body = {k: v for k, v in document.items()
-            if k not in {"checksum", "git_commit", "generated_utc"}}
+            if k not in {"checksum", "document_checksum",
+                         "git_commit", "generated_utc"}}
     canonical = json.dumps(
         body, sort_keys=True, separators=(",", ":"), default=str)
     return hashlib.sha256(canonical.encode()).hexdigest()

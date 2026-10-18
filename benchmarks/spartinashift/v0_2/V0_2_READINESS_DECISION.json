@@ -1,0 +1,223 @@
+{
+  "product": "V0_2_READINESS_DECISION",
+  "issue": 21,
+  "phase": "L",
+  "generated_utc": "2026-10-18T07:58:13.014480+00:00",
+  "git_commit": "c6cbd5078f2d26b83ad62356590e20ccf50b4222",
+  "bound_checksums": {
+    "requirements": "661e75f25b6691e0316e7656856012e8e781bd878da6030e5de9a3105a5896a5",
+    "export_qa": "ffad07c7bb70b60d0956532b97b054d0c30665d4b8b0a44fcf5e01626c2ef6ab",
+    "support_matrix": "d3d145bb5443b1909f8b60e9213c9fe0f3fb82c86dec2bfe96684038a19f8b4b",
+    "per_cell_csv": "6180af3aabb32d092389c6fd55b286c699e469e49582f74e0ea137d141984534",
+    "fresh_reserve": "d93e8820c012b4466da42a880be9114dca59c2028014b303a9f23d7ebcb7d3e8",
+    "gold_candidate_registry": "8910e4dfae5d92272eadc0fec0a5035b72b45d17d2f960a5da9bf5ee452bc978"
+  },
+  "scope": {
+    "new_panel_cells": 53,
+    "fresh_reserve_cells": 24,
+    "old_stage1_cells": 20,
+    "products_landed": 722,
+    "landed_bytes": 8135988437,
+    "open_failures": 0
+  },
+  "answers": {
+    "q1_geodata_temporal": {
+      "requirement": {
+        "positive_cells_both_years_min": 12,
+        "regions_min": 3,
+        "background_cells_min": 12
+      },
+      "measured": {
+        "positive_cells_both_2015_2020_with_landed_landsat_both": 11,
+        "regions": 5,
+        "region_names": [
+          "Fujian",
+          "Hebei",
+          "Jiangsu",
+          "Shandong",
+          "Zhejiang"
+        ],
+        "background_cells_with_landed_eo": 11
+      },
+      "meets": false
+    },
+    "q2_cmsa_temporal": {
+      "requirement": {
+        "positive_cells_both_years_min": 24,
+        "regions_min": 4,
+        "background_cells_min": 24
+      },
+      "measured": {
+        "positive_cells_both_2020_2021_with_landed_s2_both": 24,
+        "regions": 10,
+        "region_names": [
+          "Fujian",
+          "Guangdong",
+          "Guangxi",
+          "Hebei",
+          "Jiangsu",
+          "Liaoning",
+          "Shandong",
+          "Shanghai",
+          "Tianjin",
+          "Zhejiang"
+        ],
+        "background_cells_with_landed_s2_both": 25
+      },
+      "meets": true
+    },
+    "q3_cross_region_holdouts": {
+      "requirement": {
+        "defensible_holdouts_min": 4,
+        "held_region_cells_min": 4,
+        "held_region_positive_cells_min": 2,
+        "outside_pool_cells_min": 12,
+        "outside_pool_positive_cells_min": 4
+      },
+      "measured": {
+        "n_defensible_holdouts": 6,
+        "holdouts": [
+          {
+            "held_region": "Fujian",
+            "held_cells": 9,
+            "held_positive_cells": 5,
+            "outside_cells": 44,
+            "outside_positive_cells": 23
+          },
+          {
+            "held_region": "Guangdong",
+            "held_cells": 5,
+            "held_positive_cells": 3,
+            "outside_cells": 48,
+            "outside_positive_cells": 25
+          },
+          {
+            "held_region": "Guangxi",
+            "held_cells": 4,
+            "held_positive_cells": 2,
+            "outside_cells": 49,
+            "outside_positive_cells": 26
+          },
+          {
+            "held_region": "Jiangsu",
+            "held_cells": 7,
+            "held_positive_cells": 4,
+            "outside_cells": 46,
+            "outside_positive_cells": 24
+          },
+          {
+            "held_region": "Shandong",
+            "held_cells": 7,
+            "held_positive_cells": 4,
+            "outside_cells": 46,
+            "outside_positive_cells": 24
+          },
+          {
+            "held_region": "Zhejiang",
+            "held_cells": 7,
+            "held_positive_cells": 4,
+            "outside_cells": 46,
+            "outside_positive_cells": 24
+          }
+        ]
+      },
+      "meets": true
+    },
+    "q4_phenology_confounding": {
+      "design": "one gate-passing event per predeclared tertile (EARLY DOY260-279 / MID 280-299 / LATE 300-320) per cell-year; no cross-tertile borrowing",
+      "measured": {
+        "s2_events_landed": 280,
+        "cell_years_with_ge2_landed_s2": 98,
+        "cell_years_total": 106,
+        "fraction_cell_years_multi_date": 0.9245,
+        "cells_ge2_events_by_year": {
+          "2020": 50,
+          "2021": 48
+        },
+        "cells_full_tertile_spread_by_year": {
+          "2020": 41,
+          "2021": 35
+        },
+        "tertile_fill": {
+          "2020": {
+            "EARLY": 43,
+            "MID": 48,
+            "LATE": 53
+          },
+          "2021": {
+            "EARLY": 47,
+            "MID": 41,
+            "LATE": 48
+          }
+        }
+      },
+      "answer": "materially_reduced_by_design_and_measurement"
+    },
+    "q5_near_synchronous_pairs": {
+      "requirement": {
+        "paired_cells_min": 24,
+        "paired_positive_cells_min": 12,
+        "gap_days_max": 7
+      },
+      "measured": {
+        "primary_pairs_lte7d_planned": 279,
+        "primary_pairs_landed": 279,
+        "paired_cells": 53,
+        "paired_positive_cells": 28,
+        "same_day_gap0_pairs": 51,
+        "gap_histogram": {
+          "0.0": 51,
+          "1.0": 37,
+          "2.0": 86,
+          "3.0": 41,
+          "4.0": 32,
+          "5.0": 13,
+          "6.0": 14,
+          "7.0": 5
+        },
+        "sensitivity_tier_only_events": 0
+      },
+      "meets": true
+    },
+    "q6_fresh_untouched_reserve": {
+      "note": "Reserve is drawn FROM the new panel pool (24/24 cells are in the exported panel). The exported Panel bytes go into the Phase H accepted denominator; the reserve is SEALED from training/tuning/role assignment until the future v0.2 protocol freezes final train/val/test.",
+      "measured": {
+        "fresh_reserve_cells": 24,
+        "model_output_influence": false,
+        "final_roles_assigned_now": false,
+        "stage1_cell_overlap": 0,
+        "export_status_reserve_cells_landed": 24
+      },
+      "meets": true
+    },
+    "q7_gold_candidate_support": {
+      "measured": {
+        "candidate_sites": 30,
+        "by_type": {
+          "BOUNDARY_SITE": 6,
+          "CONFOUNDER_PRONE": 2,
+          "SMALL_FRAGMENTED_PATCH": 6,
+          "SOURCE_AGREEMENT_POSITIVE": 10,
+          "SOURCE_BACKGROUND": 8,
+          "SOURCE_DISAGREEMENT_POSITIVE": 8
+        },
+        "gold_status": "CANDIDATE_ONLY",
+        "promoted_gold_labels": 0
+      },
+      "meets": true
+    }
+  },
+  "gates": {
+    "qa_pass": true,
+    "q1_geodata_temporal": false,
+    "q2_cmsa_temporal": true,
+    "q3_cross_region_holdouts": true,
+    "q5_near_synchronous_pairs": true,
+    "q6_fresh_reserve": true,
+    "q7_gold_candidates": true
+  },
+  "verdict": "NOT_READY_FOR_SPARTINASHIFT_V0_2_PROTOCOL",
+  "interpretation": "At least one frozen support goal is not met on landed evidence; deficits are reported above honestly and no threshold was relaxed.",
+  "scientific_framing": "Within-scene separability exists, but the current benchmark support is too weak to attribute cross-scene/temporal collapse to model capacity.",
+  "document_checksum": "788909dba63cccdc84ce01fb95cb725e5f06ecc735d9e895fa0e44f8b854fef8"
+}

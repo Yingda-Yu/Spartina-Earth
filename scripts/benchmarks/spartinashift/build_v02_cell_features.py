@@ -276,8 +276,8 @@ def census_counts(cell_ids: set[str]) -> pd.DataFrame:
     return out
 
 
-def crosscheck(name: str, measured: "np.typing.NDArray[np.float64]",
-               reference_area: "np.typing.NDArray[np.float64]"
+def crosscheck(name: str, measured: np.typing.NDArray[np.float64],
+               reference_area: np.typing.NDArray[np.float64]
                ) -> dict[str, Any]:
     """Compare new measured areas (m^2) against Issue #18 px*900."""
     ref = reference_area * PX_AREA_30
