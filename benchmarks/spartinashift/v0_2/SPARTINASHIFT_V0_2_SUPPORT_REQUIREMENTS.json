@@ -72,6 +72,7 @@
     }
   },
   "checksum": "661e75f25b6691e0316e7656856012e8e781bd878da6030e5de9a3105a5896a5",
+  "document_checksum": "a0a3ce4f79a69dcfb7d113c278314e2233805dcf7d4017d890c50eb2b1a42100",
   "fresh_test_reserve": {
     "final_roles_assigned_now": false,
     "membership": "new cells only (not Stage-1 panel cells)",
