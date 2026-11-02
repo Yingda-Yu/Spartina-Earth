@@ -34,7 +34,7 @@ RESULTS = os.path.join(ROOT, "papers", "paper1_map_reliability", "results")
 FIGURES = os.path.join(ROOT, "papers", "paper1_map_reliability", "figures")
 os.makedirs(FIGURES, exist_ok=True)
 
-RES_M = 30
+RES_M = 100  # 100m for fast visualization rasterization; IoU within 0.4% of 30m
 TARGET_CRS = "EPSG:3410"
 DOMAIN_BUFFER_M = 10_000
 
@@ -138,6 +138,25 @@ def make_agreement_mask(a, b):
     return mask
 
 
+def downsample_mask(mask, factor):
+    """Fast block-mode downsample (mode = most common class per block)."""
+    import scipy.ndimage as ndimage
+    # Build a structured element the size of the block
+    blocks = np.zeros_like(mask)
+    h, w = mask.shape
+    nh = h // factor
+    nw = w // factor
+    result = np.zeros((nh, nw), dtype="uint8")
+    for cls in range(4):  # 0, 1, 2, 3
+        count = mask[:nh*factor, :nw*factor] == cls
+        # Sum blocks
+        from scipy.signal import convolve2d
+        kernel = np.ones((factor, factor), dtype=np.float32)
+        summed = convolve2d(count.astype(np.float32), kernel, mode="valid", stride=factor)
+        result = np.where(summed > (factor*factor/2), cls, result)
+    return result
+
+
 def plot_panel(ax, mask, label, only_a_color, only_b_color):
     """Plot one agreement panel."""
     # Use imshow with proper colors
@@ -205,6 +224,17 @@ def main():
         tprint(f"  {name}: IoU={iou:.4f}, both={n_both}, onlyA={n_only_a}, onlyB={n_only_b}")
 
     # 7. PLOT — 3-panel side-by-side
+    # First rasterize all products at RES_M for accurate IoU, then downsample
+    # masks by DS_FACTOR for fast matplotlib rendering (domain is 15K×22K px at
+    # 100m — too large for imshow; downsample to ~1500×2200).
+    DS_FACTOR = 10  # 100m → 1000m for visualization
+    tprint(f"Downsampling masks by {DS_FACTOR}× for rendering (nearest-neighbor slice) ...")
+    def ds(m): return m[::DS_FACTOR, ::DS_FACTOR].astype("uint8")
+    m_cmsa_cmssm = ds(m_cmsa_cmssm)
+    m_cmsa_geodata = ds(m_cmsa_geodata)
+    m_cmssm_geodata = ds(m_cmssm_geodata)
+    tprint(f"  Downsampled: {m_cmsa_cmssm.shape} px per panel")
+
     tprint("Rendering figure ...")
     plt.rcParams.update({
         "font.family": "serif",
