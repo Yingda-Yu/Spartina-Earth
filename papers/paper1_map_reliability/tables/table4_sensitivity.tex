@@ -1,0 +1,22 @@
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:sensitivity_full}Resolution sensitivity of IoU and Dice
+  coefficients. Values change by $\leq$0.4\,\% between 30\,m and 100\,m for all
+  pairs, indicating that thematic encoding (patch-delineation semantics) rather
+  than spatial resolution dominates product disagreement.}
+\begin{tabular}{l l c c c c}
+\toprule
+Product Pair & Metric & 30\,m & 50\,m & 100\,m & 100\,m / 30\,m \\
+\midrule
+CMSA vs.\ CM-SSM & IoU & 0.5375 & 0.5371 & 0.5395 & +0.4\,\% \\
+ & Dice & 0.6992 & 0.6988 & 0.7009 & +0.2\,\% \\
+\midrule
+CMSA vs.\ GEODATA & IoU & 0.4437 & 0.4434 & 0.4444 & +0.2\,\% \\
+ & Dice & 0.6147 & 0.6144 & 0.6153 & +0.1\,\% \\
+\midrule
+CM-SSM vs.\ GEODATA & IoU & 0.3423 & 0.3419 & 0.3432 & +0.3\,\% \\
+ & Dice & 0.5101 & 0.5096 & 0.5111 & +0.2\,\% \\
+\midrule
+\bottomrule
+\end{tabular}
+\end{table}
