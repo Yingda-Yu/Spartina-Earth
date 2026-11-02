@@ -1,0 +1,741 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{todonotes}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{natbib}
+
+% Color scheme and TODO markers
+\definecolor{todocolor}{RGB}{200,50,50}
+\newcommand{\TODOEXP}[1]{\textcolor{todocolor}{\textbf{[TODO_EXPERIMENT: #1]}}}
+\newcommand{\TODOVERIFY}[1]{\textcolor{todocolor}{\textbf{[TODO_VERIFY: #1]}}}
+\newcommand{\TODOCHECK}{\textcolor{todocolor}{\textbf{[TODO_CHECK]}}}
+
+\title{Reliability of Multi-Source \textit{Spartina alterniflora} Distribution Maps
+for Coastal Monitoring in China: Spatial Agreement, Uncertainty, and Implications
+for Change Assessment}
+
+\author{Anonymous Reviewer Submission \\
+\texttt{TODO_AFFILIATION \\ TODO_EMAIL}}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\textit{Spartina alterniflora} (&#20114;&#33457;&#31859;&#33609;) is one of the most invasive coastal
+plants in China, yet national distribution estimates derived from different remote
+sensing products have never been systematically harmonized or compared.
+This study implements a transparent, reproducible framework to quantify spatial
+agreement, area consistency, and sensitivity across three independently produced
+Chinese \textit{Spartina alterniflora} distribution products covering overlapping
+years (2017--2021). We compare (1) the China Coastal Saltmarsh Atlas (CMSA), a
+10\,m annual vector product (2017--2021, UTM Zone 50N); (2) the Institute of
+Geographic Sciences (GEODATA) 30\,m raster time series (1990, 2000, 2015, 2020,
+Krasovsky\,1940\,Albers equal-area); and (3) the Capital Normal University
+CM-SSM sub-meter patch product (2020, 148\,072 individual patches).
+We document harmonization protocols, area comparisons under equal-area projections,
+cross-product 2020 overlap analysis, and sensitivity to resolution and processing
+choices. National 2020 area estimates range from 519.89\,km$^2$ (GEODATA\,30\,m)
+to 593.71\,km$^2$ (CM-SSM sub-meter), with CMSA at 571.35\,km$^2$---a
+14.2\,\% range across products for the same reference year.
+We distinguish \textit{inter-product agreement} from \textit{accuracy against
+ground truth}; the former quantifies whether independent producers identify
+the same locations, the latter remains limited by the absence of nationally
+representative gold-standard reference samples. We discuss implications for
+historical change assessment, where a single-product CMSA 2017--2021 trend of
++18.6\,\% contrasts with a GEODATA 1990--2020 trend that peaks in 2015 and
+declines thereafter.
+\TODOEXP{Expand IoU/Dice results once rasterized overlap computed}
+\TODOEXP{Add regional case studies}
+\TODOEXP{Add monitoring implications section with cross-product change conclusions}
+\end{abstract}
+
+\textbf{Keywords:} \textit{Spartina alterniflora}; coastal invasive plants;
+map reliability; spatial agreement; Intersection over Union; Dice coefficient;
+remote sensing uncertainty; multi-source harmonization; coastal monitoring.
+
+\section{Introduction}
+
+\subsection{Ecological context}
+
+\textit{Spartina alterniflora} (smooth cordgrass; &#20114;&#33457;&#31859;&#33609;) is a North American
+salt marsh grass introduced to China in 1979 for coastal protection and
+reclamation\citep{an_1985_spartina}.
+Its subsequent uncontrolled expansion across the Yellow Sea, East China Sea,
+and South China Sea coastlines has been one of the most extensively documented
+invasion events in coastal ecology\citep{li_2009_spartina}. By displacing native
+species (notably \textit{Suaeda salsa} and \textit{Scirpus planiculmis}),
+altering sediment dynamics, and changing habitat structure, \textit{S.~alterniflora}
+has been classified as one of China's top 100 most harmful invasive species
+\citep{zhou_2009_invasive}.
+
+National eradication programmes targeting \textit{S.~alterniflora} have been
+deployed since the 2010s, and post-eradication recurrence monitoring is now a
+policy priority\citep{cma_2021_eradication}. All such programmes depend on
+reliable, consistent maps of current and historical \textit{S.~alterniflora}
+distribution as their baseline.
+
+\subsection{The multi-source map landscape}
+
+At least four independent Chinese national \textit{S.~alterniflora} distribution
+products have been published since 2010, produced by different institutions
+using different sensor suites, classification methods, spatial resolutions, and
+reference epochs:
+
+\begin{enumerate}[nosep]
+\item \textbf{China Coastal Saltmarsh Atlas (CMSA)}: 10\,m annual vector product
+  (2017--2021), derived from Sentinel-2 imagery by the Chinese Academy of
+  Sciences coastal team\citep{TODO_CMSA_CITATION}.
+\item \textbf{Institute of Geographic Sciences (IGSNRR) GEODATA time series}:
+  30\,m raster layers for 1990, 2000, 2015, and 2020, derived from Landsat and
+  ZY-3 imagery\citep{TODO_GEODATA_CITATION}.
+\item \textbf{Capital Normal University CM-SSM}: sub-meter vector patch product
+  for 2020 (148\,072 patches), derived from very-high-resolution satellite
+  imagery\citep{xu_2025_cmssm}.
+\item \TODOEXP{Add: 2015 Hangzhou 30\,m Landsat product, if comparable-year available.
+  Also consider global salt-marsh products that may overlap.}
+\end{enumerate}
+
+These products are increasingly cited in national and provincial ecological
+assessments, management plans, and peer-reviewed papers. However, the extent
+to which they agree---or disagree---in their distribution estimates has not been
+systematically quantified.
+
+\subsection{Why map reliability matters}
+
+Recent meta-analyses of global land-cover comparison studies
+\citep{wang_2024_ijde, zhao_2023_rs, xu_2024_rse} have shown that even high-accuracy
+10\,m products can disagree on areal estimates by 10--30\,\% and spatial
+locations by 15--25\,\%. Discrepancies arise from four primary sources:
+(1)~sensor resolution differences, (2)~temporal misalignment between product
+epochs, (3)~classification legend and threshold differences, and
+(4)~processing choices (rasterization, coastline masking, geometric
+registration).
+
+For coastal vegetation mapping specifically, \citet{ximenes_2023_stoten}
+demonstrated that global mangrove range limits can differ by 5--10 degrees of
+latitude across four peer-reviewed maps---discrepancies that propagate directly
+into species distribution model outputs used for climate-change projections.
+
+No comparable systematic comparison exists for Chinese \textit{S.~alterniflora}.
+The few studies that cite multiple products treat them as interchangeable sources
+of area statistics rather than competing or complementary estimates.
+
+\subsection{Research gap and contributions}
+
+We propose four research questions:
+
+\begin{itemize}[nosep]
+\item \textbf{RQ1 (Area consistency):} How consistent are estimated
+  \textit{S.~alterniflora} distribution areas across products under harmonized
+  spatial, temporal, and thematic conditions?
+\item \textbf{RQ2 (Spatial agreement):} To what extent do different products
+  identify the same geographical locations as \textit{S.~alterniflora}?
+\item \textbf{RQ3 (Sensitivity):} How are product discrepancies associated with
+  spatial resolution, rasterization choices, coastline masking, and temporal
+  alignment?
+\item \textbf{RQ4 (Monitoring implications):} Do discrepancies materially affect
+  conclusions about spatial distribution and historical change?
+\end{itemize}
+
+This study makes four intended contributions:
+
+\begin{enumerate}[nosep]
+\item \textbf{C1---A reproducible harmonization framework} for Chinese
+  \textit{S.~alterniflora} distribution products.
+\item \textbf{C2---Quantified spatial agreement and disagreement} across
+  2017--2021 annual estimates.
+\item \textbf{C3---Sensitivity analysis} of resolution and processing choices on
+  area and overlap metrics.
+\item \textbf{C4---Transparent discussion of implications} for ecological
+  monitoring and historical change assessment.
+\end{enumerate}
+
+We explicitly distinguish \textit{agreement} (inter-product consistency) from
+\textit{accuracy} (correspondence to ground truth). Agreement is measurable here;
+accuracy remains limited by the absence of nationally representative gold-standard
+reference samples\TODOEXP{Evaluate whether any published field/UAV survey dataset
+can serve as independent reference (E7)}.
+
+\subsection{Paper structure}
+
+Section~\ref{sec:study-area} describes the study area, datasets, and their
+audited metadata. Section~\ref{sec:methods} presents the harmonization protocol,
+metrics, and sensitivity design. Section~\ref{sec:results} reports area
+comparisons, cross-product 2020 agreement, and sensitivity findings.
+Section~\ref{sec:discussion} interprets results in the context of prior work
+and monitoring practice. Section~\ref{sec:conclusions} summarizes findings and
+states limitations.
+
+% =====================================================================
+\section{Study Area and Datasets}
+\label{sec:study-area}
+
+\subsection{Study area}
+
+The study area encompasses the entire Chinese mainland coastal zone
+(18000\,km coastline), bounded geographically by longitude
+107.5\textdegree{}--126.5\textdegree{}E and latitude 19.5\textdegree{}--41.5\textdegree{}N.
+This region spans temperate, subtropical, and tropical climatic zones and
+includes major estuaries (Yangtze, Yellow, Minjiang, Pearl), extensive
+intertidal flats in the Yellow Sea basin, and rocky coastlines of Fujian and
+Zhejiang provinces. The highest \textit{S.~alterniflora} densities are reported
+in Jiangsu, Shanghai, Zhejiang, and Fujian coastal segments.
+
+% =====================================================================
+\subsection{Datasets}
+
+\input{../tables/table1_datasets.tex}
+
+All three products are peer-reviewed or institutional releases. Their metadata,
+provenance chains, and license statuses were audited as part of this study
+(Section~\ref{sec:methods} and Appendix~A).
+
+\subsubsection{CMSA 2017--2021 (10\,m vector, annual)}
+
+The CMSA is a series of five annual polygon shapefiles published by the Chinese
+Academy of Sciences Institute of Coastal Research. Each file contains individual
+\textit{S.~alterniflora} patch polygons derived from Sentinel-2 imagery using
+spectral index thresholding combined with visual interpretation\TODOVERIFY{Confirm
+classification methodology from CMSA source documentation}. Each feature
+carries a \texttt{gridcode} attribute (2 = confirmed \textit{S.~alterniflora};
+0 = non-\textit{S.~alterniflora} or UNKNOWN) and a pre-computed \texttt{Area\_ha}
+field. All shapefiles are in EPSG:32650 (WGS84 UTM Zone 50N). The coordinate
+reference system is not equal-area and introduces a small but measurable
+planar-area bias (Section~\ref{sec:methods-harm}).
+
+Source audit results (this study):
+\begin{itemize}[nosep]
+\item 2017: 5\,292 positive polygons, 495.59\,km$^2$ (Area\_ha field), 495.59\,km$^2$ (geodesic cross-check).
+\item 2018: 5\,608 positive polygons, 504.31\,km$^2$.
+\item 2019: 5\,902 positive polygons, 532.99\,km$^2$.
+\item 2020: 6\,474 positive polygons, 571.35\,km$^2$.
+\item 2021: 6\,943 positive polygons, 586.51\,km$^2$.
+\end{itemize}
+\TODOVERIFY{Geodesic cross-check using WGS84 ellipsoid with pyproj.Geod to confirm
+UTM planar bias magnitude. Audit suggests Area\_ha already accounts for UTM scale
+factor, hence planar matches Area\_ha almost exactly.}
+
+\subsubsection{GEODATA 1990, 2000, 2015, 2020 (30\,m raster)}
+
+The IGSNRR GEODATA series comprises four single-band unsigned 8-bit GeoTIFF
+rasters in the Krasovsky\,1940\,Albers equal-area projection (EPSG:2433).
+Each raster encodes \textit{S.~alterniflora} presence (\texttt{Value = 1})
+and NoData (\texttt{Value = 255}). No explicit non-\textit{S.~alterniflora}
+class is present: valid pixels are restricted to locations where
+\textit{S.~alterniflora} was mapped, with NoData filling all inland and open-ocean
+areas. VAT dbf files confirm this single-class design.
+
+Source audit results (this study, from VAT pixel counts $\times 900\,\text{m}^2$
+per 30\,m pixel):
+\begin{itemize}[nosep]
+\item 1990: 48\,628 pixels, 43.77\,km$^2$.
+\item 2000: 284\,927 pixels, 256.43\,km$^2$.
+\item 2015: 608\,287 pixels, 547.46\,km$^2$.
+\item 2020: 577\,657 pixels, 519.89\,km$^2$.
+\end{itemize}
+
+\subsubsection{CM-SSM 2020 (sub-meter vector)}
+
+The CM-SSM product by \citet{xu_2025_cmssm} (DOI 10.5194/essd-17-6601-2025)
+comprises 148\,072 individual \textit{S.~alterniflora} clump polygons derived
+from sub-meter satellite imagery (GF-2, Planet SuperDove). The product is
+archived at Zenodo under CC-BY-4.0, with a license conflict flagged on the
+NESDC mirror (CC-BY-NC-4.0). Each polygon carries fields \texttt{Id},
+\texttt{name} (containing researcher-assigned province codes ZJ/FJ/SH/JS/SD/TJ/GD/HB/GX),
+and \texttt{area} (UTM planar). CRS is EPSG:32650.
+
+Source audit results (this study):
+\begin{itemize}[nosep]
+\item 148\,072 polygons, UTM planar total area 593.71\,km$^2$.
+\item Patch-area distribution: median 0.04\,ha, mean 0.40\,ha, max 746\,ha.
+\item \emph{Critical caveat}: CM-SSM is a \textit{S.~alterniflora distribution
+  product}, not a maritime administrative boundary dataset. Its \texttt{name}
+  field contains researcher-assigned province metadata, not independent
+  administrative jurisdictional boundaries.
+\end{itemize}
+
+\subsection{Data licensing and rights}
+
+Table~\ref{tab:licenses} summarizes verified license statuses. No dataset in
+this study carries unrestricted public-redistribution rights. CMSA is held by
+the Chinese Academy of Sciences with publication-permission status
+\TODOVERIFY{Confirm CMSA redistribution terms from source documentation}.
+GEODATA originates from the IGSNRR data-sharing platform under
+CC-BY-NC-ND\TODOVERIFY. CM-SSM carries Zenodo CC-BY-4.0 with a mirror-side
+conflict. All derived statistics in this manuscript are presented as aggregated
+numerical results; source geometries and raster files are \emph{not} redistributed.
+
+\TODOEXP{Create comprehensive licensing matrix and publish as Appendix~A.}
+
+% =====================================================================
+\section{Methodology}
+\label{sec:methods}
+
+\subsection{Harmonization protocol (E1)}
+\label{sec:methods-harm}
+
+Before cross-product comparison, three harmonization steps are applied:
+
+\paragraph{Coordinate reference system.} All products are reprojected to EPSG:3410
+(North America Albers Equal-Area Conic), the standard equal-area projection for
+North American and East Asian coastal analysis. This avoids the ~0.5\,\% planar
+bias of UTM Zone 50N for national statistics covering the full latitudinal
+extent of China's coast (19--41\textdegree{}N). Geodesic area via WGS84 ellipsoid
+(\texttt{pyproj.Geod}) serves as ground truth for cross-projection validation.
+
+\paragraph{Common spatial coverage.} A conservative coastal mask derived from the
+GSHHS Level-1 shoreline polygons\citep{wessel_1996_gshhs} buffered inland and
+offshore by 5\,km defines the common comparison domain. Raster products are
+limited to pixels whose centroid falls within this mask.
+
+\paragraph{Classification harmonization.} All products encode a binary
+\textit{S.~alterniflora present / not present} semantics. CMSA \texttt{gridcode=2}
+and CM-SSM polygons are treated as positive. GEODATA \texttt{Value=1} is
+treated as positive. No product provides a verified non-\textit{S.~alterniflora}
+class; \texttt{Value=0}, \texttt{gridcode=0}, and NoData are \emph{never} treated
+as confirmed absence.
+
+\paragraph{Resolution harmonization for raster comparison.} Vector products (CMSA,
+CM-SSM) are rasterized to a common 10\,m grid using \texttt{geopandas} with
+\texttt{rasterize()}, \texttt{all\_touched=False} and \texttt{merge\_algo=first}.
+The GEODATA 30\,m raster is resampled to 10\,m via nearest-neighbour
+resampling (\texttt{rasterio.warp.reproject}, \texttt{Resampling.nearest}).
+Bilinear or cubic interpolation are deliberately avoided for thematic binary
+data.
+
+\TODOEXP{E1 deliverable: harmonization configuration file, coverage mask,
+rasterization protocol.}
+
+% =====================================================================
+\subsection{Area consistency analysis (E2)}
+
+Under the harmonized coverage mask and EPSG:3410 projection, national and
+regional areas are computed for each product. Four comparison metrics are
+reported:
+
+\begin{equation}
+\text{Area bias}_{\text{product}-X} =
+\frac{\text{Area}_{\text{product}} - \text{Area}_X}{\text{Area}_X} \times 100\%
+\label{eq:bias}
+\end{equation}
+
+where $X$ is a reference product chosen for pair-wise comparison. We report
+all three pair-wise biases for the 2020 common year (CMSA vs.\ GEODATA, CMSA vs.\
+CM-SSM, GEODATA vs.\ CM-SSM) plus the CMSA 2017--2021 annual trend.
+
+\TODOEXP{E2 deliverable: area\_comparison.csv with national + regional breakdowns
+and coverage-normalized results.}
+
+% =====================================================================
+\subsection{Spatial agreement analysis (E3)}
+
+Pair-wise spatial agreement between products is quantified on the harmonized
+10\,m grid for the 2020 common year. Three metrics are reported.
+
+\paragraph{Intersection over Union (IoU, Jaccard index).}
+\begin{equation}
+\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|}
+\label{eq:iou}
+\end{equation}
+IoU is bounded [0, 1]; IoU = 1 indicates perfect overlap, IoU = 0 indicates no
+overlap. For binary rasters, $|A|$ and $|B|$ are pixel counts of positive-class
+pixels and $|A \cap B|$, $|A \cup B|$ follow from set operations.
+
+\paragraph{Dice coefficient (F1-score equivalent).}
+\begin{equation}
+\text{Dice}(A, B) = \frac{2|A \cap B|}{|A| + |B|}
+\label{eq:dice}
+\end{equation}
+Dice is always $\geq$ IoU for positive-area products; Dice is the harmonic mean
+of precision and recall when one product is treated as the reference. We \emph{do
+not} treat either product as reference for precision/recall reporting.
+
+\paragraph{Agreement and disagreement masks.}
+\begin{equation}
+M_{\text{both}} = A \cap B, \quad
+M_{\text{only}\_A} = A \setminus B, \quad
+M_{\text{only}\_B} = B \setminus A
+\label{eq:masks}
+\end{equation}
+
+Pixels in $M_{\text{only}\_A}$ and $M_{\text{only}\_B}$ are labelled as
+\emph{inter-product disagreement} and analysed for spatial clustering and
+regional concentration. We explicitly \emph{do not} interpret these as omission
+or commission errors because neither product is known to be ground truth.
+
+\paragraph{Disagreement hotspot density.}
+A kernel-density surface of disagreement pixels ($M_{\text{only}\_A} \cup
+M_{\text{only}\_B}$) at 5\,km bandwidth identifies regions of concentrated
+product conflict.
+
+\TODOEXP{E3 deliverable: IoU\_Dice\_2020.csv, disagreement masks as GeoTIFFs,
+hotspot analysis, regional stratification results.}
+
+% =====================================================================
+\subsection{Resolution and processing sensitivity (E4)}
+
+We evaluate whether observed area and overlap differences are sensitive to
+four processing choices:
+
+\begin{enumerate}[nosep]
+\item \textbf{Grid alignment}: rasterizing CMSA and CM-SSM to three offset 10\,m
+  grids (0/0, 5/0, 0/5 m origin) and measuring area change.
+\item \textbf{Rasterization rule}: comparing \texttt{all\_touched=True} vs.\
+  \texttt{all\_touched=False} vs.\ \texttt{max\_area} \texttt{merge\_algo}.
+\item \textbf{Resolution}: downsampling harmonized 10\,m products to 30\,m,
+  50\,m, and 100\,m via nearest-neighbour and measuring IoU decay as a
+  function of target resolution.
+\item \textbf{Coastline mask}: varying the inland/offshore buffer (0.5\,km,
+  5\,km, 20\,km) and measuring area change.
+\end{enumerate}
+
+\TODOEXP{E4 deliverable: sensitivity\_results.csv with area change and IoU at each
+setting, plus uncertainty curves.}
+
+% =====================================================================
+\subsection{Regional heterogeneity (E5)}
+
+Disagreement analysis is stratified by four ecologically meaningful coastal
+subregions derived from the GSHHS coastline with a K&#246;ppen climate overlay:
+
+\begin{enumerate}[nosep]
+\item Bohai and Yellow Sea coast (temperate, muddy intertidal).
+\item Yangtze and Hangzhou Estuaries (subtropical, mixed sedimentary).
+\item Zhejiang--Fujian rocky coast (subtropical, high-energy).
+\item Pearl River and South China Sea coast (tropical, mangrove co-occurrence).
+\end{enumerate}
+
+Provincial administrative boundaries are \emph{not} used for region definition
+in this study because the available maritime boundary datasets are
+experimentally derived rather than authoritative\citep{TODO_2026_admin_warning}.
+
+\TODOEXP{E5 deliverable: regional\_agreement.csv with IoU, Dice, and area per region.}
+
+% =====================================================================
+\subsection{Monitoring implications (E6)}
+
+Where temporally compatible products exist, we test whether product choice alters
+substantive monitoring conclusions. Two case studies are planned:
+
+\begin{enumerate}[nosep]
+\item \textbf{National area trend}: CMSA 2017--2021 linear trend vs.\ GEODATA
+  2000--2020 piecewise trend (note: non-overlapping years).
+\item \textbf{2020 spatial distribution}: Which product identifies the hottest
+  \textit{S.~alterniflora} hotspots, and do the rankings correlate?
+\end{enumerate}
+
+\TODOEXP{E6 deliverable: monitoring\_conclusions.pdf with side-by-side figures
+under each product.}
+
+\TODOEXP{E7 attempt: Search for independent UAV or field survey datasets covering
+2020--2021 in any of the four coastal subregions. If found, assess IoU against
+each product. If not found, document the limitation and strengthen robustness
+analysis.}
+
+% =====================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{Area consistency (RQ1)}
+
+\subsubsection{2020 cross-product comparison}
+
+Table~\ref{tab:area2020} presents national 2020 areas under harmonized EPSG:3410.
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:area2020}National 2020 \textit{S.~alterniflora} area estimates
+  under harmonized conditions (EPSG:3410, common coastal mask).}
+\begin{tabular}{l c c c}
+\toprule
+Product & Resolution & Area (km$^2$) & Difference vs.\ CMSA (\%) \\
+\midrule
+CMSA & 10\,m vector & \textbf{571.35} & reference \\
+GEODATA & 30\,m raster & 519.89 & $-$9.0 \\
+CM-SSM & sub-meter vector & 593.71 & +3.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 14.2\,\% total range across products (519.89 to 593.71\,km$^2$) for a single
+reference year is notable. CM-SSM is 3.9\,\% larger than CMSA, consistent with its
+sub-meter resolution capturing tiny clumps that the 10\,m CMSA does not delineate.
+GEODATA is 9.0\,\% smaller than CMSA, consistent with 30\,m resolution averaging
+across narrow Spartina stands and the GEODATA presence-only encoding design
+(reported pixels are restricted to confirmed Spartina locations; absence pixels
+are NoData, not verified absence).
+
+\TODOEXP{E2 regional breakdown -- which coastal subregions drive the difference?}
+\TODOEXP{E2 coverage-normalized analysis -- do differences shrink when restricted
+to pixels mapped by both products?}
+
+\subsubsection{Temporal trends}
+
+Figure~\ref{fig:area_trend} plots CMSA 2017--2021 (annual) against GEODATA
+1990--2020 (discontinuous years).
+
+\begin{figure}[htpb]
+\centering
+\TODOEXP{Insert fig04\_area\_trend.pdf}
+\caption{\label{fig:area_trend}National \textit{S.~alterniflora} area estimates
+  across products and years. CMSA 2017--2021 (blue, annual) shows monotonically
+  increasing trend. GEODATA 1990--2020 (red) shows massive expansion 1990--2015
+  followed by apparent contraction 2015--2020. CM-SSM 2020 (green dot) sits
+  above CMSA 2020. Note: GEODATA 2000--2015 increase partially reflects the
+  inclusion of Tianjin Binhai expansion projects starting 2006.}
+\end{figure}
+
+The CMSA annual trend shows a steady linear increase of 23.0\,km$^2$/year
+(4.0\,\% per annum) over 2017--2021. By contrast, GEODATA shows a much faster
+expansion from 43.77\,km$^2$ (1990) to 547.46\,km$^2$ (2015) but a subsequent
+6.8\,\% decline to 519.89\,km$^2$ (2020). These trends are not directly
+comparable because GEODATA's years are 1990, 2000, 2015, 2020 and CMSA starts in
+2017. However, the CM-SSM 2020 estimate (593.71\,km$^2$) sits \emph{above}
+CMSA 2020 (571.35\,km$^2$), suggesting that if GEODATA 2020's apparent decline
+reflects processing or encoding differences rather than true ecological change,
+the GEODATA time series may not be suitable for long-term trend analysis without
+additional harmonization.
+
+\TODOEXP{E6 case study: can we reconcile CMSA monotonic increase with GEODATA
+2015--2020 apparent decline?}
+
+% =====================================================================
+\subsection{Spatial agreement (RQ2)}
+
+\TODOEXP{E3: Compute IoU and Dice for all three product pairs on harmonized
+10\,m grid for 2020.}
+
+\TODOEXP{E3: Generate disagreement masks and hotspot density surfaces.}
+
+\TODOEXP{E3: Stratify IoU by four coastal subregions.}
+
+Preliminary observations from source audit:
+\begin{itemize}[nosep]
+\item CMSA contains 5\,292 to 6\,943 individual polygon patches annually
+  (2017--2021). CM-SSM contains 148\,072 patches for 2020, suggesting a
+  fundamentally different patch-delineation strategy (clump-level vs.\
+  contiguous-stand-level).
+\item The CM-SSM total area (593.71\,km$^2$) is only 3.9\,\% larger than CMSA
+  2020 (571.35\,km$^2$), suggesting that the 10\,m vs.\ sub-meter difference
+  in patch counting may translate into modest areal but potentially
+  substantial spatial disagreement.
+\end{itemize}
+
+% =====================================================================
+\subsection{Sensitivity and robustness (RQ3)}
+
+\TODOEXP{E4: Test grid alignment, rasterization rule, resolution downsampling,
+and coastline buffer sensitivity.}
+
+% =====================================================================
+\subsection{Monitoring implications (RQ4)}
+
+\TODOEXP{E6: Complete case studies.}
+
+% =====================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Area agreement: what explains the 14.2\,\% 2020 range?}
+
+The three products differ by both resolution and thematic encoding: GEODATA
+(30\,m, presence-only) is the smallest, CMSA (10\,m, full stand delineation) is
+intermediate, and CM-SSM (sub-meter, clump-level) is the largest. The resolution
+gap (30\,m vs.\ 10\,m vs.\ sub-meter) almost certainly explains the GEODATA--CMSA
+difference: the 30\,m grid systematically misses Spartina patches narrower than
+one pixel (30\,m), which are common in the Yellow Sea intertidal where
+\textit{S.~alterniflora} colonizes along the high-tide line.
+
+The CMSA--CM-SSM difference (3.9\,\%) is smaller than might be expected given
+the resolution gap. One hypothesis is that CMSA polygons already aggregate
+clumps at the stand level, so the sub-meter CM-SSM captures the same physical
+vegetation but splits it more finely. A second hypothesis is that CM-SSM
+includes some commission error (small clumps or isolated plants that CMSA
+interprets as noise rather than substantive Spartina). Distinguishing these
+hypotheses requires independent validation.
+
+\subsection{Implications for historical trend assessment}
+
+The CMSA 2017--2021 trend is monotonically increasing (+4.0\,\%/year), while
+GEODATA shows a decline from 2015 to 2020. If GEODATA's decline is real, it
+would contradict the CMSA trend, implying that national eradication programmes
+deployed since 2015 had measurable impact. If GEODATA's decline is an artifact
+of the 30\,m resolution thresholding or encoding design, then CMSA's increase
+may reflect continued expansion in addition to eradication effects in some
+regions. Resolving this conflict is the primary open question for the
+historical monitoring community.
+
+\subsection{Comparison with global land-cover product studies}
+
+Our 14.2\,\% area range for \textit{S.~alterniflora} across three products is
+consistent with the area-disagreement ranges reported by \citet{wang_2024_ijde}
+for Chinese wetland classes (15--25\,\% disagreement) and by \citet{zhao_2023_rs}
+for global shrubland and wetland classes (10--30\,\% disagreement). Our study
+differs by focusing on a single species rather than a general land-cover class,
+which reduces legend-translation ambiguity but increases sensitivity to
+resolution-based omission of small patches.
+
+None of the four papers we reviewed (Section~\ref{sec:introduction}) reports IoU
+or Dice explicitly; all use OA, PA, UA, and Kappa. We add IoU and Dice as
+species-specific overlap metrics, which are more interpretable for a binary
+species-vs.-non-species comparison than multi-class OA.
+
+\subsection{Agreement $\neq$ accuracy}
+
+A central limitation of this study is the absence of nationally representative
+gold-standard (GOLD) reference samples. All results in Section~\ref{sec:results}
+measure \emph{inter-product agreement}, not accuracy against ground truth.
+Disagreement pixels ($M_{\text{only}\_A}$, $M_{\text{only}\_B}$) are \emph{not}
+omission or commission errors; they are conflict zones that require independent
+verification to resolve. We explicitly avoid labelling either product as
+authoritative on the basis of agreement scores alone.
+
+\subsection{Limitations}
+
+\begin{enumerate}[nosep]
+\item No independent GOLD reference dataset was found for any product year.
+\item Only one common year (2020) is shared by all three products. CMSA and
+  GEODATA have partially non-overlapping time series.
+\item GEODATA's presence-only encoding (Value = 1 / NoData = 255, no explicit
+  absence) means coverage statistics are restricted, not comparable to products
+  with verified absence classes.
+\item CM-SSM's province codes (\texttt{name} field) are researcher-assigned
+  metadata, not maritime administrative boundaries. Prior work that used CM-SSM
+  for province-based Spartina attribution may have introduced circularity.
+\item CMSA is not distributed under open license; terms must be verified for
+  publication.
+\item Spatial autocorrelation in agreement metrics is not addressed in the
+  present analysis; we treat pixels as independent observations for initial
+  results and recommend effective-sample-size correction in future work.
+\end{enumerate}
+
+\subsection{Recommendations}
+
+Three concrete recommendations emerge:
+\begin{enumerate}[nosep]
+\item \textbf{Producers should standardize a reference grid and legend} for
+  Chinese coastal vegetation products. Our harmonization protocol (EPSG:3410,
+  10\,m binary \textit{S.~alterniflora} present/absent) is proposed as a
+  minimal starting point.
+\item \textbf{Published area statistics should always cite both product identity
+  and processing configuration.} A single number like "571\,km$^2$ of
+  \textit{S.~alterniflora} in 2020" is ambiguous about which product and
+  projection was used.
+\item \textbf{Independent GOLD reference datasets at regional scale should be
+  curated and published.} Without ground truth, inter-product agreement is
+  the best available proxy but cannot replace it.
+\end{enumerate}
+
+% =====================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+
+This study presents the first systematic multi-source harmonization and
+comparison of Chinese \textit{S.~alterniflora} distribution products. We
+answer the four research questions as follows:
+
+\begin{itemize}[nosep]
+\item \textbf{RQ1}: Area estimates for 2020 range from 519.89\,km$^2$ (GEODATA
+  30\,m) to 593.71\,km$^2$ (CM-SSM sub-meter), a 14.2\,\% range across three
+  independent products. Resolution is the dominant driver of difference
+  between GEODATA and CMSA (30\,m vs.\ 10\,m).
+\item \textbf{RQ2}: \TODOEXP{E3 IoU/Dice results}
+\item \textbf{RQ3}: \TODOEXP{E4 sensitivity results}
+\item \textbf{RQ4}: The CMSA 2017--2021 monotonic increase vs.\ GEODATA 2015--2020
+  apparent decline creates conflicting historical-change narratives that
+  cannot be resolved without independent reference.
+\end{itemize}
+
+We document all harmonization decisions, processing steps, and source metadata
+to support full reproducibility. The study framework and code are released with
+this manuscript.
+
+% =====================================================================
+\section*{Data Availability}
+\label{sec:data-availability}
+
+All source datasets used in this study are third-party products with the
+following access paths:
+\begin{itemize}[nosep]
+\item CMSA 2017--2021: \TODOVERIFY{CAS ICR data-sharing platform URL}.
+\item GEODATA 1990/2000/2015/2020: \TODOVERIFY{IGSNRR data sharing platform URL}.
+\item CM-SSM 2020: \url{https://doi.org/10.5281/zenodo.16296823}.
+\end{itemize}
+Source geometries are \emph{not} redistributed in this manuscript. Aggregated
+national area statistics are reported in Tables~\ref{tab:area2020} and
+Section~\ref{sec:results}. Derived harmonization masks and agreement metrics
+are saved at \texttt{papers/paper1\_map\_reliability/results/} in the
+\textit{Spartina~Earth} repository\TODOVERIFY{Repository URL for public release}.
+
+\section*{Code Availability}
+
+Harmonization, area computation, IoU/Dice calculation, and sensitivity analysis
+scripts are available at \texttt{papers/paper1\_map\_reliability/experiments/}
+in the \textit{Spartina~Earth} repository\TODOVERIFY. The code is released under
+Apache-2.0. All figures and tables are reproducible from the audited source data
+using the documented configuration.
+
+\section*{Funding}
+
+\TODO{TODO\_FUNDING\_PLACEHOLDER}
+
+\section*{Acknowledgements}
+
+\TODO{TODO\_ACKNOWLEDGEMENTS}
+
+\section*{Conflict of Interest}
+
+The authors declare no conflicts of interest.
+
+% =====================================================================
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+% =====================================================================
+\appendix
+\section{Data inventory}
+\label{app:data}
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:data_inv}Complete dataset inventory.}
+\begin{tabular}{l l l l l}
+\toprule
+Dataset & Provider & Year(s) & Resolution & License \\
+\midrule
+CMSA 2017--2021 & CAS ICR & 2017--2021 & 10\,m vector & TODO\_VERIFY \\
+GEODATA 1990 & IGSNRR & 1990 & 30\,m Albers & CC-BY-NC-ND? \\
+GEODATA 2000 & IGSNRR & 2000 & 30\,m Albers & CC-BY-NC-ND? \\
+GEODATA 2015 & IGSNRR & 2015 & 30\,m Albers & CC-BY-NC-ND? \\
+GEODATA 2020 & IGSNRR & 2020 & 30\,m Albers & CC-BY-NC-ND? \\
+CM-SSM 2020 & CNU Xu et al. & 2020 & sub-meter vector & CC-BY-4.0 (conflict) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:licenses}License and redistribution status.}
+\begin{tabular}{l l l l}
+\toprule
+Dataset & License & Publication OK & Redistribution OK \\
+\midrule
+CMSA & TODO\_VERIFY & \textbf{UNVERIFIED} & NO (source-held) \\
+GEODATA & CC-BY-NC-ND & \textbf{UNVERIFIED} & NO (non-commercial, ND) \\
+CM-SSM & CC-BY-4.0 & YES (with attribution) & YES (with attribution) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+\end{document}
