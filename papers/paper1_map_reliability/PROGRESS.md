@@ -1,98 +1,108 @@
-# PROGRESS — Spartina Earth Paper 1
+# PROGRESS — Paper 1: Multi-Source Spartina alterniflora Map Reliability
 
-**Working Title:** Reliability of Multi-Source Spartina alterniflora Distribution Maps for Coastal Monitoring in China
-
-**Current Stage:** Stage A — Manuscript Foundation
-
-**Git Branch:** `feat/paper1-map-reliability` (created from `reboot/spartina-earth-m0`)
-
-**Last Commit:** TODO (to be made after Stage A compilation)
-
-**Manuscript Directory:** `papers/paper1_map_reliability/`
+**Branch:** feat/paper1-map-reliability
+**Last commit:** ced3c43 (Phase 0-3 scientific audit)
+**Target journal:** SCI Q3–Q4 (candidate: International Journal of Digital Earth, Remote Sensing, or Science of the Total Environment)
 
 ---
 
-## Current Status
+## Current milestone: Phase 0–3 completed (audit, gate, protocol, evidence mapping)
 
-### Manuscript Word Count
-- Total written: ~4,200 words
-- Abstract: 350 words
-- Introduction: ~1,400 words
-- Study Area & Datasets: ~900 words
-- Methodology: ~1,100 words
-- Results skeleton: ~400 words (numbers real, E3/E4/E6/E7 marked TODO)
-- Discussion: ~1,100 words
-- Conclusions: ~100 words (TODO expansion)
-- References section: skeleton
+### Manuscript status
 
-### Sections Written
-- [x] Title + Abstract + Keywords
-- [x] Introduction (with RQ1–RQ4, C1–C4)
-- [x] Study Area & Datasets (CMSA, GEODATA, CM-SSM audited)
-- [x] Methodology (E1–E6 implemented in skeleton, with math)
-- [x] Results structure (E2 numbers real, E3/E4/E6/E7 TODO)
-- [x] Discussion (real interpretation)
-- [x] Conclusions (skeleton, needs expansion)
-- [x] Data Availability + Code Availability (placeholder URLs)
-- [x] Bibliography (30 entries, all DOIs verified where possible)
-- [x] Appendix (data inventory table)
+| Metric | Value |
+|---|---|
+| PDF pages | 16 |
+| Word count (raw tex) | ~6,150 |
+| Sections | 7 (Introduction, Study Area/Datasets, Methodology, Results, Discussion, Conclusions, Data inventory) |
+| Subsections | 25 |
+| Figures (included) | 3 (fig03 agreement map, fig04 stats composite, fig05 resolution curves) |
+| Tables (included) | 5 (table1–4 + 1 in Results body) |
+| TODOEXP markers | 18 (most blocked — E5/E6/E7) |
+| TODOVERIFY markers | 9 (citation full-text reading) |
+| Citations in .bib | 30 entries (ASCII-clean, verified DOIs where available) |
 
-### Experiments Completed
-| ID | Description | Status | Output |
-|----|-------------|--------|--------|
-| E1 | Data harmonization | **In progress** | Harmonization script skeleton, EPSG:3410 target |
-| E2 | Area consistency | **Verified complete** | 2017-2021 CMSA, 1990-2020 GEODATA, 2020 CM-SSM all audited. 2020 cross: CMSA=571.35, GEODATA=519.89, CM-SSM=593.71 km² |
-| E3 | Spatial agreement | **Blocked** | Needs rasterization of CMSA+CM-SSM to 10m grid, IoU/Dice computation |
-| E4 | Resolution sensitivity | **Not started** | |
-| E5 | Regional heterogeneity | **Not started** | |
-| E6 | Monitoring implications | **Partially done** | Trend comparison real (CMSA monotonic vs GEODATA peak+decline) |
-| E7 | Independent validation | **Blocked** | No GOLD reference found |
+### Experiments completed
 
-### Figures Completed
-| # | Description | Status |
-|---|-------------|--------|
-| Fig 1 | Study Area + Dataset Coverage | **Not started** |
-| Fig 2 | Harmonization Framework Diagram | **Not started** |
-| Fig 3 | Spatial Agreement/Disagreement Map | **Blocked on E3** |
-| Fig 4 | Area Statistics + IoU/Dice | **Partially done** (area numbers real) |
-| Fig 5 | Resolution Sensitivity Curves | **Not started** |
-| Fig 6 | Regional Case Studies | **Not started** |
-| Fig 7 | Monitoring Implications | **Not started** |
+| Experiment | What it does | Script | Output file(s) | Status |
+|---|---|---|---|---|
+| E1 Harmonization | CRS/domain/class map | e3_spatial_agreement.py (embedded) | protocol.md | ✅ FROZEN |
+| E2 Area consistency | Native + harmonized areas | audit_all_sources.py, e3_spatial_agreement.py | area_summary.json | ✅ VERIFIED |
+| E3 Spatial agreement | IoU/Dice 30/50/100m | e3_spatial_agreement.py | iou_dice_2020_multi_res.csv | ✅ VERIFIED |
+| E3 Agreement maps | 3-panel visualization | e6_agreement_map.py | fig03_agreement_map.pdf | ✅ VERIFIED |
+| E4 Resolution sensitivity | IoU change 30→100m | e3_spatial_agreement.py | (embedded in CSV) | ✅ VERIFIED |
+| E5 Regional heterogeneity | Stratified IoU | — | — | ❌ BLOCKED |
+| E6 Monitoring implications | Trend conflict + hotspot | — | (qualitative only) | ⚠️ PARTIAL |
+| E7 Independent validation | Ground-truth accuracy | — | — | ❌ BLOCKED (no GOLD ref data) |
 
-### Tables Completed
-| # | Description | Status |
-|---|-------------|--------|
-| Table 1 | Dataset Inventory | **Done** (real audited data) |
-| Table 2 | Area Comparison | **Done** (2020 cross real, trend real) |
-| Table 3 | Spatial Agreement | **Blocked on E3** |
-| Table 4 | Sensitivity | **Not started** |
-| Table 5 | Licensing / Appendix inventory | **Skeleton** |
+### Audit and protocol files (created this session)
 
-### Verified References
-- [x] Wang et al. 2024 (IJDE) — full text retrieved OA
-- [x] Zhao et al. 2023 (RS) — full text retrieved OA MDPI
-- [x] Xu et al. 2024 (RSE) — full text retrieved OA via mirror
-- [x] Ximenes et al. 2023 (STOTEN) — full text retrieved pre-print HAL
-- [x] Xu et al. 2025 (ESSD CM-SSM) — DOI verified
-- [x] CMSA source — 2017-2021 shapefiles audited, area verified
-- [x] GEODATA source — 1990/2000/2015/2020 tifs audited, VAT counts verified
+| File | Purpose |
+|---|---|
+| audits/feasibility_gate.md | 5 critical scientific questions + explicit PASS with caveats |
+| experiments/protocol.md | Full frozen experimental protocol at commit 9be4073 |
+| audits/rq_evidence_matrix.md | RQ1–RQ4 → experiment → figures → actual numbers → caveats |
 
-### PDF Compilation Status
-- LaTeX available (TeX Live 2022)
-- Compilation not yet attempted (main.tex references TODO figures/tables that don't exist yet)
-- Will attempt first full compilation after creating fig04_area_trend placeholder
+### Results summary (VERIFIED numbers)
 
----
+| Metric | Value | Source |
+|---|---|---|
+| CMSA 2020 (harmonized 30m EPSG:3410) | 570.11 km² | e3_spatial_agreement.py |
+| CM-SSM 2020 (harmonized) | 592.35 km² | e3_spatial_agreement.py |
+| GEODATA 2020 (harmonized) | 520.38 km² | e3_spatial_agreement.py |
+| 2020 cross-product range | **14.2%** | Max − min / min |
+| CMSA ↔ CM-SSM IoU | **0.5375** | e3, 30m |
+| CMSA ↔ GEODATA IoU | **0.4437** | e3, 30m |
+| CM-SSM ↔ GEODATA IoU | **0.3423** | e3, 30m |
+| Resolution sensitivity max | **≤0.4% IoU change 30→100m** | e4, all pairs |
+| CMSA 2017→2021 trend | +4.0%/year (monotonic) | CMSA time series |
+| GEODATA 1990→2015 trend | +567% total | GEODATA time series |
+| GEODATA 2015→2020 trend | −6.8% apparent contraction | GEODATA time series |
 
-## Scientific Blockers
-1. **E3 IoU/Dice** — needs 10m rasterization of CMSA + CM-SSM, common mask, IoU/Dice computation
-2. **E4-E5** — resolution + regional sensitivity not started
-3. **E7 validation** — no GOLD reference found; acknowledge limitation
-4. **GEODATA non-overlap** — CMSA years (2017-2021) and GEODATA years (1990,2000,2015,2020) only share 2020
+### Scientific contribution gate (from rq_evidence_matrix.md)
 
-## Next Executable Tasks
-1. Compile first readable PDF (replace TODO figures with placeholder boxes)
-2. Run E3: rasterize CMSA+CM-SSM, compute IoU/Dice on harmonized grid
-3. Run E4-E5: sensitivity analysis
-4. Update Results section with real numbers
-5. Commit Stage A + B
+| Contribution | Evidence level | Verdict |
+|---|---|---|
+| C1: Reproducible and defensible comparison protocol | Full | ✅ CONFIRMED — protocol frozen, audited |
+| C2: Quantitative spatial agreement/disagreement characterization | Full | ✅ CONFIRMED — IoU/Dice, area ranges, agreement masks |
+| C3: Structure or sensitivity of discrepancies | Partial (resolution sensitivity only) | ⚠️ PARTIAL — ≤0.4% resolution stability confirmed, but E5 regional heterogeneity not done |
+| C4: Substantive monitoring implication | Qualitative only | ⚠️ PARTIAL — trend conflict identified, no quantitative uncertainty bounds |
+
+**Overall gate verdict:** The work is **not yet a confirmed SCI Q3–Q4 submission candidate**. It is a **defensible early research draft** with reproducible methodology, quantitative core findings, and clear blocked extensions. Submission readiness requires either:
+1. Implementing E5 regional heterogeneity + E6 hotspot ranking (to strengthen C3 and C4), OR
+2. Explicitly limiting the scope and framing the paper as a protocol/methodology contribution targeting a methods-oriented journal.
+
+### Scientific blockers
+
+| Blocker | Severity | Mitigation |
+|---|---|---|
+| E7 independent validation impossible | HIGH (no GOLD ref data) | Explicitly state in limitations; paper is inter-product agreement, not accuracy |
+| E5 regional heterogeneity not done | MEDIUM | Can be added as a simple domain mask + stratified IoU computation (no new downloads needed) |
+| E6 hotspot ranking uses CM-SSM province codes (circular) | HIGH (scientific integrity) | Prohibited by feasibility gate; must either use external admin boundaries or abandon regional attribution |
+| 4 planned figures (01,02,06,07) missing | LOW | Can be added as context figure (01,02) or explicitly marked as pending |
+| Statistical independence not quantified | MEDIUM | Acknowledge autocorrelation caveat; spatial-block bootstrap would fix but adds complexity |
+
+### Critical open issues (TODOEXP markers)
+
+1. **Regional stratification** (E5): Split domain by 4 coastal subregions (e.g., Bohai/Yellow/East/South China Sea) and compute per-subregion IoU. No new data needed — CMSA bounds + manual polygon masks.
+2. **E4 extra sensitivity tests**: Grid alignment (shift harmonization grid by half RES_M), coastline buffer (test 0km vs 10km vs 50km), rasterization rule (all_touched=True vs False).
+3. **Monitoring implications writing**: Expand Results 4.4 with trend interpretation, add cross-conflict explanation.
+4. **4 core reference full-text reading**: Wang 2024 IJDE, Zhao 2023 RS, Xu 2024 RSE, Ximenes 2023 STOTEN. Currently only partially retrieved.
+
+### Git commit history
+
+| Commit | Description |
+|---|---|
+| cb90ad7 | Stage A — manuscript foundation, compiled 14-page PDF, audited areas |
+| a5b2b45 | Remove debug LaTeX test files |
+| 7f65e14 | Stage B — E3 IoU/Dice + E4 resolution sensitivity (CSV + JSON) |
+| 5dea0fe | Stage D — manuscript integration, 2 figures, 3 tables |
+| 9be4073 | Final Stage D — fig03 agreement map, manuscript fully integrated (16 pages) |
+| ced3c43 | Phase 0–3 — feasibility gate, frozen protocol, RQ evidence matrix |
+
+### Next execution step
+
+1. **Optional (high impact, medium effort):** Implement E5 regional heterogeneity. Split domain by 4 coastal subregions (predefined masks), compute per-subregion IoU and area ratios. Add Figure 06. Strengthens C3 (structure of discrepancies) from Partial to Full.
+2. **Required before submission:** Read full text of 4 core comparison studies, extract methodological differences, write comparative subsection.
+3. **Required:** Expand monitoring implications writing with trend conflict explanation and cross-product uncertainty framing.
+4. **Quality pass:** Visual inspection of fig03–fig05 for any remaining issues (label clipping, color consistency).
