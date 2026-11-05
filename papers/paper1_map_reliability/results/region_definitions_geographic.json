@@ -1,0 +1,90 @@
+{
+  "created": "2026-11-05 22:34:03",
+  "git_commit": "da51613e760eb08a2af8bc625e16b462ffd524af",
+  "method": "Natural Earth 10m IHO-derived marine polygons rasterized at 100 m EPSG:3410 over the CMSA+10 km domain; positive pixels outside every polygon assigned to the nearest group measured against group boundary pixels (KD-tree, exact to 1 pixel)",
+  "boundary_source": {
+    "dataset": "Natural Earth 1:10m Physical Vectors, Geography Marine Polygons",
+    "version": "5.1.1",
+    "license": "public domain (Natural Earth terms of use)",
+    "path": "/data/yingda/Spartina-Earth/work/external/naturalearth_10m_marine/ne_10m_geography_marine_polys.shp",
+    "note": "IHO-derived named sea areas; names verified against name_zh"
+  },
+  "region_groups": {
+    "Bohai_Yellow": [
+      "Bo Hai",
+      "Yellow Sea"
+    ],
+    "East_China": [
+      "East China Sea",
+      "Hangzhou Bay",
+      "Taiwan Strait"
+    ],
+    "South_China": [
+      "South China Sea",
+      "Gulf of Tonkin",
+      "Qiongzhou Strait"
+    ]
+  },
+  "grouping_conventions": {
+    "Taiwan Strait": "grouped with East China Sea (conventional); per-polygon CSV allows regrouping",
+    "Yellow Sea contains Bo Hai": "Bo Hai is a separate NE polygon but included with the Yellow Sea group"
+  },
+  "provenance_per_group": [
+    {
+      "region": "Bohai_Yellow",
+      "polygons": [
+        "Bo Hai",
+        "Yellow Sea"
+      ],
+      "absent_after_clip": []
+    },
+    {
+      "region": "East_China",
+      "polygons": [
+        "East China Sea",
+        "Hangzhou Bay",
+        "Taiwan Strait"
+      ],
+      "absent_after_clip": []
+    },
+    {
+      "region": "South_China",
+      "polygons": [
+        "South China Sea",
+        "Gulf of Tonkin"
+      ],
+      "absent_after_clip": [
+        "Qiongzhou Strait"
+      ]
+    }
+  ],
+  "grid": {
+    "crs": "EPSG:3410",
+    "res_m": 100,
+    "width": 15096,
+    "height": 22166,
+    "total_px": 334617936
+  },
+  "domain_bounds_m": [
+    10471865.1,
+    2621467.0,
+    11981496.0,
+    4838091.7
+  ],
+  "positive_union_pixels": 90641,
+  "positive_px_inside_marine_polygon": 59440,
+  "positive_px_assigned_by_nearest": 31201,
+  "positive_px_assigned_fraction_pct": 34.42,
+  "nearest_assignment_counts": {
+    "Bohai_Yellow": 7678,
+    "East_China": 22262,
+    "South_China": 1261
+  },
+  "nearest_max_distance_km": 53.97,
+  "explored_but_not_primary": {
+    "approach": "Natural Earth 10m admin-1 province groups + nearest-province",
+    "result": "86.0% of positive union pixels fall outside the admin-1 land polygons (coarse coastline excludes intertidal flats), so province groups cannot be used as the primary regional definition"
+  },
+  "note_supersedes": "results/superseded_e5_longitude_bands/",
+  "note_grid_arithmetic": "verified W*H = 15096*22166 = 334617936 (334.62 million)"
+}

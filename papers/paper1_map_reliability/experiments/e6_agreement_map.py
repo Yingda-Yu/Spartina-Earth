@@ -228,8 +228,15 @@ def main():
     # masks by DS_FACTOR for fast matplotlib rendering (domain is 15K×22K px at
     # 100m — too large for imshow; downsample to ~1500×2200).
     DS_FACTOR = 10  # 100m → 1000m for visualization
-    tprint(f"Downsampling masks by {DS_FACTOR}× for rendering (nearest-neighbor slice) ...")
-    def ds(m): return m[::DS_FACTOR, ::DS_FACTOR].astype("uint8")
+    tprint(f"Downsampling masks by {DS_FACTOR}× for rendering (block maximum) ...")
+    def ds(m):
+        """Block-max downsample so sparse positive classes survive rendering."""
+        f = DS_FACTOR
+        h, w = m.shape
+        h2, w2 = (h // f) * f, (w // f) * f
+        m = m[:h2, :w2].astype("uint8")
+        m = m.reshape(h2 // f, f, w2 // f, f)
+        return m.max(axis=(1, 3))
     m_cmsa_cmssm = ds(m_cmsa_cmssm)
     m_cmsa_geodata = ds(m_cmsa_geodata)
     m_cmssm_geodata = ds(m_cmssm_geodata)
@@ -265,17 +272,14 @@ def main():
         Patch(facecolor="#d3d3d3", label="No data / neither"),
         Patch(facecolor="#2ca02c", label="Agreement (both products)"),
         Patch(facecolor="#1f77b4", label="Only product A (CMSA or CM-SSM)"),
-        Patch(facecolor="#ff7f0e", label="Only product B (GEODATA)"),
+        Patch(facecolor="#ff7f0e", label="Only product B (CM-SSM or GEODATA)"),
     ]
     fig.legend(handles=legend_elements, loc="lower center",
                bbox_to_anchor=(0.5, -0.02), ncol=4,
                frameon=True, edgecolor="gray", fancybox=False, fontsize=9)
 
-    fig.suptitle(
-        r"Figure 3 — 2020 Spatial Agreement/Disagreement Between \textit{S.~alterniflora} Distribution Products"
-        f"\n(30\,m rasterization, EPSG:3410 equal-area projection; domain = CMSA 2020 bounds + 10\,km buffer)",
-        fontsize=10, y=1.03
-    )
+    # No embedded figure title: the caption is supplied by the manuscript so
+    # that journal numbering is not duplicated inside the artwork.
 
     pdf_path = os.path.join(FIGURES, "fig03_agreement_map.pdf")
     png_path = os.path.join(FIGURES, "fig03_agreement_map.png")

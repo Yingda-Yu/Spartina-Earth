@@ -19,6 +19,14 @@ because no authoritative admin boundary shapefile is available within
 the repository. This is explicitly acknowledged as a limitation in
 the manuscript.
 
+SUPERSEDED (2026-11-05). The x thresholds above are meridian slices in
+EPSG:3410, whose x axis is linear in longitude (~96.3 km per degree). They
+are NOT the Bohai/Yellow Sea, East China Sea and South China Sea. Worse, the
+labels were inverted: x < 11,000,000 m is the SOUTHERN coast, not the north.
+Outputs are archived in results/superseded_e5_longitude_bands/ and the
+replacement is experiments/e5d_geographic_regions.py (IHO marine polygons).
+Do not rerun this script for manuscript results.
+
 Reuses rasterization logic from e3_spatial_agreement.py.
 """
 

@@ -7,6 +7,14 @@ Shifts the East/South China boundary (x=11,000,000 m in EPSG:3410) by
 
 Purpose: Verify the 3× IoU range finding is robust to boundary placement.
 Reuses rasterization logic from e5_regional_heterogeneity.py.
+
+SUPERSEDED (2026-11-05). The x = 11,000,000 m boundary is a meridian, not a
+coastline, and the three bands are not sea regions (the labels were also
+inverted). This output is archived in
+results/superseded_e5_longitude_bands/e5b_boundary_sensitivity.csv and no
+longer supports any claim in the manuscript. Do not rerun this script for
+manuscript results; see experiments/e5d_geographic_regions.py and
+experiments/e5e_bootstrap_100m.py.
 """
 import os, csv, time, numpy as np
 os.environ.setdefault("PROJ_LIB",

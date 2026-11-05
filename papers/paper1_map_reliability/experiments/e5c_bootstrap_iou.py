@@ -5,6 +5,13 @@ E5c — Patch-level bootstrap for IoU uncertainty (fast version).
 Strategy: Precompute intersection and union counts per 2km block, then
 bootstrap from those block-level values. Much faster than recomputing
 mask operations each bootstrap iteration.
+
+SUPERSEDED (2026-11-05). The regions in this script are EPSG:3410 meridian
+bands, not sea regions, and the labels were inverted. Outputs are archived in
+results/superseded_e5_longitude_bands/e5c_iou_bootstrap.csv and are not cited.
+The replacement, which computes point estimates and block-bootstrap CIs at the
+same 100 m resolution with IHO-derived regions and direct contrast
+distributions, is experiments/e5e_bootstrap_100m.py.
 """
 import os, csv, time, numpy as np
 os.environ.setdefault("PROJ_LIB",

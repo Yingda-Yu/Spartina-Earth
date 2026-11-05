@@ -1,96 +1,135 @@
 # PROGRESS — Paper 1: Multi-Source Spartina alterniflora Map Reliability
 
-**Branch:** feat/paper1-map-reliability
-**Last commit:** ca11141 (R2 comprehensive revision in progress — local changes)
-**Target journal:** SCI Q3–Q4 (candidate: International Journal of Digital Earth, Remote Sensing, or Science of the Total Environment)
+**Branch:** `feat/paper1-map-reliability`
+**Baseline for this round:** `da51613` (R2)
+**Last updated:** 2026-11-05
+**Target journal:** SCI Q3–Q4 (candidate: International Journal of Digital Earth, Remote Sensing)
 
 ---
 
-## Current milestone: R2 revision — manuscript substantially rewritten and strengthened
+## Current milestone: R3.1 — geographic correction and statistical recovery
 
-### Manuscript status (after R2)
+R3 was interrupted by the discovery that the E5 regional analysis used
+EPSG:3410 x-coordinate bands mislabelled as sea regions. R3.1 supersedes
+manuscript polishing and repairs the geography and the statistics first.
+
+### What was found
+
+The old "regions" were meridian slices at x = 11.0 Mm (≈114.2 °E) and
+x = 11.5 Mm (≈119.4 °E) in EPSG:3410, whose x axis is linear in longitude.
+Worse, the labels were inverted: the band called "Bohai/Yellow Sea" was the
+**southern** coast (Guangxi/Hainan/Guangdong, 18.6 km² of CMSA) and the band
+called "South China Sea" was the **northern** coast
+(Jiangsu/Shanghai/Shandong, 468.7 km²). Every regional statement in R2 was
+therefore geographically false.
+
+### What was done
+
+| Task | Deliverable | Status |
+|---|---|---|
+| T1 preserve evidence | `results/superseded_e5_longitude_bands/` + README | DONE |
+| T2 correct regionalisation | `experiments/e5d_geographic_regions.py`; `results/region_definitions_geographic.json` | DONE |
+| T3 recompute E5 | `results/regional_geographic_2020.csv`; `results/regional_area_share_geographic_2020.csv`; `results/regional_by_marine_polygon_2020.csv` | DONE |
+| T4 repair bootstrap | `experiments/e5e_bootstrap_100m.py`; `results/e5e_bootstrap_100m.csv`; `results/e5e_region_contrasts_100m.csv`; `results/e5e_moran_100m.csv` | DONE |
+| T5 repair numbers | `manuscript/main.tex`; ledger in `audits/r3_claim_corrections.md` | DONE |
+| T6 update manuscript/figures | `manuscript/main.tex`, `manuscript/main.pdf`, `figures/fig05_regional_iou.*`, `figures/fig03_agreement_map.*` | DONE |
+| T7 audit deliverables | 5 audit files (see below) | DONE |
+| T8 verify/commit | tests, git commit, push | IN PROGRESS |
+
+### Corrected regional definitions
+
+Source: Natural Earth 1:10m *geography marine polygons* (v5.1.1, public
+domain, IHO-derived).
+
+| Region | Polygons |
+|---|---|
+| Bohai/Yellow Sea | Bo Hai + Yellow Sea |
+| East China Sea | East China Sea + Hangzhou Bay + Taiwan Strait |
+| South China Sea | South China Sea + Gulf of Tonkin + Qiongzhou Strait |
+
+Coastal residual: 65.6 % of positive union pixels fall directly inside a
+polygon; 34.4 % (31,201 px) are nearest-assigned, max distance 53.97 km.
+Admin-1 provinces were tested and rejected (86.0 % of positive pixels outside
+the land polygons).
+
+### Corrected numbers (100 m, 2020)
+
+| Region | CMSA–CM-SSM | CMSA–GEODATA | CM-SSM–GEODATA |
+|---|---|---|---|
+| Bohai/Yellow | 0.4665 | 0.5599 | 0.3646 |
+| East China | 0.5902 | 0.3923 | 0.3499 |
+| South China | 0.4772 | 0.1341 | 0.0835 |
+
+National (same-resolution 95 % block-bootstrap CI, 2 km, seed 202601):
+
+| Pair | IoU | 95 % CI |
+|---|---|---|
+| CMSA–CM-SSM | 0.5395 | [0.5096, 0.5708] |
+| CMSA–GEODATA | 0.4444 | [0.4128, 0.4733] |
+| CM-SSM–GEODATA | 0.3432 | [0.3139, 0.3714] |
+
+**Does the old 3× claim survive?** Not as stated. Direction is reversed
+(Bohai/Yellow highest, South China lowest). Magnitude is 4.18×
+[2.74, 7.51], p < 0.001 for CMSA–GEODATA and 4.37× [2.64, 9.10] for
+CM-SSM–GEODATA, but 0.98× [0.81, 1.19] (p = 0.88) for CMSA–CM-SSM. The
+contrast is pair-specific and covers only 3.4 % of CMSA's national area.
+
+### Manuscript status
 
 | Metric | Value |
 |---|---|
-| PDF pages | **23** |
-| Word count (raw tex) | **~9,500** |
-| Sections | 7 (Introduction, Study Area/Datasets, Methodology, Results, Discussion, Conclusions, Data Availability) |
-| Subsections | 32 |
-| Figures (included) | 5 (fig03 agreement map, fig04 stats composite, fig05 resolution, fig05b regional IoU, fig06 robustness) |
-| Tables (included) | 6 (table1 datasets, table2 area comparison, table3 IoU/Dice, table4 sensitivity, **table5 bootstrap uncertainty**, **table6 boundary sensitivity**) |
-| TODO markers in scientific body | **0** (all citations resolved, all TODOEXP/TODOVERIFY removed from text) |
-| TODO markers in appendix | 2 (license gaps, honest data statements) |
-| Citations in .bib | 28 entries (all with DOIs where applicable) |
-| Cross-reference errors | **0** (clean LaTeX compile, 3 pdflatex + bibtex passes) |
+| PDF pages | 24 |
+| Sections | 7 |
+| Figures included | 5 |
+| Tables included | 6 |
+| Undefined references | 0 |
+| Residual `TODO_EXPERIMENT` markers | 0 |
+| Owner-blocked placeholders | affiliation, e-mail, funding, competing interests |
 
-### Experiments completed
+### Experiments
 
-| Experiment | What it does | Script | Output file(s) | Status |
-|---|---|---|---|---|
-| E1 Harmonization | CRS/domain/class map | e3_spatial_agreement.py (embedded) | experiments/protocol.md | ✅ FROZEN |
-| E2 Area consistency | Native + harmonized areas | audit_all_sources.py | area_summary.json | ✅ VERIFIED |
-| E3 Spatial agreement | IoU/Dice 30/50/100m | e3_spatial_agreement.py | iou_dice_2020_multi_res.csv | ✅ VERIFIED |
-| E3 Agreement maps | 3-panel visualization | e6_agreement_map.py | fig03_agreement_map.pdf | ✅ VERIFIED |
-| E4 Resolution sensitivity | IoU change 30→100m | e3_spatial_agreement.py | (embedded in CSV) | ✅ VERIFIED |
-| E4 Extended robustness | Grid shift, coastline buffer, all_touched | e4_robustness_extended.py | robustness_2020.csv | ✅ VERIFIED |
-| E5 Regional heterogeneity | Stratified IoU by subregion | e5_regional_heterogeneity.py | regional_agreement_2020.csv | ✅ VERIFIED |
-| **E5b Boundary sensitivity** | Shift subregion boundaries ±250–500km | e5b_boundary_sensitivity.py | e5b_boundary_sensitivity.csv | ✅ NEW (R2) |
-| **E5c Bootstrap IoU** | Block-bootstrap uncertainty quantification | e5c_bootstrap_iou.py | e5c_iou_bootstrap.csv | ✅ NEW (R2) |
-| E6 Monitoring implications | Hotspot stability, rankings | (embedded in manuscript Results/RQ4) | (descriptive, quantitative) | ✅ VERIFIED |
-| E7 Independent validation | Feasibility scan for GOLD data | (manuscript search, documented) | audits/ | ❌ BLOCKED (no national GOLD data) |
+| Experiment | Script | Output | Status |
+|---|---|---|---|
+| E1 Harmonization | `e3_spatial_agreement.py` + `protocol.md` | — | DONE |
+| E2 Area consistency | `audit_all_sources.py` | `area_summary.json` | VERIFIED |
+| E3 Spatial agreement | `e3_spatial_agreement.py` | `iou_dice_2020_multi_res.csv` | VERIFIED (rerun) |
+| E3 Agreement map | `e6_agreement_map.py` | `fig03_agreement_map.*` | REGENERATED |
+| E4 Resolution / robustness | `e3_spatial_agreement.py`, `e4_robustness_extended.py` | `robustness_2020.csv` | VERIFIED |
+| E5 Regional (corrected) | `e5d_geographic_regions.py` | `regional_geographic_2020.csv` | NEW |
+| E5 Bootstrap (corrected) | `e5e_bootstrap_100m.py` | `e5e_*.csv/json` | NEW |
+| E5 Regional figure | `e5f_regional_figure.py` | `fig05_regional_iou.*` | NEW |
+| E5 old band analysis | `e5*.py` (R2) | `superseded_e5_longitude_bands/` | SUPERSEDED |
+| E6 Monitoring implications | embedded in Results/RQ4 | manuscript | DESCRIPTIVE |
+| E7 GOLD validation | — | `audits/feasibility_gate.md` | BLOCKED (no data) |
 
-### Key R2 findings (NEW — not in R1)
+### Audit deliverables
 
-| Finding | Evidence |
+| File | Content |
 |---|---|
-| 3× IoU regional heterogeneity is **robust to boundary placement** | E5b: South/North IoU ratio remains 3.2–3.96× across x=10.75M–11.25M m boundary positions (CMSA–GEODATA pair) |
-| 3× IoU regional heterogeneity is **statistically meaningful** | E5c: Bohai/Yellow 95% CI [0.078, 0.211] and South China [0.424, 0.487] **do not overlap** |
-| Effective sample size for IoU is **~2,000 blocks**, not 3.35B pixels | E5c: Only 0.24% of 2km blocks contain *Spartina* pixels |
-| Global IoU is precise despite autocorrelation (±3% relative uncertainty) | E5c: Global CMSA–GEODATA IoU CI = [0.4182, 0.4719], 3% relative width |
-| Bootstrap uncertainty is now quantified for all three pairs | E5c CSV includes global + 3 regional CIs |
+| `audits/r3_geographic_correction.md` | mislabelling evidence, corrected definitions, does the 3× survive |
+| `audits/r3_bootstrap_validation.md` | 8-point bootstrap checklist, Moran's I, contrasts, stall diagnosis |
+| `audits/r3_claim_corrections.md` | previous → revised → reason → output for every changed number |
+| `audits/r3_regional_boundary_validation.md` | perturbation classes, definitions, residual |
+| `audits/r3_independent_review.md` | independent scores (6.0/10) and recommendation |
 
-### Scientific contribution gate
+### Remaining blockers
 
-| Contribution | Evidence level | Verdict |
-|---|---|---|
-| C1: Reproducible and defensible comparison protocol | Full | ✅ CONFIRMED — protocol frozen, audited |
-| C2: Quantitative spatial agreement/disagreement characterization | Full | ✅ CONFIRMED — IoU/Dice, area ranges, agreement masks |
-| C3: Structure or sensitivity of discrepancies | Full | ✅ CONFIRMED — resolution, grid shift, boundary sensitivity, all_touched, bootstrap uncertainty |
-| C4: Substantive monitoring implication | Quantitative | ✅ STRENGTHENED — hotspot stability (robust), secondary rankings (not robust), resource allocation sensitivity |
+1. No nationally representative GOLD reference data → accuracy is not
+   assessable (E7 BLOCKED).
+2. Coverage-normalized IoU not computed (acknowledged as a gap).
+3. Author affiliation, e-mail, funding, competing interests: owner
+   confirmation required.
+4. Figure 03 remains a national-extent map where the signal occupies <1 % of
+   pixels; a zoom panel is recommended.
+5. External domain-expert read of the regional interpretation.
 
-**Overall gate verdict:** The work is now **a defensible SCI Q3–Q4 submission candidate**. The core 3× IoU regional heterogeneity finding is:
-- Quantitatively measured (E5 regional)
-- Robust to boundary placement (E5b sensitivity)
-- Statistically meaningful (E5c bootstrap CI non-overlap)
+### Verdict
 
-### Remaining minor issues (before submission)
-
-1. **[Trivial]** Fix author affiliation/email placeholder in manuscript
-2. **[Minor]** Clarify CMSA license language in Data Availability
-3. **[Minor]** Figure 04a may mix source-reported vs. harmonized values — check caption
-4. **[Minor]** GSHHS coastline mask mentioned in Methods but experiments use CMSA bounds — reconcile or clarify
-
-### Git commit history (cumulative)
-
-| Commit | Description |
-|---|---|
-| cb90ad7 | Stage A — manuscript foundation (14 pages) |
-| 7f65e14 | Stage B — E3 IoU/Dice + E4 resolution |
-| 5dea0fe | Stage D — manuscript integration |
-| 9be4073 | fig03 agreement map |
-| ced3c43 | Phase 0–3 — feasibility gate, protocol, evidence matrix |
-| a0241a4 | PROGRESS.md update |
-| ca11141 | R1 scientific corrections (10 overclaims fixed) |
-| *(local)* | **R2 comprehensive revision** — +2 experiments, bootstrap, boundary sensitivity, manuscript rewrite |
-
-### Next execution step
-
-1. Commit and push R2 revisions to `feat/paper1-map-reliability`
-2. Fix minor remaining issues (affiliation, figure 04a caption)
-3. Target journal selection: IJDE (International Journal of Digital Earth) — strongest Q3 fit for this paper
-4. External peer review via colleagues
-5. Optional: Improve figures (vector quality, label consistency)
+**Not submission-ready.** Geographic interpretation and statistical
+uncertainty are now corrected and traceable, but the paper still lacks any
+accuracy assessment and has owner-blocked front-matter items.
 
 ---
 
-*Last updated: 2026-11-04*
+*Supersedes the 2026-11-04 R2 PROGRESS entry, which recorded the now-retracted
+"3× regional heterogeneity" finding as robust and statistically meaningful.*
