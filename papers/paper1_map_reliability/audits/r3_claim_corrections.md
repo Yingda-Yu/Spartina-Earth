@@ -44,7 +44,7 @@ value, the revised value, the reason, and the supporting output.
 | Field | Content |
 |---|---|
 | Previous | "despite *de facto* billion-pixel sample sizes" and a 3.35-billion-pixel comparison |
-| Revised | "about 2,000 informative 2 km blocks (0.24 % of all blocks)" |
+| Revised | "about 2,000 informative 2 km blocks (0.24–0.27 % of all blocks)" |
 | Reason | Only 2,014–2,256 of 837,295 blocks contain any union pixel. |
 | Support | `results/e5e_bootstrap_100m.csv` → `n_blocks_informative` |
 

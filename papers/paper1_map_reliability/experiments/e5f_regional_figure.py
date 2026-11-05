@@ -40,33 +40,35 @@ REGION_LABEL = {
     "East_China": "East\nChina Sea",
     "South_China": "South\nChina Sea",
 }
-PAIRS = ["CMSA_vs_CM-SSM", "CMSA_vs_GEODATA", "CM-SSM_vs_GEODATA"]
-# E5e writes pair identifiers without the hyphen in CM-SSM
-PAIR_TO_BOOT = {
-    "CMSA_vs_CM-SSM": "CMSA_vs_CMSSM",
-    "CMSA_vs_GEODATA": "CMSA_vs_GEODATA",
-    "CM-SSM_vs_GEODATA": "CMSSM_vs_GEODATA",
-}
+PAIRS = ["CMSA_vs_CMSSM", "CMSA_vs_GEODATA", "CMSSM_vs_GEODATA"]
 PAIR_LABEL = {
-    "CMSA_vs_CM-SSM": "CMSA vs. CM-SSM",
+    "CMSA_vs_CMSSM": "CMSA vs. CM-SSM",
     "CMSA_vs_GEODATA": "CMSA vs. GEODATA",
-    "CM-SSM_vs_GEODATA": "CM-SSM vs. GEODATA",
+    "CMSSM_vs_GEODATA": "CM-SSM vs. GEODATA",
 }
 COLORS = {
-    "CMSA_vs_CM-SSM": "#1f77b4",
+    "CMSA_vs_CMSSM": "#1f77b4",
     "CMSA_vs_GEODATA": "#ff7f0e",
-    "CM-SSM_vs_GEODATA": "#2ca02c",
+    "CMSSM_vs_GEODATA": "#2ca02c",
 }
+
+
+def normalise_pair(series):
+    """E5d/E5e have used both `CMSA_vs_CM-SSM` and `CMSA_vs_CMSSM`."""
+    return series.astype(str).str.replace("CM-SSM", "CMSSM", regex=False)
 
 
 def main():
     reg = pd.read_csv(os.path.join(RESULTS, "regional_geographic_2020.csv"))
+    reg["pair"] = normalise_pair(reg["pair"])
     reg = reg[(reg["resolution_m"] == 100) & (reg["subregion"].isin(REGIONS))]
 
     boot = pd.read_csv(os.path.join(RESULTS, "e5e_bootstrap_100m.csv"))
+    boot["pair"] = normalise_pair(boot["pair"])
     boot = boot[(boot["block_km"] == 2) & (boot["scale"].isin(REGIONS))]
 
     contrast = pd.read_csv(os.path.join(RESULTS, "e5e_region_contrasts_100m.csv"))
+    contrast["pair"] = normalise_pair(contrast["pair"])
 
     fig, axes = plt.subplots(1, 3, figsize=(11.4, 3.9), sharey=True)
     width = 0.26
@@ -76,8 +78,7 @@ def main():
         xs = np.arange(len(PAIRS))
         for k, pair in enumerate(PAIRS):
             row = reg[(reg["subregion"] == region) & (reg["pair"] == pair)]
-            b = boot[(boot["scale"] == region) &
-                     (boot["pair"] == PAIR_TO_BOOT[pair])]
+            b = boot[(boot["scale"] == region) & (boot["pair"] == pair)]
             if row.empty or b.empty:
                 continue
             iou = float(row["iou"].iloc[0])
