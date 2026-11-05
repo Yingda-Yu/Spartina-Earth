@@ -175,6 +175,9 @@ contrast and no longer carries a general "3×" claim.
 - `e6_agreement_map.py` was rerun independently and reproduced the national
   IoU values exactly (0.5395 / 0.4444 / 0.3432), so the correction did not
   disturb the underlying harmonization.
-- The provenance JSON records `git_commit` as `da51613` because the corrected
-  scripts ran on the working tree before the R3.1 commit; after the commit
-  the scripts are rerun so that the recorded commit matches the code.
+- The provenance JSON initially recorded `git_commit` as `da51613` because the
+  corrected scripts first ran on the working tree before the R3.1 commit.
+  Both scripts were rerun on `1c98369` (E5d 249.0 s, E5e 106.7 s,
+  maxrss 3.68 GB); `region_definitions_geographic.json` and
+  `e5e_bootstrap_meta.json` now record `1c98369d4c62d858c7f9b13c52fde782f705980b`
+  and the outputs are unchanged.

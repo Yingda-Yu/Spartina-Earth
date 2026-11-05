@@ -34,7 +34,7 @@ therefore geographically false.
 | T5 repair numbers | `manuscript/main.tex`; ledger in `audits/r3_claim_corrections.md` | DONE |
 | T6 update manuscript/figures | `manuscript/main.tex`, `manuscript/main.pdf`, `figures/fig05_regional_iou.*`, `figures/fig03_agreement_map.*` | DONE |
 | T7 audit deliverables | 5 audit files (see below) | DONE |
-| T8 verify/commit | tests, git commit, push | IN PROGRESS |
+| T8 verify/commit | tests, git commit, push | DONE |
 
 ### Corrected regional definitions
 
@@ -128,6 +128,19 @@ contrast is pair-specific and covers only 3.4 % of CMSA's national area.
 **Not submission-ready.** Geographic interpretation and statistical
 uncertainty are now corrected and traceable, but the paper still lacks any
 accuracy assessment and has owner-blocked front-matter items.
+
+### Verification record (T8)
+
+| Check | Result |
+|---|---|
+| `pytest tests -q` (repository suite) | 588 passed, 21 skipped, 41 warnings, 43.7 s |
+| E5d rerun on `1c98369` | 249.0 s; all nine regional IoUs and the three national IoUs identical |
+| E5e rerun on `1c98369` | 106.7 s, maxrss 3.68 GB; all CIs and contrasts identical |
+| E5f rerun | nine bars, 2 km CIs; contrast ratios reproduce the paper's table |
+| LaTeX build | `main.pdf`, 24 pages, 0 undefined references |
+| Provenance | `region_definitions_geographic.json` and `e5e_bootstrap_meta.json` record `1c98369` |
+| Commits | `1c98369` (corrections), `41cba80` (rerun provenance + fig05 fix) |
+| Remote | pushed to `origin/feat/paper1-map-reliability` (not merged to `main`) |
 
 ---
 
