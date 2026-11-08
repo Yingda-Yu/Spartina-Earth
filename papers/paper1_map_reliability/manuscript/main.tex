@@ -22,10 +22,13 @@
 \title{Spatial Agreement and Regional Uncertainty in Multi-Source Maps of
 \textit{Spartina alterniflora} along the Chinese Coast}
 
-\author{Anonymous Reviewer Submission \\
-TODO\_AFFILIATION, TODO\_EMAIL}
+\author{Yingda Yu$^{1,2}$\\[4pt]
+  \small $^{1}$Department of Mathematics, Wenzhou-Kean University,
+  Wenzhou, Zhejiang, China\\
+  \small $^{2}$Spartina Technology\\[3pt]
+  \small Corresponding author: \texttt{yuying@kean.edu}}
 
-\date{}
+\date{Preprint, November 2026}
 
 \begin{document}
 \maketitle
@@ -96,7 +99,8 @@ distribution as their baseline.
 
 Three independently produced Chinese national \textit{S.~alterniflora} distribution
 products are compared in this study; further national- and provincial-scale
-mapping efforts exist\citep{zhang_2023_jag, li_2022_jem, zhao_2023_rse_saltmarsh},
+mapping efforts exist\citep{zhang_2023_jag, li_2022_jem, zhao_2023_rse_saltmarsh,
+chen_2023_rse_mangrove, zuo_2025_sai},
 but the three products below were the ones obtained and audited under the
 repository's provenance policy. They were produced by different institutions
 using different sensor suites, classification methods, spatial resolutions, and
@@ -125,7 +129,8 @@ systematically quantified.
 \subsection{Why map reliability matters}
 
 Recent comparisons of global and regional land-cover products
-\citep{wang_2024_ijde, zhao_2023_rs, xu_2024_rse, ding_2022_rs} have shown that
+\citep{wang_2024_ijde, zhao_2023_rs, xu_2024_rse, ding_2022_rs,
+zhong_2023_ocm} have shown that
 even nominally high-accuracy 10\,m products can disagree substantially in
 their areal estimates and in where they place class boundaries. Discrepancies
 arise from four primary sources:
@@ -164,18 +169,27 @@ We propose four research questions:
   conclusions about spatial distribution and historical change?
 \end{itemize}
 
-This study makes four intended contributions:
+This study makes three contributions:
 
 \begin{enumerate}[nosep]
-\item \textbf{C1---A reproducible harmonization framework} for Chinese
-  \textit{S.~alterniflora} distribution products.
-\item \textbf{C2---Quantified spatial agreement and disagreement} across
-  2017--2021 annual estimates.
-\item \textbf{C3---Sensitivity analysis} of resolution and processing choices on
-  area and overlap metrics.
-\item \textbf{C4---Practical guidance for interpreting multi-source remote
-  sensing products} in coastal monitoring, with transparent discussion of the
-  implications for historical change assessment.
+\item \textbf{C1---A reproducible multi-product spatial agreement assessment}
+  for national-scale \textit{S.~alterniflora} distribution maps, built on a
+  documented harmonization protocol (equal-area grid, common epoch,
+  resolution and processing-sensitivity tests) and released with complete
+  provenance from source scenes to result files.
+\item \textbf{C2---Quantification of product-pair-specific regional
+  disagreement and its robustness}: the geographic structure of disagreement
+  between products is estimated with spatial block-bootstrap confidence
+  intervals and shown to be stable across five geographic-attribution
+  policies, so that the reported regional contrasts describe the products
+  rather than an arbitrary processing choice.
+\item \textbf{C3---Evidence-based guidance on the limits of treating existing
+  distribution products as interchangeable reference labels}: we identify
+  which interpretations the current products support (relative consistency,
+  regional disagreement structure) and which they do not (absolute accuracy,
+  coverage-normalized agreement), with direct implications for how these
+  maps may be used in subsequent monitoring studies, model training, and
+  validation design.
 \end{enumerate}
 
 We explicitly distinguish \textit{agreement} (inter-product consistency) from
@@ -210,6 +224,29 @@ includes major estuaries (Yangtze, Yellow, Minjiang, Pearl), extensive
 intertidal flats in the Yellow Sea basin, and rocky coastlines of Fujian and
 Zhejiang provinces. The highest \textit{S.~alterniflora} densities are reported
 in Jiangsu, Shanghai, Zhejiang, and Fujian coastal segments.
+Figure~\ref{fig:study_area} locates the study area, the three sea-region
+groups used for all regional comparisons, and the 2020 distribution mapped
+by each of the three products on a common base map.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig01_study_area.pdf}
+\caption{Study area, sea-region groups, and the three source products.
+(a)~Geographic setting of the Chinese mainland coastal zone (land/sea base
+and province boundaries from Natural Earth 1:10m, public domain; 5\textdegree{}
+graticule; equal-area EPSG:3410 projection) with the three marine region
+groups used throughout this study: Bohai/Yellow Sea, East China Sea, and
+South China Sea. The red rectangle and inset show the Yangtze estuary
+enlargement, where the three products' 2020 positives co-occur.
+(b)~CMSA (10\,m annual vector, 2020); (c)~CM-SSM (sub-meter vector patch
+product, 2020); (d)~GEODATA (30\,m raster, 2020). All three distribution
+panels share the identical base map, extent, and 1\,km block-maximum
+rendering; teal marks mapped \textit{S.~alterniflora} presence in every
+panel. Mapped extents concentrate on the Yellow Sea and East China Sea
+coasts, with sparser, spatially divergent presences along the South China
+Sea coast (Section~\ref{sec:results}).}
+\label{fig:study_area}
+\end{figure}
 
 % =====================================================================
 \subsection{Datasets}
@@ -223,10 +260,11 @@ are \emph{not} redistributed; only aggregated numerical results are published.
 
 \subsubsection{CMSA 2017--2021 (10\,m vector, annual)}
 
-The CMSA is a series of five annual polygon shapefiles published by the Chinese
-Academy of Sciences Institute of Coastal Research. Each file contains individual
+The CMSA is a series of five annual polygon shapefiles produced by a research
+team at Capital Normal University (the production study is
+\citet{li_2024_cmsa}). Each file contains individual
 \textit{S.~alterniflora} patch polygons derived from Sentinel-2 imagery using
-spectral index thresholding combined with visual interpretation. Each feature
+deep learning with spectral-phenological feature classification. Each feature
 carries a \texttt{gridcode} attribute (2 = confirmed \textit{S.~alterniflora};
 0 = non-\textit{S.~alterniflora} or UNKNOWN) and a pre-computed \texttt{Area\_ha}
 field. All shapefiles are in EPSG:32650 (WGS84 UTM Zone 50N). The coordinate
@@ -288,7 +326,8 @@ Source audit results (this study):
 \subsection{Data licensing and rights}
 
 No dataset in this study carries unrestricted public-redistribution rights.
-CMSA is held by the Chinese Academy of Sciences; publication permission is
+CMSA was produced by a Capital Normal University research team
+\citep{li_2024_cmsa}; publication permission is
 granted for aggregated results but source-geometry redistribution terms remain
 under formal verification. GEODATA originates from the IGSNRR data-sharing
 platform under CC-BY-NC-ND (non-commercial, no derivatives). CM-SSM carries
@@ -689,12 +728,14 @@ that different products capture differently.
 \centering
 \includegraphics[width=\textwidth]{../figures/fig03_agreement_map.pdf}
 \caption{\label{fig:agreement}2020 spatial agreement/disagreement between
-  distribution products at 100\,m resolution (EPSG:3410). Top row (a--c):
-  national extent; each 1.5\,km block containing at least one positive
-  pixel is drawn as a coloured dot (green = both products; blue = unique to
-  product $A$; orange = unique to product $B$; disagreement classes drawn
-  above agreement), with sea-region boundaries, region labels and red
-  rectangles marking the enlargement windows. Bottom row (d--f):
+  distribution products at 100\,m resolution (EPSG:3410; land/sea base,
+  coastlines and province boundaries from Natural Earth, public domain).
+  Top row (a--c): national extent; each 1.5\,km block containing at least
+  one positive pixel is drawn as a coloured dot (green/teal = both
+  products; blue = unique to product $A$; orange = unique to product $B$;
+  disagreement classes drawn above agreement); red rectangles mark the
+  enlargement windows; the inset in (a) locates the mapped extent within
+  East Asia. Bottom row (d--f):
   full-resolution 100\,m enlargements of the densest mapped coastal window
   (70\,km span; 10\,km scale bar). Left: CMSA vs.\ CM-SSM (IoU = 0.5395).
   Centre: CMSA vs.\ GEODATA (IoU = 0.4444). Right: CM-SSM vs.\ GEODATA
@@ -810,7 +851,7 @@ contrast is stable: 4.06--4.18$\times$ for CMSA--GEODATA and
 4.37--4.64$\times$ for CM-SSM--GEODATA across all five policies, while
 CMSA--CM-SSM never departs from unity (0.98--1.04). The assignment
 distances themselves are strongly region-dependent (East China median
-6.83\,km vs.\ South China 1.61\,km; 478 East China pixels lie beyond
+6.83\,km vs.\ South China 1.61\,km; 237 East China pixels lie beyond
 50\,km; Figure~\ref{fig:assignment}), concentrated on intertidal flats
 seaward of the generalized Natural Earth coastline.
 
@@ -821,11 +862,15 @@ seaward of the generalized Natural Earth coastline.
 \includegraphics[width=0.85\textwidth]{../figures/fig_r4_region_assignment.pdf}
 \caption{\label{fig:assignment}Nearest-assignment distances for the 31,201
   positive-union pixels falling outside all marine polygons (100\,m,
-  EPSG:3410). Teal = direct polygon membership; warm colours = binned
+  EPSG:3410; land/sea base from Natural Earth, public domain).
+  Teal = direct polygon membership; warm colours = binned
   nearest-assignment distance (0--1, 1--5, 5--10, 10--20, 20--50,
   $>$50\,km). The East China Sea group receives 71\,\% of all assigned
   pixels, with the longest distances concentrated seaward of the
-  generalized Natural Earth coastline.}
+  generalized Natural Earth coastline. Panel (b): distribution of
+  nearest-assignment distances (overall median 5.5\,km, overall p99
+  52.5\,km; the East China Sea group median of 6.83\,km is reported in
+  Section~\ref{sec:results-e5}).}
 \end{figure}
 
 \subsubsection{Uncertainty quantification via block bootstrap}
@@ -1052,11 +1097,24 @@ regional IoU.
 \begin{figure}[htpb]
 \centering
 \includegraphics[width=\textwidth]{../figures/fig_r4_south_china_zoom.pdf}
-\caption{\label{fig:south_zoom}Largest South China Sea disagreement clusters
-  at 100\,m (EPSG:3410), one enlargement per cluster with window size
-  adapted to cluster size. Green = both products; orange = CMSA/CM-SSM
-  only; purple = GEODATA only. The full regional overview and per-cluster
-  statistics are in \texttt{results/r4\_south\_china\_clusters.csv}.}
+\caption{\label{fig:south_zoom}Three representative South China Sea
+  disagreement localities at the native 100\,m grid (EPSG:3410), redrawn
+  on the standard land/sea base map (Natural Earth, public domain).
+  (a)~Pearl River estuary (113.42\textdegree{}E, 22.14\textdegree{}N):
+  the largest GEODATA-only cluster versus CM-SSM, with adjacent CMSA
+  positives; (b)~Beibu Gulf (110.16\textdegree{}E, 20.93\textdegree{}N):
+  the largest GEODATA-only cluster versus CMSA, with no other-product
+  positive inside the window; (c)~Leizhou Bay
+  (109.66\textdegree{}E, 21.58\textdegree{}N): three-way co-location with
+  partial overlap and visible inter-product offsets. Blue = CMSA,
+  teal = CM-SSM, orange = GEODATA; blended tones mark spatial overlap of
+  two products. Windows are centred on rank-1 disagreement clusters from
+  the cluster analysis (per-cluster statistics in
+  \texttt{results/r4\_south\_china\_clusters.csv}); each window spans
+  5\,km. Low IoU in this region is consistent with spatial displacement
+  between products rather than wholesale omission, although displacement
+  cannot be established as the sole cause
+  (Section~\ref{sec:south-china}).}
 \end{figure}
 
 % =====================================================================
@@ -1583,13 +1641,15 @@ this manuscript under the Git reference
 The data that support the findings of this study are available from the
 third-party sources listed below; the derived harmonization masks, agreement
 metrics and all experiment result files supporting the findings are
-available from the authors upon reasonable request and are archived in the
+available from the corresponding author upon reasonable request and are
+archived in the
 publicly accessible \textit{Spartina~Earth} repository at the Git commit cited
 in the Conclusions. All source datasets used in this study are third-party
 products with the following access paths:
 \begin{itemize}[nosep]
-\item CMSA 2017--2021: provided upon request to the Chinese Academy of Sciences
-  Institute of Coastal Research. Redistribution terms are under verification.
+\item CMSA 2017--2021: provided upon request by the production team
+  (Capital Normal University; production study published as
+  \citealp{li_2024_cmsa}). Redistribution terms are under verification.
 \item GEODATA 1990/2000/2015/2020: released via the IGSNRR Data Open platform
   under CC-BY-NC-ND. Non-commercial use permitted; no derivative work allowed.
 \item CM-SSM 2020: \url{https://doi.org/10.5281/zenodo.16296823} (Zenodo,
@@ -1614,29 +1674,39 @@ the documented configuration (Python 3.11, geopandas 1.0.1, rasterio 1.4.3,
 numpy, pandas, pyproj; PROJ\_LIB set to the miniconda spartina-earth share/proj
 path).
 
-\section*{Funding}
-
-This research was conducted without external funding. Infrastructure and compute
-resources were provided by the authors' institution.
+% TODO_OWNER: funding statement pending owner confirmation (R6 audit:
+% no verified funding information exists in the repository; do not publish
+% an unconfirmed claim). Omitted from the preprint.
 
 \section*{Acknowledgements}
 
-The authors thank the Chinese Academy of Sciences Institute of Coastal Research
-for providing the CMSA dataset, the Institute of Geographic Sciences and Natural
-Resources Research for the GEODATA time series, and CNU Zhou et al.\ for the
-openly published CM-SSM product. Constructive feedback from anonymous reviewers
-is acknowledged.
+The author thanks the producer teams of the three distribution products
+compared in this study: the Capital Normal University team behind the CMSA
+annual saltmarsh atlas \citep{li_2024_cmsa}, the Institute of Geographic
+Sciences and Natural Resources Research for the GEODATA time series
+\citep{geodata_time_series}, and the Capital Normal University team behind
+the CM-SSM sub-meter patch product \citep{zhou_2025_cmssm}. This study is a
+contribution of the Spartina~Earth open research program.
 
-\section*{Disclosure of interest}
+\section*{Competing interests}
 
-The authors report no conflict of interest.
+The author holds academic affiliation with Wenzhou-Kean University and is
+affiliated with Spartina Technology, a private company whose research program
+includes coastal environmental monitoring and ESG-related services. The study
+reported here is a data-reliability analysis conducted within the Spartina
+Earth open research program; its design, analysis, and conclusions are the
+author's own, and all results, code, and provenance records are released
+openly. No commercial product or service is evaluated or promoted in this
+study.
 
 \section*{Declaration of generative AI use}
 
-\TODO{OWNER\_CONFIRM: state whether and how generative AI tools were used in
-the research and manuscript preparation process, per the IJRS Instructions
-for Authors. The final wording must be confirmed by the data and manuscript
-owner before submission.}
+AI-assisted tools were used to support code development, figure production,
+and manuscript editing under the author's direction and supervision. All
+analyses, numerical results, and conclusions were produced by the documented
+reproducible pipeline archived in the Spartina~Earth repository, and all
+primary numbers were re-verified against the committed result files during
+the pre-publication audit.
 
 % =====================================================================
 \bibliographystyle{plainnat}
@@ -1654,7 +1724,7 @@ owner before submission.}
 \toprule
 Dataset & Provider & Year(s) & Resolution & License \\
 \midrule
-CMSA 2017--2021 & CAS ICR & 2017--2021 & 10\,m vector & TODO\_VERIFY \\
+CMSA 2017--2021 & CNU (Li et al.) & 2017--2021 & 10\,m vector & TODO\_VERIFY \\
 GEODATA 1990 & IGSNRR & 1990 & 30\,m Albers & CC-BY-NC-ND? \\
 GEODATA 2000 & IGSNRR & 2000 & 30\,m Albers & CC-BY-NC-ND? \\
 GEODATA 2015 & IGSNRR & 2015 & 30\,m Albers & CC-BY-NC-ND? \\

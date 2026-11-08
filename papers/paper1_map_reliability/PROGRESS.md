@@ -1,13 +1,65 @@
 # PROGRESS — Paper 1: Multi-Source Spartina alterniflora Map Reliability
 
 **Branch:** `feat/paper1-map-reliability`
-**Baseline for this round:** `b84feda` (R4)
-**Last updated:** 2026-11-08
-**Target journal:** **International Journal of Remote Sensing (IJRS), Taylor & Francis** — verified 2026-11-08 (SCIE, CAS 2025 Q4, subscription route, zero mandatory APC)
+**Baseline for this round:** `e963b4a` (R5)
+**Last updated:** 2026-11-09
+**Publication route:** **EarthArXiv public preprint** (owner-directed R6
+change); IJRS remains the recorded secondary possibility for later journal
+submission.
 
 ---
 
-## Current milestone: R5 — IJRS submission-targeted finalization
+## Current milestone: R6 — EarthArXiv preprint finalization
+
+### What was done
+
+| Task | Deliverable | Status |
+|---|---|---|
+| R6-01 baseline | HEAD `e963b4a`, in sync; one benign pre-existing line in `submission/ijrs/latex_source/main.tex` (Git-ref update) committed with R6 | DONE |
+| R6-02 authorship | single author confirmed via git co-author check; Spartina Technology legal name remains TODO_VERIFY | DONE |
+| R6-03 integrity audit | `audits/r6_scientific_integrity.md`; all primary numbers PASS vs committed artifacts; **one error fixed** (East China >50 km pixels 478→237) | DONE |
+| R6-04 cartography | full redesign via `experiments/r6_cartography.py` design system; new Fig 1 (study area), rebuilt fig03 (NE basemap + enlargements), South China zoom, assignment figure, restyled coverage strips; `audits/r6_cartographic_qa.md` incl. §0.1 correction of a **metre-vs-km basemap rendering bug** (land layer invisible in all map figures; found, fixed, all figures regenerated + pixel/visual re-verified) | DONE |
+| R6-05 manuscript repositioning | preprint author block/date; contributions rewritten C1–C3; 3 new Crossref-verified refs (20 total); Figure 1 inserted; 3 captions rewritten; CMSA producer corrected to Capital Normal University (was wrongly "CAS Institute of Coastal Research" — contradicted by Crossref); back-matter integrity fixes (funding claim removed, honest COI + AI-use statements); 35 pp, 0 undefined refs | DONE |
+| R6-06 EarthArXiv requirements | `audits/r6_eartharxiv_requirements.md` (live check 2026-11-08, Moderation Policy v2.9) | DONE |
+| R6-07 licensing/ESG | `audits/r6_data_licensing.md` — five-permission-tier matrix for CMSA/GEODATA/CM-SSM/Natural Earth; no restricted bytes in any deliverable | DONE |
+| R6-08 submission package | `submission/eartharxiv/` — 36-pp single PDF (coversheet + manuscript), source zip, metadata.yaml, cover_abstract.txt, figures/, supplement pointers, LICENSE_AND_ATTRIBUTION.md, FINAL_CHECKLIST.md, README_submission.md | DONE |
+| R6-09 final review | `audits/r6_final_review.md` — four reviewer roles (RS science / spatial statistics / cartography / integrity), all PASS | DONE |
+| R6-10 final QA | pytest; rebuild; page-by-page checks; commit + push (this commit) | DONE |
+
+### Key R6 findings and changes
+
+1. **Critical figure defect caught:** the R6 design system initially
+   rendered all basemaps without land (metre/km unit mismatch in
+   `add_basemap`), which the first cartographic QA wrongly passed; the
+   correction is documented in `r6_cartographic_qa.md` §0.1 and all four
+   affected figures were regenerated and re-verified.
+2. **Two factual corrections:** East China >50 km pixel count (237, not
+   478); CMSA producer attribution (Capital Normal University / NESDC
+   release, not CAS).
+3. **Integrity hardening:** fabricated/unverified back-matter claims
+   removed (funding, COI, reviewers acknowledgement); remaining
+   TODO_VERIFY placeholders are intentional and enumerated in the
+   submission checklist.
+4. **Submission gating:** the package is complete but **not submitted**;
+   the Owner-confirmation items (ORCID, preprint license, funding/COI/AI
+   wording, CMSA/GEODATA/CM-SSM license confirmations, legal name,
+   journal-submission line) are listed in
+   `submission/eartharxiv/FINAL_CHECKLIST.md`.
+
+### Verification record (R6)
+
+| Check | Result |
+|---|---|
+| LaTeX build | 35 pp, 0 errors, 0 undefined refs/citations, 20 bib entries |
+| Merged preprint PDF | 36 pp (coversheet + 35), single-PDF rule satisfied |
+| Figures | land-layer pixel re-verification after unit-bug fix; visual review PASS |
+| Cartographic QA | `r6_cartographic_qa.md` incl. §0.1 correction |
+| Integrity audit | all primary numbers PASS vs committed CSVs/JSON |
+| Commits | this commit on `feat/paper1-map-reliability` (not merged to `main`) |
+
+---
+
+## History: R5 — IJRS submission-targeted finalization
 
 ### What was done
 

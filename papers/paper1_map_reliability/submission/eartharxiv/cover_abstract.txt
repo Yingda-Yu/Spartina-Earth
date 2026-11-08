@@ -1,0 +1,44 @@
+Title: Spatial Agreement and Regional Uncertainty in Multi-Source Maps of
+Spartina alterniflora along the Chinese Coast
+
+Author: Yingda Yu (Department of Mathematics, Wenzhou-Kean University,
+Wenzhou, Zhejiang, China; Spartina Technology)
+Corresponding author email: yuying@kean.edu
+ORCID: TODO_OWNER (must be filled before submission)
+
+Abstract:
+
+Multiple remote sensing products now map the invasive coastal grass Spartina
+alterniflora along the Chinese coast, yet the spatial agreement among them
+has never been systematically quantified. We harmonize three independently
+produced national products on a common equal-area grid (EPSG:3410) and
+compare them for the 2020 common year: the 10 m China Coastal Saltmarsh Atlas
+(CMSA, 2017-2021 annual vectors), the 30 m GEODATA presence-only time series
+(1990-2020), and the sub-meter CM-SSM patch product (148,072 patches).
+National mapped areas differ by only 14.2% (519.89-593.71 km2), but spatial
+agreement is far weaker than this similarity suggests: pair-wise IoU at 100 m
+is 0.5395 (CMSA-CM-SSM; 95% spatial block-bootstrap CI [0.5096, 0.5708]),
+0.4444 (CMSA-GEODATA; [0.4128, 0.4733]) and 0.3432 (CM-SSM-GEODATA; [0.3139,
+0.3714]). Disagreement is geographically heterogeneous and product-pair
+dependent: the Bohai/Yellow-versus-South-China IoU ratio is 4.18 for
+CMSA-GEODATA (95% CI [2.74, 7.51], p<0.001) and 4.37 for CM-SSM-GEODATA,
+yet statistically indistinguishable from unity for CMSA-CM-SSM. The contrast
+survives every tested geographic-assignment policy for the 34.4% of positive
+pixels outside all sea polygons (ratios 4.06-4.18 across direct-membership,
+distance-capped and uncapped rules). Resolution (30-100 m), grid origin and
+coastline buffer have negligible effects, whereas the rasterization rule
+shifts mixed vector-raster IoU by up to 29%. No product provides a
+valid-observation domain and no independent reference data exist, so
+coverage-normalized agreement and absolute accuracy cannot be assessed;
+agreement is measured on the shared domain under an explicit
+not-mapped-as-presence-equals-absence assumption. In the South China Sea the
+disagreement is consistent with spatial displacement between products rather
+than wholesale omission, although displacement cannot be established as the
+sole cause without reference data. These results caution that national area
+similarity does not guarantee spatial agreement, and provide practical
+guidance for interpreting multi-source remote sensing products in coastal
+monitoring.
+
+Keywords: Spartina alterniflora; map reliability; spatial agreement;
+Intersection over Union; remote sensing uncertainty; multi-source
+harmonization; coastal monitoring.
