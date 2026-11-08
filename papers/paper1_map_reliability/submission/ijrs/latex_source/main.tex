@@ -1,0 +1,1682 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{todonotes}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{natbib}
+
+% Color scheme and TODO markers
+\definecolor{todocolor}{RGB}{200,50,50}
+\newcommand{\TODOEXP}[1]{\textcolor{todocolor}{\textbf{[TODO_EXPERIMENT: #1]}}}
+\newcommand{\TODOVERIFY}[1]{\textcolor{todocolor}{\textbf{[TODO_VERIFY: #1]}}}
+\newcommand{\TODOCHECK}{\textcolor{todocolor}{\textbf{[TODO_CHECK]}}}
+\newcommand{\TODO}[1]{\textcolor{todocolor}{\textbf{[TODO: #1]}}}
+
+\title{Spatial Agreement and Regional Uncertainty in Multi-Source Maps of
+\textit{Spartina alterniflora} along the Chinese Coast}
+
+\author{Anonymous Reviewer Submission \\
+TODO\_AFFILIATION, TODO\_EMAIL}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Multiple remote sensing products now map the invasive coastal grass
+\textit{Spartina alterniflora} along the Chinese coast, yet the spatial
+agreement among them has never been systematically quantified. We harmonize
+three independently produced national products on a common equal-area grid
+(EPSG:3410) and compare them for the 2020 common year: the 10\,m China Coastal
+Saltmarsh Atlas (CMSA, 2017--2021 annual vectors), the 30\,m GEODATA
+presence-only time series (1990--2020), and the sub-meter CM-SSM patch
+product (148\,072 patches). National mapped areas differ by only 14.2\,\%
+(519.89--593.71\,km$^2$), but spatial agreement is far weaker than this
+similarity suggests: pair-wise IoU at 100\,m is 0.5395 (CMSA--CM-SSM;
+95\,\% spatial block-bootstrap CI [0.5096, 0.5708]), 0.4444
+(CMSA--GEODATA; [0.4128, 0.4733]) and 0.3432 (CM-SSM--GEODATA;
+[0.3139, 0.3714]). Disagreement is geographically heterogeneous and
+product-pair dependent: the Bohai/Yellow-versus-South-China IoU ratio is
+4.18 for CMSA--GEODATA (95\,\% CI [2.74, 7.51], $p<0.001$) and 4.37 for
+CM-SSM--GEODATA, yet statistically indistinguishable from unity for
+CMSA--CM-SSM. The contrast survives every tested geographic-assignment
+policy for the 34.4\,\% of positive pixels outside all sea polygons
+(ratios 4.06--4.18 across direct-membership, distance-capped and uncapped
+rules). Resolution (30--100\,m), grid origin and coastline buffer have
+negligible effects, whereas the rasterization rule shifts mixed
+vector--raster IoU by up to 29\,\%. No product provides a
+valid-observation domain and no independent reference data exist, so
+coverage-normalized agreement and absolute accuracy cannot be assessed;
+agreement is measured on the shared domain under an explicit
+not-mapped-as-presence-equals-absence assumption. In the South China Sea
+the disagreement is consistent with spatial displacement between products
+rather than wholesale omission, although displacement cannot be established
+as the sole cause without reference data. These results caution that
+national area similarity does not guarantee spatial agreement, and provide
+practical guidance for interpreting multi-source remote sensing products in
+coastal monitoring.
+\end{abstract}
+
+\textbf{Keywords:} \textit{Spartina alterniflora}; map reliability; spatial
+agreement; Intersection over Union; remote sensing uncertainty; multi-source
+harmonization; coastal monitoring.
+
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{Ecological context}
+
+\textit{Spartina alterniflora} Loisel.\ (smooth cordgrass) is a North American
+salt marsh grass introduced to China in 1979 for coastal protection and
+reclamation\citep{li_2009_spartina, zhang_2023_jag}.
+Its subsequent uncontrolled expansion across the Yellow Sea, East China Sea,
+and South China Sea coastlines has been one of the most extensively documented
+invasion events in coastal ecology\citep{li_2009_spartina}. By displacing native
+species (notably \textit{Suaeda salsa} and \textit{Scirpus planiculmis}),
+altering sediment dynamics, and changing habitat structure, \textit{S.~alterniflora}
+is now regarded as one of the most damaging plant invasions in Chinese
+coastal wetlands\citep{li_2009_spartina, zhang_2023_jag}.
+
+National control programmes targeting \textit{S.~alterniflora} have been
+deployed since the 2010s, and the national special action plan for its
+control (2022--2025) makes post-control recurrence monitoring a policy
+priority\citep{cma_2021_eradication}. All such programmes depend on
+reliable, consistent maps of current and historical \textit{S.~alterniflora}
+distribution as their baseline.
+
+\subsection{The multi-source map landscape}
+
+Three independently produced Chinese national \textit{S.~alterniflora} distribution
+products are compared in this study; further national- and provincial-scale
+mapping efforts exist\citep{zhang_2023_jag, li_2022_jem, zhao_2023_rse_saltmarsh},
+but the three products below were the ones obtained and audited under the
+repository's provenance policy. They were produced by different institutions
+using different sensor suites, classification methods, spatial resolutions, and
+reference epochs:
+
+\begin{enumerate}[nosep]
+\item \textbf{China Coastal Saltmarsh Atlas (CMSA)}: 10\,m annual vector product
+  (2017--2021), produced from Sentinel-2 imagery with deep-learning and
+  spectral-phenological feature classification\citep{li_2024_cmsa} and released
+  as an institutional atlas\citep{cmsa_2024_release}.
+\item \textbf{Institute of Geographic Sciences (IGSNRR) GEODATA time series}:
+  30\,m raster layers for 1990, 2000, 2015, and 2020, derived from Landsat and
+  ZY-3 imagery\citep{geodata_time_series}.
+\item \textbf{Capital Normal University CM-SSM}: sub-meter vector patch product
+  for 2020 (148\,072 patches), produced from very-high-resolution satellite
+  imagery with phenological spectral features and deep learning, following a
+  sub-meter precursor study in the Beibu Gulf\citep{zhou_2025_cmssm,
+  zhou_2024_ijde_beibu}.
+\end{enumerate}
+
+These products are increasingly cited in national and provincial ecological
+assessments, management plans, and peer-reviewed papers. However, the extent
+to which they agree---or disagree---in their distribution estimates has not been
+systematically quantified.
+
+\subsection{Why map reliability matters}
+
+Recent comparisons of global and regional land-cover products
+\citep{wang_2024_ijde, zhao_2023_rs, xu_2024_rse, ding_2022_rs} have shown that
+even nominally high-accuracy 10\,m products can disagree substantially in
+their areal estimates and in where they place class boundaries. Discrepancies
+arise from four primary sources:
+(1)~sensor resolution differences, (2)~temporal misalignment between product
+epochs, (3)~classification legend and threshold differences, and
+(4)~processing choices (rasterization, coastline masking, geometric
+registration).
+
+For coastal vegetation mapping specifically, \citet{ximenes_2023_stoten}
+showed that global mangrove maps disagree substantially at their poleward
+range limits---discrepancies that propagate directly
+into species distribution model outputs used for climate-change projections.
+
+No comparable systematic comparison exists for Chinese \textit{S.~alterniflora}.
+The CM-SSM data paper benchmarks its product against CMSA
+alone\citep{zhou_2025_cmssm}; no study has quantified agreement across all
+three national products with spatial uncertainty quantification, regional
+stratification, and processing sensitivity. The few studies that cite multiple
+products otherwise treat them as interchangeable sources
+of area statistics rather than competing or complementary estimates.
+
+\subsection{Research gap and contributions}
+
+We propose four research questions:
+
+\begin{itemize}[nosep]
+\item \textbf{RQ1 (Area consistency):} How consistent are estimated
+  \textit{S.~alterniflora} distribution areas across products under harmonized
+  spatial, temporal, and thematic conditions?
+\item \textbf{RQ2 (Spatial agreement):} To what extent do different products
+  identify the same geographical locations as \textit{S.~alterniflora}?
+\item \textbf{RQ3 (Sensitivity):} How are product discrepancies associated with
+  spatial resolution, rasterization choices, coastline masking, and temporal
+  alignment?
+\item \textbf{RQ4 (Monitoring implications):} Do discrepancies materially affect
+  conclusions about spatial distribution and historical change?
+\end{itemize}
+
+This study makes four intended contributions:
+
+\begin{enumerate}[nosep]
+\item \textbf{C1---A reproducible harmonization framework} for Chinese
+  \textit{S.~alterniflora} distribution products.
+\item \textbf{C2---Quantified spatial agreement and disagreement} across
+  2017--2021 annual estimates.
+\item \textbf{C3---Sensitivity analysis} of resolution and processing choices on
+  area and overlap metrics.
+\item \textbf{C4---Practical guidance for interpreting multi-source remote
+  sensing products} in coastal monitoring, with transparent discussion of the
+  implications for historical change assessment.
+\end{enumerate}
+
+We explicitly distinguish \textit{agreement} (inter-product consistency) from
+\textit{accuracy} (correspondence to ground truth). Agreement is measurable here;
+accuracy remains limited by the absence of nationally representative gold-standard
+reference samples. An E7 feasibility scan of published field/UAV survey datasets
+for 2020--2021 Chinese coastal \textit{S.~alterniflora} is documented in the
+audits but found zero nationally representative GOLD reference sites.
+
+\subsection{Paper structure}
+
+Section~\ref{sec:study-area} describes the study area, datasets, and their
+audited metadata. Section~\ref{sec:methods} presents the harmonization protocol,
+metrics, and sensitivity design. Section~\ref{sec:results} reports area
+comparisons, cross-product 2020 agreement, and sensitivity findings.
+Section~\ref{sec:discussion} interprets results in the context of prior work
+and monitoring practice. Section~\ref{sec:conclusions} summarizes findings and
+states limitations. Supplementary Information Section~S1 documents the
+superseded meridian-band regionalisation retained for traceability.
+
+% =====================================================================
+\section{Study Area and Datasets}
+\label{sec:study-area}
+
+\subsection{Study area}
+
+The study area encompasses the entire Chinese mainland coastal zone
+(approximately 18\,000\,km coastline), bounded geographically by longitude
+107.5\textdegree{}--126.5\textdegree{}E and latitude 19.5\textdegree{}--41.5\textdegree{}N.
+This region spans temperate, subtropical, and tropical climatic zones and
+includes major estuaries (Yangtze, Yellow, Minjiang, Pearl), extensive
+intertidal flats in the Yellow Sea basin, and rocky coastlines of Fujian and
+Zhejiang provinces. The highest \textit{S.~alterniflora} densities are reported
+in Jiangsu, Shanghai, Zhejiang, and Fujian coastal segments.
+
+% =====================================================================
+\subsection{Datasets}
+
+\input{../tables/table1_datasets.tex}
+
+All source datasets carry restrictive redistribution licenses. CMSA license terms
+are under verification; GEODATA is CC-BY-NC-ND; CM-SSM carries Zenodo CC-BY-4.0
+with a mirror-side license conflict flagged. Source geometries and raster files
+are \emph{not} redistributed; only aggregated numerical results are published.
+
+\subsubsection{CMSA 2017--2021 (10\,m vector, annual)}
+
+The CMSA is a series of five annual polygon shapefiles published by the Chinese
+Academy of Sciences Institute of Coastal Research. Each file contains individual
+\textit{S.~alterniflora} patch polygons derived from Sentinel-2 imagery using
+spectral index thresholding combined with visual interpretation. Each feature
+carries a \texttt{gridcode} attribute (2 = confirmed \textit{S.~alterniflora};
+0 = non-\textit{S.~alterniflora} or UNKNOWN) and a pre-computed \texttt{Area\_ha}
+field. All shapefiles are in EPSG:32650 (WGS84 UTM Zone 50N). The coordinate
+reference system is not equal-area and introduces a small but measurable
+planar-area bias (Section~\ref{sec:methods-harm}).
+
+Source audit results (this study):
+\begin{itemize}[nosep]
+\item 2017: 5\,292 positive polygons, 495.59\,km$^2$ (Area\_ha field), 495.59\,km$^2$ (geodesic cross-check).
+\item 2018: 5\,608 positive polygons, 504.31\,km$^2$.
+\item 2019: 5\,902 positive polygons, 532.99\,km$^2$.
+\item 2020: 6\,474 positive polygons, 571.35\,km$^2$.
+\item 2021: 6\,943 positive polygons, 586.51\,km$^2$.
+\end{itemize}
+A geodesic cross-check using WGS84 ellipsoid with \texttt{pyproj.Geod} confirmed
+that the UTM planar area from the \texttt{Area\_ha} field already accounts for
+the UTM scale factor (within 0.1\,\% of geodesic area), so the CMSA areas are
+reported directly from the source field for 2017--2021.
+
+\subsubsection{GEODATA 1990, 2000, 2015, 2020 (30\,m raster)}
+
+The IGSNRR GEODATA series comprises four single-band unsigned 8-bit GeoTIFF
+rasters in the Krasovsky\,1940\,Albers equal-area projection (EPSG:2433).
+Each raster encodes \textit{S.~alterniflora} presence (\texttt{Value = 1})
+and NoData (\texttt{Value = 255}). No explicit non-\textit{S.~alterniflora}
+class is present: valid pixels are restricted to locations where
+\textit{S.~alterniflora} was mapped, with NoData filling all inland and open-ocean
+areas. VAT dbf files confirm this single-class design.
+
+Source audit results (this study, from VAT pixel counts $\times 900\,\text{m}^2$
+per 30\,m pixel):
+\begin{itemize}[nosep]
+\item 1990: 48\,628 pixels, 43.77\,km$^2$.
+\item 2000: 284\,927 pixels, 256.43\,km$^2$.
+\item 2015: 608\,287 pixels, 547.46\,km$^2$.
+\item 2020: 577\,657 pixels, 519.89\,km$^2$.
+\end{itemize}
+
+\subsubsection{CM-SSM 2020 (sub-meter vector)}
+
+The CM-SSM product by \citet{zhou_2025_cmssm} (DOI 10.5194/essd-17-6601-2025)
+comprises 148\,072 individual \textit{S.~alterniflora} clump polygons derived
+from sub-meter satellite imagery (GF-2, Planet SuperDove). The product is
+archived at Zenodo under CC-BY-4.0, with a license conflict flagged on the
+NESDC mirror (CC-BY-NC-4.0). Each polygon carries fields \texttt{Id},
+\texttt{name} (containing researcher-assigned province codes ZJ/FJ/SH/JS/SD/TJ/GD/HB/GX),
+and \texttt{area} (UTM planar). CRS is EPSG:32650.
+
+Source audit results (this study):
+\begin{itemize}[nosep]
+\item 148\,072 polygons, UTM planar total area 593.71\,km$^2$.
+\item Patch-area distribution: median 0.04\,ha, mean 0.40\,ha, max 746\,ha.
+\item \emph{Critical caveat}: CM-SSM is a \textit{S.~alterniflora distribution
+  product}, not a maritime administrative boundary dataset. Its \texttt{name}
+  field contains researcher-assigned province metadata, not independent
+  administrative jurisdictional boundaries.
+\end{itemize}
+
+\subsection{Data licensing and rights}
+
+No dataset in this study carries unrestricted public-redistribution rights.
+CMSA is held by the Chinese Academy of Sciences; publication permission is
+granted for aggregated results but source-geometry redistribution terms remain
+under formal verification. GEODATA originates from the IGSNRR data-sharing
+platform under CC-BY-NC-ND (non-commercial, no derivatives). CM-SSM carries
+Zenodo CC-BY-4.0 with a conflicting CC-BY-NC-4.0 flag on an NESDC mirror. All
+derived statistics in this manuscript are presented as aggregated numerical
+results; source geometries and raster files are \emph{not} redistributed.
+
+% =====================================================================
+\section{Methodology}
+\label{sec:methods}
+
+\subsection{Harmonization protocol (E1)}
+\label{sec:methods-harm}
+
+Before cross-product comparison, three harmonization steps are applied:
+
+\paragraph{Coordinate reference system.} All products are reprojected to EPSG:3410
+(North America Albers Equal-Area Conic), the standard equal-area projection for
+North American and East Asian coastal analysis. This avoids the ~0.5\,\% planar
+bias of UTM Zone 50N for national statistics covering the full latitudinal
+extent of China's coast (19--41\textdegree{}N). Geodesic area via WGS84 ellipsoid
+(\texttt{pyproj.Geod}) serves as ground truth for cross-projection validation.
+
+\paragraph{Common spatial coverage.} A conservative coastal mask derived from the
+GSHHS Level-1 shoreline polygons\citep{wessel_1996_gshhs} buffered inland and
+offshore by 5\,km defines the common comparison domain. Raster products are
+limited to pixels whose centroid falls within this mask.
+
+\paragraph{Classification harmonization.} All products encode a binary
+\textit{S.~alterniflora present / not present} semantics. CMSA \texttt{gridcode=2}
+and CM-SSM polygons are treated as positive. GEODATA \texttt{Value=1} is
+treated as positive. No product provides a verified non-\textit{S.~alterniflora}
+class; \texttt{Value=0}, \texttt{gridcode=0}, and NoData are \emph{never} treated
+as confirmed absence.
+
+\paragraph{Resolution harmonization for raster comparison.} Vector products (CMSA,
+CM-SSM) are rasterized to a common 10\,m grid using \texttt{geopandas} with
+\texttt{rasterize()}, \texttt{all\_touched=False} and \texttt{merge\_algo=first}.
+The GEODATA 30\,m raster is resampled to 10\,m via nearest-neighbour
+resampling (\texttt{rasterio.warp.reproject}, \texttt{Resampling.nearest}).
+Bilinear or cubic interpolation are deliberately avoided for thematic binary
+data.
+
+The harmonization protocol is documented in \texttt{experiments/protocol.md};
+the rasterization and reprojection steps are implemented in
+\texttt{experiments/e3\_spatial\_agreement.py}. Because every metric in this
+study is computed on this common grid, the reported agreement is agreement
+\emph{after} harmonization---an operational comparability envelope---rather
+than detection-level agreement at each product's native representation; the
+rasterization-rule and resolution sensitivity analyses
+(Section~\ref{sec:robustness-results}) bound the influence of this choice.
+
+% =====================================================================
+\subsection{Area consistency analysis (E2)}
+
+Under the harmonized coverage mask and EPSG:3410 projection, national and
+regional areas are computed for each product. Four comparison metrics are
+reported:
+
+\begin{equation}
+\text{Area bias}_{\text{product}-X} =
+\frac{\text{Area}_{\text{product}} - \text{Area}_X}{\text{Area}_X} \times 100\%
+\label{eq:bias}
+\end{equation}
+
+where $X$ is a reference product chosen for pair-wise comparison. We report
+all three pair-wise biases for the 2020 common year (CMSA vs.\ GEODATA, CMSA vs.\
+CM-SSM, GEODATA vs.\ CM-SSM) plus the CMSA 2017--2021 annual trend.
+
+National and regional areas are released in \texttt{results/area\_summary.json}
+and \texttt{results/regional\_area\_share\_geographic\_2020.csv}. A
+coverage-normalized IoU restricted to the intersection of the products'
+valid-observation domains was audited in R4 and found \emph{not computable}
+from the delivered entities (Section~\ref{sec:coverage-audit}); agreement is
+therefore reported on the shared analysis domain under the explicit
+assumption \emph{not mapped as presence == absence}.
+
+% =====================================================================
+\subsection{Spatial agreement analysis (E3)}
+
+Pair-wise spatial agreement between products is quantified on the harmonized
+10\,m grid for the 2020 common year. Three metrics are reported.
+
+\paragraph{Intersection over Union (IoU, Jaccard index).}
+\begin{equation}
+\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|}
+\label{eq:iou}
+\end{equation}
+IoU is bounded [0, 1]; IoU = 1 indicates perfect overlap, IoU = 0 indicates no
+overlap. For binary rasters, $|A|$ and $|B|$ are pixel counts of positive-class
+pixels and $|A \cap B|$, $|A \cup B|$ follow from set operations.
+
+\paragraph{Dice coefficient (F1-score equivalent).}
+\begin{equation}
+\text{Dice}(A, B) = \frac{2|A \cap B|}{|A| + |B|}
+\label{eq:dice}
+\end{equation}
+Dice is always $\geq$ IoU for positive-area products; Dice is the harmonic mean
+of precision and recall when one product is treated as the reference. We \emph{do
+not} treat either product as reference for precision/recall reporting.
+
+\paragraph{Agreement and disagreement masks.}
+\begin{equation}
+M_{\text{both}} = A \cap B, \quad
+M_{\text{only}\_A} = A \setminus B, \quad
+M_{\text{only}\_B} = B \setminus A
+\label{eq:masks}
+\end{equation}
+
+Pixels in $M_{\text{only}\_A}$ and $M_{\text{only}\_B}$ are labelled as
+\emph{inter-product disagreement} and analysed for spatial clustering and
+regional concentration. We explicitly \emph{do not} interpret these as omission
+or commission errors because neither product is known to be ground truth.
+
+\paragraph{Disagreement hotspot density.}
+A kernel-density surface of disagreement pixels ($M_{\text{only}\_A} \cup
+M_{\text{only}\_B}$) at 5\,km bandwidth identifies regions of concentrated
+product conflict.
+
+The IoU/Dice values are released in
+\texttt{results/iou\_dice\_2020\_multi\_res.csv}, the disagreement masks under
+\texttt{results/disagreement\_2020/}, and the regional stratification in
+\texttt{results/regional\_geographic\_2020.csv}.
+
+% =====================================================================
+\subsection{Resolution and processing sensitivity (E4)}
+
+We evaluate whether observed area and overlap differences are sensitive to
+four processing choices:
+
+\begin{enumerate}[nosep]
+\item \textbf{Grid alignment}: rasterizing CMSA and CM-SSM to three offset 10\,m
+  grids (0/0, 5/0, 0/5 m origin) and measuring area change.
+\item \textbf{Rasterization rule}: comparing \texttt{all\_touched=True} vs.\
+  \texttt{all\_touched=False} vs.\ \texttt{max\_area} \texttt{merge\_algo}.
+\item \textbf{Resolution}: downsampling harmonized 10\,m products to 30\,m,
+  50\,m, and 100\,m via nearest-neighbour and measuring IoU decay as a
+  function of target resolution.
+\item \textbf{Coastline mask}: varying the inland/offshore buffer (0.5\,km,
+  5\,km, 20\,km) and measuring area change.
+\end{enumerate}
+
+The sensitivity results are released in
+\texttt{results/robustness\_2020.csv}.
+
+% =====================================================================
+\subsection{Regional heterogeneity (E5)}
+\label{sec:methods-e5}
+
+Disagreement analysis is stratified by three mutually exclusive sea regions
+defined from the IHO-derived named marine polygons distributed with Natural
+Earth 1:10m \emph{geography marine polygons} (v5.1.1, public domain). Polygons
+were selected in geographic coordinates, clipped to the analysis domain,
+reprojected to EPSG:3410, and rasterized at 100\,m. The three regions are
+built from these official named areas:
+
+\begin{enumerate}[nosep]
+\item \textbf{Bohai/Yellow Sea}: Bo Hai and Yellow Sea.
+\item \textbf{East China Sea}: East China Sea, Hangzhou Bay and Taiwan Strait.
+\item \textbf{South China Sea}: South China Sea, Gulf of Tonkin and Qiongzhou
+  Strait.
+\end{enumerate}
+
+The assignment of the Taiwan Strait to the East China Sea group is an explicit
+convention; the per-polygon area decomposition
+(\texttt{results/regional\_by\_marine\_polygon\_2020.csv}) is released and the
+grouping can be recomputed by editing \texttt{REGION\_GROUPS} in
+\texttt{experiments/e5d\_geographic\_regions.py}. Positive pixels that fall inside no marine polygon---intertidal
+flats seaward of the relatively coarse Natural Earth land coastline---are
+assigned to the nearest group boundary on the 100\,m grid; their number, share
+and maximum nearest-boundary distance are reported with the region
+definitions (65.6\,\% of positive union pixels fall directly inside a polygon,
+34.4\,\% are nearest-assigned, maximum distance 54.0\,km).
+
+Because the nearest-assigned share is large, the R4 audit re-evaluated all
+regional metrics under alternative attribution policies: policy A (direct
+polygon membership only, 34.42\,\% of the positive union excluded and the
+exclusion reported), policy C$_t$ (nearest assignment capped at
+$t \in \{5, 10, 20\}$\,km, pixels beyond the cap excluded and their share
+reported), and the published policy B (uncapped nearest assignment). Pixels
+are never silently dropped: the excluded share is reported per policy, and
+the capped policies measure how the regional metrics depend on attribution
+distance. The assigned pixels are strongly region-dependent: the East China
+Sea group receives the most (22,262\,px, 44.9\,\% of its union under B;
+median assignment distance 6.83\,km, 99th percentile 50.4\,km), the
+Bohai/Yellow Sea group 7,678\,px (median 2.78\,km), and the South China Sea
+group the fewest (1,261\,px, median 1.61\,km). Results are released in
+\texttt{results/r4\_region\_assignment\_sensitivity.csv} and
+\texttt{audits/r4\_regional\_attribution.md}.
+
+Provincial administrative boundaries are \emph{not} used for region definition
+in this study: Natural Earth 1:10m admin-1 land polygons exclude 86.0\,\% of
+positive union pixels because their coastline generalisation omits the
+intertidal zone, and maritime provincial boundaries built from
+\textit{S.~alterniflora} polygons would be circular\citep{olofsson_2014_area_bias}.
+
+Region polygons, provenance, clipping arithmetic and the nearest-assignment
+diagnostics are stored in \texttt{results/region\_definitions\_geographic.json};
+the regional metrics are in \texttt{results/regional\_geographic\_2020.csv}.
+
+% =====================================================================
+\subsection{Source coverage verification and disagreement diagnostics (R4)}
+\label{sec:methods-coverage}
+
+The IoU estimand used throughout carries one assumption that the R4 audit
+made explicit: no product ships a valid-observation domain, so
+\emph{not mapped as presence} is treated as absence over the shared 100\,m
+analysis domain. A strict coverage-normalized IoU---IoU restricted to the
+intersection of the two products' valid observation domains---was audited
+and is \emph{not computable} from the delivered entities. The GEODATA 2020
+entity is presence-only (value 1 = 577,657\,px = 519.89\,km$^2$; value 255 =
+uniform fill covering everything else, with no explicit absence class and
+no valid-observation footprint), so restricting a GEODATA pair to GEODATA's
+own footprint would degenerate to GEODATA's presence mask. CMSA and CM-SSM
+are patch-vector products whose observation domains exist only as documented
+study areas, not as per-pixel masks. Rather than inventing a coverage mask,
+we report two computable proxies: (i) coastal-strip co-mapping---positive
+pixels of product A lying in 0.5\textdegree{}-latitude strips where product
+B maps nothing---and (ii) symmetric nearest-positive distance distributions
+per pair (\texttt{results/r4\_coverage\_normalized\_iou.csv},
+\texttt{audits/r4\_coverage\_audit.md}).
+
+For the South China Sea, where CMSA--GEODATA and CM-SSM--GEODATA agreement is
+lowest, we additionally decompose the disagreement without any ground-truth
+framing: per-product mapped area and patch fragmentation, the distance
+distribution of each product's disagreement pixels to the other product's
+nearest positive, and connected-cluster mapping of the disagreement mass
+(\texttt{results/r4\_south\_china\_diagnostics.csv},
+\texttt{audits/r4\_south\_china\_diagnostics.md}).
+
+% =====================================================================
+\subsection{Monitoring implications (E6)}
+
+Where temporally compatible products exist, we test whether product choice alters
+substantive monitoring conclusions. Two case studies were examined:
+
+\begin{enumerate}[nosep]
+\item \textbf{National area trend}: CMSA 2017--2021 linear trend vs.\ GEODATA
+  2000--2020 piecewise trend (note: non-overlapping years).
+\item \textbf{2020 spatial distribution}: Which product identifies the hottest
+  \textit{S.~alterniflora} hotspots, and do the rankings correlate?
+\end{enumerate}
+
+The two case studies are reported in Section~\ref{sec:rq4}; no separate
+monitoring-conclusions document is produced.
+
+The E7 search for independent UAV or field-survey datasets covering 2020--2021
+is documented in \texttt{audits/feasibility\_gate.md} and found zero
+nationally representative GOLD reference sites. Reference-based validation is
+therefore NOT RUN, and this remains the principal limitation of the study.
+
+% =====================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{Area consistency (RQ1)}
+
+\subsubsection{2020 cross-product comparison}
+
+Table~\ref{tab:area2020} presents national 2020 areas under harmonized EPSG:3410.
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:area2020}National 2020 \textit{S.~alterniflora} area estimates
+  under harmonized conditions (EPSG:3410, common coastal mask).}
+\begin{tabular}{l c c c}
+\toprule
+Product & Resolution & Area (km$^2$) & Difference vs.\ CMSA (\%) \\
+\midrule
+CMSA & 10\,m vector & \textbf{571.35} & reference \\
+GEODATA & 30\,m raster & 519.89 & $-$9.0 \\
+CM-SSM & sub-meter vector & 593.71 & +3.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 14.2\,\% total range across products (519.89 to 593.71\,km$^2$) for a single
+reference year is notable. CM-SSM is 3.9\,\% larger than CMSA, consistent with its
+sub-meter resolution capturing tiny clumps that the 10\,m CMSA does not delineate.
+GEODATA is 9.0\,\% smaller than CMSA, consistent with 30\,m resolution averaging
+across narrow Spartina stands and the GEODATA presence-only encoding design
+(reported pixels are restricted to confirmed Spartina locations; absence pixels
+are NoData, not verified absence).
+
+The regional breakdown of the area differences is reported in
+Section~\ref{sec:results-e5} (Table~\ref{tab:regional_iou} and the area shares
+that follow it). The coverage-normalized comparison restricted to the
+products' valid-observation domains was audited and found not computable
+from the delivered entities (Section~\ref{sec:coverage-audit}); all
+agreement metrics are computed on the shared analysis domain under the
+explicit "not mapped as presence == absence" assumption.
+
+\subsubsection{Temporal trends}
+
+Figure~\ref{fig:area_trend} plots CMSA 2017--2021 (annual) against GEODATA
+1990--2020 (discontinuous years).
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig04_stats.pdf}
+\caption{\label{fig:area_trend}Multi-panel overview of area, spatial agreement,
+  and resolution sensitivity. Panel (a): National \textit{S.~alterniflora} area
+  estimates across products and years. CMSA 2017--2021 (blue, annual) shows
+  monotonically increasing trend; GEODATA 1990--2020 (orange) shows massive
+  expansion 1990--2015 followed by apparent contraction 2015--2020; CM-SSM 2020
+  (green, hatched) sits above CMSA 2020. Panel (b): Pair-wise IoU and Dice
+  coefficients at 30\,m harmonized resolution. Panel (c): IoU and Dice sensitivity
+  to spatial resolution (30--100\,m).}
+\end{figure}
+
+The CMSA annual trend shows a steady linear increase of 23.0\,km$^2$/year
+(4.0\,\% per annum) over 2017--2021. By contrast, GEODATA shows a much faster
+expansion from 43.77\,km$^2$ (1990) to 547.46\,km$^2$ (2015) but a subsequent
+5.0\,\% decline to 519.89\,km$^2$ (2020). These trends are not directly
+comparable because GEODATA's years are 1990, 2000, 2015, 2020 and CMSA starts in
+2017. However, the CM-SSM 2020 estimate (593.71\,km$^2$) sits \emph{above}
+CMSA 2020 (571.35\,km$^2$), suggesting that if GEODATA 2020's apparent decline
+reflects processing or encoding differences rather than true ecological change,
+the GEODATA time series may not be suitable for long-term trend analysis without
+additional harmonization.
+
+The CMSA--GEODATA 2015--2020 reconciliation cannot be settled with the present
+data, because the two products share only 2020 and no reference observations
+exist. We therefore report both trajectories as descriptive and do not
+interpret either as ecological change (Section~\ref{sec:rq4}).
+
+% =====================================================================
+\subsection{Spatial agreement (RQ2)}
+\label{sec:results-e3}
+
+Table~\ref{tab:iou30} presents pair-wise IoU and Dice coefficients for the 2020
+common year on a harmonized 30\,m EPSG:3410 grid. Vector products (CMSA,
+CM-SSM) were rasterized with \texttt{all\_touched=False}; the GEODATA 30\,m
+raster was reprojected from its native Krasovsky\,1940\,Albers to EPSG:3410
+with nearest-neighbour resampling.
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:iou30}Pair-wise spatial agreement at 30\,m resolution
+  (EPSG:3410, 2020 common year). Areas are the harmonized rasterized totals;
+  $A/B$ area ratio quantifies size discrepancy independent of IoU.}
+\begin{tabular}{l c c c c c c}
+\toprule
+Product pair & IoU & Dice & $A$ (km$^2$) & $B$ (km$^2$) & Intersection & $A/B$ \\
+\midrule
+CMSA vs.\ CM-SSM & \textbf{0.5375} & \textbf{0.6992} & 570.11 & 592.35 & 406.39 & 0.962 \\
+CMSA vs.\ GEODATA & \textbf{0.4437} & \textbf{0.6147} & 570.11 & 520.38 & 335.14 & 1.096 \\
+CM-SSM vs.\ GEODATA & \textbf{0.3423} & \textbf{0.5101} & 592.35 & 520.38 & 283.78 & 1.138 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All three product pairs show substantial spatial disagreement. The values in
+Table~\ref{tab:iou30} are computed on the 30\,m grid; the primary estimand used
+for inference in this paper is the 100\,m grid, where the corresponding IoU
+values are 0.5395, 0.4444 and 0.3432 (Section~\ref{sec:bootstrap}). The
+30\,m$\rightarrow$100\,m difference is at most 0.003 IoU, so the qualitative
+statements below hold for both grids. The CMSA--CM-SSM
+pair, despite sharing the same CRS, same reference year, and both being vector
+products, achieves the highest observed IoU among the three pairs: 0.5375,
+meaning that 46.2\,\% of the union area (756.07\,km$^2$) was not
+co-identified by both products (349.68\,km$^2$ disagreement, of which
+163.72\,km$^2$ is CMSA-unique and 185.96\,km$^2$ is CM-SSM-unique). The
+total harmonized area difference between CMSA and CM-SSM is only 3.9\,\%
+(570.11 vs.\ 592.35\,km$^2$ at 30\,m), yet nearly half the mapped
+positive-region area is spatially non-coincident. The disagreement is not driven by
+area magnitude but by patch-delineation strategy: CMSA aggregates clumps into
+contiguous stands (6\,474 polygons), while CM-SSM splits the same vegetation
+into individual clumps (148\,072 polygons).
+
+The CMSA--GEODATA pair (IoU = 0.4437 at 30\,m) shows intermediate disagreement.
+Here the mismatch stems from both resolution (10\,m vs.\ 30\,m) and encoding
+(presence-only raster vs.\ vector stand delineation). The GEODATA product maps
+8.7\,\% less area than CMSA at 30\,m, which is consistent with---but not
+proof of---its 30\,m pixel grid omitting narrow stands that CMSA resolves at
+10\,m.
+
+The CM-SSM--GEODATA pair shows the lowest agreement (IoU = 0.3423), where
+65.8\,\% of the union area disagrees. This pair compounds every source of
+discrepancy: sub-meter clump-level polygons vs.\ 30\,m presence-only raster,
+different CRS native frames (UTM Zone 50N vs.\ Krasovsky Albers), and different
+presence-definition rules. The disagreement mass is heavily asymmetric:
+CM-SSM identifies 308.57\,km$^2$ that GEODATA does not, while GEODATA identifies
+236.60\,km$^2$ that CM-SSM does not (Table~\ref{tab:iou30}).
+
+Figure~\ref{fig:agreement} visualizes the three disagreement masks. Green
+regions are identified by both products; blue regions are unique to product
+$A$; orange regions are unique to product $B$. The national panels (a--c)
+render each 1.5\,km block containing at least one positive pixel as a
+coloured dot (disagreement classes drawn above agreement where they co-occur
+within a block), so the thin coastal fringe survives rendering; the
+enlargements (d--f) show the densest mapped coastal window at full 100\,m
+resolution. Disagreement is concentrated along intertidal margins and
+narrow estuarine channels where Spartina forms thin, discontinuous stands
+that different products capture differently.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig03_agreement_map.pdf}
+\caption{\label{fig:agreement}2020 spatial agreement/disagreement between
+  distribution products at 100\,m resolution (EPSG:3410). Top row (a--c):
+  national extent; each 1.5\,km block containing at least one positive
+  pixel is drawn as a coloured dot (green = both products; blue = unique to
+  product $A$; orange = unique to product $B$; disagreement classes drawn
+  above agreement), with sea-region boundaries, region labels and red
+  rectangles marking the enlargement windows. Bottom row (d--f):
+  full-resolution 100\,m enlargements of the densest mapped coastal window
+  (70\,km span; 10\,km scale bar). Left: CMSA vs.\ CM-SSM (IoU = 0.5395).
+  Centre: CMSA vs.\ GEODATA (IoU = 0.4444). Right: CM-SSM vs.\ GEODATA
+  (IoU = 0.3432). IoU values are derived from the full 100\,m
+  rasterization.}
+\end{figure}
+
+% =====================================================================
+\subsubsection{Regional heterogeneity (E5)}
+\label{sec:results-e5}
+
+We stratify pair-wise IoU and Dice by the three IHO-derived sea regions defined
+in Section~\ref{sec:methods-e5}: Bohai/Yellow Sea, East China Sea and South
+China Sea. All values are computed at 100\,m, the same resolution used for the
+point estimates and confidence intervals throughout.
+
+\paragraph{Regionalisation note.}
+The sea-region grouping used here replaces a preliminary regionalisation by
+EPSG:3410 $x$-coordinate bands, which---because $x$ is linear in longitude in
+this projection---constituted meridian bands mislabelled as seas. The band
+analysis is superseded; its description, stress test and result files are
+preserved in Supplementary Information Section~S1 and under
+\texttt{results/superseded\_e5\_longitude\_bands/} for traceability.
+
+Table~\ref{tab:regional_iou} reports per-region IoU, Dice and area metrics.
+Four findings emerge:
+
+\begin{enumerate}[nosep]
+\item \textbf{Bohai/Yellow Sea} has the \emph{highest} CMSA--GEODATA IoU
+  (0.5599, Dice 0.7179) and the two products map almost the same area there
+  (232.16 vs.\ 230.43\,km$^2$, ratio 1.008).
+\item \textbf{South China Sea} has the \emph{lowest} CMSA--GEODATA agreement
+  (IoU = 0.1341, Dice 0.2365). This region is small in absolute terms
+  (CMSA 19.27\,km$^2$, 3.4\,\% of its national mapped area) and the two
+  products differ strongly in extent there (19.27 vs.\ 26.31\,km$^2$).
+\item \textbf{East China Sea} is intermediate for CMSA--GEODATA (0.3923) but
+  the \emph{highest} region for CMSA--CM-SSM (0.5902), so the ranking of
+  regions is not shared across product pairs.
+\item \textbf{Regional contrast is pair-specific.} CMSA--CM-SSM varies only
+  1.27\,$\times$ across regions (0.4665, 0.5902, 0.4772), while
+  CMSA--GEODATA varies 4.18\,$\times$ and CM-SSM--GEODATA 4.37\,$\times$.
+\end{enumerate}
+
+The Bohai/Yellow to South China IoU ratio for CMSA--GEODATA is
+0.5599/0.1341 = 4.18\,$\times$. Section~\ref{sec:bootstrap} shows that this
+inter-region ratio is statistically resolved, but the magnitude is not
+uniform across pairs and we therefore do not generalise it into a single
+"regional context" factor.
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:regional_iou}Regional pair-wise IoU and Dice at 100\,m
+  (EPSG:3410, 2020 common year), using IHO-derived marine polygons.
+  Region areas: Bohai/Yellow Sea 341\,706\,km$^2$, East China Sea
+  349\,137\,km$^2$, South China Sea 225\,940\,km$^2$. See
+  Section~\ref{sec:methods-e5} for polygon definitions and clipping.}
+\begin{tabular}{l l c c c c}
+\toprule
+Subregion & Pair & IoU & Dice & $A$ (km$^2$) & $B$ (km$^2$) \\
+\midrule
+\multirow{3}{*}{Bohai/Yellow}
+  & CMSA--CM-SSM & \textbf{0.4665} & 0.6362 & 232.16 & 189.54 \\
+  & CMSA--GEODATA & \textbf{0.5599} & 0.7179 & 232.16 & 230.43 \\
+  & CM-SSM--GEODATA & \textbf{0.3646} & 0.5344 & 189.54 & 230.43 \\
+\midrule
+\multirow{3}{*}{East China}
+  & CMSA--CM-SSM & \textbf{0.5902} & 0.7423 & 317.55 & 386.56 \\
+  & CMSA--GEODATA & \textbf{0.3923} & 0.5635 & 317.55 & 264.49 \\
+  & CM-SSM--GEODATA & \textbf{0.3499} & 0.5185 & 386.56 & 264.49 \\
+\midrule
+\multirow{3}{*}{South China}
+  & CMSA--CM-SSM & \textbf{0.4772} & 0.6461 & 19.27 & 14.69 \\
+  & CMSA--GEODATA & \textbf{0.1341} & 0.2365 & 19.27 & 26.31 \\
+  & CM-SSM--GEODATA & \textbf{0.0835} & 0.1541 & 14.69 & 26.31 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The regional area shares differ markedly between products
+(Figure~\ref{fig:agreement} and Table~\ref{tab:regional_iou}): CMSA places
+40.8\,\% of its national area in the Bohai/Yellow Sea, 55.8\,\% in the East
+China Sea and 3.4\,\% in the South China Sea; the corresponding shares are
+44.2/50.7/5.1\,\% for GEODATA and 32.1/65.4/2.5\,\% for CM-SSM. The
+South China Sea is therefore the smallest and least densely mapped region
+(0.009\,\% coverage for CMSA versus 0.068\,\% in the Bohai/Yellow Sea and
+0.091\,\% in the East China Sea), which limits the effective sample available
+there; the wide South China Sea confidence interval in
+Section~\ref{sec:bootstrap} reflects this rather than a weakness of the
+regionalisation.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig05_regional_iou.pdf}
+\caption{\label{fig:regional_iou}Regional pair-wise IoU at 100\,m using
+  IHO-derived marine polygons. Bars are point estimates, error bars are
+  95\,\% intervals from a 2\,km spatial block bootstrap (1\,000 replicates,
+  seed 202601). See the Regionalisation note in
+  Section~\ref{sec:results-e5} and Supplementary Information Section~S1 for
+  the superseded meridian-band regionalisation retained for traceability.}
+\end{figure}
+
+
+\paragraph{Attribution-policy sensitivity.}
+Because 34.4\,\% of positive-union pixels are nearest-assigned, the regional
+metrics could in principle depend on the attribution rule.
+Table~\ref{tab:region_policy} reports all regional IoUs under policies A,
+C$_5$/C$_{10}$/C$_{20}$ and B (Section~\ref{sec:methods-e5}). Absolute
+regional IoUs shift by up to 0.05 (CMSA--GEODATA East China: 0.3439 under A
+vs.\ 0.3923 under B), reflecting the 22,262 assigned pixels the East China
+group receives under B---44.9\,\% of its union. But the ordering of regions
+is unchanged under every policy, and the Bohai/Yellow-over-South-China
+contrast is stable: 4.06--4.18$\times$ for CMSA--GEODATA and
+4.37--4.64$\times$ for CM-SSM--GEODATA across all five policies, while
+CMSA--CM-SSM never departs from unity (0.98--1.04). The assignment
+distances themselves are strongly region-dependent (East China median
+6.83\,km vs.\ South China 1.61\,km; 478 East China pixels lie beyond
+50\,km; Figure~\ref{fig:assignment}), concentrated on intertidal flats
+seaward of the generalized Natural Earth coastline.
+
+\input{../tables/tab_region_policy.tex}
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/fig_r4_region_assignment.pdf}
+\caption{\label{fig:assignment}Nearest-assignment distances for the 31,201
+  positive-union pixels falling outside all marine polygons (100\,m,
+  EPSG:3410). Teal = direct polygon membership; warm colours = binned
+  nearest-assignment distance (0--1, 1--5, 5--10, 10--20, 20--50,
+  $>$50\,km). The East China Sea group receives 71\,\% of all assigned
+  pixels, with the longest distances concentrated seaward of the
+  generalized Natural Earth coastline.}
+\end{figure}
+
+\subsubsection{Uncertainty quantification via block bootstrap}
+\label{sec:bootstrap}
+
+All IoU and Dice values reported above treat the 100\,m grid cells as
+independent observations. \textit{S.~alterniflora} forms spatially coherent
+stands, so the cells are strongly autocorrelated. We therefore quantify
+uncertainty with a \emph{spatial block bootstrap}. The primary analysis
+resolution is 100\,m for both the point estimate and the interval: E4 showed
+that IoU changes by at most 0.4\,\% between 30\,m and 100\,m, so a 100\,m
+estimand loses no material information, and computing both quantities on the
+same grid removes the earlier inconsistency in which 30\,m point estimates
+were paired with 100\,m intervals.
+
+\paragraph{Resampling design.}
+The domain was partitioned into square blocks of 1, 2, 5 and 10\,km. For each
+block and product pair we precomputed the intersection and union pixel counts
+on the sparse positive-pixel arrays, so each replicate is a ratio of sums,
+$\mathrm{IoU}_b=\sum_b i_b/\sum_b u_b$, over resampled block indices. Blocks
+with zero union are excluded from resampling (they contribute nothing to the
+estimator) but are counted and reported. The estimand is the IoU of regional
+totals, not the mean of block IoUs, which keeps the statistic consistent with
+the point estimates in Table~\ref{tab:regional_iou}.
+
+\paragraph{Empty, positive and informative blocks.}
+At 2\,km the domain contains 837\,295 blocks, of which 835\,205 are empty. Of
+the remaining blocks, 2\,090 (CMSA--GEODATA), 2\,014 (CMSA--CM-SSM) and 2\,256
+(CM-SSM--GEODATA) are informative, i.e.\ they contain union pixels and
+therefore carry information about disagreement. Compared with the
+334.62-million-cell 100\,m grid, this is the effective sample size: roughly
+2\,000 spatial units, about 0.25\,\% of blocks; the raw grid size should not
+be mistaken for the effective statistical sample.
+
+\paragraph{Spatial dependence.}
+Moran's $I$ on block-level IoU with row-standardised $k$-nearest-neighbour
+weights ($k=8$) is strongly positive and significant at 2\,km
+($I=0.444$, permutation $p=0.001$ for CMSA--GEODATA; $I=0.312$ for
+CMSA--CM-SSM; $I=0.407$ for CM-SSM--GEODATA), decaying slowly with block size
+($I=0.305$ and $I=0.220$ at 10\,km for the two GEODATA pairs). Spatial
+dependence is thus real and block resampling is required; pixel resampling
+would understate the variance by roughly an order of magnitude. In the
+South China Sea the dependence is not detectable at 5--10\,km
+($I=0.05$, $p=0.197$; $I=0.004$, $p=0.944$ for CMSA--GEODATA), consistent
+with that region's small, scattered positive area.
+
+\paragraph{Block-size sensitivity.}
+Table~\ref{tab:bootstrap} reports the national and regional intervals at
+2\,km. Widening the block from 1 to 10\,km increases the national interval
+half-width from 0.017--0.020 to 0.054--0.072 across the three pairs, because
+larger blocks contain more of the same autocorrelated structure and the
+effective number of independent replicates falls. We report 2\,km as the
+primary scale---large enough to bracket stand-scale dependence, small enough
+to retain about 2\,000 informative blocks---and treat 1, 5 and 10\,km as
+sensitivity scales in the released CSV. Monte Carlo noise, measured as the
+standard deviation of interval endpoints across five independent seeds of
+1\,000 replicates, is 0.0004--0.0060 in IoU units (median 0.0016), well below
+the reported interval widths. The regional contrast is likewise insensitive
+to block size: the Bohai/Yellow and South China point estimates for
+CMSA--GEODATA move only from 0.5599 to 0.5557 and from 0.1341 to 0.1323
+between 1 and 10\,km blocks, and even at the 10\,km block size---where the
+intervals are widest---the two regional intervals do not overlap
+([0.471, 0.633] vs.\ [0.056, 0.223]), so the Bohai/Yellow-over-South-China
+conclusion does not depend on the block choice.
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:bootstrap}Block-bootstrap uncertainty in IoU at a single
+  estimand resolution (2020, 100\,m EPSG:3410, 2\,km blocks, 1\,000
+  replicates, seed 202601). CI = 95\,\% percentile interval of the bootstrap
+  distribution. National intervals are also reported at 1, 5 and 10\,km in
+  \texttt{results/e5e\_bootstrap\_100m.csv}.}
+\begin{tabular}{l l c c c c}
+\toprule
+Scale & Pair & Exact IoU & Mean & Std & 95\,\% CI \\
+\midrule
+\multirow{3}{*}{National}
+  & CMSA vs.\ CM-SSM & 0.5395 & 0.5402 & 0.0151 & [0.5096, 0.5708] \\
+  & CMSA vs.\ GEODATA & 0.4444 & 0.4443 & 0.0148 & [0.4128, 0.4733] \\
+  & CM-SSM vs.\ GEODATA & 0.3432 & 0.3429 & 0.0148 & [0.3139, 0.3714] \\
+\midrule
+\multirow{3}{*}{Bohai/Yellow}
+  & CMSA vs.\ CM-SSM & 0.4665 & 0.4663 & 0.0292 & [0.4060, 0.5225] \\
+  & CMSA vs.\ GEODATA & 0.5599 & 0.5590 & 0.0207 & [0.5193, 0.5996] \\
+  & CM-SSM vs.\ GEODATA & 0.3646 & 0.3639 & 0.0258 & [0.3139, 0.4119] \\
+\midrule
+\multirow{3}{*}{East China}
+  & CMSA vs.\ CM-SSM & 0.5902 & 0.5900 & 0.0170 & [0.5555, 0.6229] \\
+  & CMSA vs.\ GEODATA & 0.3923 & 0.3918 & 0.0192 & [0.3546, 0.4288] \\
+  & CM-SSM vs.\ GEODATA & 0.3499 & 0.3513 & 0.0184 & [0.3155, 0.3889] \\
+\midrule
+\multirow{3}{*}{South China}
+  & CMSA vs.\ CM-SSM & 0.4772 & 0.4779 & 0.0367 & [0.4091, 0.5490] \\
+  & CMSA vs.\ GEODATA & 0.1341 & 0.1317 & 0.0310 & [0.0771, 0.1909] \\
+  & CM-SSM vs.\ GEODATA & 0.0835 & 0.0838 & 0.0255 & [0.0416, 0.1363] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Direct inference on regional contrasts.}
+Non-overlapping marginal intervals are not a test of a difference, so we also
+bootstrap the contrast directly. Each region is resampled independently
+(regions are spatially disjoint) and the difference and ratio distributions
+are formed replicate by replicate. Two-sided $p$ values are the fraction of
+replicates whose sign contradicts the point estimate.
+
+For CMSA--GEODATA the Bohai/Yellow Sea minus South China Sea difference is
+$+0.426$ (95\,\% CI [0.346, 0.499]) and the ratio is 4.18 (95\,\% CI
+[2.74, 7.51]), $p<0.001$. The East China Sea lies between them
+(difference vs.\ South China $+0.258$ [0.181, 0.329]; ratio 2.93
+[1.93, 5.19]), and Bohai/Yellow Sea exceeds East China Sea
+(difference $+0.168$ [0.113, 0.223]; ratio 1.43 [1.27, 1.62]).
+For CM-SSM--GEODATA the Bohai/Yellow--South China ratio is 4.37
+[2.64, 9.10] ($p<0.001$), but Bohai/Yellow Sea and East China Sea are
+indistinguishable (ratio 1.04 [0.88, 1.22], $p=0.65$). For CMSA--CM-SSM the
+regional spread is much smaller: Bohai/Yellow--South China ratio 0.98
+[0.81, 1.19] ($p=0.88$) and East China--South China 1.24 [1.08, 1.50]
+($p=0.008$).
+
+These contrasts do not support a uniform regional-context factor of a single
+magnitude across product pairs. What the analysis
+supports is a narrower statement: the CMSA--GEODATA and CM-SSM--GEODATA
+pairs show a statistically resolved order-of-four difference between the
+Bohai/Yellow Sea and the South China Sea, whereas CMSA--CM-SSM shows almost
+no regional structure. Because the South China Sea contributes only
+3.4\,\% of CMSA's national area, this contrast describes a small part of
+the national product and should not be extrapolated to it.
+
+\paragraph{Policy-conditioned contrasts.}
+The direct-contrast bootstrap was rerun under the attribution policies of
+Table~\ref{tab:region_policy} (2\,km blocks, seed 202601). The
+CMSA--GEODATA Bohai/Yellow-over-South-China ratio is 4.09 (95\,\% CI
+[2.58, 9.80]) under policy A, 4.06 [2.73, 7.07] under C$_5$, 4.12 [2.67,
+7.15] under C$_{10}$ and 4.15 [2.78, 7.41] under C$_{20}$, all $p<0.001$;
+the CM-SSM--GEODATA ratio is 4.64 [2.50, 11.73] under A and 4.63 [2.84,
+8.62] under C$_{10}$. Every interval excludes unity, so the regional
+contrast is not an artefact of the nearest-assignment rule. For
+CMSA--CM-SSM the ratio remains indistinguishable from unity under every
+policy (A: 1.02 [0.82, 1.31], $p=0.85$). Block-size sensitivity behaves as
+in the published framework (intervals widen with block size; the policy-A
+South China intervals are the widest because the direct-membership South
+China domain retains only 163 informative 2\,km blocks). Full results:
+\texttt{results/r4\_region\_contrasts\_policy.csv} and
+\texttt{results/r4\_bootstrap\_regional.csv}.
+
+\subsubsection{Definition sensitivity}
+\label{sec:boundary-sens}
+
+The regional result is conditional on the marine-polygon grouping. Two
+definitional choices were examined: (i) moving the Taiwan Strait from the
+East China Sea group to the South China Sea group, and (ii) using an
+alternative land-coastline source. The per-polygon area decomposition
+(\texttt{results/regional\_by\_marine\_polygon\_2020.csv}) shows that the
+Taiwan Strait contributes 9.33\,km$^2$ (2.9\,\%) of CMSA's East China group
+area, so regrouping it can change that group's metric but cannot reverse the
+Bohai/Yellow--South China contrast. The grouping can be recomputed by editing
+\texttt{REGION\_GROUPS} in \texttt{experiments/e5d\_geographic\_regions.py};
+we report the grouping used here and do not claim that it is the only
+defensible one. We do not present a boundary-shift sensitivity table for the
+marine polygons, because shifting an authoritative coastline by a fixed
+distance is not a meaningful perturbation. The band-shift stress test of the
+superseded meridian segmentation is reported in Supplementary Information
+Section~S1 for traceability.
+
+\subsubsection{Source coverage verification}
+\label{sec:coverage-audit}
+
+A strict coverage-normalized IoU is not computable from the delivered
+entities (Section~\ref{sec:methods-coverage}). The two proxies bound how
+much of the measured disagreement could be a coverage artefact. First,
+coastal-strip co-mapping shows that all three products map presence over
+essentially the same latitudinal footprint: positive pixels of one product
+lying in 0.5\,\textdegree{} coastal strips where another product maps
+nothing amount to 0.25\,\% of CMSA's positives (vs.\ GEODATA), 0.28\,\% of
+CMSA's positives (vs.\ CM-SSM), 0.10\,\% of GEODATA's positives (vs.\
+CM-SSM) and 0.00\,\% in the remaining directions
+(Figure~\ref{fig:coverage_strips}); whole-segment coverage gaps are
+negligible. Second, nearest-positive distances show that most disagreement
+is at or near the patch boundary: 83--92\,\% of one product's positive
+pixels lie within 1\,km of the other product's positives for the CMSA
+pairs. The exception is again GEODATA: 8.1\,\% of GEODATA positives lie
+more than 5\,km from any CMSA positive and 17.6\,\% more than 5\,km from
+any CM-SSM positive---candidates for segment-level detection differences
+or commission that cannot be distinguished without reference data. All IoU
+values therefore carry the explicit assumption \emph{not mapped as presence
+== absence over the shared domain}.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/fig_r4_coverage_strips.pdf}
+\caption{\label{fig:coverage_strips}Product footprints by
+  0.5\,\textdegree{} coastal latitude strip (mapped
+  \textit{S.~alterniflora} area per strip, 100\,m EPSG:3410). Strips where
+  one product maps presence and another maps nothing would indicate
+  segment-level footprint gaps; such gaps are negligible
+  ($\leq$0.28\,\% of any product's positives). This is a footprint proxy,
+  not a valid-observation domain.}
+\end{figure}
+
+\subsubsection{South China Sea diagnostics}
+\label{sec:south-china}
+
+The South China Sea has the lowest inter-product agreement of the three
+regions (Table~\ref{tab:regional_iou}). The R4 diagnostic decomposition
+shows that wholesale omission is an unlikely explanation: GEODATA maps the
+\emph{largest} South China extent of the three products (26.31\,km$^2$,
+vs.\ CMSA 19.27 and CM-SSM 14.69), and its patches are fewer and larger
+(196 patches, median 4\,ha) than CMSA's (390 patches, median 2\,ha) and
+CM-SSM's (337, 2\,ha); no product maps sub-1-ha patches at 100\,m
+(Table~\ref{tab:south_china}). The disagreement mass splits roughly between
+boundary effects and genuinely separated stands: 40--53\,\% of each
+product's disagreement pixels lie within 1\,km of the other product's
+positives, while 28--44\,\% lie more than 5\,km away (the largest share:
+GEODATA-only pixels vs.\ CM-SSM, 44.4\,\%), forming compact clusters of up
+to 2.11\,km$^2$ (Figure~\ref{fig:south_zoom}). Neither product is known to
+be correct; the decomposition characterizes the disagreement without
+ground-truth framing. Spatial displacement between the products is the
+reading most consistent with these statistics, but without independent
+reference data it cannot be established as the sole cause of the low
+regional IoU.
+
+\input{../tables/tab_south_china.tex}
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig_r4_south_china_zoom.pdf}
+\caption{\label{fig:south_zoom}Largest South China Sea disagreement clusters
+  at 100\,m (EPSG:3410), one enlargement per cluster with window size
+  adapted to cluster size. Green = both products; orange = CMSA/CM-SSM
+  only; purple = GEODATA only. The full regional overview and per-cluster
+  statistics are in \texttt{results/r4\_south\_china\_clusters.csv}.}
+\end{figure}
+
+% =====================================================================
+\subsection{Sensitivity and robustness (RQ3)}
+\label{sec:robustness-results}
+
+Resolution sensitivity is quantified by downsampling the harmonized 30\,m
+products to 50\,m and 100\,m via nearest-neighbour and recomputing IoU and
+Dice (Table~\ref{tab:sens}). The results show \emph{extreme stability} across
+all three pairs: IoU changes by at most 0.4\,\% between 30\,m and 100\,m
+(Table~\ref{tab:sens}). This counterintuitive finding runs counter to the
+common expectation that coarser resolution reduces fine-grained disagreement
+and increases IoU; here IoU remains flat because both sides of any spatial
+offset are smoothed equally by downsampling, so the ratio of intersection to
+union stays nearly constant. The finding rules out pixel-scale edge noise as
+the dominant disagreement mechanism, but does not by itself demonstrate which
+specific product properties (encoding rule, patch semantics, or source imagery
+differences) account for the disagreement magnitude.
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:sens}Resolution sensitivity of IoU and Dice (2020, EPSG:3410).
+  Sensitivity column shows relative IoU change between 30\,m and 100\,m.}
+\begin{tabular}{l c c c c c}
+\toprule
+Pair & Metric & 30\,m & 50\,m & 100\,m & Sensitivity \\
+\midrule
+\multirow{2}{*}{CMSA vs.\ CM-SSM}
+  & IoU  & 0.5375 & 0.5371 & 0.5395 & +0.4\,\% \\
+  & Dice & 0.6992 & 0.6988 & 0.7009 & +0.2\,\% \\
+\multirow{2}{*}{CMSA vs.\ GEODATA}
+  & IoU  & 0.4437 & 0.4434 & 0.4444 & +0.2\,\% \\
+  & Dice & 0.6147 & 0.6144 & 0.6153 & +0.1\,\% \\
+\multirow{2}{*}{CM-SSM vs.\ GEODATA}
+  & IoU  & 0.3423 & 0.3419 & 0.3432 & +0.3\,\% \\
+  & Dice & 0.5101 & 0.5096 & 0.5111 & +0.2\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:res_curves} plots IoU as a function of resolution for all
+three pairs. The near-flat curves confirm that resolution is \emph{not} the
+dominant driver of measured disagreement across the harmonized grid. The
+finding rules out edge-noise amplification as a strong confound for the
+reported IoU values. However, attributing the remaining disagreement
+magnitude to specific product properties (encoding rule, patch semantics,
+or source imagery differences) requires further targeted experiments that
+this study does not provide. This finding has practical
+implications for monitoring: coarse-resolution products like GEODATA are not
+inherently less reliable for national trend analysis than fine-resolution
+vector products, as long as their encoding definition is consistent over time.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/fig05_resolution.pdf}
+\caption{\label{fig:res_curves}Resolution sensitivity of 2020 pair-wise IoU and
+  Dice coefficients. Solid circles = IoU; dashed squares = Dice. All three pairs
+  show extreme stability across 30--100\,m resolution (change $\leq$0.4\,\%),
+  indicating that coarser-resolution downsampling does not amplify or reduce
+  the measured disagreement. This rules out pixel-scale edge noise as the
+  primary disagreement mechanism, but does not by itself identify which
+  product properties account for the disagreement magnitude.}
+\end{figure}
+
+\subsubsection{Processing robustness (E4 extended)}
+\label{sec:robustness}
+
+Beyond resolution sensitivity, we tested the effect of grid origin alignment,
+coastline buffer size, and rasterization rule on IoU at 100\,m resolution
+(Table~\ref{tab:robustness}).
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:robustness}Processing robustness: IoU change relative to
+  baseline (all\_touched=False, 10\,km buffer, 0\,m origin shift).
+  Results are absolute IoU change and percentage change from baseline.}
+\begin{tabular}{l l c c c}
+\toprule
+Variant & Pair & IoU & $\Delta$ IoU & $\Delta$ (\%) \\
+\midrule
+\multirow{3}{*}{Baseline}
+  & CMSA--CM-SSM & \textbf{0.5371} & --- & --- \\
+  & CMSA--GEODATA & \textbf{0.4437} & --- & --- \\
+  & CM-SSM--GEODATA & \textbf{0.3415} & --- & --- \\
+\midrule
+\multirow{3}{*}{Grid shift $\pm$100\,m}
+  & CMSA--CM-SSM & 0.5371 & 0.0000 & 0.0 \\
+  & CMSA--GEODATA & 0.4437 & 0.0000 & 0.0 \\
+  & CM-SSM--GEODATA & 0.3415 & 0.0000 & 0.0 \\
+\midrule
+\multirow{3}{*}{Coastline buffer 0--50\,km}
+  & CMSA--CM-SSM & 0.5371 & 0.0000 & 0.0 \\
+  & CMSA--GEODATA & 0.4435 & $-$0.0002 & $-$0.0 \\
+  & CM-SSM--GEODATA & 0.3413 & $-$0.0002 & $-$0.1 \\
+\midrule
+\multirow{3}{*}{all\_touched=True}
+  & CMSA--CM-SSM & 0.5755 & +0.0384 & +7.2 \\
+  & CMSA--GEODATA & 0.3456 & $-$0.0981 & $-$22.1 \\
+  & CM-SSM--GEODATA & 0.2418 & $-$0.0997 & $-$29.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{../figures/fig06_robustness.pdf}
+\caption{\label{fig:robustness}Processing robustness of IoU across three
+  controlled perturbations. Left: Grid origin shifts ($\pm$50, $\pm$100\,m)
+  have negligible effect ($\leq$0.3\,\% IoU change). Centre: Coastline buffer
+  size (0--50\,km) also has negligible effect ($\leq$0.2\,\%). Right:
+  Rasterization rule (\texttt{all\_touched=True}, red panel) is the dominant
+  processing confound, reducing IoU by 22--29\,\% for pairs involving the
+  GEODATA raster product.}
+\end{figure}
+
+Three conclusions emerge:
+
+\begin{enumerate}[nosep]
+\item \textbf{Grid origin alignment has negligible effect.} Shifting the
+  rasterization grid by $\pm$50 or $\pm$100\,m changes IoU by $\leq$0.3\,\%
+  across all three pairs (Table~\ref{tab:robustness}). This rules out grid
+  misalignment as a driver of the observed disagreement magnitudes.
+\item \textbf{Coastline buffer size has negligible effect.} Varying the buffer
+  from 0 to 50\,km around the CMSA coastal bounds changes IoU by $\leq$0.2\,\%.
+  The study domain is sufficiently large that marginal inclusion/exclusion of
+  offshore or inland pixels does not affect the measured agreement.
+\item \textbf{Rasterization rule is the dominant processing confound.} Switching
+  from \texttt{all\_touched=False} (baseline) to \texttt{all\_touched=True}
+  causes a \emph{massive} IoU change for pairs involving GEODATA:
+  CMSA--GEODATA IoU drops from 0.4437 to 0.3456 ($-$22.1\,\%) and
+  CM-SSM--GEODATA IoU drops from 0.3415 to 0.2418 ($-$29.2\,\%). By contrast,
+  the CMSA--CM-SSM pair (two vector products) \emph{increases} IoU from 0.5371
+  to 0.5755 (+7.2\,\%). The asymmetry arises because \texttt{all\_touched=True}
+  expands vector polygon coverage to include any pixel whose boundary is
+  touched, dramatically increasing the mapped area for CMSA and CM-SSM
+  (966.97 and 1224.58\,km$^2$ respectively, vs.\ baseline 571.63 and
+  592.32\,km$^2$). GEODATA, being already raster, does not change; the
+  intersection therefore grows more slowly than the union for mixed
+  vector--raster pairs, collapsing IoU.
+\end{enumerate}
+
+The \texttt{all\_touched} finding is critically important: it demonstrates that
+\emph{rasterization semantics can dominate the measured agreement metric}.
+Different studies using different rasterization choices can arrive at wildly
+different IoU values for the same product pair. All IoU values reported in
+this manuscript use \texttt{all\_touched=False}, which we recommend as the
+default for binary presence/absence maps because it avoids over-counting
+partial-pixel boundary effects.
+
+% =====================================================================
+\subsection{Monitoring implications (RQ4)}
+\label{sec:rq4}
+
+No two products in this study share a temporally overlapping multi-year window:
+CMSA covers 2017--2021 and GEODATA covers 1990, 2000, 2015, 2020, with only 2020
+as the single common year. CM-SSM is available only for 2020. This means
+cross-product \emph{trend validation} is not possible from the present data.
+Instead, we address RQ4 by evaluating: (a)~2020 hotspot stability across
+products, (b)~regional area ranking agreement, and (c)~how monitoring priority
+regions shift with product choice.
+
+\subsubsection{Hotspot stability across products}
+
+We define a \textit{hotspot} as a subregion whose mapped \textit{S.~alterniflora}
+area exceeds 50\,\% of the national total for that product.
+Table~\ref{tab:hotspots} shows that all three products place the East China
+Sea above that threshold (CMSA: 55.8\,\%, CM-SSM: 65.4\,\%, GEODATA:
+50.7\,\% of their respective totals) and rank the regions identically:
+East China Sea, then Bohai/Yellow Sea (40.8, 32.1, 44.2\,\%), then the
+South China Sea (3.4, 2.5, 5.1\,\%).
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:hotspots}Share of national 2020 mapped area by sea region
+  (100\,m EPSG:3410 harmonized rasters, IHO-derived marine polygons).}
+\begin{tabular}{l c c c}
+\toprule
+Region & CMSA (\%) & CM-SSM (\%) & GEODATA (\%) \\
+\midrule
+Bohai/Yellow & 40.8 & 32.1 & 44.2 \\
+East China   & \textbf{55.8} & \textbf{65.4} & \textbf{50.7} \\
+South China  & 3.4 & 2.5 & 5.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Regional area ranking}
+
+Spearman rank correlation of regional area estimates across the three products
+is $\rho$ = 1.00 for all pairs: every product ranks
+East\,$>$\,Bohai/Yellow\,$>$\,South China. This agreement is descriptive, not
+inferential, because it is computed over only three regions. The practical
+implication is that both the primary hotspot and the rank order are robust to
+product selection at this level of aggregation; what differs is the
+\emph{magnitude} of the allocation (for example CM-SSM assigns 65.4\,\% of its
+national area to the East China Sea versus 50.7\,\% for GEODATA).
+
+\subsubsection{Sensitivity of monitoring priority}
+
+If monitoring resources are allocated to regions in proportion to mapped
+area, the choice of product affects how much budget each region receives:
+GEODATA allocates 44.2\,\% to the Bohai/Yellow Sea while CMSA allocates
+40.8\,\%, an 8.4\,\% relative difference. This allocation effect is modest
+at national level but still matters for subregional
+planning, particularly because the CMSA--GEODATA agreement is lowest in the
+South China Sea, the region with the smallest mapped share.
+
+\subsubsection{Within-product temporal trajectories (descriptive only)}
+
+For context, the CMSA 2017--2021 national time series shows a monotonic
+4.0\,\%/year linear increase (23.0\,km$^2$ per year). The
+GEODATA 1990--2020 time series shows massive expansion (43.77\,km$^2$ in 1990
+to 547.46\,km$^2$ in 2015) followed by a 5.0\,\% apparent contraction to
+519.89\,km$^2$ in 2020. Because these trends are single-product and
+non-overlapping in years, they are presented as descriptive context only, not
+as validated evidence of ecological change. Cross-product reconciliation
+requires temporally overlapping products or independent ground-truth
+observations, neither of which is available at national scale.
+
+% =====================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Area agreement: what explains the 14.2\,\% 2020 range?}
+
+The three products differ by both resolution and thematic encoding: GEODATA
+(30\,m, presence-only) is the smallest, CMSA (10\,m, full stand delineation) is
+intermediate, and CM-SSM (sub-meter, clump-level) is the largest. A priori,
+the resolution gap (30\,m vs.\ 10\,m vs.\ sub-meter) is a candidate explanation
+for the GEODATA--CMSA area difference, because the 30\,m grid systematically
+misses Spartina patches narrower than one pixel (30\,m), which are common in
+the Yellow Sea intertidal where \textit{S.~alterniflora} colonizes along the
+high-tide line. However, E4 resolution sensitivity showed that IoU (which is
+defined on the intersection-to-union ratio of spatially coincident pixels) is
+essentially flat across 30--100\,m resolution, indicating that \emph{measured
+disagreement magnitude is not primarily due to resolution edge effects}.
+The observed area range may instead reflect a combination of patch-delineation
+semantics, encoding rules (presence-only vs.\ full-stand polygons), and
+classification threshold differences. Isolating the contribution of each
+requires controlled processing experiments not yet completed.
+
+The CMSA--CM-SSM difference (3.9\,\%) is smaller than might be expected given
+the resolution gap. One hypothesis is that CMSA polygons already aggregate
+clumps at the stand level, so the sub-meter CM-SSM captures the same physical
+vegetation but splits it more finely. A second hypothesis is that CM-SSM
+includes some commission error (small clumps or isolated plants that CMSA
+interprets as noise rather than substantive Spartina). Distinguishing these
+hypotheses requires independent validation.
+
+\subsection{Implications for historical trend assessment}
+
+The CMSA 2017--2021 trend is monotonically increasing (+4.0\,\%/year), while
+GEODATA shows a decline from 2015 to 2020. Because these time series do not
+overlap (Section~\ref{sec:rq4}), we cannot determine from the present data
+whether the GEODATA 2015--2020 decline reflects real ecological change,
+processing or encoding differences between GEODATA 2015 and 2020 layers, or
+classification-threshold shifts between Landsat generations. Similarly, the
+CMSA monotonic increase could reflect true expansion, classification drift
+between Sentinel-2 revisits, or both. Resolving this requires either a
+cross-product overlap period or independent ground-truth observations, neither
+of which is available at national scale.
+
+\subsection{What explains the low IoU even between comparable products?}
+
+The CMSA--CM-SSM pair, despite sharing the same year, same geographic domain,
+and vector representation of \textit{S.~alterniflora}, achieves IoU = 0.5395---
+a level of disagreement that might seem surprising for two products targeting
+the same species. Our results suggest two interacting explanations.
+
+First, \textit{patch-delineation semantics} differ fundamentally between the
+two products. CMSA (6\,474 polygons for 2020) aggregates contiguous Spartina
+into stand-level polygons, while CM-SSM (148\,072 polygons) splits the same
+vegetation into clump-level patches down to individual clones. When both are
+rasterized to a common grid, the finer-grained CM-SSM polygons create a more
+fragmented coverage pattern, while the CMSA stand-level polygons create larger
+contiguous blocks. The 3.9\,\% area difference is small, but the spatial
+configuration difference---clumps vs.\ stands---generates substantial
+boundary disagreement that IoU captures.
+
+Second, the resolution stability finding ($\leq$0.4\,\% IoU change across
+30--100\,m) reveals that \emph{disagreement is not primarily edge noise}. If
+disagreement were driven by sub-pixel boundary offset, downsampling would tend
+to reduce it (as both products' edges become blurred equally, increasing
+intersection relative to union). The near-flat IoU curves show instead that
+disagreement arises from \emph{systematic spatial offset}: one product maps
+Spartina in locations where the other does not, not just at edges but in
+distinct, spatially coherent clusters. Downsampling cannot eliminate this
+because both sides of the disagreement are equally preserved at coarser
+resolution.
+
+This has a positive interpretation: the disagreement structure is \emph{stable}
+and therefore potentially \emph{predictable}. If future work can quantify how
+patch-delineation strategy maps to environmental covariates (tidal flat width,
+sediment grain size, distance to high-tide line), it may be possible to
+calibrate one product against another without requiring independent ground
+truth.
+
+\subsection{Regional pattern of agreement}
+\label{sec:disc-regional}
+
+The corrected regionalisation changes the descriptive picture but not the
+study's central conclusion. Agreement is highest in the Bohai/Yellow Sea for
+CMSA--GEODATA (IoU = 0.5599), where the two products also map almost identical
+extents (232.16 vs.\ 230.43\,km$^2$), and lowest in the South China Sea
+(0.1341), where CMSA maps 19.27\,km$^2$ against GEODATA's 26.31\,km$^2$. The
+South China result is best read as a small-sample effect: the absolute extent
+difference (7.04\,km$^2$) is modest, but it is large relative to the small
+union in that region, so IoU falls sharply. This is consistent with the wide
+bootstrap interval reported in Section~\ref{sec:bootstrap} (South China
+[0.077, 0.191]) and with the absence of detectable block-level spatial
+dependence there at 5--10\,km.
+
+The pair-specificity of the contrast is more informative than its magnitude.
+CMSA--CM-SSM, the two vector products, varies little across regions
+(0.4665--0.5902), whereas both pairs involving the 30\,m presence-only raster
+vary by a factor of about four. A plausible hypothesis is that the
+resolution/encoding mismatch interacts with local patch geometry---stand width,
+fragmentation and intertidal position---so that the 30\,m raster loses
+different amounts of information on different coasts. We can test the
+existence of this interaction but not its mechanism with the present data,
+because no reference observations are available to separate omission from
+commission. We therefore report the regional pattern as a measured property of
+the products and do not attach an ecological interpretation to it.
+
+A further plausible driver is phenological mismatch between the products'
+acquisition windows. Southern \textit{S.~alterniflora} populations are
+quasi-evergreen whereas northern populations senesce in winter, and the three
+products are built from different seasonal compositing strategies (annual
+Sentinel-2 mosaics, Landsat growing-season composites, and very-high-resolution
+scenes of unspecified within-year date). If the compositing windows differ,
+spectral separability against co-occurring salt-marsh vegetation differs
+systematically along the coast, which is consistent with the observed
+southward degradation of the GEODATA-pair agreement. The compared metadata do
+not document per-pixel acquisition dates, so this mechanism cannot be tested
+here; we record it as a hypothesis for future work.
+
+The R4 audits strengthen this reading in three ways. First, the contrast is
+robust to the attribution rule: under every policy from direct-membership-only
+to uncapped nearest assignment, the Bohai/Yellow-over-South-China ratio stays
+between 4.06 and 4.18 for CMSA--GEODATA and between 4.37 and 4.64 for
+CM-SSM--GEODATA, with bootstrap intervals excluding unity
+(Section~\ref{sec:bootstrap}). Second, the low South China IoU is
+consistent with spatial displacement rather than wholesale omission:
+GEODATA maps the largest South China extent of
+the three products (26.31\,km$^2$ vs.\ CMSA 19.27, CM-SSM 14.69), 40--53\,\%
+of each product's disagreement pixels lie within 1\,km of the other
+product's positives, and 28--44\,\% lie more than 5\,km away
+(Table~\ref{tab:south_china}), so the products disagree about \emph{where}
+the stands are, not only about whether they exist. Third, the coverage audit
+found that a coverage-normalized IoU is not computable from the delivered
+entities (Section~\ref{sec:coverage-audit}); the coastal-strip proxy bounds
+whole-segment coverage differences below 0.3\,\% of any product's positives,
+so the regional pattern is not attributable to gross coverage gaps, though
+8--18\,\% of GEODATA positives lie more than 5\,km from any CMSA or CM-SSM
+positive and remain candidates for segment-level detection differences.
+
+\subsection{Comparison with global land-cover product studies}
+
+Our 14.2\,\% area range for \textit{S.~alterniflora} across three products is of
+the same order as the inter-product area disagreements reported for global
+land-cover products over China\citep{wang_2024_ijde, zhao_2023_rs, xu_2024_rse}
+and in field-aided comparisons of 10\,m products in Southeast
+Asia\citep{ding_2022_rs}. Our study
+differs by focusing on a single species rather than a general land-cover class,
+which reduces legend-translation ambiguity but increases sensitivity to
+resolution-based omission of small patches.
+
+None of the comparison studies cited above reports IoU
+or Dice explicitly; all use OA, PA, UA, and Kappa. We add IoU and Dice as
+species-specific overlap metrics, which are more interpretable for a binary
+species-vs.-non-species comparison than multi-class OA.
+
+\subsection{Agreement $\neq$ accuracy}
+
+A central limitation of this study is the absence of nationally representative
+gold-standard (GOLD) reference samples. All results in Section~\ref{sec:results}
+measure \emph{inter-product agreement}, not accuracy against ground truth.
+Disagreement pixels ($M_{\text{only}\_A}$, $M_{\text{only}\_B}$) are \emph{not}
+omission or commission errors; they are conflict zones that require independent
+verification to resolve. We explicitly avoid labelling either product as
+authoritative on the basis of agreement scores alone.
+
+\subsection{Limitations}
+
+\begin{enumerate}[nosep]
+\item No independent GOLD reference dataset was found for any product year.
+  All reported metrics measure inter-product agreement, not accuracy against
+  ground truth. Disagreement pixels cannot be labeled omission or commission
+  errors without independent verification.
+\item Only one common year (2020) is shared by all three products. CMSA and
+  GEODATA have partially non-overlapping time series, preventing cross-product
+  trend validation.
+\item GEODATA's presence-only encoding (Value = 1 / fill = 255, no explicit
+  absence class) means no valid-observation domain is recoverable for any
+  product. All IoU values are therefore computed on the shared analysis
+  domain under the explicit assumption "not mapped as presence == absence";
+  a coverage-normalized IoU is not computable from the delivered entities
+  (Section~\ref{sec:coverage-audit}). Coastal-strip co-mapping bounds
+  whole-segment coverage differences below 0.3\,\% of any product's
+  positives, but localized detection differences cannot be excluded.
+\item CM-SSM's province codes (\texttt{name} field) are researcher-assigned
+  metadata, not maritime administrative boundaries. Prior work that used CM-SSM
+  for province-based Spartina attribution may have introduced circularity.
+\item CMSA is not distributed under open license; terms must be confirmed
+  before publication.
+\item Subregion boundaries are IHO-derived marine polygons, not
+  ecologically validated management units. The grouping of the Taiwan Strait,
+  Hangzhou Bay and Qiongzhou Strait is a convention, and 34.4\,\% of positive
+  pixels fall outside any marine polygon and are assigned by nearest-group
+  boundary. The R4 attribution audit shows that the regional rankings and the
+  Bohai/Yellow--South China contrast are insensitive to the attribution
+  policy (direct-only, capped, or uncapped; Table~\ref{tab:region_policy}),
+  with assigned pixels concentrated in the East China group (median distance
+  6.83\,km, 99th percentile 50.4\,km). Per-polygon results are released so
+  that alternative groupings can be recomputed.
+\item Bootstrap uncertainty estimates treat the 2\,km block as the effective
+  sample unit. Intervals widen substantially at 5--10\,km blocks
+  (Table~\ref{tab:bootstrap} and \texttt{results/e5e\_bootstrap\_100m.csv}),
+  so interval width, though not the sign of the regional contrast, is
+  scale-dependent. The South China Sea has few informative blocks and its
+  interval is correspondingly wide.
+\end{enumerate}
+
+\subsection{Recommendations}
+
+Four concrete recommendations emerge:
+\begin{enumerate}[nosep]
+\item \textbf{Producers should standardize a reference grid and legend} for
+  Chinese coastal vegetation products. Our harmonization protocol (EPSG:3410,
+  10\,m binary \textit{S.~alterniflora} present/absent, \texttt{all\_touched=False}
+  rasterization) is proposed as a minimal starting point.
+\item \textbf{Published area statistics should always cite both product identity
+  and processing configuration.} A single number like "571\,km$^2$ of
+  \textit{S.~alterniflora} in 2020" is ambiguous about which product and
+  projection was used.
+\item \textbf{IoU/Dice studies involving mixed vector--raster pairs should report
+  the rasterization rule.} The 22--29\,\% IoU swing we observed with
+  \texttt{all\_touched=True} vs.\ \texttt{all\_touched=False} is large enough
+  to alter scientific conclusions.
+\item \textbf{Independent GOLD reference datasets at regional scale should be
+  curated and published.} Without ground truth, inter-product agreement is
+  the best available proxy but cannot replace it. Even small (N = 50--100)
+  field-validated plots in one or two pilot regions would materially improve
+  the interpretability of agreement metrics.
+\end{enumerate}
+
+% =====================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+
+This study presents a fully audited harmonization protocol and quantitative
+comparison of three Chinese \textit{S.~alterniflora} distribution products,
+complementing prior work that examined individual products without cross-source
+triangulation. We address four research questions with the following evidence:
+
+\begin{itemize}[nosep]
+\item \textbf{RQ1 (Area consistency):} Source-reported 2020 area estimates range
+  from 519.89\,km$^2$ (GEODATA\,30\,m) to 593.71\,km$^2$ (CM-SSM sub-meter),
+  a 14.2\,\% range relative to the minimum ($(593.71-519.89)/519.89$).
+  CMSA harmonized area is 570.11\,km$^2$ at 30\,m EPSG:3410. The range arises
+  from a combination of source resolution, presence-only encoding design in
+  GEODATA, and patch-delineation semantics (stand-level aggregation vs.\
+  clump-level splitting) rather than measurement error.
+\item \textbf{RQ2 (Spatial agreement):} Pair-wise IoU and Dice quantify
+  substantial spatial disagreement at a single 100\,m estimand resolution:
+  CMSA vs.\ CM-SSM IoU = 0.5395 (95\,\% block-bootstrap CI [0.5096, 0.5708]),
+  CMSA vs.\ GEODATA IoU = 0.4444 ([0.4128, 0.4733]), and CM-SSM vs.\ GEODATA
+  IoU = 0.3432 ([0.3139, 0.3714]). The effective statistical sample is about
+  2\,000 informative 2\,km blocks (0.24\,\% of all blocks), not the
+  334.62-million-cell grid. Regional stratification with IHO-derived marine
+  polygons gives a statistically resolved 4.18\,$\times$ CMSA--GEODATA IoU
+  difference between the Bohai/Yellow Sea (0.5599) and the South China Sea
+  (0.1341); a direct bootstrap of the inter-region ratio gives 4.18
+  (95\,\% CI [2.74, 7.51], $p<0.001$). The contrast is pair-specific: it is
+  4.37\,$\times$ for CM-SSM--GEODATA but indistinguishable from unity for
+  CMSA--CM-SSM (ratio 0.98 [0.81, 1.19]). It is also robust to how the
+  34.4\,\% of mapped pixels outside all sea polygons are attributed
+  (4.06--4.18\,$\times$ across direct-only, distance-capped and uncapped
+  policies, all intervals excluding unity). In the South China Sea the low
+  IoU is consistent with spatial displacement---GEODATA maps the largest
+  extent there---rather than wholesale omission, although displacement
+  cannot be established as the sole cause without reference data; and a
+  coverage-normalized IoU is not computable from the delivered entities,
+  so all agreement is measured on the shared domain under an explicit
+  "not mapped as presence == absence" assumption.
+\item \textbf{RQ3 (Sensitivity):} Resolution sensitivity across 30--100\,m is
+  extremely small ($\leq$0.4\,\% IoU change), indicating that pixel-scale edge
+  noise does not drive measured disagreement. Grid origin alignment and
+  coastline buffer size also have negligible effects ($\leq$0.3\,\% and
+  $\leq$0.2\,\% respectively). By contrast, rasterization rule
+  (\texttt{all\_touched=True}) is the dominant processing confound, reducing
+  IoU by 22--29\,\% for pairs involving the GEODATA raster product while
+  inflating area estimates by 69\,\% (CMSA) and 107\,\% (CM-SSM). This finding
+  provides a quantitative warning for all studies using IoU/Dice between
+  vector and raster products.
+\item \textbf{RQ4 (Monitoring implications):} No temporally overlapping
+  multi-year window exists for cross-product trend validation, so we cannot
+  directly verify CMSA's monotonic +4.0\,\%/year increase or GEODATA's
+  2015--2020 5.0\,\% decline against an independent product. However, 2020
+  hotspot identification is robust to product choice: all three products rank
+  the East China Sea first (50.7--65.4\,\% of national total) and the South
+  China Sea last (2.5--5.1\,\%). Regional rank order is therefore stable,
+  whereas regional allocation magnitudes differ by up to 29\,\% relative
+  between products, which is what monitoring budgets would be sensitive to.
+\end{itemize}
+
+The core insight is that \emph{similar national area estimates do not necessarily
+imply spatial agreement}: products can agree on total mapped area within a few
+percent while simultaneously disagreeing on nearly half the mapped positive-region
+area. This finding, quantified across three independent products and multiple
+coastal subregions, underscores the need for multi-source triangulation in
+coastal monitoring.
+
+All harmonization decisions, processing steps, and source metadata are
+documented; all experiment scripts and result files are released alongside
+this manuscript under the Git reference
+\url{https://github.com/Yingda-Yu/Spartina-Earth} branch
+\texttt{feat/paper1-map-reliability}, commit \texttt{3ed17a8}.
+
+% =====================================================================
+\section*{Data Availability}
+\label{sec:data-availability}
+
+The data that support the findings of this study are available from the
+third-party sources listed below; the derived harmonization masks, agreement
+metrics and all experiment result files supporting the findings are
+available from the authors upon reasonable request and are archived in the
+publicly accessible \textit{Spartina~Earth} repository at the Git commit cited
+in the Conclusions. All source datasets used in this study are third-party
+products with the following access paths:
+\begin{itemize}[nosep]
+\item CMSA 2017--2021: provided upon request to the Chinese Academy of Sciences
+  Institute of Coastal Research. Redistribution terms are under verification.
+\item GEODATA 1990/2000/2015/2020: released via the IGSNRR Data Open platform
+  under CC-BY-NC-ND. Non-commercial use permitted; no derivative work allowed.
+\item CM-SSM 2020: \url{https://doi.org/10.5281/zenodo.16296823} (Zenodo,
+  CC-BY-4.0) with a mirror-side license conflict flagged.
+\end{itemize}
+Source geometries are \emph{not} redistributed in this manuscript. Aggregated
+national area statistics are reported in Tables~\ref{tab:area2020} and
+Section~\ref{sec:results}. Derived harmonization masks, agreement metrics, and
+all experiment result CSVs are saved at
+\texttt{papers/paper1\_map\_reliability/results/} in the \textit{Spartina~Earth}
+repository at the Git commit above.
+
+\section*{Code Availability}
+
+Harmonization, area computation, IoU/Dice calculation, block-bootstrap
+uncertainty quantification, boundary sensitivity testing, and sensitivity
+analysis scripts are available at
+\texttt{papers/paper1\_map\_reliability/experiments/} in the \textit{Spartina~Earth}
+repository at the Git commit above. The code is released under Apache-2.0.
+All figures and tables are reproducible from the audited source data using
+the documented configuration (Python 3.11, geopandas 1.0.1, rasterio 1.4.3,
+numpy, pandas, pyproj; PROJ\_LIB set to the miniconda spartina-earth share/proj
+path).
+
+\section*{Funding}
+
+This research was conducted without external funding. Infrastructure and compute
+resources were provided by the authors' institution.
+
+\section*{Acknowledgements}
+
+The authors thank the Chinese Academy of Sciences Institute of Coastal Research
+for providing the CMSA dataset, the Institute of Geographic Sciences and Natural
+Resources Research for the GEODATA time series, and CNU Zhou et al.\ for the
+openly published CM-SSM product. Constructive feedback from anonymous reviewers
+is acknowledged.
+
+\section*{Disclosure of interest}
+
+The authors report no conflict of interest.
+
+\section*{Declaration of generative AI use}
+
+\TODO{OWNER\_CONFIRM: state whether and how generative AI tools were used in
+the research and manuscript preparation process, per the IJRS Instructions
+for Authors. The final wording must be confirmed by the data and manuscript
+owner before submission.}
+
+% =====================================================================
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+% =====================================================================
+\appendix
+\section{Data inventory}
+\label{app:data}
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:data_inv}Complete dataset inventory.}
+\begin{tabular}{l l l l l}
+\toprule
+Dataset & Provider & Year(s) & Resolution & License \\
+\midrule
+CMSA 2017--2021 & CAS ICR & 2017--2021 & 10\,m vector & TODO\_VERIFY \\
+GEODATA 1990 & IGSNRR & 1990 & 30\,m Albers & CC-BY-NC-ND? \\
+GEODATA 2000 & IGSNRR & 2000 & 30\,m Albers & CC-BY-NC-ND? \\
+GEODATA 2015 & IGSNRR & 2015 & 30\,m Albers & CC-BY-NC-ND? \\
+GEODATA 2020 & IGSNRR & 2020 & 30\,m Albers & CC-BY-NC-ND? \\
+CM-SSM 2020 & CNU Zhou et al. & 2020 & sub-meter vector & CC-BY-4.0 (conflict) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:licenses}License and redistribution status.}
+\begin{tabular}{l l l l}
+\toprule
+Dataset & License & Publication OK & Redistribution OK \\
+\midrule
+CMSA & TODO\_VERIFY & \textbf{UNVERIFIED} & NO (source-held) \\
+GEODATA & CC-BY-NC-ND & \textbf{UNVERIFIED} & NO (non-commercial, ND) \\
+CM-SSM & CC-BY-4.0 & YES (with attribution) & YES (with attribution) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+\end{document}

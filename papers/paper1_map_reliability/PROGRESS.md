@@ -1,13 +1,102 @@
 # PROGRESS — Paper 1: Multi-Source Spartina alterniflora Map Reliability
 
 **Branch:** `feat/paper1-map-reliability`
-**Baseline for this round:** `f2c7368` (R3.1)
+**Baseline for this round:** `b84feda` (R4)
 **Last updated:** 2026-11-08
-**Target journal:** SCI Q3–Q4 (candidate: International Journal of Digital Earth, Remote Sensing)
+**Target journal:** **International Journal of Remote Sensing (IJRS), Taylor & Francis** — verified 2026-11-08 (SCIE, CAS 2025 Q4, subscription route, zero mandatory APC)
 
 ---
 
-## Current milestone: R4 — regional attribution audit, coverage audit, manuscript revision
+## Current milestone: R5 — IJRS submission-targeted finalization
+
+### What was done
+
+| Task | Deliverable | Status |
+|---|---|---|
+| R5-01 baseline | HEAD `b84feda`, clean tree, tests 588 passed/21 skipped | DONE |
+| R5-02 journal verification | `audits/r5_ijrs_journal_requirements.md` (live retrieval 2026-11-08) | DONE — all owner hard requirements PASS |
+| R5-03 repositioning | new title "Spatial Agreement and Regional Uncertainty in Multi-Source Maps of *Spartina alterniflora* along the Chinese Coast"; abstract rewritten to 281 words (≤ 300 IJRS limit); storyline strengthened; draft-history wording removed | DONE |
+| R5-04 R4 integration check | 4.06–4.18× robustness retained; coverage-mask absence explained; displacement claims softened to "consistent with, not conclusively" in 4 locations | DONE |
+| R5-05 references + positioning | **12 unverifiable (fabricated) references removed**; 17-entry verified bibliography; 7 newly verified citations incl. the CMSA production paper (Li et al. 2024, IJRS 45(9)); `literature/r5_ijrs_related_work_matrix.md` | DONE |
+| R5-06 figure/table QA | `audits/r5_figure_table_qa.md`; 8 figures @300 dpi, 12 tables; no regeneration needed | DONE |
+| R5-07 language/length | 31→32 pp, ~10,200 words; secondary diagnostics moved to new `supplementary/supplementary_information.tex` (SI §S1, superseded meridian-band analysis) | DONE |
+| R5-08 declarations | `audits/r5_submission_declarations.md` (licensing status + owner-confirmation checklist) | DONE |
+| R5-09 submission package | `submission/ijrs/` — main.pdf (32 pp), LaTeX source, 8 TIFF figures @300 dpi, SI PDF, IJRS-specific cover letter, data + code availability statements, author/funding/COI checklist, submission checklist | DONE |
+| R5-10 peer review | `audits/r5_ijrs_peer_review.md` — five perspectives; technical items (regional block-size sensitivity, phenology-window hypothesis, harmonization-envelope caveat) closed in-text | DONE |
+| R5-11 final QA | tests 588 passed/21 skipped (76 s); LaTeX 32 pp, 0 undefined refs; commit + push | DONE |
+
+### Key R5 findings and changes
+
+1. **Journal (R5-02).** IJRS verified: SCIE (IF 2.6, 2025), CAS 2025 upgraded
+   edition Q4 (Earth Sciences major category), subscription route with **zero
+   mandatory APC** ("If you choose not to publish open access in this
+   journal, there is no APC"; no submission/page/colour charges), fast
+   review (4-day average first decision, 57-day post-review, 14-day
+   acceptance→online). No hard requirement fails.
+2. **Reference integrity (R5-05).** Full verification against
+   CrossRef/doi.org found 12 of 17 scholarly entries unverifiable, several
+   with DOIs resolving to unrelated papers. All removed/replaced; the final
+   bibliography carries only verified entries plus 2 explicitly marked
+   institutional dataset-release placeholders (owner must confirm formal
+   citations). Notably the CMSA production paper was published in IJRS
+   itself — a strong journal-fit anchor.
+3. **Manuscript (R5-03/04/07).** Product-reliability framing; abstract within
+   IJRS's 300-word limit; internal draft-history references removed; the
+   superseded meridian-band analysis moved to Supplementary Information
+   §S1 (published via Figshare at the journal side); IJRS-required
+   declarations added (Disclosure of interest; generative-AI-use declaration
+   placeholder pending owner wording; data availability aligned with the
+   journal's "Share Upon Reasonable Request" policy).
+4. **Peer review (R5-10).** Five-perspective verdict: scientifically sound,
+   minor-revision-level technical concerns (all closed in-text during R5);
+   submission blocked only by owner-dependent administrative items.
+
+### Manuscript status (after R5)
+
+| Metric | Value |
+|---|---|
+| Title | Spatial Agreement and Regional Uncertainty in Multi-Source Maps of *Spartina alterniflora* along the Chinese Coast |
+| PDF pages | 32 |
+| Word count | ~10,200 (incl. tables; command-stripped) |
+| Abstract | 281 words (IJRS limit 300) |
+| Figures included | 8 (all 300 dpi; TIFF exports in package) |
+| Tables included | 12 |
+| References | 17 (all verified or explicitly marked placeholders) |
+| Undefined references | 0 |
+| Owner-blocked placeholders | affiliation, e-mail, funding, COI, AI-use wording, 2 dataset citations |
+
+### Remaining blockers
+
+1. Owner-dependent front matter: authors, affiliation, corresponding author,
+   ORCID, CRediT roles, funding confirmation, COI confirmation,
+   generative-AI-use declaration (see
+   `submission/ijrs/author_funding_coi_checklist.md`).
+2. Dataset licensing: CMSA (unverified, provider contact needed), GEODATA
+   (CC-BY-NC-ND?, confirm), CM-SSM (Zenodo DOI 10.5281/zenodo.16296823;
+   mirror license conflict).
+3. No GOLD reference data → accuracy not assessable (disclosed in the
+   manuscript; scientific scope limit, not a submission blocker).
+
+### Verdict
+
+**Submission package complete.** The manuscript is genuinely ready for IJRS
+submission once the owner completes the administrative checklist and authorizes
+submission. Do not submit without owner authorization (per standing instruction).
+
+### Verification record (R5-11)
+
+| Check | Result |
+|---|---|
+| `pytest tests -q` | 588 passed, 21 skipped, 41 warnings, 76.2 s |
+| LaTeX build | `main.pdf`, 32 pages, 0 undefined references |
+| Abstract length | 281 words ≤ 300 |
+| Bib integrity | 17 entries; 0 unverifiable scholarly entries (audit: `literature/r5_ijrs_related_work_matrix.md` §1) |
+| Package | `submission/ijrs/` (PDF, source, 8 TIFFs, SI, cover letter, statements, 2 checklists) |
+| Commits | R5 commit + follow-up Git-reference update; pushed to `origin/feat/paper1-map-reliability` (not merged) |
+
+---
+
+## History: R4 — regional attribution audit, coverage audit, manuscript revision
 
 R4 audits the two structural vulnerabilities a reviewer would attack first:
 the nearest-assignment of 34.4 % of positive pixels to sea regions, and the

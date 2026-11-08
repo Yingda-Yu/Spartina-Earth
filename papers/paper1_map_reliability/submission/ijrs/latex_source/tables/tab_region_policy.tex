@@ -1,0 +1,46 @@
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:region_policy}Regional IoU at 100\,m under alternative
+  attribution policies for the 34.4\,\% of positive-union pixels that fall
+  outside all marine polygons. A = direct polygon membership only
+  (34.42\,\% of union excluded); C$_t$ = nearest assignment capped at
+  $t$\,km (pixels beyond the cap excluded); B = uncapped nearest assignment
+  (the published E5 policy, nothing excluded). ``B/S'' is the
+  Bohai/Yellow-over-South-China IoU ratio. Data:
+  \texttt{results/r4\_region\_assignment\_sensitivity.csv}.}
+\begin{tabular}{l r l c c c c}
+\toprule
+Policy & Excl.\ (\%) & Pair & Bohai & East & South & B/S \\
+\midrule
+\multirow{3}{*}{A (direct only)}
+  & \multirow{3}{*}{34.42}
+  & CMSA--CM-SSM & 0.5057 & 0.5814 & 0.4976 & 1.02 \\
+  & & CMSA--GEODATA & 0.6060 & 0.3439 & 0.1482 & 4.09 \\
+  & & CM-SSM--GEODATA & 0.4119 & 0.3320 & 0.0887 & 4.64 \\
+\midrule
+\multirow{3}{*}{C$_5$ (cap 5\,km)}
+  & \multirow{3}{*}{18.23}
+  & CMSA--CM-SSM & 0.4984 & 0.5579 & 0.4841 & 1.03 \\
+  & & CMSA--GEODATA & 0.5705 & 0.3528 & 0.1406 & 4.06 \\
+  & & CM-SSM--GEODATA & 0.3937 & 0.3225 & 0.0864 & 4.56 \\
+\midrule
+\multirow{3}{*}{C$_{10}$ (cap 10\,km)}
+  & \multirow{3}{*}{10.46}
+  & CMSA--CM-SSM & 0.4974 & 0.5652 & 0.4863 & 1.02 \\
+  & & CMSA--GEODATA & 0.5617 & 0.3570 & 0.1365 & 4.12 \\
+  & & CM-SSM--GEODATA & 0.3881 & 0.3215 & 0.0838 & 4.63 \\
+\midrule
+\multirow{3}{*}{C$_{20}$ (cap 20\,km)}
+  & \multirow{3}{*}{2.75}
+  & CMSA--CM-SSM & 0.4971 & 0.5972 & 0.4774 & 1.04 \\
+  & & CMSA--GEODATA & 0.5600 & 0.3933 & 0.1349 & 4.15 \\
+  & & CM-SSM--GEODATA & 0.3870 & 0.3538 & 0.0838 & 4.62 \\
+\midrule
+\multirow{3}{*}{B (no cap, published)}
+  & \multirow{3}{*}{0.00}
+  & CMSA--CM-SSM & 0.4665 & 0.5902 & 0.4772 & 0.98 \\
+  & & CMSA--GEODATA & 0.5599 & 0.3923 & 0.1341 & 4.18 \\
+  & & CM-SSM--GEODATA & 0.3646 & 0.3499 & 0.0835 & 4.37 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,26 @@
+Data Availability Statement (IJRS "Share Upon Reasonable Request" policy)
+==========================================================================
+
+The data that support the findings of this study are available from the
+third-party sources listed below. The derived harmonization masks, agreement
+metrics and all experiment result files supporting the findings are available
+from the authors upon reasonable request and are archived in the Spartina
+Earth repository at the Git commit cited in the manuscript's Conclusions.
+
+Third-party source datasets (not redistributed; aggregated statistics and
+derived results only are used in the paper):
+
+1. China Coastal Saltmarsh Atlas (CMSA), 10 m annual Spartina alterniflora
+   vectors, 2017–2021. Provided by [TODO_OWNER: confirm provider citation].
+   Access path recorded in the manuscript (Data Availability section).
+2. China coastal 30 m Spartina alterniflora distribution time series
+   (GEODATA), 1990/2000/2015/2020. Institute of Geographic Sciences and
+   Natural Resources Research, Data Open platform. License recorded as
+   CC-BY-NC-ND [TODO_OWNER: confirm license from the platform record].
+3. CM-SSM national sub-meter Spartina alterniflora clump product, 2020.
+   Zenodo DOI 10.5281/zenodo.16296823 [TODO_OWNER: confirm DOI and license
+   before submission].
+
+No source geometries, rasters or restricted data are redistributed with this
+submission. Figures are rendered from harmonized grids computed by the
+authors; the harmonization code is released (see Code Availability Statement).

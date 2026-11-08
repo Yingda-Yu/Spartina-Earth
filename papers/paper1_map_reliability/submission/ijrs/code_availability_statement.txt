@@ -1,0 +1,22 @@
+Code Availability Statement
+===========================
+
+All code required to reproduce the harmonization, agreement statistics,
+bootstrap confidence intervals, sensitivity analyses and figures in this study
+is released in the Spartina Earth repository (branch
+feat/paper1-map-reliability, commit cited in the manuscript Conclusions),
+including:
+
+- experiments/e5d_geographic_regions.py — marine-polygon regionalization
+- experiments/e5e_bootstrap.py — spatial block-bootstrap inference
+- experiments/r4_region_attribution.py — geographic assignment policies
+- experiments/r4_coverage_agreement.py — source coverage audit
+- experiments/r4_south_china.py — South China disagreement diagnostics
+- experiments/r4_bootstrap.py — regional ratio/difference inference
+- figure-generation scripts under experiments/ (see PROGRESS.md index)
+
+Each experiment records its configuration, data version, seed and Git commit
+per the repository's experiment standard (docs/experiments/EXPERIMENT_STANDARD.md).
+The code is available from the authors upon reasonable request and is
+archived at the Git commit cited in the Conclusions. [TODO_OWNER: confirm
+the public repository URL or access mechanism to be stated at submission.]
