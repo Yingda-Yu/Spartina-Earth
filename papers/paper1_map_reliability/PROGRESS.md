@@ -89,7 +89,7 @@ verification and owner front-matter items.
 | LaTeX build | `main.pdf`, 30 pages, 0 undefined references, 0 warnings |
 | South China rerun | 351.6 s; diagnostics/fragmentation/clusters identical to first run (first rerun had crashed on a dict-key typo; fixed and rerun) |
 | Coverage rerun (figure labels) | strip gaps identical (140/0, 0/51, 159/0 px); only the figure legend changed |
-| Commits | R4 commit (see git log); manuscript Git reference updated in follow-up commit |
+| Commits | `3ed17a8` (R4 audits + manuscript) + follow-up commit updating the manuscript Git reference |
 | Remote | pushed to `origin/feat/paper1-map-reliability` (not merged to `main`) |
 
 ---
