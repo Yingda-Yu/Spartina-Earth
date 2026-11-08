@@ -1,0 +1,4 @@
+region,n_assigned_px,dist_median_km,dist_p90_km,dist_p99_km,dist_max_km,n_beyond_1km,n_beyond_5km,n_beyond_10km,n_beyond_20km,n_beyond_50km
+Bohai_Yellow,7678,2.783,45.226,53.219,53.968,6016,2701,1875,1777,478
+East_China,22262,6.825,15.92,50.413,53.317,20225,13634,7540,692,237
+South_China,1261,1.612,5.532,28.103,28.657,908,188,70,24,0

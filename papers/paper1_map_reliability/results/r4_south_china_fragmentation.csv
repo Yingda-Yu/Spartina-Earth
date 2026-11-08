@@ -1,0 +1,4 @@
+n_patches,mean_patch_ha,median_patch_ha,area_lt_1ha_pct,area_lt_5ha_pct,product,positive_px,area_km2
+390,4.94,2.0,0.0,24.49,CMSA,1927,19.27
+337,4.36,2.0,0.0,28.66,CMSSM,1469,14.69
+196,13.42,4.0,0.0,9.54,GEODATA,2631,26.31

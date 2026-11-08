@@ -1,0 +1,29 @@
+{
+  "created": "2026-11-08 13:48:34",
+  "git_commit": "f2c736843aceedd78d7f0b2acd49570ab714600f",
+  "framework": "reuses e5e_bootstrap_100m (verified R3.1) verbatim: estimand = IoU of regional totals at 100 m; square-block resampling; blocks with union==0 excluded; 5 seeds x 1000 reps; direct two-region contrast by independent in-region resampling",
+  "policies": {
+    "A": "direct marine-polygon membership only",
+    "C_5km": "nearest assignment capped at 5 km",
+    "C_10km": "nearest assignment capped at 10 km (primary)",
+    "C_20km": "nearest assignment capped at 20 km"
+  },
+  "not_rerun": "national scale and policy-B regional results (e5e_bootstrap_100m.csv, e5e_region_contrasts_100m.csv) are unchanged by R4-01 and were NOT recomputed",
+  "primary_contrast_block_km": 2,
+  "block_sizes_km": [
+    1,
+    2,
+    5,
+    10
+  ],
+  "seeds": [
+    202601,
+    202602,
+    202603,
+    202604,
+    202605
+  ],
+  "n_bootstrap_per_seed": 1000,
+  "runtime_s": 472.1,
+  "max_rss_gb": 5.95
+}
