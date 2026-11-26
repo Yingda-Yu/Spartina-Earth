@@ -1,0 +1,9 @@
+gate,requirement,measured_v0_2_landed,repair_action,projected_v0_2_1
+q1_geodata_temporal.positive_cells_both_years,>=12,11,"8 ranked repair candidates (metadata-eligible, Landsat 7/8 autumn events both years)",PASS if >=1 of 8 lands both years; expected ~15 at observed 55% panel pass rate (11/20)
+q1_geodata_temporal.regions,>=3,5,repair candidates span Zhejiang/Jiangsu/Shanghai/Guangxi/Shandong + existing 5,PASS (>=5)
+q1_geodata_temporal.background_cells,>=12,11,6 ranked clean-background candidates,PASS if >=1 of 6 lands both years; expected ~14
+q2_cmsa_temporal,>=24/24/>=4,24/25/10,no repair required,PASS (unchanged)
+q3_cross_region_holdouts,>=4 defensible,6,no repair required,PASS (unchanged)
+q5_near_synchronous_pairs,>=24 cells/>=12 pos,53/28,no repair required,PASS (unchanged)
+q6_fresh_reserve,24 sealed,24,no repair required; seal wording normalized,PASS (with documented sealed-after-export boundary)
+q7_gold_candidates,registry only,30,no promotion,PASS (CANDIDATE_ONLY)
