@@ -1705,5 +1705,8 @@
   },
   "export_index": "work/issue21/export_repair/v021_export_index.json",
   "task_store": "work/issue21/export_repair/tasks/task_store.json",
-  "document_checksum": "e658c587e7162307e4ee3d267f34657b6308787e486a6d6690b13f57bfd9260e"
+  "git_commit": "dcca07d42b7e8825cf0634ec5ed653aa2b6c25a5",
+  "git_commit_semantics": "HEAD at generation time (commit containing this file lands afterwards; parent provenance chain in PHASE_2A_1_VERIFICATION.log)",
+  "generated_utc": "2026-11-26T18:39:53.591494+00:00",
+  "document_checksum": "c1b6eadab4efc1212463304a460e9496675c4610f957b08c160d6d52d19514cc"
 }
