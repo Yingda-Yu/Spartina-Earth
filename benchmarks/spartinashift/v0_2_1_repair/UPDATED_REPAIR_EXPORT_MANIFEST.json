@@ -1,0 +1,1709 @@
+{
+  "product": "V0_2_1_REPAIR_EXPORT_MANIFEST_UPDATED",
+  "issue": 21,
+  "phase": "2A.1_STEP1",
+  "metadata_backfill_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes read from landed files on disk",
+  "verification": {
+    "products": 35,
+    "component_task_ids_unique": 105,
+    "landed_files": 105,
+    "sha256_rehashed_match": 105,
+    "product_to_scene_mapping_ok": 35,
+    "product_to_event_mapping_ok": 35
+  },
+  "owner_authorization": "Option A approved 2026-11-26; export executed 2026-11-27; metadata backfill 2026-11-27 (Phase 2A.1)",
+  "gdrive_folder": "SpartinaEarthV021Repair",
+  "n_products_landed": 35,
+  "total_landed_bytes": 132432833,
+  "component_tasks_submitted": 105,
+  "component_tasks_succeeded": 105,
+  "superseded_products": [],
+  "products": [
+    {
+      "product_id": "V021_R00163-C00067_L8_2015_E",
+      "cell_id": "CNA10K-R00163-C00067",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-854d61567db2bec0",
+      "scene_id": "LC08_123049_20150923",
+      "source_product_id": "LC08_L2SP_123049_20150923_20200908_02_T1",
+      "acquisition_date": "2015-09-23T00:00:00+00:00",
+      "doy": 266,
+      "wrs_path": 123,
+      "wrs_row": 49,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3534312,
+      "gee_backend_task_ids": [
+        "NDWUZZZPJ4DH765RWWP3DPZE",
+        "3KB6GSFOM73XAWA4POQFLDD3",
+        "JUF6J54SLL35IOEQC4IDIA32"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_E_sr_20150923_V0_2_1_REPAIR.tif",
+          "sha256": "64f39d76d6c6f506b95c02e57e1ce0309e5698a5c34ac1acfd37c5567cd329bd",
+          "sha256_match_manifest": true,
+          "bytes": 3524877
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_E_valid_20150923_V0_2_1_REPAIR.tif",
+          "sha256": "912d0e21b2e00d74edcbe04387465825a3d2e8b3003b81cf05565a0e94e6f662",
+          "sha256_match_manifest": true,
+          "bytes": 3496
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_E_qapixel_20150923_V0_2_1_REPAIR.tif",
+          "sha256": "a1435ed84c311f223366ef7d9361b75356affb3bfafbd0bf08cf21677c35a2b2",
+          "sha256_match_manifest": true,
+          "bytes": 5939
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00163-C00067_L8_2015_L",
+      "cell_id": "CNA10K-R00163-C00067",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "LATE",
+      "event_id": "EVT-L-cb4bd9dbb37b0818",
+      "scene_id": "LC08_123049_20151110",
+      "source_product_id": "LC08_L2SP_123049_20151110_20200908_02_T1",
+      "acquisition_date": "2015-11-10T00:00:00+00:00",
+      "doy": 314,
+      "wrs_path": 123,
+      "wrs_row": 49,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9993064500148617,
+      "n_bytes": 2910702,
+      "gee_backend_task_ids": [
+        "B3ENSXOVN5LWFGKVGBJAXIAF",
+        "YRRFSWE43EDIMDUGKCDWAJ5B",
+        "UEAP5EYLAUPOMN5HEP2J3IWH"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_L_sr_20151110_V0_2_1_REPAIR.tif",
+          "sha256": "c26b93125dfd2c8f505a495c74362b9df41c5a7361dbd1b562a46b4a2c990858",
+          "sha256_match_manifest": true,
+          "bytes": 2899999
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_L_valid_20151110_V0_2_1_REPAIR.tif",
+          "sha256": "4363e25c23517061a36ef5f9b1355856696141d261e14c5654240624389096e4",
+          "sha256_match_manifest": true,
+          "bytes": 3902
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_L_qapixel_20151110_V0_2_1_REPAIR.tif",
+          "sha256": "48d1653971267ffd031550c7de34866c9280350b07d2504fb0150f63dddbcf40",
+          "sha256_match_manifest": true,
+          "bytes": 6801
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00163-C00067_L8_2015_M",
+      "cell_id": "CNA10K-R00163-C00067",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-0a8bef77cbbf45fb",
+      "scene_id": "LC08_123049_20151025",
+      "source_product_id": "LC08_L2SP_123049_20151025_20200908_02_T1",
+      "acquisition_date": "2015-10-25T00:00:00+00:00",
+      "doy": 298,
+      "wrs_path": 123,
+      "wrs_row": 49,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9794727218684417,
+      "n_bytes": 3666264,
+      "gee_backend_task_ids": [
+        "DMFGSKYEFHHLHQILWFIDFS2S",
+        "GEOXQH5UC4IBV3SJZSQ4SKA5",
+        "7VGWNN2MWZCMR3A4YRHRMS4O"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_M_sr_20151025_V0_2_1_REPAIR.tif",
+          "sha256": "950ec9086131f86ab6691e9ad4deaeadf719fe72f1e2c2f6decf2d23195acecd",
+          "sha256_match_manifest": true,
+          "bytes": 3646387
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_M_valid_20151025_V0_2_1_REPAIR.tif",
+          "sha256": "6ae6e4dc88c0c93817b5bb8f443bce1026a28486e4f503d489d156045136860a",
+          "sha256_match_manifest": true,
+          "bytes": 6176
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00163-C00067_L8_2015_M_qapixel_20151025_V0_2_1_REPAIR.tif",
+          "sha256": "eb74e5d571d4b155d947254ee521df9d376bbc92e0a8a0b7240112107a27f7e3",
+          "sha256_match_manifest": true,
+          "bytes": 13701
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00188-C00044_L8_2015_E",
+      "cell_id": "CNA10K-R00188-C00044",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-d9733234d05bd02c",
+      "scene_id": "LC08_124047_20150930",
+      "source_product_id": "LC08_L2SP_124047_20150930_20200908_02_T1",
+      "acquisition_date": "2015-09-30T00:00:00+00:00",
+      "doy": 273,
+      "wrs_path": 124,
+      "wrs_row": 47,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3120076,
+      "gee_backend_task_ids": [
+        "3OX4H3RIGPTK2GYDVZKBLERK",
+        "3P45O4CO3TRUFY5XKSYG2CBX",
+        "ZNVTPILCUGS4X4PNID7LT7WY"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00188-C00044_L8_2015_E_sr_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "e3b0c51d98f63d2443a0d0bf7db5a6524b6359ccb1ffcd51b742e16a56305560",
+          "sha256_match_manifest": true,
+          "bytes": 3111243
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00188-C00044_L8_2015_E_valid_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "66815116577667843116929c516e508ccacdc35a9f9a6ca653116e5783f24056",
+          "sha256_match_manifest": true,
+          "bytes": 3451
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00188-C00044_L8_2015_E_qapixel_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "d54e6acc734ce225ad8c834af976b69ded68a2158fdf63411346bb1467568367",
+          "sha256_match_manifest": true,
+          "bytes": 5382
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00188-C00044_L8_2015_M",
+      "cell_id": "CNA10K-R00188-C00044",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-5b02e5cd4c3b4a9d",
+      "scene_id": "LC08_124047_20151016",
+      "source_product_id": "LC08_L2SP_124047_20151016_20200908_02_T1",
+      "acquisition_date": "2015-10-16T00:00:00+00:00",
+      "doy": 289,
+      "wrs_path": 124,
+      "wrs_row": 47,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3025697,
+      "gee_backend_task_ids": [
+        "KXCALWBRE52P3UY5NQ5G2E7Y",
+        "QE4TZAYZAHH34N52M6KQOFSW",
+        "LKJCBXX36RBIDNERWRZEKZB5"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00188-C00044_L8_2015_M_sr_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "44aa08a577a84f2daca03496706acdaad1997ef55ffbaf49c25a4dce4b0d63ff",
+          "sha256_match_manifest": true,
+          "bytes": 3016879
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00188-C00044_L8_2015_M_valid_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "66815116577667843116929c516e508ccacdc35a9f9a6ca653116e5783f24056",
+          "sha256_match_manifest": true,
+          "bytes": 3451
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00188-C00044_L8_2015_M_qapixel_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "73cd12d67c0836446554b00bc9c7177cf36e2af64b2f86a69f8aed2a827c468f",
+          "sha256_match_manifest": true,
+          "bytes": 5367
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00205-C00047_L8_2015_E",
+      "cell_id": "CNA10K-R00205-C00047",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-26ff3d612b2e4587",
+      "scene_id": "LC08_124046_20150930",
+      "source_product_id": "LC08_L2SP_124046_20150930_20200908_02_T1",
+      "acquisition_date": "2015-09-30T00:00:00+00:00",
+      "doy": 273,
+      "wrs_path": 124,
+      "wrs_row": 46,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9998829882988299,
+      "n_bytes": 3901115,
+      "gee_backend_task_ids": [
+        "QDPGBFDJ6GGZM66PQFQZG7K5",
+        "VGWFQBNRC6FU365JN3A2X2WP",
+        "JXW72AFTFMA2SXSRGUF5GZPO"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00205-C00047_L8_2015_E_sr_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "b7a64eae028c17d25a8c485776dce890b258fee4ceab783e131cd9b63cb6131b",
+          "sha256_match_manifest": true,
+          "bytes": 3875921
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00205-C00047_L8_2015_E_valid_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "e77962edbba9a4dfd713440b0195368beb9a95d2fddb35abb44e5187b6fd22a4",
+          "sha256_match_manifest": true,
+          "bytes": 5843
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00205-C00047_L8_2015_E_qapixel_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "246238a9144971f5d912db0ec83c626fc66ddd75ced95549654712ba6aa353f4",
+          "sha256_match_manifest": true,
+          "bytes": 19351
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00205-C00047_L8_2015_M",
+      "cell_id": "CNA10K-R00205-C00047",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-02112b58733b5e0d",
+      "scene_id": "LC08_124046_20151016",
+      "source_product_id": "LC08_L2SP_124046_20151016_20200908_02_T1",
+      "acquisition_date": "2015-10-16T00:00:00+00:00",
+      "doy": 289,
+      "wrs_path": 124,
+      "wrs_row": 46,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3748067,
+      "gee_backend_task_ids": [
+        "74MEDX4XJ5GTXCOPJBNSGXEN",
+        "T2RVOWDFQBB57ZM426FYFGQR",
+        "YOBLWUGNIEAIQMRQNNNLR6TM"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00205-C00047_L8_2015_M_sr_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "e48ccf44480a84f04ebeace3b5be55db114a0034bb1bd4b51f474803af6245ca",
+          "sha256_match_manifest": true,
+          "bytes": 3734006
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00205-C00047_L8_2015_M_valid_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "7c7abf4a1ff0d01c98b97a2c71052c0327e3b9db7de7b45ae63a60bb9e611a9c",
+          "sha256_match_manifest": true,
+          "bytes": 3981
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00205-C00047_L8_2015_M_qapixel_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "37f2e4175229bc61505f6ad8a2899829a3d608293db39a49561630b2c0ede7a0",
+          "sha256_match_manifest": true,
+          "bytes": 10080
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00215-C00058_L8_2015_E",
+      "cell_id": "CNA10K-R00215-C00058",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-26ff3d612b2e4587",
+      "scene_id": "LC08_124046_20150930",
+      "source_product_id": "LC08_L2SP_124046_20150930_20200908_02_T1",
+      "acquisition_date": "2015-09-30T00:00:00+00:00",
+      "doy": 273,
+      "wrs_path": 124,
+      "wrs_row": 46,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3176235,
+      "gee_backend_task_ids": [
+        "XLHZGM3NXQO565OO54KV3JUM",
+        "ZA5RKBHDGACKHZFMMOPPU254",
+        "JI4BRMMGXFFXTVLRB2UJNPOA"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00215-C00058_L8_2015_E_sr_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "d14fd1c471dd82f16c0a155707f9c49f80f410e462ea89c6f5ec9998723f0587",
+          "sha256_match_manifest": true,
+          "bytes": 3167520
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00215-C00058_L8_2015_E_valid_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "76203fbf3cc8d2cd2909eaf32f48fbd9761231598e928ea25f288904f21982b3",
+          "sha256_match_manifest": true,
+          "bytes": 3465
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00215-C00058_L8_2015_E_qapixel_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "90a653831b162f9d22de1d911e9febe07f008f807c4cb7cdd1e793c8f1c754a8",
+          "sha256_match_manifest": true,
+          "bytes": 5250
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00215-C00058_L8_2015_M",
+      "cell_id": "CNA10K-R00215-C00058",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-02112b58733b5e0d",
+      "scene_id": "LC08_124046_20151016",
+      "source_product_id": "LC08_L2SP_124046_20151016_20200908_02_T1",
+      "acquisition_date": "2015-10-16T00:00:00+00:00",
+      "doy": 289,
+      "wrs_path": 124,
+      "wrs_row": 46,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9999909931007152,
+      "n_bytes": 3345194,
+      "gee_backend_task_ids": [
+        "HXIZTQOGBDDNGE6W6RMBQHCX",
+        "J2I5VZRNYLZYHM5ZMDYGJS7C",
+        "ASBTPEN42XE54RS5EJBJC7IQ"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00215-C00058_L8_2015_M_sr_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "9230bc36f9396be6cd0b2a2ccc8e6747479925bd7a4c9aae3ed09abdb0712336",
+          "sha256_match_manifest": true,
+          "bytes": 3336472
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00215-C00058_L8_2015_M_valid_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "2a72460b6a2fdd07dd7762c9dc5ff304608f25196dd59719a491879dd93c8a2f",
+          "sha256_match_manifest": true,
+          "bytes": 3466
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00215-C00058_L8_2015_M_qapixel_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "dde4620696f0e6b8fdeffc1b803b42dc03996a2953b7dbb197faac5be0f2fc8d",
+          "sha256_match_manifest": true,
+          "bytes": 5256
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00224-C00047_L8_2015_E",
+      "cell_id": "CNA10K-R00224-C00047",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-9e09614af90e1ad4",
+      "scene_id": "LC08_124045_20150930",
+      "source_product_id": "LC08_L2SP_124045_20150930_20200908_02_T1",
+      "acquisition_date": "2015-09-30T00:00:00+00:00",
+      "doy": 273,
+      "wrs_path": 124,
+      "wrs_row": 45,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.999990997803464,
+      "n_bytes": 3811190,
+      "gee_backend_task_ids": [
+        "H752I5YJIA4PI6IFGAKMES5A",
+        "M7BBLTX6CCIRORH3OMXQYS7C",
+        "ICGJ7FTAO3N55QHMF3QERJHJ"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00224-C00047_L8_2015_E_sr_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "29a83f3cf23cdeeac8a784df8e9e66cb65d7af0f8ab0b33a9eae432859488b85",
+          "sha256_match_manifest": true,
+          "bytes": 3796482
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00224-C00047_L8_2015_E_valid_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "8e3308eac0e57f585394458a8507b1d6a589eba30996ccfe33ab6ce3576aa0d6",
+          "sha256_match_manifest": true,
+          "bytes": 3804
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00224-C00047_L8_2015_E_qapixel_20150930_V0_2_1_REPAIR.tif",
+          "sha256": "2c9379f7e4907c85e90dcd122d7cdf557f092f4bcbaea7226333003dcc444027",
+          "sha256_match_manifest": true,
+          "bytes": 10904
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00224-C00047_L8_2015_M",
+      "cell_id": "CNA10K-R00224-C00047",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-bb0191aba91026e0",
+      "scene_id": "LC08_124045_20151016",
+      "source_product_id": "LC08_L2SP_124045_20151016_20200908_02_T1",
+      "acquisition_date": "2015-10-16T00:00:00+00:00",
+      "doy": 289,
+      "wrs_path": 124,
+      "wrs_row": 45,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3816140,
+      "gee_backend_task_ids": [
+        "GEQIIVMYWBTP2YN33QPMYS7Z",
+        "PZCDH6PEF2PYVQHRQEEWTQFH",
+        "A5FQNAROOZJCYEOB3F2BSYIJ"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00224-C00047_L8_2015_M_sr_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "fa0a13503989eae0ee955f62a3f77878d2a150f7193941e82a4cdab06d4a4b16",
+          "sha256_match_manifest": true,
+          "bytes": 3794923
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00224-C00047_L8_2015_M_valid_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "12e41fe693f24edb7acc2afe733b49ed3072bd621b52ed685542f03b51112682",
+          "sha256_match_manifest": true,
+          "bytes": 4183
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00224-C00047_L8_2015_M_qapixel_20151016_V0_2_1_REPAIR.tif",
+          "sha256": "c435e8aaf1c608966de6059b5720e1cb73de1d99828b602379ca87e8d0ccb515",
+          "sha256_match_manifest": true,
+          "bytes": 17034
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00232-C00095_L8_2015_E",
+      "cell_id": "CNA10K-R00232-C00095",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-aba61b871ae8a930",
+      "scene_id": "LC08_121045_20150925",
+      "source_product_id": "LC08_L2SP_121045_20150925_20200908_02_T1",
+      "acquisition_date": "2015-09-25T00:00:00+00:00",
+      "doy": 268,
+      "wrs_path": 121,
+      "wrs_row": 45,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9964046882864744,
+      "n_bytes": 3753312,
+      "gee_backend_task_ids": [
+        "XPMS4UZZPX34PFM5FPA537VY",
+        "PLFF4LP2NNVM6B3P6BHLGC6S",
+        "3GIB6CN7SXUE3DMG3DFEDFXH"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00232-C00095_L8_2015_E_sr_20150925_V0_2_1_REPAIR.tif",
+          "sha256": "1c313bdb0425e6113dd04c60dc22a4876a88633d74a7a4b0ea986af348fd9749",
+          "sha256_match_manifest": true,
+          "bytes": 3733236
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00232-C00095_L8_2015_E_valid_20150925_V0_2_1_REPAIR.tif",
+          "sha256": "632731c3c4a932239072aebc30f733d9648182ed8aea2834c4ff3c5a1b176da1",
+          "sha256_match_manifest": true,
+          "bytes": 5217
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00232-C00095_L8_2015_E_qapixel_20150925_V0_2_1_REPAIR.tif",
+          "sha256": "498a3243ce98f2398c6cf1dd28c786169aa3e2618b457eeb5e7a77a24d1520c6",
+          "sha256_match_manifest": true,
+          "bytes": 14859
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00331-C00149_L8_2015_M",
+      "cell_id": "CNA10K-R00331-C00149",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-e68b6c341567bec0",
+      "scene_id": "LC08_119039_20151013",
+      "source_product_id": "LC08_L2SP_119039_20151013_20200908_02_T1",
+      "acquisition_date": "2015-10-13T00:00:00+00:00",
+      "doy": 286,
+      "wrs_path": 119,
+      "wrs_row": 39,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 4343093,
+      "gee_backend_task_ids": [
+        "V55YS57UCGZVM3UL2W6KDXYN",
+        "KXQRZFPEEPYDVE7SLZ2GRH6G",
+        "AGUFKGXZWRTYPWITX7BHXCJL"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00331-C00149_L8_2015_M_sr_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "900022f0c9a2843556240cf419fcb21371ce1a8fa2fe08646ea6ac65ea7cd2a3",
+          "sha256_match_manifest": true,
+          "bytes": 4324444
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00331-C00149_L8_2015_M_valid_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "d44c81aeddf92fe3942218ffec6e9c78368bd482f7b696dc2926d65f6c568d5f",
+          "sha256_match_manifest": true,
+          "bytes": 3672
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00331-C00149_L8_2015_M_qapixel_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "7707ab4f4f164bcbbb5537881fb5c30879adfd850ba24efba22e34c72485f053",
+          "sha256_match_manifest": true,
+          "bytes": 14977
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00331-C00149_L8_2020_L",
+      "cell_id": "CNA10K-R00331-C00149",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "LATE",
+      "event_id": "EVT-L-8656add4dbb1d007",
+      "scene_id": "LC08_119039_20201111",
+      "source_product_id": "LC08_L2SP_119039_20201111_20210316_02_T1",
+      "acquisition_date": "2020-11-11T00:00:00+00:00",
+      "doy": 316,
+      "wrs_path": 119,
+      "wrs_row": 39,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9995500967292033,
+      "n_bytes": 4367375,
+      "gee_backend_task_ids": [
+        "QMIDHO6NXMKOH2WAHWGKTDFA",
+        "HHQDG4EUNTZUTBA5BDC5FCVM",
+        "5X4EPFGQK35NB4LONRMAFLRR"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00331-C00149_L8_2020_L_sr_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "35de827c16ebed748215dc01e8305fba4a5e52a2a063e78242823c8d49aa0fd7",
+          "sha256_match_manifest": true,
+          "bytes": 4347569
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00331-C00149_L8_2020_L_valid_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "4d94bda69debe366eae0d3d300d087e11f1dae3c45f9294b320f1318c3b58dc5",
+          "sha256_match_manifest": true,
+          "bytes": 4486
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00331-C00149_L8_2020_L_qapixel_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "d44ff3c989116147780556d4433c9f600d0d70b7f5c8caef1b9bcb0a1253f65e",
+          "sha256_match_manifest": true,
+          "bytes": 15320
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00348-C00154_L8_2015_E",
+      "cell_id": "CNA10K-R00348-C00154",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-d867e10b144a8362",
+      "scene_id": "LC08_118038_20151006",
+      "source_product_id": "LC08_L2SP_118038_20151006_20200908_02_T1",
+      "acquisition_date": "2015-10-06T00:00:00+00:00",
+      "doy": 279,
+      "wrs_path": 118,
+      "wrs_row": 38,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9992257204850952,
+      "n_bytes": 4711402,
+      "gee_backend_task_ids": [
+        "C3RWF73PWAQ4AY5X3QFAVJ44",
+        "RSUMC26EAY6YNCUMRRBW237D",
+        "XC5P4QDQN4QZ7F5NR6OTGK2T"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00348-C00154_L8_2015_E_sr_20151006_V0_2_1_REPAIR.tif",
+          "sha256": "b20c07b72cd25a9a500376cf8ef27db86b4868198697ce4c649b9d78b8123bcb",
+          "sha256_match_manifest": true,
+          "bytes": 4682122
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00348-C00154_L8_2015_E_valid_20151006_V0_2_1_REPAIR.tif",
+          "sha256": "3c2f759ccff844eca5940aab375d48dc9d785dd0a1ffc953f02db8c6dad3c690",
+          "sha256_match_manifest": true,
+          "bytes": 7502
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00348-C00154_L8_2015_E_qapixel_20151006_V0_2_1_REPAIR.tif",
+          "sha256": "29aaf52b9879b3c382d320a9f1c5e13862eed8f73ba69f820afbf994ce8a4770",
+          "sha256_match_manifest": true,
+          "bytes": 21778
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00348-C00154_L8_2015_M",
+      "cell_id": "CNA10K-R00348-C00154",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-55163a3a9a14a4b8",
+      "scene_id": "LC08_118038_20151022",
+      "source_product_id": "LC08_L2SP_118038_20151022_20200908_02_T1",
+      "acquisition_date": "2015-10-22T00:00:00+00:00",
+      "doy": 295,
+      "wrs_path": 118,
+      "wrs_row": 38,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9982263597158574,
+      "n_bytes": 4765554,
+      "gee_backend_task_ids": [
+        "WGMWDNM7HGMN7AVWE6KDVOHW",
+        "BSYPIMNBDPWOAOSRLUWMWZET",
+        "LT2KAPAK25LCSDCJ2AEHFREM"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00348-C00154_L8_2015_M_sr_20151022_V0_2_1_REPAIR.tif",
+          "sha256": "3e43f85c93a6fb228c268e37cd2b131d11b83f40742848975827a4492dac7621",
+          "sha256_match_manifest": true,
+          "bytes": 4734248
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00348-C00154_L8_2015_M_valid_20151022_V0_2_1_REPAIR.tif",
+          "sha256": "a22b6a32534786062f493b41e6613e5cdb049c0f050cbe1b4efbd10755c4be5c",
+          "sha256_match_manifest": true,
+          "bytes": 7039
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00348-C00154_L8_2015_M_qapixel_20151022_V0_2_1_REPAIR.tif",
+          "sha256": "32ad507c8852d7384bf5b6521cf633039603649629abcd4cf6e7d60d1fcc718d",
+          "sha256_match_manifest": true,
+          "bytes": 24267
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00352-C00155_L7_2020_L",
+      "cell_id": "CNA10K-R00352-C00155",
+      "sensor": "landsat7",
+      "year": 2020,
+      "tertile": "LATE",
+      "event_id": "EVT-L-9410a98f335e981c",
+      "scene_id": "LE07_118038_20201112",
+      "source_product_id": "LE07_L2SP_118038_20201112_20201208_02_T1",
+      "acquisition_date": "2020-11-12T00:00:00+00:00",
+      "doy": 317,
+      "wrs_path": 118,
+      "wrs_row": 38,
+      "l7_era": "L7_POST_SLC_FAILURE",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9642226784813774,
+      "n_bytes": 2790357,
+      "gee_backend_task_ids": [
+        "QTDO5LGZ4MXVFYYY6FISUXUV",
+        "ACRRFY6AHFNUYFD5GWM5T3Q7",
+        "6AY3DVKESYVBGAQJPQ6O7IP7"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L7_2020_L_sr_20201112_V0_2_1_REPAIR.tif",
+          "sha256": "b9b480dd9fe310e517508edfea6cd786981b3b6e2787f8409bcc308266e317bd",
+          "sha256_match_manifest": true,
+          "bytes": 2767171
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L7_2020_L_valid_20201112_V0_2_1_REPAIR.tif",
+          "sha256": "219eefe4467472fce132c52d22f7c976fa1a732e65d862fdd36bba144986d526",
+          "sha256_match_manifest": true,
+          "bytes": 4100
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L7_2020_L_qapixel_20201112_V0_2_1_REPAIR.tif",
+          "sha256": "225fc2d2a15751f485ae7b702552eb98eb477dedfd6467fc023fffe165cc3c6b",
+          "sha256_match_manifest": true,
+          "bytes": 19086
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00352-C00155_L7_2020_M",
+      "cell_id": "CNA10K-R00352-C00155",
+      "sensor": "landsat7",
+      "year": 2020,
+      "tertile": "MID",
+      "event_id": "EVT-L-76718710947947f6",
+      "scene_id": "LE07_118038_20201011",
+      "source_product_id": "LE07_L2SP_118038_20201011_20201107_02_T1",
+      "acquisition_date": "2020-10-11T00:00:00+00:00",
+      "doy": 285,
+      "wrs_path": 118,
+      "wrs_row": 38,
+      "l7_era": "L7_POST_SLC_FAILURE",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9511472516389309,
+      "n_bytes": 2760549,
+      "gee_backend_task_ids": [
+        "TQYM3P3Q76QWQ5DCJ2OAQLSP",
+        "6A6AI7B26LEE6IAIXROJYAN7",
+        "JCDI7WYMN7MZQATRPOGYNXZG"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L7_2020_M_sr_20201011_V0_2_1_REPAIR.tif",
+          "sha256": "af194e705944b1bb602022dd847fa8699aa6c032c87d57d2d08533940f60000b",
+          "sha256_match_manifest": true,
+          "bytes": 2735716
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L7_2020_M_valid_20201011_V0_2_1_REPAIR.tif",
+          "sha256": "f1d3cd515004ba17181f584fedd1ef8d737b14c123c708472d5d2fdf51754441",
+          "sha256_match_manifest": true,
+          "bytes": 8090
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L7_2020_M_qapixel_20201011_V0_2_1_REPAIR.tif",
+          "sha256": "f8524fc73d6d93fdd6855927f53bc2535edeace2bc22a0315a725d8eb3fe4cf6",
+          "sha256_match_manifest": true,
+          "bytes": 16743
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00352-C00155_L8_2015_E",
+      "cell_id": "CNA10K-R00352-C00155",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-d867e10b144a8362",
+      "scene_id": "LC08_118038_20151006",
+      "source_product_id": "LC08_L2SP_118038_20151006_20200908_02_T1",
+      "acquisition_date": "2015-10-06T00:00:00+00:00",
+      "doy": 279,
+      "wrs_path": 118,
+      "wrs_row": 38,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 4547453,
+      "gee_backend_task_ids": [
+        "PJ45MGO5XYMARIZTCHE7NC56",
+        "H72IPD4WWZ4KL7ZM6UNCOZFH",
+        "WMHRJKTJPV5JVZJPAVORRVE3"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L8_2015_E_sr_20151006_V0_2_1_REPAIR.tif",
+          "sha256": "2f0baed392aaf5cf0075157c210590095892db60e13002044ba5efb54c03f131",
+          "sha256_match_manifest": true,
+          "bytes": 4531576
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L8_2015_E_valid_20151006_V0_2_1_REPAIR.tif",
+          "sha256": "933356c1fc30edd622c3c6ae2985fd90644dc24b882c6a8664a16c726e3ef6be",
+          "sha256_match_manifest": true,
+          "bytes": 3663
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L8_2015_E_qapixel_20151006_V0_2_1_REPAIR.tif",
+          "sha256": "96030d0ca81d0390161a8af38a3f574e7144d82be9b8b17c2d4a1e579910ba12",
+          "sha256_match_manifest": true,
+          "bytes": 12214
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00352-C00155_L8_2015_M",
+      "cell_id": "CNA10K-R00352-C00155",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-55163a3a9a14a4b8",
+      "scene_id": "LC08_118038_20151022",
+      "source_product_id": "LC08_L2SP_118038_20151022_20200908_02_T1",
+      "acquisition_date": "2015-10-22T00:00:00+00:00",
+      "doy": 295,
+      "wrs_path": 118,
+      "wrs_row": 38,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 4831129,
+      "gee_backend_task_ids": [
+        "K5JB3BDQORI2SQQOWCC4HETC",
+        "ITASQZ3CB4KYPDW6NLWM4VQD",
+        "KBSGO6BCWPYRLXRDAEUUP6ZR"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L8_2015_M_sr_20151022_V0_2_1_REPAIR.tif",
+          "sha256": "11286dd2527ce17e598c5e2294bf95f6174d01f3498e265321d2b797f2863e09",
+          "sha256_match_manifest": true,
+          "bytes": 4796691
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L8_2015_M_valid_20151022_V0_2_1_REPAIR.tif",
+          "sha256": "5624d932ad65cb16c33027642b9e4c9e7ab914f25d151bc8acb14104027a8bde",
+          "sha256_match_manifest": true,
+          "bytes": 6298
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00352-C00155_L8_2015_M_qapixel_20151022_V0_2_1_REPAIR.tif",
+          "sha256": "ebf49ae9d28a1dd56f2f17ffec57441d77bb0151d6640d93a8303db4261baacc",
+          "sha256_match_manifest": true,
+          "bytes": 28140
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00364-C00141_L8_2015_E",
+      "cell_id": "CNA10K-R00364-C00141",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-a5aa422e822c1a35",
+      "scene_id": "LC08_119037_20150927",
+      "source_product_id": "LC08_L2SP_119037_20150927_20200908_02_T1",
+      "acquisition_date": "2015-09-27T00:00:00+00:00",
+      "doy": 270,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9999370362041826,
+      "n_bytes": 4568050,
+      "gee_backend_task_ids": [
+        "W2ETQCUGZ2Q7E453QTOTVALQ",
+        "VN266OAGJWIEBYF5UAG2Z7WG",
+        "YYBCAYFNO6KHISPW5USCL7FK"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2015_E_sr_20150927_V0_2_1_REPAIR.tif",
+          "sha256": "f430dd5306b6e51d2ab4bfdf397ed0c7cccfd44bd81766dbeed449c1ad2c48b7",
+          "sha256_match_manifest": true,
+          "bytes": 4554940
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2015_E_valid_20150927_V0_2_1_REPAIR.tif",
+          "sha256": "d52523732a989b4d24780406786cb3c2b97cf626cf4c9c45dabbb515e230883e",
+          "sha256_match_manifest": true,
+          "bytes": 4109
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2015_E_qapixel_20150927_V0_2_1_REPAIR.tif",
+          "sha256": "8cb8b20033e6ce3288c5849253cfb9d8d272019de44bcfa17176f009b2491c5d",
+          "sha256_match_manifest": true,
+          "bytes": 9001
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00364-C00141_L8_2015_M",
+      "cell_id": "CNA10K-R00364-C00141",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-39ffd192f59df980",
+      "scene_id": "LC08_119037_20151013",
+      "source_product_id": "LC08_L2SP_119037_20151013_20200908_02_T1",
+      "acquisition_date": "2015-10-13T00:00:00+00:00",
+      "doy": 286,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 4533906,
+      "gee_backend_task_ids": [
+        "HRLOFLV6BRWJVLIPWCPRSWDM",
+        "RD653ZQJS7XWB7VFVIILZI7F",
+        "6IMWUVE32U7VZ6BMTCNNWO5X"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2015_M_sr_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "e6791b5cb2e5c8d77363065d9c911d104e77965e2b07c7dd5e2dee0c1bd7f7f4",
+          "sha256_match_manifest": true,
+          "bytes": 4522365
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2015_M_valid_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "167fe67c05a2c97bf27d58e6b530f55d8de4b4a8d7902f806c30fbec363f9889",
+          "sha256_match_manifest": true,
+          "bytes": 3708
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2015_M_qapixel_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "85e60f63ebf5ccf76427e63742e380045193e1053ba61da646973f357ea9b83a",
+          "sha256_match_manifest": true,
+          "bytes": 7833
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00364-C00141_L8_2020_E",
+      "cell_id": "CNA10K-R00364-C00141",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-5aaefe2d71f13f82",
+      "scene_id": "LC08_119037_20200924",
+      "source_product_id": "LC08_L2SP_119037_20200924_20201006_02_T1",
+      "acquisition_date": "2020-09-24T00:00:00+00:00",
+      "doy": 268,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9989655947829997,
+      "n_bytes": 4757476,
+      "gee_backend_task_ids": [
+        "JXZ2C3VDX4SPKJIBDN7C3CMH",
+        "MVZRD3IT44PCE2FJWNBX4FVN",
+        "AHYQZJRFIONFWUOVNFTS7T27"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_E_sr_20200924_V0_2_1_REPAIR.tif",
+          "sha256": "527737973aa5f9240ab18d9bd2710247709114582f2f64332f2a7135f924409e",
+          "sha256_match_manifest": true,
+          "bytes": 4719960
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_E_valid_20200924_V0_2_1_REPAIR.tif",
+          "sha256": "f4a269780e7447b7f3ce95d6aea18f64bc010e4af42fbf73516086b19d1650df",
+          "sha256_match_manifest": true,
+          "bytes": 4153
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_E_qapixel_20200924_V0_2_1_REPAIR.tif",
+          "sha256": "4d2535edce6b79b4ab88e65c48e52ecfacb81a6b2e48d0548fd516db31653c55",
+          "sha256_match_manifest": true,
+          "bytes": 33363
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00364-C00141_L8_2020_L",
+      "cell_id": "CNA10K-R00364-C00141",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "LATE",
+      "event_id": "EVT-L-a5c0218c6b4dafd6",
+      "scene_id": "LC08_119037_20201111",
+      "source_product_id": "LC08_L2SP_119037_20201111_20210316_02_T1",
+      "acquisition_date": "2020-11-11T00:00:00+00:00",
+      "doy": 316,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9986417809759388,
+      "n_bytes": 4610441,
+      "gee_backend_task_ids": [
+        "3V5UF6DDHP5QE43FU2K5TCEN",
+        "MXFCTUEV274FJXXS4ZTZPW4W",
+        "R7OFCIH62DV7JA2EO7RMXP24"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_L_sr_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "84e2d9b4160f060a8b8b9bb30987d8e0aeee0c2c1dc9feb788bc6c400c839b32",
+          "sha256_match_manifest": true,
+          "bytes": 4587525
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_L_valid_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "12f27434981f1028d8ce748d5b8b80a1fccf7ab320355660fb9f0dc7913458d4",
+          "sha256_match_manifest": true,
+          "bytes": 6458
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_L_qapixel_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "08298dae7a96ecb01a28edf238613956a3ca5d99e5156bed5537b8116eccde47",
+          "sha256_match_manifest": true,
+          "bytes": 16458
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00364-C00141_L8_2020_M",
+      "cell_id": "CNA10K-R00364-C00141",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "MID",
+      "event_id": "EVT-L-e5d55f0ba901a631",
+      "scene_id": "LC08_119037_20201010",
+      "source_product_id": "LC08_L2SP_119037_20201010_20201016_02_T1",
+      "acquisition_date": "2020-10-10T00:00:00+00:00",
+      "doy": 284,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9987137395997302,
+      "n_bytes": 4717080,
+      "gee_backend_task_ids": [
+        "IRDGSUQTNKAWMLHQNHB5TKSZ",
+        "EHBXHKJJYOUYKNIS37KPK6MV",
+        "TCAFG4CLBSZKKKKTDC5AN3VI"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_M_sr_20201010_V0_2_1_REPAIR.tif",
+          "sha256": "c38a0ca47916ded6d1050635f59bd08e6829b41112bb7fd8f5405801d3a920ed",
+          "sha256_match_manifest": true,
+          "bytes": 4688589
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_M_valid_20201010_V0_2_1_REPAIR.tif",
+          "sha256": "def0d7b1b7c328b83ca39329f09108fabd70c84cd49901625f118b26dc3cf560",
+          "sha256_match_manifest": true,
+          "bytes": 6575
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00364-C00141_L8_2020_M_qapixel_20201010_V0_2_1_REPAIR.tif",
+          "sha256": "299e5956d670f62f14f994b6f53fecb089ce2f17471472ddbac1a77eb0638dbf",
+          "sha256_match_manifest": true,
+          "bytes": 21916
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00372-C00139_L8_2015_E",
+      "cell_id": "CNA10K-R00372-C00139",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-a5aa422e822c1a35",
+      "scene_id": "LC08_119037_20150927",
+      "source_product_id": "LC08_L2SP_119037_20150927_20200908_02_T1",
+      "acquisition_date": "2015-09-27T00:00:00+00:00",
+      "doy": 270,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9897733405288721,
+      "n_bytes": 4695132,
+      "gee_backend_task_ids": [
+        "PITM6GKOF6QF4QID56QNB6L4",
+        "GYPF5IRRU67JBEI57SYOYCWH",
+        "MFUPKZXK2I252GYXIILLTTKP"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2015_E_sr_20150927_V0_2_1_REPAIR.tif",
+          "sha256": "3c0104e854c74a48cb60665c23986b3339b951c43a2787ebff1b90da4ad56548",
+          "sha256_match_manifest": true,
+          "bytes": 4668456
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2015_E_valid_20150927_V0_2_1_REPAIR.tif",
+          "sha256": "4f6706d3cf7c047fd1c5e98063f06ddc4b84508c4333ccddfc3e8265cdbdc495",
+          "sha256_match_manifest": true,
+          "bytes": 2404
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2015_E_qapixel_20150927_V0_2_1_REPAIR.tif",
+          "sha256": "36f664664aab21bfef0bc386207b1b123bc10948e2c91a8b249eb5f1fb0c13a2",
+          "sha256_match_manifest": true,
+          "bytes": 24272
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00372-C00139_L8_2015_M",
+      "cell_id": "CNA10K-R00372-C00139",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-39ffd192f59df980",
+      "scene_id": "LC08_119037_20151013",
+      "source_product_id": "LC08_L2SP_119037_20151013_20200908_02_T1",
+      "acquisition_date": "2015-10-13T00:00:00+00:00",
+      "doy": 286,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 4216674,
+      "gee_backend_task_ids": [
+        "L3NTUEJZE73Q33YT5YHTQX3G",
+        "U7JICAKTQZZ6MY4ABKYYAD2O",
+        "NM3FSJZIXLHSQZFXG4PUR3FT"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2015_M_sr_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "6d374c547ea03471069395edd6510c6681bda5a691a427e0f9aa4fcfda5bd72f",
+          "sha256_match_manifest": true,
+          "bytes": 4198428
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2015_M_valid_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "c58a6223469c10e08179b66af16a8077dbb1e6f611db2018bdf5c15c6b3e5d24",
+          "sha256_match_manifest": true,
+          "bytes": 3691
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2015_M_qapixel_20151013_V0_2_1_REPAIR.tif",
+          "sha256": "247818e893d7eec514c6fe77811b6fe919fa5484c97a2d5d851b234fb18cf44b",
+          "sha256_match_manifest": true,
+          "bytes": 14555
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00372-C00139_L8_2020_E",
+      "cell_id": "CNA10K-R00372-C00139",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-5aaefe2d71f13f82",
+      "scene_id": "LC08_119037_20200924",
+      "source_product_id": "LC08_L2SP_119037_20200924_20201006_02_T1",
+      "acquisition_date": "2020-09-24T00:00:00+00:00",
+      "doy": 268,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9986238532110092,
+      "n_bytes": 4625000,
+      "gee_backend_task_ids": [
+        "VIAT5IAG7UZPFUHYJ2HJFSRX",
+        "FXVGRB3Q7M2YK4E5AHUBTRSK",
+        "YYAZNTTAY2FGSMNQKWAX72J6"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_E_sr_20200924_V0_2_1_REPAIR.tif",
+          "sha256": "2bce87ce64be976c1d0b2d77d9d7a7f24199b3e36f8ca6a00ab5e0d160dc7ae9",
+          "sha256_match_manifest": true,
+          "bytes": 4595216
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_E_valid_20200924_V0_2_1_REPAIR.tif",
+          "sha256": "8d7dae3240e26d41e6d1e76c3fec5410970d19b309adf20d530f250e56e2150e",
+          "sha256_match_manifest": true,
+          "bytes": 6890
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_E_qapixel_20200924_V0_2_1_REPAIR.tif",
+          "sha256": "02b3701828b31f61761da981976516aa0cd13b078e6de70068f55ae9a19958a8",
+          "sha256_match_manifest": true,
+          "bytes": 22894
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00372-C00139_L8_2020_L",
+      "cell_id": "CNA10K-R00372-C00139",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "LATE",
+      "event_id": "EVT-L-a5c0218c6b4dafd6",
+      "scene_id": "LC08_119037_20201111",
+      "source_product_id": "LC08_L2SP_119037_20201111_20210316_02_T1",
+      "acquisition_date": "2020-11-11T00:00:00+00:00",
+      "doy": 316,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 4258743,
+      "gee_backend_task_ids": [
+        "FIMHUPSZSVQZE2DU7MVVVAAK",
+        "7HPY6STGIIFPSZ7B4YBWQ6WT",
+        "H4FERYSA47RLUBVOZSSBQHGW"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_L_sr_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "7ee276ffce384fd8caa48416bc2542fe9a6847e6b42e85af5752aa5c739f8ca9",
+          "sha256_match_manifest": true,
+          "bytes": 4240683
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_L_valid_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "30480928c6c9c93136ca5665d8319f5e35361da70b39f42c692dbba2ceb3a164",
+          "sha256_match_manifest": true,
+          "bytes": 3707
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_L_qapixel_20201111_V0_2_1_REPAIR.tif",
+          "sha256": "c0f954db60f5cfae838ac9c47286c479076e4ae3b19898b3333f2bf308054024",
+          "sha256_match_manifest": true,
+          "bytes": 14353
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00372-C00139_L8_2020_M",
+      "cell_id": "CNA10K-R00372-C00139",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "MID",
+      "event_id": "EVT-L-e5d55f0ba901a631",
+      "scene_id": "LC08_119037_20201010",
+      "source_product_id": "LC08_L2SP_119037_20201010_20201016_02_T1",
+      "acquisition_date": "2020-10-10T00:00:00+00:00",
+      "doy": 284,
+      "wrs_path": 119,
+      "wrs_row": 37,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9971307789170715,
+      "n_bytes": 4825656,
+      "gee_backend_task_ids": [
+        "F7323R2ZCEMEQKNFQ454MADE",
+        "KVRMHD3EWAJXLOZZT2O5OTV6",
+        "EDK5STSQ2ZUOWFSLU6IOAWU5"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_M_sr_20201010_V0_2_1_REPAIR.tif",
+          "sha256": "0b81899e123c7d6031f44d505826c5f7b8163a60ef8c14326de6d4330613edb6",
+          "sha256_match_manifest": true,
+          "bytes": 4788777
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_M_valid_20201010_V0_2_1_REPAIR.tif",
+          "sha256": "338d1dbef031c088e6336f605e76bf0d02154879bff98476734b15ce0ab15fde",
+          "sha256_match_manifest": true,
+          "bytes": 7129
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00372-C00139_L8_2020_M_qapixel_20201010_V0_2_1_REPAIR.tif",
+          "sha256": "235bbc57cc5476a02f344378f972e3e1053fd9808baa93aa267e12c857d99855",
+          "sha256_match_manifest": true,
+          "bytes": 29750
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00416-C00120_L7_2015_E",
+      "cell_id": "CNA10K-R00416-C00120",
+      "sensor": "landsat7",
+      "year": 2015,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-c4f1398dc4768b42",
+      "scene_id": "LE07_121034_20151003",
+      "source_product_id": "LE07_L2SP_121034_20151003_20200903_02_T1",
+      "acquisition_date": "2015-10-03T00:00:00+00:00",
+      "doy": 276,
+      "wrs_path": 121,
+      "wrs_row": 34,
+      "l7_era": "L7_POST_SLC_FAILURE",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9751865285440423,
+      "n_bytes": 1528078,
+      "gee_backend_task_ids": [
+        "3BTHLUNXXK4IZFFNKOLNX6G3",
+        "726TNZAEJ4GQIKKKAMAYGJ6B",
+        "CDOVWRAZ3BXG2GM2D7F2QWKR"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2015_E_sr_20151003_V0_2_1_REPAIR.tif",
+          "sha256": "e467844e6f4aacab28dc28775711a7f61366f4f3b9c3eeca74f3fc964ea93eba",
+          "sha256_match_manifest": true,
+          "bytes": 1517664
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2015_E_valid_20151003_V0_2_1_REPAIR.tif",
+          "sha256": "e7b8e1c66ae16d249ed5eb81587970c978810228ea23ceb96372b53bf513d614",
+          "sha256_match_manifest": true,
+          "bytes": 3220
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2015_E_qapixel_20151003_V0_2_1_REPAIR.tif",
+          "sha256": "19ecdae727ee905855344a54b7d0e4651711cead8351634124d0c54c68b1aabc",
+          "sha256_match_manifest": true,
+          "bytes": 7194
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00416-C00120_L7_2015_M",
+      "cell_id": "CNA10K-R00416-C00120",
+      "sensor": "landsat7",
+      "year": 2015,
+      "tertile": "MID",
+      "event_id": "EVT-L-7bc42e7fd2beafa1",
+      "scene_id": "LE07_121034_20151019",
+      "source_product_id": "LE07_L2SP_121034_20151019_20200903_02_T1",
+      "acquisition_date": "2015-10-19T00:00:00+00:00",
+      "doy": 292,
+      "wrs_path": 121,
+      "wrs_row": 34,
+      "l7_era": "L7_POST_SLC_FAILURE",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 0.9857797298148665,
+      "n_bytes": 1039352,
+      "gee_backend_task_ids": [
+        "UZYT7ZTTH6TMCWJDXVGOM7SA",
+        "36BYBJP7YUINHB2JS4L4I6TR",
+        "HWOGAPJN7QT2KSVQIXCX2S5Z"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2015_M_sr_20151019_V0_2_1_REPAIR.tif",
+          "sha256": "8bcf66f07e610ff4725d1ad4c97511b1027c35cdd31b5fd801fca69a4dff6dda",
+          "sha256_match_manifest": true,
+          "bytes": 1021395
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2015_M_valid_20151019_V0_2_1_REPAIR.tif",
+          "sha256": "e01c5f428717a597da5a6098e654bf1d48ce7bc5c90b1022339386179314492e",
+          "sha256_match_manifest": true,
+          "bytes": 7163
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2015_M_qapixel_20151019_V0_2_1_REPAIR.tif",
+          "sha256": "ff957919db94a32a70e4f761ee833245ec8c31d151c2d75d84e2a8b066c09390",
+          "sha256_match_manifest": true,
+          "bytes": 10794
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00416-C00120_L7_2020_E",
+      "cell_id": "CNA10K-R00416-C00120",
+      "sensor": "landsat7",
+      "year": 2020,
+      "tertile": "EARLY",
+      "event_id": "EVT-L-e6774437b006bfd4",
+      "scene_id": "LE07_121034_20200930",
+      "source_product_id": "LE07_L2SP_121034_20200930_20201025_02_T1",
+      "acquisition_date": "2020-09-30T00:00:00+00:00",
+      "doy": 274,
+      "wrs_path": 121,
+      "wrs_row": 34,
+      "l7_era": "L7_POST_SLC_FAILURE",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 1633437,
+      "gee_backend_task_ids": [
+        "L6V6SWULQJL3KTOPZXUKQSZX",
+        "SB6VNFJLBRWHU37MGXINXFFR",
+        "XMPLUBEHIR6PVIZ57I4M4MM2"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2020_E_sr_20200930_V0_2_1_REPAIR.tif",
+          "sha256": "f05bbe53d6b5984b1a43939220f4d4c56f029fc62da2907978a3a6fa34137ef9",
+          "sha256_match_manifest": true,
+          "bytes": 1621911
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2020_E_valid_20200930_V0_2_1_REPAIR.tif",
+          "sha256": "45a5745cee01fbb765c0c56919f1720944e715eec861167127b04d7ab075aa90",
+          "sha256_match_manifest": true,
+          "bytes": 3692
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L7_2020_E_qapixel_20200930_V0_2_1_REPAIR.tif",
+          "sha256": "9c73bf71010f846fd51bf69f9f38404c85dc41f5417835ceed98c3b8780f2a44",
+          "sha256_match_manifest": true,
+          "bytes": 7834
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00416-C00120_L8_2015_L",
+      "cell_id": "CNA10K-R00416-C00120",
+      "sensor": "landsat8",
+      "year": 2015,
+      "tertile": "LATE",
+      "event_id": "EVT-L-0591b0644a3441ad",
+      "scene_id": "LC08_121034_20151027",
+      "source_product_id": "LC08_L2SP_121034_20151027_20200908_02_T1",
+      "acquisition_date": "2015-10-27T00:00:00+00:00",
+      "doy": 300,
+      "wrs_path": 121,
+      "wrs_row": 34,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3872950,
+      "gee_backend_task_ids": [
+        "UVOO4N7WXGFMJ7K2SIZWSPDV",
+        "5UHICLSXHTAUY4WRLRM6D6LQ",
+        "QLFC3FYRTDNREKXOUKMKTSB4"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L8_2015_L_sr_20151027_V0_2_1_REPAIR.tif",
+          "sha256": "30eb140dff2f6dab4ad99637da8948ea4eba3d8bfa1b23e75dc51fc50c388101",
+          "sha256_match_manifest": true,
+          "bytes": 3861768
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L8_2015_L_valid_20151027_V0_2_1_REPAIR.tif",
+          "sha256": "c07357b40ab15e621b70da83364f2b91baecda13c38127e0a814d9298701603d",
+          "sha256_match_manifest": true,
+          "bytes": 3938
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L8_2015_L_qapixel_20151027_V0_2_1_REPAIR.tif",
+          "sha256": "4ed88a3fd28b6306248a342e424ad3f14b7deedc7ff942258e33df77f66eb9d1",
+          "sha256_match_manifest": true,
+          "bytes": 7244
+        }
+      ]
+    },
+    {
+      "product_id": "V021_R00416-C00120_L8_2020_M",
+      "cell_id": "CNA10K-R00416-C00120",
+      "sensor": "landsat8",
+      "year": 2020,
+      "tertile": "MID",
+      "event_id": "EVT-L-072adccda6c5a0c8",
+      "scene_id": "LC08_121034_20201024",
+      "source_product_id": "LC08_L2SP_121034_20201024_20201105_02_T1",
+      "acquisition_date": "2020-10-24T00:00:00+00:00",
+      "doy": 298,
+      "wrs_path": 121,
+      "wrs_row": 34,
+      "l7_era": "",
+      "metadata_source": "frozen LIVE_GEE_REPAIR_PLAN.json slots matched by (cell_id, sensor, year, tertile); bytes from landed files on disk; no filename inference",
+      "scene_mapping_verified": true,
+      "qa_gate_pass": true,
+      "actual_observed_fraction_w10": 1.0,
+      "n_bytes": 3625642,
+      "gee_backend_task_ids": [
+        "ZEQWQRQXCQDIW77DEP5P47JV",
+        "PAJGMLBID56HVGQTNMNOAPL2",
+        "VZGO67JCTW6JQ45GZYHIN5KL"
+      ],
+      "landed_files": [
+        {
+          "role": "sr",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L8_2020_M_sr_20201024_V0_2_1_REPAIR.tif",
+          "sha256": "440fc838e9b28a3c826d002d02dd047993f8678e58fd83e53851e3610209a0fd",
+          "sha256_match_manifest": true,
+          "bytes": 3611490
+        },
+        {
+          "role": "valid",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L8_2020_M_valid_20201024_V0_2_1_REPAIR.tif",
+          "sha256": "ea861da4b2b118fa523c7763d1212090d59a6b61e7bf54bac08e3aa24c68743d",
+          "sha256_match_manifest": true,
+          "bytes": 4577
+        },
+        {
+          "role": "qapixel",
+          "local_uri": "/data/yingda/Spartina-Earth/work/issue21/export_repair/products/spartina_v02_V021_R00416-C00120_L8_2020_M_qapixel_20201024_V0_2_1_REPAIR.tif",
+          "sha256": "683e20e9642afb6117b7f59359f29181221b76e60dbb2b6405cc3e4385b9795a",
+          "sha256_match_manifest": true,
+          "bytes": 9575
+        }
+      ]
+    }
+  ],
+  "plan_checksums": {
+    "landsat_plan": "3a7e4669f287347568a7abbc0bb62f548cf4a39595164b9d17256a092e48c37c"
+  },
+  "export_index": "work/issue21/export_repair/v021_export_index.json",
+  "task_store": "work/issue21/export_repair/tasks/task_store.json",
+  "document_checksum": "e658c587e7162307e4ee3d267f34657b6308787e486a6d6690b13f57bfd9260e"
+}

@@ -1,0 +1,54 @@
+# PHASE_2A_1_VERIFICATION.log
+# Spartina Earth — Phase 2A.1 final QA remediation & provenance completion
+# branch: reboot/spartina-earth-m2-7-repair | date: 2026-11-27
+# Owner decision: Option B (rank-2 substitute); PR #22 stays OPEN; no merge
+
+[1] MANIFEST REMEDIATION (from frozen plan; no filename inference)
+source: benchmarks/spartinashift/v0_2_1_repair/LIVE_GEE_REPAIR_PLAN.json (frozen, checksum 3a7e4669f287347568a7abbc0bb62f548cf4a39595164b9d17256a092e48c37c)
+mapping key: (cell_id, sensor, year, tertile) -> frozen slot
+backfilled per product: event_id, scene_id, source_product_id, acquisition_date, doy, wrs_path/row, l7_era
+bytes: read from landed files on disk (real st_size), not estimates
+$ verification: products=35/35 | unique component task IDs=105/105 | landed files=105/105
+                sha256 re-hashed match=105/105 | product->scene mapping=35/35 | product->event mapping=35/35
+                total landed bytes=132432833
+previously-missing fields were a runner extraction bug (wrong manifest keys); fixed in UPDATED_REPAIR_EXPORT_MANIFEST.json
+
+[2] RANK-2 SUBSTITUTE AUDIT (frozen sources only)
+target: V021_R00372-C00139_L8_2015_E (EARLY tertile, DOY 270)
+frozen evaluated pool (n=2):
+  rank-1 LE07_119037_20150919 (L7 DOY262) live actual-mask 0.74625 < 0.95 -> gate-FAILED pre-export (never eligible)
+  rank-2 LC08_119037_20150927 (L8 DOY270) live actual-mask 0.98997 -> selected+exported -> post-export QA zero-valid-surface
+census universe audit: 16 autumn events for the cell in 2015
+  EARLY tertile FULL_CELL_COVERED: DOY262 (rank-1, failed gate), DOY270 (selected), DOY278 LE71190372015278EDC00
+    -> DOY278 EXCLUDED by frozen prefilter (cloud_cover 43% > 0.30; frozen planner source lines 189-196 uses cloud_cover)
+  remaining EARLY events: PARTIAL_CELL_OVERLAP (nominal < 0.90) -> excluded
+RESULT: no gate-passing rank-2 substitute exists; pool expansion forbidden (frozen rules)
+DECISION (per Owner instruction): PAUSE AND REPORT. Replacement export NOT executed.
+
+[3] NOT EXECUTED (blocked by [2])
+- rank-2 export (SR/VALID/QA_PIXEL components)
+- QA re-run of a replacement product
+- any readiness flip
+
+[4] UNCHANGED FROZEN OUTCOMES (re-stamped)
+- QA batch verdict: QA_FAIL_SYSTEMATIC_STOP (1 product; frozen contract unchanged)
+- accepted denominator: 34 clean products / 12 cells
+- GEODATA gate on QA-clean support: positives 11+4=15 >= 12; backgrounds 11+1=12 >= 12; regions 5 >= 3
+  (R00372-C00139 keeps both-year support via 2015-MID slot frac 1.0 + 3 x 2020 slots)
+- final verdict: NOT_READY_FOR_SPARTINASHIFT_V0_2_PROTOCOL (frozen QA-verdict semantics)
+
+[5] DELIVERABLES (this phase)
+benchmarks/spartinashift/v0_2_1_repair/UPDATED_REPAIR_EXPORT_MANIFEST.json
+benchmarks/spartinashift/v0_2_1_repair/RANK2_SUBSTITUTE_PLAN.json
+docs/roadmap/RANK2_EXPORT_LOG.md
+benchmarks/spartinashift/v0_2_1_repair/UPDATED_REPAIR_QA_REPORT.json
+benchmarks/spartinashift/v0_2_1_repair/V0_2_1_FINAL_READINESS_DECISION.json (updated)
+docs/roadmap/PHASE_2A_1_VERIFICATION.log (this file)
+
+[6] CONSTRAINTS
+no v0_2 frozen file modified; no label modified; no QA threshold modified; no reserve change;
+no model training; no paper/preprint action; PR #22 stays OPEN.
+
+STATUS: PAUSED — awaiting Owner decision on the single QA item (accept as source-quality
+rejection, or commission an Owner-level protocol revision v0.2.2). All numbers above are
+real, re-derived from frozen artifacts and landed bytes.

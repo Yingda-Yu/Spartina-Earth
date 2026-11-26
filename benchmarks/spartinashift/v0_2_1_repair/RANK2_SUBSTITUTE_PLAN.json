@@ -1,0 +1,78 @@
+{
+  "product": "V0_2_1_RANK2_SUBSTITUTE_PLAN",
+  "issue": 21,
+  "phase": "2A.1",
+  "owner_decision": "Option B rank-2 substitute for V021_R00372-C00139_L8_2015_E",
+  "target_product": {
+    "product_id": "V021_R00372-C00139_L8_2015_E",
+    "cell_id": "CNA10K-R00372-C00139",
+    "year": 2015,
+    "tertile": "EARLY",
+    "qa_failure": "VALID component has zero valid pixels (QA_PIXEL surface mask 0/151285); SR bands 98.9-100% finite; byte actual-mask 0.990 >= 0.95",
+    "landed_sha256": "recorded in UPDATED_REPAIR_EXPORT_MANIFEST.json"
+  },
+  "frozen_evaluated_pool": {
+    "n_candidates_evaluated": 2,
+    "candidates": [
+      {
+        "rank": 1,
+        "event_id": "EVT-L-b1bac47ecff42942",
+        "doy": 262,
+        "cloud_fraction": 0.18,
+        "actual_observed_fraction": 0.7462537594606207,
+        "evidence_source": "LIVE_GEE_EXPORT_GRID",
+        "sensor": "landsat7",
+        "scene_id": "LE07_119037_20150919",
+        "source_product_id": "LE07_L2SP_119037_20150919_20200903_02_T1",
+        "wrs_path": 119,
+        "wrs_row": 37,
+        "l7_era": "L7_POST_SLC_FAILURE",
+        "nominal_coverage_fraction": 1.0
+      },
+      {
+        "rank": 2,
+        "event_id": "EVT-L-a5aa422e822c1a35",
+        "doy": 270,
+        "cloud_fraction": 0.2238,
+        "actual_observed_fraction": 0.9899659582906435,
+        "evidence_source": "LIVE_GEE_EXPORT_GRID",
+        "sensor": "landsat8",
+        "scene_id": "LC08_119037_20150927",
+        "source_product_id": "LC08_L2SP_119037_20150927_20200908_02_T1",
+        "wrs_path": 119,
+        "wrs_row": 37,
+        "l7_era": "",
+        "nominal_coverage_fraction": 1.0
+      }
+    ],
+    "selected_event_id": "EVT-L-a5aa422e822c1a35",
+    "note": "evaluated rank-1 (LE07_119037_20150919, L7, live actual-mask 0.7462537594606207) FAILED the frozen >=0.95 actual-mask gate and was never eligible; the selected/exported scene (LC08_119037_20150927, live actual-mask 0.9899659582906435) is the rank-2 record in the evaluated list and the ONLY gate-passing candidate"
+  },
+  "census_universe_audit": {
+    "autumn_events_cell_2015": 16,
+    "early_tertile_doy_260_279_full_coverage_events": [
+      "EVT-L-b1bac47ecff42942 (L7 DOY262, evaluated rank-1, gate-failed 0.746)",
+      "EVT-L-a5aa422e822c1a35 (L8 DOY270, selected, post-export QA failed)",
+      "EVT-L-af7f425d3981f139 (L7 DOY278, LE71190372015278EDC00, EXCLUDED by frozen scene-cloud prefilter: cloud_cover 43% > 0.30; verified in frozen planner source lines 189-196 using cloud_cover field)"
+    ],
+    "other_early_tertile_events": "PARTIAL_CELL_OVERLAP (nominal coverage < 0.90) -> excluded by frozen prefilter",
+    "expanding_pool_verdict": "FORBIDDEN under frozen rules (no threshold change, no re-picking)"
+  },
+  "rank2_availability": {
+    "gate_passing_rank2_exists": false,
+    "reason": "evaluated pool exhausted: rank-1 failed the frozen gate pre-export; rank-2 (selected) failed post-export QA; no rank-3; pool expansion violates frozen discovery prefilter",
+    "decision_per_owner_instruction": "PAUSE AND REPORT (rank-2 not available under frozen conditions)"
+  },
+  "replacement_export_executed": false,
+  "consequences": {
+    "geodata_gate": "R00372-C00139 retains both-year support via its 2015-MID slot (landed, QA-clean, frac 1.0) and 3 x 2020 slots; single-product failure does not change gate counts",
+    "qa_batch_verdict": "unchanged: QA_FAIL_SYSTEMATIC_STOP (frozen contract)",
+    "readiness": "NOT_READY_FOR_SPARTINASHIFT_V0_2_PROTOCOL (frozen QA-verdict semantics)"
+  },
+  "generated_utc": "2026-11-26T18:24:19.578805+00:00",
+  "git_commit": "5b10d3b6751b6b9129a5d1936e6d7eeb7453956f",
+  "plan_checksums": {
+    "landsat_plan": "3a7e4669f287347568a7abbc0bb62f548cf4a39595164b9d17256a092e48c37c"
+  },
+  "document_checksum": "70ae4db3a48869686e1341baa68c1d426b70fba7fb7faac7fd272ce6eb65c07b"
+}

@@ -1,9 +1,9 @@
 {
   "product": "V0_2_1_FINAL_READINESS_DECISION",
   "issue": 21,
-  "phase": "2A_STEP5",
-  "generated_utc": "2026-11-26T18:07:27.443370+00:00",
-  "git_commit": "759eda15a549b481f63d5508bbba48e29d94ebd5",
+  "phase": "2A.1_STEP5",
+  "generated_utc": "2026-11-26T18:24:19.578805+00:00",
+  "git_commit": "5b10d3b6751b6b9129a5d1936e6d7eeb7453956f",
   "verdict": "NOT_READY_FOR_SPARTINASHIFT_V0_2_PROTOCOL",
   "verdict_semantics": "frozen Issue #21 rule: readiness requires QA batch verdict in {QA_PASS, QA_PASS_WITH_HONEST_SOURCE_REJECTIONS}; this batch is QA_FAIL_SYSTEMATIC_STOP (1 product), so the strict verdict is NOT_READY despite all three GEODATA gate thresholds being met on the QA-clean accepted denominator. This verdict authorises no training and makes no accuracy claim.",
   "geodata_temporal_gate": {
@@ -47,7 +47,7 @@
       "disposition": "excluded from accepted denominator; not a systematic export failure (34/35 clean; sha256/grid/physical checks pass on all landed files)",
       "owner_options": [
         "accept as source-quality rejection analogous to panel ZERO_QA_VALID_SURFACE_PIXELS (explicit Owner decision; would make the batch QA_PASS_WITH_HONEST_SOURCE_REJECTIONS and the gate READY)",
-        "authorize a rank-2 substitute slot under frozen selection rules (new plan version + re-export; no threshold change)"
+        "commission a NEW protocol revision (e.g. v0.2.2) that explicitly redefines the discovery pool or honest-rejection contract for this class BEFORE any substitute/re-export \u2014 requires Owner-level protocol change, not executable by agent under current freeze"
       ]
     }
   },
@@ -70,5 +70,10 @@
     "no paper/preprint"
   ],
   "next_step": "PAUSED \u2014 awaiting Owner review of the single QA item before any protocol-freeze decision; formal benchmark start conditions unchanged",
-  "document_checksum": "58b79d3078f4e812d3ddb74d4ea64c861dd7c4229702ca394917a45bb03a95a7"
+  "phase_2a_1_update": "Owner Option B (rank-2 substitute) audited and NOT executable: the frozen evaluated pool contains no gate-passing rank-2 candidate (rank-1 L7 0.746 < 0.95 pre-export; rank-2 L8 was the selected/exported product; no rank-3; pool expansion forbidden). Replacement export not executed. QA batch verdict unchanged (QA_FAIL_SYSTEMATIC_STOP). Verdict remains NOT_READY per frozen QA-verdict semantics.",
+  "rank2_substitute": {
+    "executed": false,
+    "evidence": "benchmarks/spartinashift/v0_2_1_repair/RANK2_SUBSTITUTE_PLAN.json"
+  },
+  "document_checksum": "39f1e48c30099e5110900d0af23f01d672ed8bd135a9754ea0eac1f99f5af3ae"
 }
