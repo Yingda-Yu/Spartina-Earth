@@ -8,12 +8,13 @@
   "background_repair_cells": 6,
   "evidence": "metadata-only census v0_1; NO live GEE verification run in this phase; NO pixel export executed",
   "option_A_landsat_only": {
-    "planned_landsat_observations_max": 83,
+    "planned_landsat_observations_max": 35,
     "component_tasks_per_obs": 3,
-    "projected_gee_component_tasks": 249,
+    "projected_gee_component_tasks": 105,
     "bytes_per_observation_p90": 4598682,
-    "projected_landed_eo_bytes": 381690606,
-    "projected_landed_eo_gib": 0.355
+    "projected_landed_eo_bytes": 160953870,
+    "projected_landed_eo_gib": 0.15,
+    "note": "exact count of V02_ELIGIBLE slots in frozen LIVE_GEE_REPAIR_PLAN.json (was an upper bound pre-planner)"
   },
   "option_B_full_multimodal": {
     "note": "adds S2 events (<=3/cell-year) and S1 pairs for comparability with existing 53-cell panel; planner re-run required to enumerate events (metadata census available)",
@@ -26,5 +27,8 @@
     "gee_component_tasks": 10000
   },
   "cap_breaches": {},
-  "verdict": "WITHIN_CAPS_OWNER_DECISION_REQUIRED_BEFORE_EXPORT"
+  "verdict": "WITHIN_CAPS_OWNER_DECISION_REQUIRED_BEFORE_EXPORT",
+  "owner_authorization": "Option A approved by Owner 2026-11-26 (Phase 2A message); live-GEE planner + Option A export authorized within frozen caps",
+  "owner_authorization_date": "2026-11-26",
+  "document_checksum": "a07b5c2b6c7c65e86e21f4f7d649ca2bd25777b5b0e97f502fa970e23750deae"
 }

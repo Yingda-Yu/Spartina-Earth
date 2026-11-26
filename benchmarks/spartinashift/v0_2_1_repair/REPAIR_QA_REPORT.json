@@ -1,0 +1,103 @@
+{
+  "product": "V0_2_1_REPAIR_EXPORT_QA_SUMMARY",
+  "issue": 21,
+  "phase": "2A_STEP4",
+  "qa_contracts": [
+    "landed sha256",
+    "locked transform/dimensions/CRS rebuild",
+    "actual-mask 0.95 gate replay (grid + W10 cell)",
+    "physical scaling/band order/QA semantics",
+    "no all-NaN/all-zero informative raster",
+    "manifest-vs-file consistency"
+  ],
+  "plan_checksums": {
+    "landsat_plan": "3a7e4669f287347568a7abbc0bb62f548cf4a39595164b9d17256a092e48c37c",
+    "scope_estimate": "a07b5c2b6c7c65e86e21f4f7d649ca2bd25777b5b0e97f502fa970e23750deae"
+  },
+  "verdict": "QA_FAIL_SYSTEMATIC_STOP",
+  "scope_products_expected": 35,
+  "products_landed": 35,
+  "products_missing_manifest": [],
+  "unexpected_manifests": [],
+  "open_export_failures": [],
+  "products_failing_checks": {
+    "V021_R00372-C00139_L8_2015_E": [
+      "VALID component has zero valid pixels"
+    ]
+  },
+  "honest_source_rejections": {},
+  "honest_rejection_policy": null,
+  "by_sensor": {
+    "sentinel2": {
+      "n_landed": 0,
+      "n_failed_checks": 0,
+      "w10_fraction_min": null,
+      "w10_fraction_median": null,
+      "n_below_gate": 0
+    },
+    "sentinel1": {
+      "n_landed": 0,
+      "n_failed_checks": 0,
+      "w10_fraction_min": null,
+      "w10_fraction_median": null,
+      "n_below_gate": 0
+    },
+    "landsat5": {
+      "n_landed": 0,
+      "n_failed_checks": 0,
+      "w10_fraction_min": null,
+      "w10_fraction_median": null,
+      "n_below_gate": 0
+    },
+    "landsat7": {
+      "n_landed": 5,
+      "n_failed_checks": 0,
+      "w10_fraction_min": 0.9511472516389309,
+      "w10_fraction_median": 0.9751865285440423,
+      "n_below_gate": 0
+    },
+    "landsat8": {
+      "n_landed": 30,
+      "n_failed_checks": 1,
+      "w10_fraction_min": 0.9794727218684417,
+      "w10_fraction_median": 0.9999909954520896,
+      "n_below_gate": 0
+    }
+  },
+  "gate_support_alignment": {
+    "note": "repair-only counts; final readiness gate adds these to the frozen v0.2 measured support (11 positives / 11 backgrounds / 5 regions)",
+    "repair_positive_cells_both_years_qa_passed": [
+      "CNA10K-R00331-C00149",
+      "CNA10K-R00352-C00155",
+      "CNA10K-R00372-C00139",
+      "CNA10K-R00416-C00120"
+    ],
+    "repair_background_cells_both_years_qa_passed": [
+      "CNA10K-R00364-C00141"
+    ],
+    "qa_strict_cells_landed": 12,
+    "qa_error_cells_landed": 0,
+    "honest_rejection_cells": []
+  },
+  "figures": {
+    "pair_gap_distribution": {
+      "path": "work/issue21/qa_repair/v02_pair_gap_distribution.png",
+      "sha256": "6742153099752ec296ff77c930e2410511961281af2a483ce0830fdb9548076a"
+    },
+    "actual_mask_distributions": {
+      "path": "work/issue21/qa_repair/v02_actual_mask_distributions.png",
+      "sha256": "25d93639aa15b67e0f7d081d45daa9ee18dc0e92fbea1a7b0ec867747964892c"
+    },
+    "landsat7": {
+      "path": "work/issue21/qa_repair/v02_contact_landsat7.png",
+      "sha256": "f9a98f6db2d66b7bce30f1b3ef77faf492e9c59d0374c7f6a5917f9d0f04053e"
+    },
+    "landsat8": {
+      "path": "work/issue21/qa_repair/v02_contact_landsat8.png",
+      "sha256": "d6dbef6edf8a5218dad89dc6efab99e0b2ceea22066c1b320f53e7776e1d9472"
+    }
+  },
+  "generated_utc": "2026-11-26T18:03:25.039336+00:00",
+  "git_commit": "759eda15a549b481f63d5508bbba48e29d94ebd5",
+  "document_checksum": "3264b1046e158c62b9d92fa3f89b33161f40d7011e6555322228af3f79ad7dfa"
+}
