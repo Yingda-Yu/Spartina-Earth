@@ -1,0 +1,72 @@
+# PHASE_1_1_VERIFICATION.log
+# Spartina Earth — Phase 1.1 scientific audit corrections
+# branch: reboot/spartina-earth-m2-7-repair | date: 2026-11-26
+# constraint: metadata-only; no GEE pixel export; no model training; PR #22 stays OPEN
+
+[1] BRANCH
+$ git branch --show-current
+reboot/spartina-earth-m2-7-repair
+
+[2] FAILED-CELL LEDGER re-derived from frozen CSVs only
+sources: benchmarks/spartinashift/v0_2/v02_support_matrix_per_cell.csv
+         benchmarks/spartinashift/v0_2/v02_landsat_acquisition_plan.csv
+$ python: geo15&geo20 cells in panel = 20; landed-both = 11; FAILED = 9
+failure_class: 2020_ONLY=7, 2015_ONLY=1 (CNA10K-R00297-C00151), BOTH_YEAR=1 (CNA10K-R00320-C00161)
+failed cell-years = 10
+primary_reason: NO_ELIGIBLE_EVENT_ACTUAL_MASK=6 cell-years, NO_SCENE=4 cell-years
+secondary_reason present = 6 rows; multiple_failure_reasons_in_cell_year = True for 6/10
+per-slot statuses recorded verbatim from the frozen acquisition plan (see V0_2_1_FAILURE_LEDGER.csv)
+NOTE: primary = highest-count failed slot; tie-break NO_ELIGIBLE_EVENT_ACTUAL_MASK > NO_SCENE; declared in ledger rule column.
+
+[3] CANDIDATE AUDIT: CNA10K-R00163-C00067
+$ python: census (china_cell_event_census_v0_1.parquet) autumn window DOY 260-320
+2015 events = 6 (sensors landsat7, landsat8; DOY 266/290/291/298/307/314; all AUTUMN_PRIMARY_V1_CANDIDATE; FULL_CELL_COVERED; WRS2_NOMINAL_FRAME; member_scene_count=1)
+2020 events = 2 (landsat8 only; 2020-09-29 DOY 273; 2020-10-15 DOY 289; season/coverage flags same)
+2020 count = 2 = lower bound of frozen observations_per_cell_year_desired [2,3]; no post-hoc threshold created
+registry (china_coastal_cells_v1_1_core_frozen.csv):
+  membership_v1_1=KEEP_MAINLAND_COASTAL, production_eligible=True, admin_class=WATER_NEAR_CHINA
+  island_class=NONE, china_mainland_area_frac=0.0, gshhs_land_area_frac=0.0, dist_to_china_mainland_m=7536.0
+  jrc_occurrence_mean_pct=94.52, water_context=MURRAY_JRC_CONTEXT_ONLY_NEVER_A_SPARTINA_LABEL
+features: geodata_2015_pos_px=0, geodata_2020_pos_px=0 -> CLEAN_BACKGROUND_REPAIR role consistent
+actual-footprint evidence status: CENSUS_METADATA_ONLY_V0_1 (nominal); live_gee_verified=false; >=0.95 actual-mask gate deferred to Phase 2 planner
+cross-check: original frozen 53-cell panel already contains 5 WATER_NEAR_CHINA cells (jrc 92-99%) -> protocol-consistent
+VERDICT: KEEP (complies with frozen protocol); event-range claim corrected to 2-21 (positives 4-21); no re-selection.
+
+[4] 14-CANDIDATE CONSISTENCY
+$ python: role-vs-geodata check across v0_2_1_repair_candidate_table.csv -> 0 violations
+POS event range 4-21; BG event range 2-12; all >=12 km from panel cells.
+
+[5] PROJECTION INTEGRITY
+support states separated: measured (landed QA-passed) / metadata-eligible / projected (reference scenario) / landed&QA-passed (does not exist)
+55% = observed 11/20 panel historical pass ratio, used ONLY as sizing reference scenario; not a validated probability for new cells
+v0_2_1_projected_support_matrix.csv updated with support_state_basis qualifier column
+floor sensitivity: k=1 landed per stratum still passes gate at exactly 12/12.
+
+[6] PR #22 AUDIT
+$ gh pr view 22 --json state,baseRefName,headRefName,changedFiles,mergeable
+{"state":"OPEN","baseRefName":"main","headRefName":"reboot/spartina-earth-m2-7-repair","changedFiles":994,"mergeable":"MERGEABLE"}
+$ git rev-list --count origin/main..HEAD  -> 117 commits (97 reboot + 18 paper1 + 2 this work)
+=> PR integrates the WHOLE project history vs stale main; explicitly noted in PR description
+$ git diff --name-status origin/feat/paper1-map-reliability...HEAD
+9 added files (pre-1.1): 6 docs/roadmap + 3 v0_2_1_repair artifacts
+$ git diff origin/feat/paper1-map-reliability...HEAD -- benchmarks/spartinashift/v0_2/ | wc -l -> 0  (frozen v0_2 untouched)
+$ git diff --stat origin/feat/paper1-map-reliability...HEAD -- papers/  -> empty (Paper 1 history intact)
+PR body corrected via gh pr edit (failure counts + event range + scope note); PR left OPEN; no merge.
+
+[7] FROZEN CHECKSUMS (re-hashed this phase)
+v02_fresh_test_reserve.csv  sha256 ff1d50acad08b53202e1b72459722054a236aadca5486f6598ddd9c9687109bb  == reserve_json.reserve_csv_sha256  OK
+v02_cell_panel.csv          sha256 6d527dc8822298283264f2365944b00e18c4d21bebdc6f846865b8b28304c3fb  == reserve_json.panel_csv_sha256    OK
+V0_2_FRESH_TEST_RESERVE.json document_checksum d93e8820c012b4466da42a880be9114dca59c2028014b303a9f23d7ebcb7d3e8 == readiness bound_checksums.fresh_reserve OK
+
+[8] DELIVERABLES (this phase)
+benchmarks/spartinashift/v0_2_1_repair/V0_2_1_FAILURE_LEDGER.csv        (10 rows, 9 cells)
+docs/roadmap/V02_1_CANDIDATE_AUDIT.md
+docs/roadmap/V02_1_READINESS_REPORT.md                                  (revised sections 1/3/4)
+docs/roadmap/PR_AUDIT.md
+docs/roadmap/PHASE_1_1_VERIFICATION.log                                 (this file)
+also updated: PROJECT_STATUS_2026-11-26.md (counts unified),
+              v0_2_1_projected_support_matrix.csv (scenario qualifier),
+              PR #22 description (unified counts; stays OPEN)
+
+STATUS: ALL CHECKS PASS. Phase 1.1 ends here; awaiting Owner decision on Phase 2
+(live-GEE planner re-run + export Option A/B). No export, no training executed.

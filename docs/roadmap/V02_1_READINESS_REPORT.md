@@ -19,13 +19,23 @@ Measured on `v02_support_matrix_per_cell.csv` (53 panel cells):
 | Clean background with Landsat landed both years | **11** | JS 3, SD 3, FJ 2, HEB 1, LN 1, JL 1 |
 | (background with any landed EO is 25; the gate counts the Landsat-both-years form) | | |
 
-Root cause of the 9 lost positives: 2020 Landsat eligibility failures in
-`v02_landsat_acquisition_plan.csv` — `NO_ELIGIBLE_EVENT_ACTUAL_MASK` for
-R00224-C00049, R00344-C00157, R00377-C00131/C00133, R00428-C00110 (autumn
-window events existed but failed the ≥0.95 actual-observed-mask gate) and
-`NO_SCENE` for R00231-C00083 / R00233-C00083; plus R00320-C00161 failing
-both years and R00297-C00151 failing 2015. The 2015 side is healthy for
-these cells (eligible observations landed); the deficit is 2020-dominated.
+Root cause of the 9 lost positives (full per-cell/per-year ledger in
+`benchmarks/spartinashift/v0_2_1_repair/V0_2_1_FAILURE_LEDGER.csv`,
+derived strictly from the two frozen CSVs): **9 cells / 10 failed
+cell-years** — failure classes: 2020-only 7 cells, 2015-only 1 cell
+(R00297-C00151), both-year 1 cell (R00320-C00161). Per failed cell-year
+primary reason (highest-count failed slot; tie-break
+NO_ELIGIBLE_EVENT_ACTUAL_MASK > NO_SCENE): `NO_ELIGIBLE_EVENT_ACTUAL_MASK`
+= 6 cell-years (R00224-C00049, R00320-C00161, R00344-C00157,
+R00377-C00131/C00133, R00428-C00110 — autumn-window events existed but
+failed the ≥0.95 actual-observed-mask gate) and `NO_SCENE` = 4 cell-years
+(R00231-C00083, R00233-C00083, R00297-C00151-2015, R00320-C00161-2015).
+6 of the 10 failed cell-years carry **two** failure reasons
+(secondary recorded in the ledger: e.g. R00344-C00157 2020 =
+NO_ELIGIBLE×2 + NO_SCENE×1). Passing cell-years also contain failed
+slots (recorded as context, e.g. R00231-C00083 2015 = V02_ELIGIBLE×1
+landed + NO_SCENE×1 + NO_ELIGIBLE×1). The 2015 side is healthy for most
+of these cells; the deficit is 2020-dominated.
 
 ## 2. Candidate pool re-scan (metadata only, target-independent)
 
@@ -53,8 +63,15 @@ Artifact: `benchmarks/spartinashift/v0_2_1_repair/v0_2_1_repair_candidate_table.
 Selection rule (frozen before any imagery): filter pool →
 SHA-256 rank key `V0_2_GEODATA_REPAIR_V1|{cell_id}` → ≤4 per province →
 top 8 positives + top 6 backgrounds. Every candidate has census-verified
-autumn-window Landsat 7/8 events in BOTH 2015 and 2020 (4–21 events per
-cell-year; details per cell in the CSV). All are ≥12 km from panel cells.
+autumn-window Landsat 7/8 events in BOTH 2015 and 2020 — event counts
+per cell-year span **2–21 across all 14 candidates (4–21 for the 8
+positive candidates, 2–12 for the 6 background candidates)**; details
+per cell in the CSV. All are ≥12 km from panel cells. Focused re-audit
+of `CNA10K-R00163-C00067` (background, province UNKNOWN,
+WATER_NEAR_CHINA, 2020 = 2 events at the lower bound of the frozen
+desired range [2,3]): **KEEP** — complies with the frozen protocol, same
+as the 5 already-frozen WATER_NEAR_CHINA panel cells; full audit in
+`V02_1_CANDIDATE_AUDIT.md`.
 
 Positives (8): ZJ R00331-C00149 (118/132 px), SH R00348-C00154 (765/39),
 JS R00352-C00155 (1550/1410), JS R00372-C00139 (2364/943), ZJ
@@ -74,15 +91,19 @@ with `SPARTINA_V02_SELECT=1` + GEE project) over these 14 cells to obtain
 `v0_2_1_projected_support_matrix.csv` (same directory) projects gate
 outcomes after a Phase 2 export+QA pass:
 
-| Gate | v0.2 measured | v0.2.1 projected |
+| Gate | v0.2 measured | v0.2.1 projected (reference scenario only) |
 |---|---|---|
-| positives both years ≥12 | 11 | PASS if ≥1/8 candidates lands both years; expected ≈15 (observed metadata→landed pass rate on geo-positive panel cells: 11/20 ≈ 55%) |
+| positives both years ≥12 | 11 | PASS if ≥1/8 candidates lands both years; sizing scenario ≈15 using the historical 11/20 panel pass rate as a **reference ratio, not a validated probability** for new cells |
 | regions ≥3 | 5 | PASS (≥5; candidates add SH/GX/SD depth) |
-| background ≥12 | 11 | PASS if ≥1/6 lands; expected ≈14 |
+| background ≥12 | 11 | PASS if ≥1/6 lands; sizing scenario ≈14 |
 | all other gates | PASS | unchanged |
 
-Projection is **not** a result. The verdict below stays NOT_READY until
-landed, QA-passed bytes exist.
+Support states are strictly separated (see `V02_1_CANDIDATE_AUDIT.md`
+§3): **measured** (landed QA-passed v0.2 bytes) → **metadata-eligible**
+(frozen census metadata, no actual-mask evidence) → **projected**
+(reference-scenario arithmetic, never a result) → **landed & QA-passed**
+(does not exist yet). The verdict below stays NOT_READY until the last
+state exists.
 
 ## 5. Reserve isolation audit (53-cell panel / 24-cell reserve)
 

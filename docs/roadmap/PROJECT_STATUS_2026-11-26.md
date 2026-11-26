@@ -36,7 +36,11 @@ Statuses are strict: **DONE** = executed with tracked evidence;
 
 1. GEODATA temporal gate repair — metadata planner + cost estimate DONE;
    14 ranked candidates (8 positive + 6 background) with census-verified
-   Landsat 7/8 autumn events in both 2015 and 2020. Export awaits owner
+   Landsat 7/8 autumn events in both 2015 and 2020 (2–21 events per
+   cell-year). Failure ledger: 9 failed positive cells / 10 failed
+   cell-years (2020-only 7, 2015-only 1, both-year 1; primary
+   NO_ELIGIBLE_EVENT_ACTUAL_MASK 6, primary NO_SCENE 4) in
+   `v0_2_1_repair/V0_2_1_FAILURE_LEDGER.csv`. Export awaits owner
    approval (`V0_2_1_REPAIR_SCOPE_ESTIMATE.json`: ≤0.36 GiB Option A,
    ≤2.25 GiB Option B — far inside caps).
 2. Reserve isolation wording normalized (sealed-after-export, see
