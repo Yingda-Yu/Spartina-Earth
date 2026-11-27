@@ -1,16 +1,31 @@
-# UPDATED_RESEARCH_ROADMAP — 2026-11-26 reboot
+# UPDATED_RESEARCH_ROADMAP — 2026-11-26 reboot (updated 2026-11-27)
 
-Paper 1 submission is paused (owner decision); its assets stay frozen on
-`feat/paper1-map-reliability`. The center of gravity returns to the full
-Spartina Earth program. Order below is execution order; earlier items gate
-later ones.
+**Superseded by `SPARTINA_EARTH_MASTER_RESEARCH_PROGRAM.md`** as the
+authoritative program reference; this file remains the execution-order
+summary. Paper 1 submission is paused (owner decision); its assets stay
+frozen on `feat/paper1-map-reliability`. The center of gravity returns to
+the full Spartina Earth program. Order below is execution order; earlier
+items gate later ones.
+
+Status deltas since 2026-11-26 (all on `reboot/spartina-earth-m2-7-repair`):
+
+- GEODATA temporal repair: export executed (35/35 Landsat-8 2015 repair
+  products landed, QA-passed); QA chain 2B→2C→2C.1→2C.2 complete,
+  including grid-aligned QA_RADSAT pixel-perfect verification
+  (`QA_RADSAT_GRID_ALIGNMENT_REPORT.md`, commit fdda75a). v0.2.2 protocol
+  is PROPOSED_NOT_EFFECTIVE — awaiting Owner approval; no training until
+  approved.
+- Master program infrastructure (governance, data inventory, benchmark
+  design, GOLD execution plan, Atlas specs, engineering scripts) built:
+  see `SPARTINA_EARTH_MILESTONE_REGISTRY.csv` and
+  `MASTER_EXECUTION_STATUS.md`.
 
 ## Phase 1 — Data gates (NOW)
 
-- **P0-A GEODATA temporal repair (Issue #21).** DONE: metadata planner,
-  14-cell ranked candidate table, cost estimate, reserve wording audit
-  (`V02_1_READINESS_REPORT.md`). NEXT: owner-approved live-GEE planner
-  re-run + export + QA → re-measure gate on landed evidence.
+- **P0-A GEODATA temporal repair (Issue #21).** DONE end-to-end: planner,
+  14-cell ranked candidate table, export (35/35 landed, QA-passed), grid
+  alignment verification. NEXT: Owner approval of v0.2.2 → readiness
+  decision → benchmark split freeze.
 - **P0-B GOLD validation system.** Registry exists (30 candidates, GOLD=0);
   acquisition plan written (`GOLDSET_ACQUISITION_PLAN.md`). NEXT: owner
   permission gate → Tier-1 pilot (4 sites) with double review.
