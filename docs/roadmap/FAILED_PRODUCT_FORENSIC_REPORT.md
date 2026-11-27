@@ -1,5 +1,15 @@
 # FAILED_PRODUCT_FORENSIC_REPORT — V021_R00372-C00139_L8_2015_E
 
+> **CORRECTION (Phase 2C)**: §2 contained an inconsistent pair of
+> statements about QA_PIXEL. The corrected fact: the Clear bit (6) is
+> set in 266 px (0.176 %), ALL of which are simultaneously
+> Cloud-Shadow-flagged (bit 4) with no other flag; the production
+> VALID predicate excludes them because Cloud Shadow is a blocked bit.
+> The offline QA predicate therefore still yields 0 pixels and the
+> landed VALID is exactly the QA_PIXEL predicate (XOR = 0). Full
+> per-bit census: `QA_PIXEL_BIT_AUDIT.md`. The QA classification
+> outcome of this report is unchanged.
+
 Forensic analysis only: no re-export, no data modification, no QA change.
 All numbers below re-measured from the landed files (2026-11-27), not
 copied from manifests. Landed file names/SHA-256s: see

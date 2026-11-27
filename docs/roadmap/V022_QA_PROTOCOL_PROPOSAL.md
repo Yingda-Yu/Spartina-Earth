@@ -82,3 +82,16 @@ changes what "QA pass" means for the readiness flip.
 - Expanding the discovery pool (cloud 43 % / partial coverage events):
   rejected — violates the frozen prefilter and imports systematically
   cloudier scenes into the benchmark.
+
+## 6. Addendum (Phase 2C)
+
+This proposal is superseded by the finalized contract
+`V022_QA_PROTOCOL_FINAL.md`, which replaces the proposal's
+"non-finite pixels inside non-clear classes" wording with the
+deterministic bit-level test (non-finite SR pixels inside the offline
+QA-valid set must be zero; per-sensor L7/L8 bit definitions stated).
+The Phase 2B forensic report's QA_PIXEL sentence was corrected in
+`QA_PIXEL_BIT_AUDIT.md` §3 (Clear bit set in 266 px, all
+shadow-flagged; QA outcome unchanged). Regression evidence:
+`V022_HISTORICAL_REGRESSION_REPORT.md`. Status remains PROPOSED until
+Owner approval is recorded in `V022_PROTOCOL_CHECKSUM.json`.
