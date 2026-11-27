@@ -1,0 +1,1421 @@
+{
+  "n_optical_products": 478,
+  "n_readable": 198,
+  "n_missing_files": 280,
+  "missing_detail": [
+    {
+      "product_id": "V02_R00198-C00039_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00198-C00039_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00198-C00039_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00198-C00039_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00199-C00041_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00199-C00041_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00199-C00041_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00202-C00045_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00202-C00045_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00202-C00045_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00222-C00043_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00222-C00043_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00222-C00043_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00222-C00043_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00222-C00043_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00222-C00043_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00034_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00034_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00034_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00049_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00049_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00049_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00049_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00049_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00049_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00051_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00051_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00051_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00051_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00051_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00223-C00051_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00224-C00049_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00224-C00049_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00224-C00049_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00224-C00049_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00224-C00049_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00224-C00049_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00231-C00083_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00231-C00083_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00231-C00083_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00231-C00083_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00231-C00083_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00083_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00083_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00083_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00083_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00083_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00090_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00090_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00090_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00090_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00233-C00090_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00243-C00104_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00243-C00104_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00243-C00104_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00243-C00104_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00243-C00104_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00243-C00104_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00262-C00130_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00262-C00130_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00262-C00130_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00262-C00130_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00262-C00130_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00265-C00138_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00265-C00138_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00265-C00138_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00265-C00138_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00265-C00138_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00268-C00137_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00268-C00137_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00268-C00137_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00268-C00137_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00268-C00137_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00144_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00144_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00144_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00144_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00145_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00145_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00145_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00292-C00145_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00293-C00145_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00293-C00145_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00293-C00145_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00293-C00145_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00294-C00150_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00294-C00150_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00294-C00150_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00294-C00150_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00294-C00150_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00294-C00150_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00295-C00151_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00295-C00151_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00295-C00151_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00295-C00151_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00295-C00151_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00295-C00151_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00297-C00151_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00297-C00151_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00297-C00151_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00297-C00151_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00297-C00151_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00297-C00151_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00304-C00154_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00304-C00154_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00304-C00154_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00304-C00154_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00304-C00154_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00304-C00154_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00307-C00151_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00307-C00151_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00307-C00151_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00307-C00151_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00307-C00151_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00307-C00151_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00311-C00155_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00311-C00155_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00311-C00155_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00311-C00155_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00311-C00155_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00311-C00155_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00320-C00161_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00320-C00161_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00320-C00161_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00329-C00159_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00329-C00159_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00329-C00159_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00331-C00162_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00331-C00162_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00331-C00162_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00331-C00162_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00331-C00162_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00332-C00162_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00332-C00162_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00332-C00162_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00332-C00162_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00332-C00162_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00341-C00157_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00341-C00157_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00341-C00157_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00341-C00157_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00341-C00157_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00341-C00157_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00344-C00157_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00344-C00157_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00344-C00157_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00344-C00157_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00344-C00157_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00344-C00157_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00348-C00139_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00348-C00139_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00348-C00139_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00348-C00139_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00348-C00139_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00348-C00139_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00355-C00151_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00355-C00151_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00355-C00151_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00355-C00151_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00355-C00151_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00363-C00142_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00363-C00142_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00363-C00142_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00363-C00142_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00363-C00142_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00363-C00142_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00374-C00138_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00374-C00138_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00374-C00138_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00374-C00138_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00374-C00138_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00374-C00138_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00129_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00129_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00129_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00129_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00129_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00131_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00131_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00131_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00131_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00131_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00133_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00133_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00133_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00133_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00133_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00377-C00133_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00132_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00132_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00132_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00132_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00132_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00134_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00134_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00134_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00134_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00134_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00398-C00134_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00403-C00139_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00403-C00139_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00403-C00139_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00403-C00139_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00403-C00139_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00403-C00139_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00406-C00143_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00406-C00143_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00406-C00143_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00406-C00143_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00406-C00143_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00406-C00143_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00407-C00121_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00407-C00121_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00407-C00121_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00407-C00121_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00407-C00121_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00409-C00153_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00409-C00153_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00409-C00153_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00409-C00153_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00409-C00153_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00409-C00153_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00415-C00151_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00415-C00151_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00415-C00151_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00415-C00151_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00415-C00151_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00415-C00151_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00420-C00107_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00420-C00107_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00420-C00107_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00420-C00107_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00420-C00107_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00420-C00107_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00421-C00106_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00421-C00106_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00421-C00106_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00421-C00106_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00421-C00106_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00421-C00106_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00426-C00109_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00426-C00109_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00426-C00109_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00426-C00109_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00426-C00109_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00426-C00109_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00109_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00109_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00109_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00109_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00109_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00109_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00110_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00110_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00110_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00110_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00110_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00428-C00110_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00430-C00118_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00430-C00118_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00430-C00118_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00430-C00118_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00430-C00118_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00430-C00118_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00431-C00140_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00431-C00140_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00431-C00140_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00431-C00140_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00431-C00140_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00437-C00147_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00437-C00147_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00437-C00147_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00437-C00147_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00437-C00147_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00486-C00204_S2_2020_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00486-C00204_S2_2020_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00486-C00204_S2_2020_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00486-C00204_S2_2021_E",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00486-C00204_S2_2021_L",
+      "role": "qapixel",
+      "reason": "file not found"
+    },
+    {
+      "product_id": "V02_R00486-C00204_S2_2021_M",
+      "role": "qapixel",
+      "reason": "file not found"
+    }
+  ],
+  "n_unreadable": 0,
+  "unreadable_detail": [],
+  "zero_valid_products": [
+    "V02_R00355-C00151_L8_2015_L",
+    "V021_R00372-C00139_L8_2015_E"
+  ],
+  "v0_2_2_reclassifications": [
+    {
+      "product_id": "V021_R00372-C00139_L8_2015_E",
+      "from": "HARD_ERROR",
+      "to": "HONEST_REJECTION_ZERO_QA_VALID_SURFACE_PIXELS"
+    }
+  ],
+  "qa_valid_intersection_max": 2670
+}

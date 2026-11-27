@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software before a peer-reviewed publication exists, please cite the repository as follows. A paper citation will replace this entry when one is available."
+title: "Spartina Earth: long-term sensor-agnostic Earth observation for Spartina alterniflora"
+type: software
+version: 0.0.1
+date-released: 2026-09-27
+repository-code: "https://github.com/Yingda-Yu/Spartina-Earth"
+url: "https://github.com/Yingda-Yu/Spartina-Earth"
+license: Apache-2.0
+status: in-development
+authors:
+  - name: "Yu, Yingda"
+    alias: "Yingda Yu"
+# TODO_VERIFY: add ORCID and full author list for Spartina Technology when
+# confirmed by the project owner. Do not invent identifiers.
+preferred-citation:
+  type: software
+  title: "Spartina Earth (M0 repository reboot)"
+  version: 0.0.1
+  date-released: 2026-09-27
+  authors:
+    - name: "Yu, Yingda"
+  repository-code: "https://github.com/Yingda-Yu/Spartina-Earth"

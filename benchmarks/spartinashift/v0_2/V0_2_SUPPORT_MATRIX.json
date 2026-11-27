@@ -1,0 +1,357 @@
+{
+  "product": "V0_2_SUPPORT_MATRIX",
+  "issue": 21,
+  "phase": "J",
+  "counting_unit": "CELL; multiple patches per cell never counted as independent cells",
+  "plan_checksums": {
+    "s2": "1cf79c98714e3f961363d253ab033d07a302af2de2fd6b0a1f0bd0cde2cdd3d8",
+    "landsat": "599f395de48ddde330d34408eee4a568a3398ad37fea384b310f93d6aca119bd",
+    "pairing": "08906836d5600029043fe66d56cfe98bc80a684cb8d12f62f93fb577069ab86c",
+    "scope_estimate": "243a384ec420175ab0d6ca14f194171aaf4921ae7506a2353f3673f8b239e9f5",
+    "export_index_sha256": "89944059e92c098697be06b252c850f120c7cc46d6a4901a4641fd1285affd14"
+  },
+  "cell_roles": {
+    "new_panel_cells": 53,
+    "fresh_reserve_cells": 24,
+    "old_stage1_cells": 20,
+    "roles_pairwise_disjoint": true
+  },
+  "new_panel_strata": {
+    "geodata_2015_positive_cells": 24,
+    "geodata_2020_positive_cells": 22,
+    "cmsa_2020_positive_cells": 25,
+    "cmsa_2021_positive_cells": 25,
+    "cmssm_2020_positive_cells": 23,
+    "any_positive_cells": 28,
+    "clean_background_cells": 25,
+    "agreement_2020": {
+      "NONE_PRESENT": 25,
+      "ALL_THREE_PRESENT": 18,
+      "CMSA_CMSSM_PRESENT": 3,
+      "GEODATA_CMSA_ONLY": 2,
+      "CMSA_ONLY": 2,
+      "GEODATA_CMSSM_ONLY": 1,
+      "GEODATA_ONLY": 1,
+      "CMSSM_ONLY": 1
+    },
+    "area_class": {
+      "NONE": 26,
+      "MEDIUM": 11,
+      "SMALL": 10,
+      "TRACE": 5,
+      "LARGE": 1
+    }
+  },
+  "regions_new_panel": [
+    {
+      "region_province": "Fujian",
+      "coastal_segment": "TAIWAN_STRAIT",
+      "cells": 9,
+      "any_positive_cells": 5,
+      "clean_background_cells": 4,
+      "cells_with_landed_eo": 9
+    },
+    {
+      "region_province": "Jiangsu",
+      "coastal_segment": "YELLOW_SEA",
+      "cells": 7,
+      "any_positive_cells": 4,
+      "clean_background_cells": 3,
+      "cells_with_landed_eo": 7
+    },
+    {
+      "region_province": "Shandong",
+      "coastal_segment": "BOHAI_YELLOW_SEA",
+      "cells": 7,
+      "any_positive_cells": 4,
+      "clean_background_cells": 3,
+      "cells_with_landed_eo": 7
+    },
+    {
+      "region_province": "Zhejiang",
+      "coastal_segment": "EAST_CHINA_SEA",
+      "cells": 7,
+      "any_positive_cells": 4,
+      "clean_background_cells": 3,
+      "cells_with_landed_eo": 7
+    },
+    {
+      "region_province": "Guangdong",
+      "coastal_segment": "SOUTH_CHINA_SEA",
+      "cells": 5,
+      "any_positive_cells": 3,
+      "clean_background_cells": 2,
+      "cells_with_landed_eo": 5
+    },
+    {
+      "region_province": "Guangxi",
+      "coastal_segment": "BEIBU_GULF",
+      "cells": 4,
+      "any_positive_cells": 2,
+      "clean_background_cells": 2,
+      "cells_with_landed_eo": 4
+    },
+    {
+      "region_province": "Hainan",
+      "coastal_segment": "SOUTH_CHINA_SEA",
+      "cells": 3,
+      "any_positive_cells": 0,
+      "clean_background_cells": 3,
+      "cells_with_landed_eo": 3
+    },
+    {
+      "region_province": "Hebei",
+      "coastal_segment": "BOHAI_SEA",
+      "cells": 3,
+      "any_positive_cells": 2,
+      "clean_background_cells": 1,
+      "cells_with_landed_eo": 3
+    },
+    {
+      "region_province": "Tianjin",
+      "coastal_segment": "BOHAI_SEA",
+      "cells": 3,
+      "any_positive_cells": 2,
+      "clean_background_cells": 1,
+      "cells_with_landed_eo": 3
+    },
+    {
+      "region_province": "Liaoning",
+      "coastal_segment": "BOHAI_YELLOW_SEA",
+      "cells": 2,
+      "any_positive_cells": 1,
+      "clean_background_cells": 1,
+      "cells_with_landed_eo": 2
+    },
+    {
+      "region_province": "Shanghai",
+      "coastal_segment": "EAST_CHINA_SEA",
+      "cells": 2,
+      "any_positive_cells": 1,
+      "clean_background_cells": 1,
+      "cells_with_landed_eo": 2
+    },
+    {
+      "region_province": "Jilin",
+      "coastal_segment": "UNKNOWN",
+      "cells": 1,
+      "any_positive_cells": 0,
+      "clean_background_cells": 1,
+      "cells_with_landed_eo": 1
+    }
+  ],
+  "s2_multi_date": {
+    "2020": {
+      "eligible_events_per_cell_year": {
+        "1": 3,
+        "2": 9,
+        "3": 41
+      },
+      "cells_with_ge1_event": 53,
+      "cells_with_ge2_events": 50,
+      "cells_with_3_events_full_tertile_spread": 41,
+      "tertile_slots_filled": {
+        "EARLY": 43,
+        "MID": 48,
+        "LATE": 53
+      },
+      "cells_with_ge1_landed": 53
+    },
+    "2021": {
+      "eligible_events_per_cell_year": {
+        "1": 5,
+        "2": 13,
+        "3": 35
+      },
+      "cells_with_ge1_event": 53,
+      "cells_with_ge2_events": 48,
+      "cells_with_3_events_full_tertile_spread": 35,
+      "tertile_slots_filled": {
+        "EARLY": 47,
+        "MID": 41,
+        "LATE": 48
+      },
+      "cells_with_ge1_landed": 53
+    }
+  },
+  "landsat_multi_date": {
+    "2015": {
+      "eligible_events_per_cell_year": {
+        "0": 6,
+        "1": 12,
+        "2": 20,
+        "3": 15
+      },
+      "cells_with_ge1_event": 47,
+      "cells_with_ge2_events": 35,
+      "cells_with_3_events_full_tertile_spread": 15,
+      "tertile_slots_filled": {
+        "EARLY": 34,
+        "MID": 44,
+        "LATE": 19
+      },
+      "cells_with_ge1_landed": 47
+    },
+    "2020": {
+      "eligible_events_per_cell_year": {
+        "0": 20,
+        "1": 11,
+        "2": 11,
+        "3": 11
+      },
+      "cells_with_ge1_event": 33,
+      "cells_with_ge2_events": 22,
+      "cells_with_3_events_full_tertile_spread": 11,
+      "tertile_slots_filled": {
+        "EARLY": 18,
+        "MID": 25,
+        "LATE": 23
+      },
+      "cells_with_ge1_landed": 33
+    }
+  },
+  "s1_s2_pairs": {
+    "by_year": {
+      "2020": {
+        "primary_pairs_lte7d_planned": 144,
+        "pairs_landed": 53,
+        "cells_with_ge1_pair": 53
+      },
+      "2021": {
+        "primary_pairs_lte7d_planned": 135,
+        "pairs_landed": 53,
+        "cells_with_ge1_pair": 53
+      }
+    },
+    "gap_distribution": {
+      "n_selected_s2_events": 280,
+      "n_paired_lte7d": 279,
+      "n_same_day_gap0": 51,
+      "n_sensitivity_lte14d_only": 0,
+      "n_modality_slot_unavailable": 1,
+      "primary_gap_histogram_days": {
+        "0": 51,
+        "1": 37,
+        "2": 86,
+        "3": 41,
+        "4": 32,
+        "5": 13,
+        "6": 14,
+        "7": 5
+      },
+      "min_gap": 0,
+      "max_gap": 7
+    },
+    "sensitivity_tier_only_events": 0,
+    "note": "sensitivity 14 d tier is analysis-only; no GEE tasks, never back-fills primary view"
+  },
+  "label_support_alignment_defects": {
+    "positive_cells_with_no_s2_event_either_year": [],
+    "positive_cells_with_no_landsat_event_either_year": [
+      "CNA10K-R00320-C00161"
+    ],
+    "positive_cells_with_no_primary_pair_either_year": [],
+    "new_cells_with_no_landed_eo": []
+  },
+  "old_stage1_cells": {
+    "role": "DEVELOPMENT_INSTRUMENTATION_ONLY",
+    "n_cells": 20,
+    "n_cells_with_landed_pilot19_v2_products": 20,
+    "landed_products_by_sensor": {
+      "sentinel2": 37,
+      "sentinel1": 67,
+      "landsat5": 25,
+      "landsat7": 6,
+      "landsat8": 49
+    },
+    "cells": [
+      "CNA10K-R00226-C00080",
+      "CNA10K-R00236-C00083",
+      "CNA10K-R00260-C00128",
+      "CNA10K-R00264-C00132",
+      "CNA10K-R00274-C00147",
+      "CNA10K-R00279-C00143",
+      "CNA10K-R00311-C00156",
+      "CNA10K-R00331-C00150",
+      "CNA10K-R00334-C00163",
+      "CNA10K-R00346-C00154",
+      "CNA10K-R00347-C00151",
+      "CNA10K-R00349-C00154",
+      "CNA10K-R00388-C00129",
+      "CNA10K-R00391-C00132",
+      "CNA10K-R00411-C00151",
+      "CNA10K-R00413-C00121",
+      "CNA10K-R00417-C00135",
+      "CNA10K-R00429-C00140",
+      "CNA10K-R00434-C00149",
+      "CNA10K-R00445-C00159"
+    ],
+    "pristine_v0_2_test_eligibility": false
+  },
+  "fresh_reserve": {
+    "role": "FRESH_TEST_RESERVE_UNTOUCHED",
+    "n_cells": 24,
+    "export_status": "UNTOUCHED_NOT_EXPORTED",
+    "any_positive_cells": 16,
+    "clean_background_cells": 8,
+    "agreement_2020": {
+      "ALL_THREE_PRESENT": 11,
+      "NONE_PRESENT": 8,
+      "CMSA_CMSSM_PRESENT": 2,
+      "GEODATA_CMSA_ONLY": 1,
+      "CMSA_ONLY": 1,
+      "CMSSM_ONLY": 1
+    },
+    "regions": [
+      {
+        "region_province": "Fujian",
+        "coastal_segment": "TAIWAN_STRAIT",
+        "cells": 3
+      },
+      {
+        "region_province": "Guangdong",
+        "coastal_segment": "SOUTH_CHINA_SEA",
+        "cells": 3
+      },
+      {
+        "region_province": "Guangxi",
+        "coastal_segment": "BEIBU_GULF",
+        "cells": 3
+      },
+      {
+        "region_province": "Hebei",
+        "coastal_segment": "BOHAI_SEA",
+        "cells": 3
+      },
+      {
+        "region_province": "Jiangsu",
+        "coastal_segment": "YELLOW_SEA",
+        "cells": 3
+      },
+      {
+        "region_province": "Shandong",
+        "coastal_segment": "BOHAI_YELLOW_SEA",
+        "cells": 3
+      },
+      {
+        "region_province": "Tianjin",
+        "coastal_segment": "BOHAI_SEA",
+        "cells": 3
+      },
+      {
+        "region_province": "Zhejiang",
+        "coastal_segment": "EAST_CHINA_SEA",
+        "cells": 3
+      }
+    ]
+  },
+  "landed_totals": {
+    "products_landed": 722,
+    "landed_bytes": 8135988437,
+    "open_failures": 0
+  },
+  "per_cell_csv_sha256": "6180af3aabb32d092389c6fd55b286c699e469e49582f74e0ea137d141984534",
+  "generated_utc": "2026-10-18T07:50:05.004177+00:00",
+  "git_commit": "91a567331f147eb89472f46a30095467b53ec68d",
+  "document_checksum": "d3d145bb5443b1909f8b60e9213c9fe0f3fb82c86dec2bfe96684038a19f8b4b"
+}

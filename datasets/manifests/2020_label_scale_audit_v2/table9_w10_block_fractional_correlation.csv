@@ -1,0 +1,9 @@
+support,fractional_cover_pair,w10_block_spearman_rho,ci95_low,ci95_high,spatial_blocks,context_note,domain_variant
+30m_GEODATA_native_grid,geo_cmsa,0.7526,0.7155,0.789,1869,W10-cell-mean fractional cover; contextual only (pixel area 900 m2),KEEP_ONLY
+30m_GEODATA_native_grid,geo_cmssm,0.7324,0.6929,0.7739,1869,W10-cell-mean fractional cover; contextual only (pixel area 900 m2),KEEP_ONLY
+30m_GEODATA_native_grid,cmsa_cmssm,0.8702,0.8415,0.8938,1869,W10-cell-mean fractional cover; contextual only (pixel area 900 m2),KEEP_ONLY
+10m_project_lattice,cmsa_cmssm,0.8615,0.8283,0.886,1217,W10-cell-mean fractional cover; contextual only (100 m2),KEEP_ONLY
+30m_GEODATA_native_grid,geo_cmsa,0.7532,0.7124,0.7893,1875,W10-cell-mean fractional cover; contextual only (pixel area 900 m2),KEEP_PLUS_PROVISIONAL
+30m_GEODATA_native_grid,geo_cmssm,0.7332,0.6934,0.7668,1875,W10-cell-mean fractional cover; contextual only (pixel area 900 m2),KEEP_PLUS_PROVISIONAL
+30m_GEODATA_native_grid,cmsa_cmssm,0.8705,0.8419,0.8963,1875,W10-cell-mean fractional cover; contextual only (pixel area 900 m2),KEEP_PLUS_PROVISIONAL
+10m_project_lattice,cmsa_cmssm,0.8617,0.8325,0.8943,1222,W10-cell-mean fractional cover; contextual only (100 m2),KEEP_PLUS_PROVISIONAL

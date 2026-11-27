@@ -1,0 +1,5 @@
+cell_id,cell_size_m,l1_silver_positive_px_common30m_bayclip,l3_weak_positive_px_common30m_bayclip,agreement_px,silver_only_px,weak_only_px,union_px,jaccard,geometry_scope,method
+ZJ_U51_10K_E031_N335,10000,471,4208,195,276,4013,4484,0.0435,cell_geometry n HZB envelope (bay clip),nearest-neighbour warp to common EPSG:32651 30m grid; ~1 px positional tolerance; diagnostic
+ZJ_U51_10K_E032_N336,10000,1498,989,927,571,62,1560,0.5942,cell_geometry n HZB envelope (bay clip),nearest-neighbour warp to common EPSG:32651 30m grid; ~1 px positional tolerance; diagnostic
+ZJ_U51_10K_E033_N336,10000,8349,6677,6350,1999,327,8676,0.7319,cell_geometry n HZB envelope (bay clip),nearest-neighbour warp to common EPSG:32651 30m grid; ~1 px positional tolerance; diagnostic
+ZJ_U51_10K_E034_N335,10000,3563,2702,2380,1183,322,3885,0.6126,cell_geometry n HZB envelope (bay clip),nearest-neighbour warp to common EPSG:32651 30m grid; ~1 px positional tolerance; diagnostic

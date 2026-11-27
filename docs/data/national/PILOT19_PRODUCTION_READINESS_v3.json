@@ -1,0 +1,85 @@
+{
+  "product": "national_pilot19_production_readiness_v3",
+  "issue": 19,
+  "selection_revision": "PILOT_EVENT_SELECTION_V2",
+  "generated_utc": "2026-10-10T14:46:23+00:00",
+  "git_commit": "30ca090470c5f294f4669a20ebd058ccd8303d13",
+  "status": "RECOMMENDATION_ONLY; launches nothing beyond the 20 frozen pilot cells; owner decision required for any expansion",
+  "supersedes": "PILOT19_PRODUCTION_READINESS_v2 (retained for traceability)",
+  "decisions": {
+    "production": "GO_LIMITED_PRODUCTION",
+    "benchmark_issue_20": "READY_FOR_ISSUE_20"
+  },
+  "decision_semantics": {
+    "GO_LIMITED_PRODUCTION": "the gated event-selection, GEE export, Drive restore, provenance and Phase H/I pipeline is demonstrated end to end on real pixels across all five sensor families at the 20-cell pilot scale, with zero hard QA failures and zero backend retries; continued operation at this limited scale is technically sound. It is NOT GO_NATIONAL_PRODUCTION: national bytes are EXTRAPOLATED and TODO_VERIFY, the national actual-mask shortfall rate is unmeasured, and live-project quota/concurrency limits were not probed.",
+    "READY_FOR_ISSUE_20": "every v2 required fix is closed by executed, artifact-backed evidence, so the owner may open Issue #20 (spatially disjoint split/benchmark setup). Opening Issue #20, changing registry flags, and producing any split remain explicit owner actions; this file performs none of them."
+  },
+  "v2_required_fixes_closure": [
+    {"required_fix": "owner-authorized revision of frozen S2/S1 event selection with a live actual-mask >=0.95 coverage gate, replacements verified inside DOY 260-320", "status": "CLOSED", "evidence": "national_pilot_event_plan_v2.csv (frozen, sha256 e985d45261cf32d8d993f39877da30bb95073ac2e863c4a3370bcd7f1386c705); gate applied inside the exact W10 Albers cell by pixel centres; 17 deterministic label-blind next-ranked replacements; 7 NO_ELIGIBLE_EVENT_ACTUAL_MASK; V1 preserved with supersession map"},
+    {"required_fix": "owner decision on Sentinel-1 floor handling; audit policy updated without weakening fidelity identity checks", "status": "CLOSED", "evidence": "national_pilot19_s1_floor_audit_v2.json: POLICY_CONFIRMED_S1_DUALPOL_VALID_V2; raw GEE VV/VH preserved exactly (no clip/replace/rewrite); local s1_dualpol_valid_v2 token; <=-70 dB = NON_OBSERVATION_EXTREME_FLOOR; zero at/below floor finite pixels across 67 landed S1; V1 discovery evidence frozen"},
+    {"required_fix": "rerun D1 to 194 under r2 VALID; full H/I; storage and readiness recomputed", "status": "CLOSED_WITH_HONEST_DENOMINATOR", "evidence": "187 eligible -> 184 LANDED, 3 honest actual-mask rejections (never forced to 194); full offline Phase H/I plus 43-product deterministic 20% live GEE subset, 0 FAIL; storage study v3 recomputed; this readiness v3"}
+  ],
+  "gate_status": [
+    {
+      "gate_id": "N1_GEE_PROJECT_AND_AUTH",
+      "status": "CLOSED",
+      "evidence": "live calls succeed under owner project project-795fc21c-e217-47f3-adb throughout export recovery, floor audit and the 43-product live QA subset; installed ee.batch.Export guard respected (no unintended exports)"
+    },
+    {
+      "gate_id": "N2_PILOT_PIXEL_EXPORT",
+      "status": "CLOSED_184_OF_187_HONEST",
+      "evidence": "194 V1 slots fully resolved: 83 inherited Landsat, 87 kept S1/S2, 17 replaced, 7 no eligible event; 187 export-eligible (S1 67, L8 50, S2 37, L5 27, L7 6); 184 LANDED with manifests and SHA-256, 3 honest gate rejections on landed bytes (R00346 L8_2021 in-cell 0.94902; R00347 L5_1990 0.70052; R00347 L5_2000 0.78544); work/national/pilot19/export_progress_v2.json"
+    },
+    {
+      "gate_id": "N3_PHASE_H_QA_GATES",
+      "status": "CLOSED_WARN",
+      "evidence": "full rerun over 184: 100 PASS / 84 WARN / 0 FAIL; rejected slots 3 confirmed / 0 contradicted by bytes / 0 unresolved; completeness PASS; deterministic 20% live subset (43 products; 20 PASS / 23 WARN / 0 FAIL) exact against live GEE reducers; zero independent grid failures; no systematic spatial, scaling or semantic failure; WARN classes are frozen evidence: 49 conservative cell-geometry, 20 coastline membership, 34 interior morphology, 11 label-adapter alignment, 3 near-threshold actual-mask notes"
+    },
+    {
+      "gate_id": "N4_PHASE_I_PIXEL_QA",
+      "status": "CLOSED_WARN",
+      "evidence": "zero all-NaN/all-zero/constant informative products; zero band-order/scaling/SCL/double-log defects; Landsat r2 all-band (incl. L8 coastal SR_B1) VALID contract retained without lowering; interior morphology on W10 cell support by connectivity (enclosed-hole >=1 ha or >=1e-4 in-cell fraction hard FAIL; frame-edge slivers WARN only): zero structural FAIL, largest enclosed S2 hole 200 m^2, single S1 frame-edge sliver <=158 m penetration; F3 floor policy confirmed (67/67 S1, zero floor pixels, VV min -55.82 dB, VH min -67.76 dB), zero S1 pass/orbit violations"
+    },
+    {
+      "gate_id": "N5_STORAGE",
+      "status": "PILOT_MEASURED_NATIONAL_EXTRAPOLATED_TODO_VERIFY",
+      "evidence": "1,639,339,598 bytes MEASURED on 184 landed V2 products (national_pilot19_storage_study_v3.json): S1 772,704,630; S2 576,178,317; L8 210,254,461; L5 62,526,679; L7 17,675,511; per-component factors MEASURED (n=6..67); minimal national 29,460 products/60,397 tasks/259,151,647,231 bytes (220,042,086,423-283,720,987,893) and standard annual 238,970/609,301/1,392,879,975,367 bytes (1,112,540,301,803-1,569,589,174,090) are EXTRAPOLATED over v1 grids; Landsat-9 factor TODO_VERIFY; V2 shortfall rate not applied to the national denominator"
+    },
+    {
+      "gate_id": "N6_GEE_DRIVE_OPERATIONS",
+      "status": "MEASURED_QUOTA_TODO_VERIFY",
+      "evidence": "422 backend task records: 415 COMPLETED, 7 stale ENQUEUED reconciled (2 plan-excluded staging orphans, 5 COMPLETED with SHA-256 re-verified), 0 unresolved; attempts=0 for every record (zero resubmissions after backend failure); records_with_errors=0; poll observations 2..37 per task (mean 12.6); concurrency 7; ~180 s Drive propagation under 15 s polls; resumability exercised on real interrupted polls; live-project quota/concurrency ceilings not probed (TODO_VERIFY)"
+    }
+  ],
+  "silver_policy": {
+    "document": "PILOT_SILVER_TRAINING_POLICY_v3.json",
+    "status": "NOT_IN_FORCE",
+    "summary": "GOLD = 0; new gate G8 pairs each SILVER support with EO products passing the in-cell actual-mask gate: 243/243 paired instances pass, 0 hard fail; GEODATA 1990 12/20 cells (7 NO_SCENE, 1 honest rejection), GEODATA 2000 19/20, all 2015/2020/2021 families 20/20; CMSA 2017-2019 UNMEASURED (no pilot EO slots); agreement is not accuracy (11 alignment WARNs, 0 FAILs); explicit per-family license terms recorded"
+  },
+  "phases": ["D0", "D1", "H", "I"],
+  "not_authorized": [
+    "national-scale pixel production batch (GO is LIMITED only)",
+    "Issue #20 execution (READY means the owner may open it; nothing starts here)",
+    "model training",
+    "SpartinaFM",
+    "registry SILVER flag changes",
+    "train/validation/test split creation",
+    "plan scope changes beyond the 20 frozen cells"
+  ],
+  "residual_todo_verify": [
+    "national byte extrapolations (measured only at pilot scale)",
+    "Landsat-9 byte factors (L8 carried forward)",
+    "live GEE project quota and concurrency ceilings",
+    "national actual-mask eligibility/shortfall rate",
+    "CM-SSM_2020 source license conflict"
+  ],
+  "key_artifacts": [
+    "datasets/manifests/national_pilot_event_plan_v2.csv",
+    "datasets/manifests/national_pilot19_pilot_qa_v2.json",
+    "datasets/manifests/national_pilot19_s1_floor_audit_v2.json",
+    "datasets/manifests/national_pilot19_storage_study_v3.json",
+    "work/national/pilot19/export_progress_v2.json",
+    "work/national/pilot19/tasks/task_store.json",
+    "docs/data/national/PILOT_SILVER_TRAINING_POLICY_v3.json"
+  ]
+}

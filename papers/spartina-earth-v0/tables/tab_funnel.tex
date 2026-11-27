@@ -1,0 +1,27 @@
+% Source: datasets/manifests/zhejiang_s2_2022_funnel_audit_v0.csv,
+% zhejiang_s2_2022_funnel_audit_v0.verdict.json,
+% zhejiang_cell_observation_stats_v0_1.csv; docs/data/ZHEJIANG_M21A2_R1_AUDIT.md B
+\begin{table}[t]
+\centering
+\small
+\caption{2022 autumn (DOY\,260--320) Sentinel-2 funnel for 10\,km
+coastal cells under the corrected contributing-scene cloud gate
+(coverage $\ge$0.99; scene cloud $\le$0.30; thresholds unchanged). The
+v0 group-wide gate rejected every pair; the R1 gate recovers quality
+pairs. VERDICT: ZERO\_WAS\_PIPELINE\_BUG.}
+\label{tab:funnel}
+\begin{tabular}{lrrr}
+\toprule
+Funnel stage (S2, 2022 autumn) & HZB & SMB & YQB \\
+\midrule
+A. Raw census rows intersecting bays & 373 & 147 & 584 \\
+C. Autumn scenes (DOY\,260--320) & 63 & 26 & 100 \\
+D. Datatake groups intersecting bays & 25 & 25 & 25 \\
+E. Cell--group pairs & 573 & 750 & 400 \\
+G. Coverage-passing pairs ($\ge$0.99) & 399 & 750 & 375 \\
+H. Pixel-level SCL valid-pixel QA & \multicolumn{3}{c}{DEFERRED to M2.1b} \\
+\quad v0 final pairs (group-wide cloud gate) & 0 & 0 & 0 \\
+\quad \textbf{R1 final pairs (contributing-scene gate)} & \textbf{51} & \textbf{150} & \textbf{89} \\
+\bottomrule
+\end{tabular}
+\end{table}

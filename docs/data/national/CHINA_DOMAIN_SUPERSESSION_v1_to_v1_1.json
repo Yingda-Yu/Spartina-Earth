@@ -1,0 +1,290 @@
+{
+  "artifact": "china_mainland_coastal_domain_membership",
+  "supersedes": "china_mainland_coastal_domain_membership_v1_candidate",
+  "from_version": "v1_candidate",
+  "to_version": "v1_1_core_frozen",
+  "generated_utc": "2026-10-08T13:23:02.748118+00:00",
+  "git_commit": "7df0f74d760987a2c95cb141ad8f4cdd8b0de30b",
+  "freeze_verdict": "W10_DOMAIN_V1_CORE_FROZEN",
+  "freeze_scope": "The KEEP core (3,016 W10 cells: 2,752 mainland coastal + 264 island coastal, including five operationally included Kinmen cells) is frozen for production use. Five beyond-reach offshore cells remain outside the frozen core as PROVISIONAL_OFFSHORE_POLICY. This freeze does not resolve every spatial-policy question; the general offshore-island policy is a separate later decision.",
+  "grid_policy": "grid_cell_geometry and cell IDs are immutable; the v0 cell registries are never overwritten or deleted. Membership is a versioned attribute on the same cell_id space.",
+  "decision_vocabulary": [
+    "KEEP_MAINLAND_COASTAL",
+    "KEEP_ISLAND_COASTAL",
+    "EXCLUDE_DOMAIN_ARTIFACT",
+    "PROVISIONAL_UNRESOLVED",
+    "PROVISIONAL_OFFSHORE_POLICY"
+  ],
+  "rule_layer": {
+    "rule": "unchanged deterministic v1 rule (audit_domain_membership_v1.py); no rule parameter was modified by the owner decision",
+    "rule_parameters": {
+      "island_max_area_m2": 100000000,
+      "island_near_m": 25000,
+      "island_nearest_landfall": "Chinese mainland strictly nearer than foreign land; v1 refinement of the v0 island rule",
+      "min_land_touch_m2": 100.0,
+      "border_tie_m": 500.0,
+      "unadministered_land_provisional_frac": 0.01,
+      "corridor_half_width_m": 10000,
+      "china_admin_units": [
+        "China",
+        "Hong Kong S.A.R.",
+        "Macao S.A.R"
+      ],
+      "contested_admin_units": [
+        "Scarborough Reef",
+        "Taiwan"
+      ],
+      "ownership_policy": "Hong Kong and Macao map units are folded into PRC China; contested units are provisional within corridor reach and excluded beyond it; they are never folded or silently claimed."
+    },
+    "v1_rule_reproduction": {
+      "method": "re-run audit_domain_membership_v1.py --from-cache; v1 candidate CSV SHA-256 matches the value pinned in CHINA_DOMAIN_SUPERSESSION_v0_to_v1.json",
+      "v1_candidate_csv_sha256": "9dbd8cf5cca44ec81d0ce234b3780415a1287cb485b1c475514d94bd1fadb14b",
+      "rule_counts": {
+        "KEEP_MAINLAND_COASTAL": 2752,
+        "EXCLUDE_DOMAIN_ARTIFACT": 298,
+        "KEEP_ISLAND_COASTAL": 259,
+        "PROVISIONAL_UNRESOLVED": 10
+      }
+    }
+  },
+  "owner_decision_layer": {
+    "decision_date": "2026-10-08",
+    "source": "docs/data/owner_review/w10_owner_decision_table_v1.csv",
+    "source_csv_sha256": "9fea6115ec2664521e274f2125719610fe59c155f804460485ca8714f4611065",
+    "issue": "Issue #17",
+    "decisions": [
+      {
+        "cell_id": "CNA10K-R00231-C00093",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "UNADMINISTERED_LAND",
+        "owner_decision": "REMAIN_PROVISIONAL",
+        "membership_v1_1": "PROVISIONAL_OFFSHORE_POLICY",
+        "disclaimer_ref": ""
+      },
+      {
+        "cell_id": "CNA10K-R00263-C00134",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+        "owner_decision": "KEEP_ISLAND_COASTAL",
+        "membership_v1_1": "KEEP_ISLAND_COASTAL",
+        "disclaimer_ref": "CONTESTED_ADMIN_OPERATIONAL_INCLUSION_DISCLAIMER_V1"
+      },
+      {
+        "cell_id": "CNA10K-R00264-C00134",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+        "owner_decision": "KEEP_ISLAND_COASTAL",
+        "membership_v1_1": "KEEP_ISLAND_COASTAL",
+        "disclaimer_ref": "CONTESTED_ADMIN_OPERATIONAL_INCLUSION_DISCLAIMER_V1"
+      },
+      {
+        "cell_id": "CNA10K-R00264-C00135",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+        "owner_decision": "KEEP_ISLAND_COASTAL",
+        "membership_v1_1": "KEEP_ISLAND_COASTAL",
+        "disclaimer_ref": "CONTESTED_ADMIN_OPERATIONAL_INCLUSION_DISCLAIMER_V1"
+      },
+      {
+        "cell_id": "CNA10K-R00264-C00136",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+        "owner_decision": "KEEP_ISLAND_COASTAL",
+        "membership_v1_1": "KEEP_ISLAND_COASTAL",
+        "disclaimer_ref": "CONTESTED_ADMIN_OPERATIONAL_INCLUSION_DISCLAIMER_V1"
+      },
+      {
+        "cell_id": "CNA10K-R00265-C00136",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+        "owner_decision": "KEEP_ISLAND_COASTAL",
+        "membership_v1_1": "KEEP_ISLAND_COASTAL",
+        "disclaimer_ref": "CONTESTED_ADMIN_OPERATIONAL_INCLUSION_DISCLAIMER_V1"
+      },
+      {
+        "cell_id": "CNA10K-R00283-C00149",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "UNADMINISTERED_LAND",
+        "owner_decision": "REMAIN_PROVISIONAL",
+        "membership_v1_1": "PROVISIONAL_OFFSHORE_POLICY",
+        "disclaimer_ref": ""
+      },
+      {
+        "cell_id": "CNA10K-R00314-C00162",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "UNADMINISTERED_LAND",
+        "owner_decision": "REMAIN_PROVISIONAL",
+        "membership_v1_1": "PROVISIONAL_OFFSHORE_POLICY",
+        "disclaimer_ref": ""
+      },
+      {
+        "cell_id": "CNA10K-R00314-C00163",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "UNADMINISTERED_LAND",
+        "owner_decision": "REMAIN_PROVISIONAL",
+        "membership_v1_1": "PROVISIONAL_OFFSHORE_POLICY",
+        "disclaimer_ref": ""
+      },
+      {
+        "cell_id": "CNA10K-R00316-C00163",
+        "v1_candidate_status": "PROVISIONAL_UNRESOLVED",
+        "v1_rule_reason": "UNADMINISTERED_LAND",
+        "owner_decision": "REMAIN_PROVISIONAL",
+        "membership_v1_1": "PROVISIONAL_OFFSHORE_POLICY",
+        "disclaimer_ref": ""
+      }
+    ],
+    "contested_admin_disclaimer_ref": "CONTESTED_ADMIN_OPERATIONAL_INCLUSION_DISCLAIMER_V1",
+    "contested_admin_disclaimer": "Inclusion of cells intersecting contested-administered islands is an operational spatial-domain decision based on proximity to the mainland coast and does not constitute a statement on sovereignty or administrative status.",
+    "disclaimer_scope": "Applies to the five Kinmen cells whose owner decision is KEEP_ISLAND_COASTAL; their contested-admin evidence remains verbatim in membership_evidence / membership_reason.",
+    "offshore_reach_policy": {
+      "island_near_m_unchanged": 25000,
+      "reach_extended": false,
+      "policy": "The existing 25 km offshore-island reach is not extended and no ad-hoc cell-specific exception is created. Wanshan, Dachen (x2), Dongji and Juguang cells remain provisional until a separate, general, target-independent offshore-island policy is established with authoritative island / administration evidence.",
+      "review_window": "v1.1"
+    }
+  },
+  "target_independence": "decisions use admin ownership, GSHHS land/coastline and fixed-distance rules only; no labels, scene counts or model outputs are inputs. Murray/JRC layers are context columns only. The v1.1 layer contains owner spatial-policy decisions only; it still contains no labels, scene counts or model outputs.",
+  "counts": {
+    "total_cells": 3319,
+    "kept_cells": 3016,
+    "kept_mainland_cells": 2752,
+    "kept_island_cells": 264,
+    "excluded_cells": 298,
+    "provisional_cells": 5,
+    "provisional_offshore_policy_cells": 5,
+    "provisional_unresolved_cells": 0,
+    "decision_counts": {
+      "KEEP_MAINLAND_COASTAL": 2752,
+      "KEEP_ISLAND_COASTAL": 264,
+      "EXCLUDE_DOMAIN_ARTIFACT": 298,
+      "PROVISIONAL_OFFSHORE_POLICY": 5,
+      "PROVISIONAL_UNRESOLVED": 0
+    },
+    "kept_cell_union_area_km2": 301600.0,
+    "excluded_cell_union_area_km2": 29800.0,
+    "provisional_cell_union_area_km2": 500.0
+  },
+  "membership_changes": [
+    {
+      "cell_id": "CNA10K-R00231-C00093",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "PROVISIONAL_OFFSHORE_POLICY",
+      "rule_reason": "UNADMINISTERED_LAND",
+      "owner_decision": "REMAIN_PROVISIONAL"
+    },
+    {
+      "cell_id": "CNA10K-R00263-C00134",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "KEEP_ISLAND_COASTAL",
+      "rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+      "owner_decision": "KEEP_ISLAND_COASTAL"
+    },
+    {
+      "cell_id": "CNA10K-R00264-C00134",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "KEEP_ISLAND_COASTAL",
+      "rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+      "owner_decision": "KEEP_ISLAND_COASTAL"
+    },
+    {
+      "cell_id": "CNA10K-R00264-C00135",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "KEEP_ISLAND_COASTAL",
+      "rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+      "owner_decision": "KEEP_ISLAND_COASTAL"
+    },
+    {
+      "cell_id": "CNA10K-R00264-C00136",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "KEEP_ISLAND_COASTAL",
+      "rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+      "owner_decision": "KEEP_ISLAND_COASTAL"
+    },
+    {
+      "cell_id": "CNA10K-R00265-C00136",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "KEEP_ISLAND_COASTAL",
+      "rule_reason": "CONTESTED_ADMIN_NEARSHORE",
+      "owner_decision": "KEEP_ISLAND_COASTAL"
+    },
+    {
+      "cell_id": "CNA10K-R00283-C00149",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "PROVISIONAL_OFFSHORE_POLICY",
+      "rule_reason": "UNADMINISTERED_LAND",
+      "owner_decision": "REMAIN_PROVISIONAL"
+    },
+    {
+      "cell_id": "CNA10K-R00314-C00162",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "PROVISIONAL_OFFSHORE_POLICY",
+      "rule_reason": "UNADMINISTERED_LAND",
+      "owner_decision": "REMAIN_PROVISIONAL"
+    },
+    {
+      "cell_id": "CNA10K-R00314-C00163",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "PROVISIONAL_OFFSHORE_POLICY",
+      "rule_reason": "UNADMINISTERED_LAND",
+      "owner_decision": "REMAIN_PROVISIONAL"
+    },
+    {
+      "cell_id": "CNA10K-R00316-C00163",
+      "from": "PROVISIONAL_UNRESOLVED",
+      "to": "PROVISIONAL_OFFSHORE_POLICY",
+      "rule_reason": "UNADMINISTERED_LAND",
+      "owner_decision": "REMAIN_PROVISIONAL"
+    }
+  ],
+  "provisional_offshore_policy_cell_ids": [
+    "CNA10K-R00231-C00093",
+    "CNA10K-R00283-C00149",
+    "CNA10K-R00314-C00162",
+    "CNA10K-R00314-C00163",
+    "CNA10K-R00316-C00163"
+  ],
+  "production_eligibility": {
+    "eligible_statuses": [
+      "KEEP_ISLAND_COASTAL",
+      "KEEP_MAINLAND_COASTAL"
+    ],
+    "eligible_cells": 3016,
+    "excluded_statuses": [
+      "EXCLUDE_DOMAIN_ARTIFACT",
+      "PROVISIONAL_UNRESOLVED",
+      "PROVISIONAL_OFFSHORE_POLICY"
+    ],
+    "rule": "KEEP cells may be used downstream. PROVISIONAL_OFFSHORE_POLICY cells must be excluded from production datasets and primary inference; their cell IDs and full GIS evidence are preserved in this registry for the v1.1 offshore-policy review."
+  },
+  "evidence_preservation": {
+    "candidate_columns_carried_unchanged": [
+      "cell_id",
+      "grid_kind",
+      "utm_zone",
+      "row",
+      "col",
+      "intersection_area_m2",
+      "center_lon",
+      "center_lat",
+      "membership_v0",
+      "membership_v1_candidate",
+      "membership_reason",
+      "membership_evidence",
+      "murray_intertidal_coarse_fraction_30km",
+      "murray_intertidal_present_30km",
+      "water_context",
+      "admin_class",
+      "island_class"
+    ],
+    "contested_admin_evidence": "membership_evidence JSON (contested_admin_area_frac, dist_to_china_mainland_m, admin names) and membership_reason=CONTESTED_ADMIN_NEARSHORE are retained for all five Kinmen cells."
+  },
+  "checksums": {
+    "v0_registry_sha256": "144acb7a328692e871487f8ed58d50015800a70f91b64133d5e7cc950d5e6b25",
+    "v1_candidate_csv_sha256": "9dbd8cf5cca44ec81d0ce234b3780415a1287cb485b1c475514d94bd1fadb14b",
+    "v1_candidate_parquet_sha256": "5ec6d19e0e265985f056e08a9af46801304c9e59c0158f533ab1c32fd02f2842",
+    "owner_decision_table_csv_sha256": "9fea6115ec2664521e274f2125719610fe59c155f804460485ca8714f4611065",
+    "v1_1_core_frozen_csv_sha256": "935624f3e5bb85b0072c218eacf184b0d125992c8f012d519382a50798cf7b53",
+    "v1_1_core_frozen_parquet_sha256": "276cb13d0b331f8581def91420e9f2c1bea00a244c63edb5e58ad17e63c0a139"
+  }
+}

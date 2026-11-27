@@ -1,0 +1,3 @@
+# QA snapshot M1.5 2026-09-27T08:10:50Z system /usr/bin/python3.10
+SKIPPED [1] tests/integration/test_gee_integration.py:26: GEE credentials not configured; integration test skipped.
+102 passed, 1 skipped, 4 warnings in 33.24s

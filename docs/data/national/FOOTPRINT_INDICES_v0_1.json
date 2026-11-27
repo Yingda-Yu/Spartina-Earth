@@ -1,0 +1,119 @@
+{
+  "artifact": "footprint_indices",
+  "version": "v0_1",
+  "generated_utc": "2026-10-03T19:29:28+00:00",
+  "git_commit": "f1c1ea042cd5bf17d70117ac7bb0f1d5fbd1d2af",
+  "audit": "M2.3b-R1 PART C / PART E",
+  "supersedes": {
+    "wrs2": "work/national/footprints/wrs2_china_coast_index.csv (v0)",
+    "mgrs": "work/national/footprints/mgrs_china_coast_index.csv (v0)"
+  },
+  "derivation": "frames/tiles kept iff polygon intersects the union of the 3,319 retained W10 cell polygons; no hard-coded path/tile range",
+  "wrs2": {
+    "index_csv": "wrs2_china_coast_v0_1_index.csv",
+    "index_csv_sha256": "b3b3854d8d93d9bbb3c515dcdf93c9034f93ae3595aa4656820b3d439848b297",
+    "footprint_gpkg": "wrs2_china_coast_v0_1.gpkg",
+    "footprint_gpkg_sha256": "7a13b7bc5aabf7eb8a99cd63540c3841a22dffa6f68d39f4a56a44a3f96114e3",
+    "n_frames": 71,
+    "paths": [
+      114,
+      115,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126
+    ],
+    "sensor_era_rules": {
+      "nominal_windows": {
+        "landsat5": {
+          "start": "1984-03-01",
+          "end": "2013-06-05",
+          "note": "Landsat 5 TM: launch 1984-03-01; decommissioned 2013-06-05; acquisition gap ~2011-11-18 to 2012-05-10 (X-band transmitter)"
+        },
+        "landsat7": {
+          "start": "1999-04-15",
+          "end": "2024-01-19",
+          "note": "Landsat 7 ETM+: launch 1999-04-15; WRS-2 nominal science until 2022-04-05; Extended Science Mission from 2022-05-05; imaging suspended 2024-01-19; decommissioned 2025-06-04"
+        },
+        "landsat8": {
+          "start": "2013-02-11",
+          "end": null,
+          "note": "Landsat 8 OLI: launch/first light 2013-02-11; operational"
+        },
+        "landsat9": {
+          "start": "2021-09-27",
+          "end": null,
+          "note": "Landsat 9 OLI-2: launch 2021-09-27; public products from 2022-02"
+        },
+        "sentinel1": {
+          "start": "2014-10-03",
+          "end": null,
+          "note": "Sentinel-1A IW GRD on GEE from ~2014-10; 1B 2016-2021"
+        },
+        "sentinel2": {
+          "start": "2015-06-27",
+          "end": null,
+          "note": "Sentinel-2A from 2015-06-27; 2B from 2017-07; L1C/L2A on GEE"
+        }
+      },
+      "l7_slc_failure_utc": "2003-05-31",
+      "l7_nominal_wrs2_end_utc": "2022-04-05",
+      "l7_extended_resume_utc": "2022-05-05"
+    },
+    "v0_n_frames": 66,
+    "frames_added_vs_v0": [
+      "WRS2-D-P120-R038",
+      "WRS2-D-P120-R045",
+      "WRS2-D-P122-R032",
+      "WRS2-D-P123-R048",
+      "WRS2-D-P124-R048"
+    ],
+    "frames_dropped_vs_v0": []
+  },
+  "mgrs": {
+    "index_csv": "mgrs_china_coast_v0_1_index.csv",
+    "index_csv_sha256": "15a5e051d1c0c44dd918acb1933498c8d3b9fecd4674a7fc184faacfc79f2eac",
+    "tile_gpkg": "mgrs_china_coast_v0_1.gpkg",
+    "tile_gpkg_sha256": "113c35ab4aeb59e3bc777821a761bd2f16220d5db52026ecfca81f263d57c5de",
+    "n_tiles": 141,
+    "candidate_tiles_seen": 154,
+    "utm_zones": [
+      48,
+      49,
+      50,
+      51,
+      52
+    ],
+    "lat_bands": [
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T"
+    ],
+    "license_note": "MGRS is a geospatial standard (NGA); tile geometry computed locally with the mgrs Python package, no external dataset downloaded",
+    "v0_n_tiles": 128,
+    "tiles_added_vs_v0": [
+      "49QAE",
+      "49QBC",
+      "49QDE",
+      "49QGU",
+      "49QHD",
+      "50QJJ",
+      "50SPE",
+      "50SPF",
+      "50SQH",
+      "51RTH",
+      "51RTQ",
+      "51RWQ",
+      "51TTF"
+    ],
+    "tiles_dropped_vs_v0": []
+  }
+}

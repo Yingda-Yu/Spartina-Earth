@@ -1,0 +1,21 @@
+{
+  "manifest": "zhejiang_label_rights_v0",
+  "n_assets": 20,
+  "registry_fingerprint": "4b5d46b1a4e248bb4e27c071bf87f9984e5350d4218a3bc73a5bc5da5ae4e9e2",
+  "columns": [
+    "asset_id",
+    "label_tier",
+    "scientific_analysis_allowed",
+    "internal_training_allowed",
+    "validation_use_allowed",
+    "public_redistribution_allowed",
+    "derived_model_release_status",
+    "citation_required",
+    "permission_evidence",
+    "license_source",
+    "license_observed_date",
+    "rights_status",
+    "rights_row_fingerprint",
+    "notes"
+  ]
+}

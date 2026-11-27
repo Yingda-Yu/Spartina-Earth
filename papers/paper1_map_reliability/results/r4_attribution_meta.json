@@ -1,0 +1,84 @@
+{
+  "created": "2026-11-08 13:40:04",
+  "git_commit": "f2c736843aceedd78d7f0b2acd49570ab714600f",
+  "positive_union_px": 90641,
+  "direct_px": 59440,
+  "assigned_px": 31201,
+  "assigned_pct": 34.42,
+  "products": [
+    {
+      "product": "CMSA",
+      "positive_px": 56898,
+      "direct_px": 38615,
+      "assigned_px": 18283,
+      "assigned_pct": 32.13
+    },
+    {
+      "product": "CMSSM",
+      "positive_px": 59079,
+      "direct_px": 35901,
+      "assigned_px": 23178,
+      "assigned_pct": 39.23
+    },
+    {
+      "product": "GEODATA",
+      "positive_px": 52123,
+      "direct_px": 37348,
+      "assigned_px": 14775,
+      "assigned_pct": 28.35
+    }
+  ],
+  "region_distance_summary": [
+    {
+      "region": "Bohai_Yellow",
+      "n_assigned_px": 7678,
+      "dist_median_km": 2.783,
+      "dist_p90_km": 45.226,
+      "dist_p99_km": 53.219,
+      "dist_max_km": 53.968,
+      "n_beyond_1km": 6016,
+      "n_beyond_5km": 2701,
+      "n_beyond_10km": 1875,
+      "n_beyond_20km": 1777,
+      "n_beyond_50km": 478
+    },
+    {
+      "region": "East_China",
+      "n_assigned_px": 22262,
+      "dist_median_km": 6.825,
+      "dist_p90_km": 15.92,
+      "dist_p99_km": 50.413,
+      "dist_max_km": 53.317,
+      "n_beyond_1km": 20225,
+      "n_beyond_5km": 13634,
+      "n_beyond_10km": 7540,
+      "n_beyond_20km": 692,
+      "n_beyond_50km": 237
+    },
+    {
+      "region": "South_China",
+      "n_assigned_px": 1261,
+      "dist_median_km": 1.612,
+      "dist_p90_km": 5.532,
+      "dist_p99_km": 28.103,
+      "dist_max_km": 28.657,
+      "n_beyond_1km": 908,
+      "n_beyond_5km": 188,
+      "n_beyond_10km": 70,
+      "n_beyond_20km": 24,
+      "n_beyond_50km": 0
+    }
+  ],
+  "policies": {
+    "A": "direct marine-polygon membership only (residual excluded)",
+    "B": "nearest assignment without cap (E5d/E5e policy)",
+    "C": "nearest assignment with cap; primary 10 km; sensitivity [5, 10, 20, 50] km"
+  },
+  "primary_cap_rationale": "intertidal Spartina habitat lies within a few km of the shoreline; Natural Earth 10m coastline generalization error is of the same order, so caps beyond ~10 km increasingly attribute pixels across genuinely different coasts",
+  "outputs": [
+    "results/r4_region_assignment_sensitivity.csv",
+    "results/r4_assignment_distances.csv",
+    "figures/fig_r4_region_assignment.pdf"
+  ],
+  "runtime_s": 3256.0
+}

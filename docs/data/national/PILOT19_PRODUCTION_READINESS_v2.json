@@ -1,0 +1,62 @@
+{
+  "decisions": {
+    "benchmark_issue_20": "NOT_READY_FOR_ISSUE_20",
+    "production": "NO_GO_REQUIRES_FIX"
+  },
+  "gate_status": [
+    {
+      "evidence": "live minimal call OK under owner project; live QA reducers and Drive restore all succeed",
+      "gate_id": "N1_GEE_PROJECT_AND_AUTH",
+      "status": "CLOSED"
+    },
+    {
+      "evidence": "52 LANDED with manifests and SHA-256; 2 active EXPORT_FAILED; D1 halted on F1-F3",
+      "gate_id": "N2_PILOT_PIXEL_EXPORT",
+      "status": "PARTIAL_52_OF_194_THEN_STOP"
+    },
+    {
+      "evidence": "post-export geometric gate FIRED on 4 products: 3 S2 datatake-edge empties (coverage 0.0 vs STRICT_FULL), 1 S1 0.1214; all other alignment/geometry dimensions PASS/WARN; systematic misregistration of valid products: NONE observed",
+      "gate_id": "N3_PHASE_H_QA_GATES",
+      "status": "FAIL_STOP"
+    },
+    {
+      "evidence": "52 products scanned: no all-zero/constant informative product, no scaling/band/order/SCL/double-log failure; Landsat r2 VALID verified live on subset (rel 0.0, NaN 0); cloud-driven low VALID is WARN; open: S1 -80 dB floor policy (F3)",
+      "gate_id": "N4_PHASE_I_PIXEL_QA",
+      "status": "PARTIAL_PASS"
+    },
+    {
+      "evidence": "354,086,081 bytes landed; L5/L7 LZW now measured (1.702/1.073); national minimal 257.7 GB and standard 1.401 TB EXTRAPOLATED; TODO_VERIFY at 194",
+      "gate_id": "N5_STORAGE",
+      "status": "MEASURED_PARTIAL"
+    },
+    {
+      "evidence": "148 lifetime tasks, 134 polled COMPLETED plus 14 orphaned tasks synced COMPLETED, 0 backend failures/retries; throughput bound by Drive staging and 180 s propagation, not compute; quota probing not performed",
+      "gate_id": "N6_GEE_DRIVE_OPERATIONS",
+      "status": "OBSERVED"
+    }
+  ],
+  "generated_utc": "2026-10-09T08:31:46.211325+00:00",
+  "git_commit": "dd8c84cf0ead83a106df702eb08140c64f5c11cf",
+  "issue": 19,
+  "not_authorized": [
+    "national production",
+    "Issue #20",
+    "model training",
+    "SpartinaFM",
+    "plan scope changes beyond 20 frozen cells"
+  ],
+  "phases": [
+    "D0",
+    "D1(partial)",
+    "H",
+    "I(partial)"
+  ],
+  "product": "national_pilot19_production_readiness_v2",
+  "required_fixes_before_resume": [
+    "owner-authorized revision of frozen S2/S1 event selection: live actual-mask coverage gate (>=0.95 near-full); replacement revisits verified available within DOY 260-320",
+    "owner decision on S1 -80 dB floor handling (mask preferred); update audit policy without weakening fidelity identity checks",
+    "re-run D1 to 194 under r2 VALID; full H/I; storage + readiness recomputed"
+  ],
+  "status": "RECOMMENDATION_ONLY; launches nothing; owner decision required",
+  "supersedes": "PILOT19_PRODUCTION_READINESS_v1 (retained for traceability)"
+}

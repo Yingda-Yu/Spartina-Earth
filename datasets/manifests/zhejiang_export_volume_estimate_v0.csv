@@ -1,0 +1,20 @@
+tier,sensor,n_cell_event_pairs,n_cells_touched,n_cell_years,pixels_estimate,bytes_per_pixel_assumed,gigabytes_estimate,cell_grid,estimate_basis
+minimal_m21b_first_subset,landsat8,28,7,14,3111108,13,0.04,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+minimal_m21b_first_subset,landsat9,65,30,44,7222215,13,0.09,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+minimal_m21b_first_subset,sentinel1,30,30,30,30000000,8,0.24,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+minimal_m21b_first_subset,sentinel2,180,30,90,180000000,20,3.6,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+minimal_m21b_first_subset,__TOTAL__,303,,178,220333323,,3.97,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,landsat5,4107,113,2083,456332877,13,5.93,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,landsat7,3996,113,1943,443999556,13,5.77,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,landsat8,1316,113,796,146222076,13,1.9,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,landsat9,392,113,295,43555512,13,0.57,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,sentinel1,1240,106,344,1240000000,8,9.92,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,sentinel2,1972,62,463,1972000000,20,39.44,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+standard_quality_biological_windows,__TOTAL__,13023,,5924,4302110021,,63.53,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,landsat5,53639,113,3051,5959882929,13,77.48,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,landsat7,55258,113,2825,6139771638,13,79.82,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,landsat8,34325,113,1582,3813885075,13,49.58,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,landsat9,12794,113,565,1421554134,13,18.48,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,sentinel1,8521,112,820,8521000000,8,68.17,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,sentinel2,84069,71,710,84069000000,20,1681.38,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed
+full_candidate_archive_all_dates,__TOTAL__,248606,,9553,109925093776,,1974.91,ZJ_U51_10K,cell_event_pairs x pixels_per_cell x bytes_per_pixel; PLANNING_ESTIMATE_NOT_MEASURED; no export executed

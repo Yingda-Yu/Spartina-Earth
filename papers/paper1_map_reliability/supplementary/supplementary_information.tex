@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\title{Supplementary Information for:\\
+Spatial Agreement and Regional Uncertainty in Multi-Source Maps of
+\textit{Spartina alterniflora} along the Chinese Coast}
+
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+This Supplementary Information documents analyses that are superseded by the
+results in the main text. They are retained because the underlying result
+files remain part of the released experiment record and are referenced by the
+main text for traceability. No number in this supplement supports any claim
+in the main text.
+
+\section*{S1. Superseded meridian-band regionalisation}
+\label{sec:s1-bands}
+
+\subsection*{S1.1 Description}
+
+A preliminary version of the regional analysis split the harmonized
+EPSG:3410 domain at $x = 11{,}000{,}000$\,m and $x = 11{,}500{,}000$\,m and
+labelled the three slices ``Bohai/Yellow Sea'', ``East China Sea'' and
+``South China Sea''. EPSG:3410 is a cylindrical equal-area projection in
+which $x$ is linear in longitude (approximately 96.3\,km per degree), so
+those splits were meridian bands centred near 114.2\,$^\circ$E and
+119.4\,$^\circ$E, not sea regions. The correspondence between the bands and
+the labelled seas was inverted: the westernmost band was labelled
+``South China Sea'' although it intersects the East China Sea coast, and
+the easternmost band was labelled ``Bohai/Yellow Sea'' although it
+intersects the South China coast.
+
+All regional statistics in the main text now use IHO-derived marine
+polygons (main text, Methods). The band analysis was retained for
+traceability under \texttt{results/superseded\_e5\_longitude\_bands/}
+in the \textit{Spartina~Earth} repository.
+
+\subsection*{S1.2 Band-shift stress test}
+
+The band-shift experiment (band boundaries shifted by $\pm$250 and
+$\pm$500\,km in EPSG:3410) was a stress test of that arbitrary
+segmentation, not a geographic sensitivity analysis. Its numbers are
+preserved in
+\texttt{results/superseded\_e5\_longitude\_bands/e5b\_boundary\_sensitivity.csv}.
+They describe sensitivity to meridian-band placement only; they do not
+describe Bohai/Yellow Sea, East China Sea or South China Sea as delimited
+by IHO marine polygons, and they are not used to support any claim in the
+main text. Shifting authoritative marine-polygon coastlines by a fixed
+distance, by contrast, is not a meaningful perturbation and was therefore
+not performed (main text, Definition sensitivity).
+
+\end{document}

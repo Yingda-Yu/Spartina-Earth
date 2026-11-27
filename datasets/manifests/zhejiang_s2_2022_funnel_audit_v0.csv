@@ -1,0 +1,34 @@
+bay_id,year,window,doy_start,doy_end,stage_id,count,note
+ZJ-HZB,2022,autumn_primary_v1,260,320,A_raw_census_rows,373.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,B_physical_unique_scenes,373.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,C_autumn_scenes,63.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,D_autumn_datatake_groups_intersecting_bay,25.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,E_cell_group_candidate_pairs,573.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,G_coverage_pass_pairs_ge_0.99,399.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,H_valid_pixel_layer,,DEFERRED_PIXEL_SCL_CLOUD_VALIDATION_TO_M21B
+ZJ-HZB,2022,autumn_primary_v1,260,320,I_v0_cloud_pass_groupwide,0.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,J_v0_final_quality_pairs,0.0,
+ZJ-HZB,2022,autumn_primary_v1,260,320,I_R1_cloud_pass_contributing,51.0,contributing-scene cloud max<=0.30 among coverage-passing pairs
+ZJ-HZB,2022,autumn_primary_v1,260,320,J_R1_final_quality_pairs,51.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,A_raw_census_rows,147.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,B_physical_unique_scenes,147.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,C_autumn_scenes,26.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,D_autumn_datatake_groups_intersecting_bay,25.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,E_cell_group_candidate_pairs,750.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,G_coverage_pass_pairs_ge_0.99,750.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,H_valid_pixel_layer,,DEFERRED_PIXEL_SCL_CLOUD_VALIDATION_TO_M21B
+ZJ-SMB,2022,autumn_primary_v1,260,320,I_v0_cloud_pass_groupwide,0.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,J_v0_final_quality_pairs,0.0,
+ZJ-SMB,2022,autumn_primary_v1,260,320,I_R1_cloud_pass_contributing,150.0,contributing-scene cloud max<=0.30 among coverage-passing pairs
+ZJ-SMB,2022,autumn_primary_v1,260,320,J_R1_final_quality_pairs,150.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,A_raw_census_rows,584.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,B_physical_unique_scenes,584.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,C_autumn_scenes,100.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,D_autumn_datatake_groups_intersecting_bay,25.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,E_cell_group_candidate_pairs,400.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,G_coverage_pass_pairs_ge_0.99,375.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,H_valid_pixel_layer,,DEFERRED_PIXEL_SCL_CLOUD_VALIDATION_TO_M21B
+ZJ-YQB,2022,autumn_primary_v1,260,320,I_v0_cloud_pass_groupwide,0.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,J_v0_final_quality_pairs,0.0,
+ZJ-YQB,2022,autumn_primary_v1,260,320,I_R1_cloud_pass_contributing,89.0,contributing-scene cloud max<=0.30 among coverage-passing pairs
+ZJ-YQB,2022,autumn_primary_v1,260,320,J_R1_final_quality_pairs,89.0,

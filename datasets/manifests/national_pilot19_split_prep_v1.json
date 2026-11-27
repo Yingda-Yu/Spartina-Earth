@@ -1,0 +1,70 @@
+{
+  "product": "national_pilot19_split_prep_v1",
+  "issue": 19,
+  "phase": "L (split-preparation fields only)",
+  "generated_utc": "2026-10-08T21:07:57.741169+00:00",
+  "git_commit": "5147183c8c84541cf2da0b957f9a6e7ce8fa0b97",
+  "split_status": "NO_SPLIT_CREATED_ISSUE19",
+  "no_split_statement": "No train/validation/test assignment exists in this product. split_assigned is False for every cell. Split creation, HPO and any training are deferred to Issue #20 and require explicit owner authorization.",
+  "grouping": {
+    "spatial_unit": "W10_CELL (10 km China Albers lattice cell)",
+    "temporal_rule": "scenes of the same cell across dates/sensors are grouped",
+    "buffer_m": 250.0,
+    "leakage_utility": "spartina.evaluation.splits.assert_spatially_disjoint; a split manifest plus leakage report are prerequisites of any future training use"
+  },
+  "recommendation": {
+    "pilot_cell_role": "PILOT_WITNESS_HOLDOUT_CANDIDATE",
+    "rationale": "keep the 20 controlled pilot cells out of training so the first national read and the Phase H/I QA remain uncontaminated (Phase K gate G7); recommendation only"
+  },
+  "field_groups": {
+    "geometry": [
+      "albers_row",
+      "albers_col",
+      "albers_xmin_m",
+      "albers_ymin_m",
+      "albers_xmax_m",
+      "albers_ymax_m",
+      "cell_size_m",
+      "utm_zone"
+    ],
+    "region_and_stratum": [
+      "region_province",
+      "coastal_segment",
+      "label_stratum",
+      "agreement_category_2020"
+    ],
+    "label_presence": [
+      "geodata_window_overlap_1990",
+      "geodata_window_overlap_2000",
+      "geodata_window_overlap_2015",
+      "geodata_window_overlap_2020",
+      "geodata_positive_in_cell_1990",
+      "geodata_positive_in_cell_2000",
+      "geodata_positive_in_cell_2015",
+      "geodata_positive_in_cell_2020",
+      "cmsa_positive_in_cell_2017",
+      "cmsa_positive_in_cell_2018",
+      "cmsa_positive_in_cell_2019",
+      "cmsa_positive_in_cell_2020",
+      "cmsa_positive_in_cell_2021",
+      "cmssm_positive_in_cell_2020_30m",
+      "cmssm_positive_in_cell_2020_10m"
+    ],
+    "split_control": [
+      "spatial_grouping_unit",
+      "temporal_grouping_rule",
+      "leakage_check_utility",
+      "leakage_buffer_m",
+      "split_assigned",
+      "split_status",
+      "recommended_role"
+    ]
+  },
+  "n_rows": 20,
+  "checksums": {
+    "panel_csv_sha256": "6c2d3a2dfa9062c1e14f9884c4c8f4aefb30bc8076d8312602e65bad793bd4bd",
+    "supports_csv_sha256": "aea106fbfdb4dc115de8fa7ee9b96d6872fcecaeb0b17a5eee1204fae9e5eb84",
+    "silver_policy_json_sha256": "c905a2ddd786bc109d7f470912c0ea3676d2f71bae1c7e4ec82ffe661fb49647",
+    "split_prep_csv_sha256": "00b45e629866f5a13f8b763260cd2f2615e9d1c9cf2196a9b84aff4ea764c465"
+  }
+}

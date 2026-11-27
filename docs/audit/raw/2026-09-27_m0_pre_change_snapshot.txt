@@ -1,0 +1,223 @@
+# Spartina Earth M0 pre-change snapshot
+Captured (server local time): 2026-09-27T06:28:43+08:00
+
+=== pwd ===
+/data/yingda/Spartina-Earth
+
+=== git status ===
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.trae/
+	docs/
+	old datasets/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+=== git remote -v ===
+origin	https://github.com/Yingda-Yu/Spartina-Earth.git (fetch)
+origin	https://github.com/Yingda-Yu/Spartina-Earth.git (push)
+
+=== git branch --show-current ===
+main
+
+=== git log --oneline -10 ===
+2be4672 Create README.md
+40fc5c5 MA
+c92cee7 AP.drawio
+45f4f6f ALL.drawio
+8f611f7 1.drawio
+e39fffc 1Spatina Net.drawio
+054aca0 更新adsSpatina Net.drawio
+13004bb 更新8 Spatina Net.drawio
+3a8215a Spatina Net8.drawio
+51f2e71 Spatina Net7.drawio
+
+=== find . -maxdepth 2 -type f (excl .git, old datasets, .trae) ===
+./10 image show.py
+./11 mask build.py
+./1 Image capture.py
+./2 CNN Set Up.py
+./3 U-NET.py
+./4 coco json process.py
+./5 data set preparatioin.py
+./6 image size test.py
+./7 image adjust.py
+./8 coco json information.py
+./9 coco json adjust.py
+./未命名绘图.drawio
+./.idea/Identification of Spartina alterniflora.iml
+./.idea/misc.xml
+./.idea/modules.xml
+./.idea/vcs.xml
+./.idea/workspace.xml
+./play.py
+./README.md
+./Spartina.drawio
+./Spatina Net.drawio
+
+=== du -sh . ===
+4.7G	.
+
+=== python3 --version / which ===
+Python 3.10.12
+/usr/bin/python3
+
+=== pip3 --version ===
+pip 22.0.2 from /usr/lib/python3/dist-packages/pip (python 3.10)
+
+=== conda env list ===
+
+# conda environments:
+#
+# * -> active
+# + -> frozen
+base                     /data/yingda/software/miniconda3
+comfy                    /data/yingda/software/miniconda3/envs/comfy
+glaucoma-research        /data/yingda/software/miniconda3/envs/glaucoma-research
+glaucoma-vf              /data/yingda/software/miniconda3/envs/glaucoma-vf
+kwallet                  /data/yingda/software/miniconda3/envs/kwallet
+kwallet-gpu              /data/yingda/software/miniconda3/envs/kwallet-gpu
+pcbgen                   /data/yingda/software/miniconda3/envs/pcbgen
+
+
+=== free -h ===
+               total        used        free      shared  buff/cache   available
+Mem:           503Gi        30Gi       275Gi       1.1Gi       197Gi       467Gi
+Swap:          286Gi       108Gi       178Gi
+
+=== df -h /data ===
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdb        7.3T  4.5T  2.7T  63% /data
+
+=== nproc / cpu model ===
+96
+Model name:                              Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz
+
+=== nvidia-smi ===
+Sun Sep 27 06:28:44 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.159.03             Driver Version: 580.159.03     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3090        Off |   00000000:1A:00.0 Off |                  N/A |
+| 32%   24C    P8             30W /  350W |   12576MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA GeForce RTX 3090        Off |   00000000:1B:00.0 Off |                  N/A |
+| 32%   23C    P8             21W /  350W |      21MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA GeForce RTX 3090        Off |   00000000:1C:00.0 Off |                  N/A |
+| 32%   24C    P8             22W /  350W |      21MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA GeForce RTX 3090        Off |   00000000:1D:00.0 Off |                  N/A |
+| 32%   25C    P8             24W /  350W |     416MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   4  NVIDIA GeForce RTX 3090        Off |   00000000:1E:00.0 Off |                  N/A |
+| 32%   24C    P8             17W /  350W |      23MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   5  NVIDIA GeForce RTX 3090        Off |   00000000:3D:00.0 Off |                  N/A |
+| 32%   23C    P8             21W /  350W |    1783MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   6  NVIDIA GeForce RTX 3090        Off |   00000000:3E:00.0 Off |                  N/A |
+| 32%   52C    P2            192W /  350W |    1828MiB /  24576MiB |     40%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   7  NVIDIA GeForce RTX 3090        Off |   00000000:3F:00.0 Off |                  N/A |
+| 32%   40C    P2            102W /  350W |    2351MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   8  NVIDIA GeForce RTX 3090        Off |   00000000:40:00.0 Off |                  N/A |
+| 32%   26C    P8             26W /  350W |     420MiB /  24576MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   9  NVIDIA GeForce RTX 3090        Off |   00000000:41:00.0 Off |                  N/A |
+| 89%   67C    P2            343W /  350W |    4773MiB /  24576MiB |    100%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    0   N/A  N/A          784215      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784216      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784217      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784218      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784219      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784220      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784221      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          784222      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795083      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795084      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795085      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795086      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795087      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795088      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795089      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          795090      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843105      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843106      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843107      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843108      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843109      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843110      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843111      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          843112      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864130      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864131      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864132      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864133      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864134      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864135      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864136      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A          864137      C   ...3/envs/glaucoma-vf/bin/python        256MiB |
+|    0   N/A  N/A         1220135      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220136      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220137      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220138      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220139      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220140      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220141      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220142      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220147      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220148      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220149      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220150      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220151      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220152      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220153      C   .../glaucoma-research/bin/python        256MiB |
+|    0   N/A  N/A         1220154      C   .../glaucoma-research/bin/python        256MiB |
+|    1   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    2   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    3   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    4   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    5   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    5   N/A  N/A          319660      C   python3                                 256MiB |
+|    5   N/A  N/A         2888353      C   python3                                 256MiB |
+|    5   N/A  N/A         3169516      C   python3                                 576MiB |
+|    5   N/A  N/A         3744630      C   python3                                 256MiB |
+|    6   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    6   N/A  N/A          319660      C   python3                                1802MiB |
+|    7   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    7   N/A  N/A         3744630      C   python3                                1926MiB |
+|    8   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    9   N/A  N/A            5749      G   /usr/lib/xorg/Xorg                        4MiB |
+|    9   N/A  N/A         2888353      C   python3                                 600MiB |
+|    9   N/A  N/A         4037546      C   python3                                4144MiB |
++-----------------------------------------------------------------------------------------+
+
+=== credential/env scan results (empty = none found) ===
+(end scan)

@@ -1,0 +1,38 @@
+{
+  "artifact": "china_domain_v1_context_passport",
+  "generated_utc": "2026-10-04T07:05:12+00:00",
+  "access_date": "2026-10-04",
+  "git_commit": "60c5dce35ad630960b6ba58d2e41d10f7e034b6b",
+  "analysis_scale_m": 30000,
+  "context_role": "MURRAY_JRC_CONTEXT_ONLY_NEVER_A_SPARTINA_LABEL",
+  "not_a_tide_proxy": "JRC Global Surface Water reports all surface water; it does not distinguish tidal inundation. Murray intertidal covers 1984-2016 only. Neither layer feeds membership or labels.",
+  "sources": [
+    {
+      "name": "Murray Global Intertidal Change Classification v1.1",
+      "gee_asset": "UQ/murray/Intertidal/v1_1/global_intertidal",
+      "version": "v1_1",
+      "native_resolution_m": 30,
+      "temporal_coverage": "11 three-year epochs, 1984-2016",
+      "band_used": "classification bit 0 (1=intertidal), max over 11 epochs; 30 km scale coarse support indicator (count + weighted area), NOT a precise intertidal area measurement",
+      "license": "CC BY 4.0",
+      "catalog_url": "https://developers.google.com/earth-engine/datasets/catalog/UQ_murray_Intertidal_v1_1_global_intertidal",
+      "citation_doi": "10.1038/s41586-018-0805-8",
+      "output_csv": "work/national/domain_v1/context_murray_v0.csv",
+      "output_sha256": "11bc961c224a919c8e16c7ee1ce16504e68dc06ad13a5707dd9b20d7526cef17"
+    },
+    {
+      "name": "JRC Global Surface Water Mapping Layers v1.4",
+      "gee_asset": "JRC/GSW1_4/GlobalSurfaceWater",
+      "version": "v1.4 (1_4)",
+      "native_resolution_m": 30,
+      "temporal_coverage": "1984-2021",
+      "bands_used": "occurrence, seasonality, max_extent",
+      "license": "Copernicus Programme, free of charge without restriction",
+      "attribution_required": "Source: EC JRC/Google",
+      "catalog_url": "https://developers.google.com/earth-engine/datasets/catalog/JRC_GSW1_4_GlobalSurfaceWater",
+      "citation_doi": "10.1038/nature20584",
+      "output_csv": "work/national/domain_v1/context_jrc_v0.csv",
+      "output_sha256": "6ddb1af43f61dd9e35a2b987686d4cdedcc327d381cf74b9503d74b2a9ccece4"
+    }
+  ]
+}

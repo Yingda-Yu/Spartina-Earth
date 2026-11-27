@@ -1,0 +1,16 @@
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:spatial_agreement}Pair-wise 2020 spatial agreement at 30\,m
+  resolution (EPSG:3410). Areas are harmonized rasterized totals from this study's
+  rasterization protocol. Disagreement masses ($only\_A$, $only\_B$) quantify
+  spatial conflict; \emph{not} to be interpreted as omission/commission errors.}
+\begin{tabular}{l c c c c c c}
+\toprule
+Product Pair & IoU & Dice & $A$ (km$^2$) & $B$ (km$^2$) & Both & Disagree \\
+\midrule
+CMSA vs.\ CM-SSM & 0.5375 & 0.6992 & 570.11 & 592.35 & 406.39 & 349.68 \\
+CMSA vs.\ GEODATA & 0.4437 & 0.6147 & 570.11 & 520.38 & 335.14 & 420.21 \\
+CM-SSM vs.\ GEODATA & 0.3423 & 0.5101 & 592.35 & 520.38 & 283.78 & 545.17 \\
+\bottomrule
+\end{tabular}
+\end{table}

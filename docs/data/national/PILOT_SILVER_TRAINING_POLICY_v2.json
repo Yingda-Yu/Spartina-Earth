@@ -1,0 +1,97 @@
+{
+  "family_tiers_retained": [
+    {
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "GEODATA_1990"
+    },
+    {
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "GEODATA_2000"
+    },
+    {
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "GEODATA_2015"
+    },
+    {
+      "license_class": "RESTRICTED_RESEARCH_ONLY",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "GEODATA_2020"
+    },
+    {
+      "license_class": "CC-BY-NC-4.0",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "CMSA_2017"
+    },
+    {
+      "license_class": "CC-BY-NC-4.0",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "CMSA_2018"
+    },
+    {
+      "license_class": "CC-BY-NC-4.0",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "CMSA_2019"
+    },
+    {
+      "license_class": "CC-BY-NC-4.0",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "CMSA_2020"
+    },
+    {
+      "license_class": "CC-BY-NC-4.0",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "CMSA_2021"
+    },
+    {
+      "license_class": "SOURCE_LICENSE_CONFLICT",
+      "license_gate_remaining": true,
+      "proposed_usage_tier": "SILVER_TRAINING_ELIGIBLE",
+      "source_key": "CM-SSM_2020"
+    }
+  ],
+  "generated_utc": "2026-10-09T08:30:54.299412+00:00",
+  "git_commit": "dd8c84cf0ead83a106df702eb08140c64f5c11cf",
+  "gold_labels_current_count": 0,
+  "issue": 19,
+  "not_done_here": [
+    "no model training",
+    "no train/val/test split",
+    "no registry flag change",
+    "no SILVER bytes redistributed"
+  ],
+  "phase": "D1 partial real-pixel update; policy still not in force",
+  "product": "PILOT_SILVER_TRAINING_POLICY_V2",
+  "real_pixel_evidence_update": {
+    "family_status_change": "NONE - all v1 tiers retained",
+    "geometric_failings": "4 FAILs are EO source-coverage defects (S2 datatake-edge empties, partial S1 footprint), not label defects; affected label adapters remain valid geometry; SILVER eligibility is neither granted nor revoked at family level because of them",
+    "label_adapter_alignment": "no FAIL on any landed product; nested-lattice rule applied for 10 m vs 30 m; cross-year supports used for occupancy alignment only",
+    "landed_products_reviewed": 52,
+    "new_gate_note": "training eligibility additionally requires the Issue #19 coverage gate to pass on the exact EO product paired with each SILVER support: a zero/partial coverage EO window cannot supervise even occupancy labels",
+    "no_label_inversion_found": true,
+    "qa_verdicts": {
+      "FAIL": 4,
+      "PASS": 25,
+      "WARN": 23
+    }
+  },
+  "remaining_gates_before_any_activation": [
+    "Issue #19 D1 stop cleared (frozen selection repaired with live actual-mask coverage verification; all 194 land; Phase H/I pass)",
+    "owner explicit approval; registry flags updated in a separate commit",
+    "license gates remain as classified in v1 (RESTRICTED_RESEARCH_ONLY / CC-BY-NC-4.0 internal research only; SOURCE_LICENSE_CONFLICT most-restrictive; redistribution prohibited)",
+    "spatially disjoint split manifest with leakage report (Issue #20, not started)"
+  ],
+  "status": "POLICY_RECOMMENDATION_NOT_IN_FORCE; no training, no split; supersedes nothing in v1 - carries v1 forward with real-pixel evidence notes",
+  "supersedes": "none; framework and gates remain PILOT_SILVER_TRAINING_POLICY_V1"
+}

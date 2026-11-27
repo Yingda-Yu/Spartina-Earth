@@ -1,0 +1,54 @@
+{
+  "product": "V022_PROTOCOL_CHECKSUM",
+  "issue": 21,
+  "protocol_version": "0.2.2",
+  "protocol_status": "PROPOSED_NOT_EFFECTIVE",
+  "supersedes": null,
+  "preserves": [
+    "v0.2 Phase J QA contract (frozen, unmodified)",
+    "V0_2_1_FINAL_READINESS_DECISION.json NOT_READY result",
+    "all original v0.2 experiment artifacts and panel verdicts"
+  ],
+  "owner_approval": {
+    "status": "PENDING",
+    "approved_by": null,
+    "approval_reference": null,
+    "authorization_scope_of_this_phase": "Phase 2C authorized protocol finalization, bit decode re-verification, test design, and independent QA verification only; effectiveness requires separate Owner approval",
+    "effective_time_utc": null
+  },
+  "artifacts_sha256": {
+    "qa_bit_audit": "446f2346788ccafb2eaeb7ccebc10c1f198acd0205a9527b1a0df3351914ba3c",
+    "valid_consistency": "5210ed386acf3749e114abc79d993b60a44411b635cd77ac243fb3a1a8c9aece",
+    "protocol_final": "b634f4f5c5d3c17468b5a9808eb2516dab39d92324e3da7054ce2908d177f74a",
+    "regression_report": "b5ab3d612d7d25ba93425008389f79dc2b270e311244626396643d2fb1856957",
+    "regression_test": "2036e68646bc6c22bd419e64b8aac316fb246ee7b2ef8cb4b7641ebab5473fc2",
+    "regression_results": "206095e3d0a60b031bd5d1863cdf021d0387489938aa1de7a44ba86c96eef158",
+    "impact_analysis_2b": "2f57b13388efe6743c8a955fc77fcff764111d26e9d69a29533839383bd5cbab",
+    "radsat_evidence": "docs/roadmap/QA_RADSAT_EVIDENCE_REPORT.md",
+    "regression_execution": "docs/roadmap/V022_REGRESSION_EXECUTION_REPORT.md",
+    "raster_regression_csv": "benchmarks/spartinashift/v0_2_1_repair/V022_REGRESSION_TESTS/V022_RASTER_LEVEL_REGRESSION.csv",
+    "raster_regression_summary": "benchmarks/spartinashift/v0_2_1_repair/V022_REGRESSION_TESTS/V022_RASTER_LEVEL_REGRESSION_SUMMARY.json",
+    "raster_regression_script": "benchmarks/spartinashift/v0_2_1_repair/V022_REGRESSION_TESTS/raster_level_regression.py",
+    "final_acceptance": "docs/roadmap/V022_FINAL_ACCEPTANCE_REPORT.md"
+  },
+  "document_checksums_recomputed": true,
+  "regression_assertions_all_pass": true,
+  "v0_2_2_reclassifications_expected_after_approval": [
+    {
+      "product_id": "V021_R00372-C00139_L8_2015_E",
+      "from": "HARD_ERROR",
+      "to": "HONEST_REJECTION_ZERO_QA_VALID_SURFACE_PIXELS",
+      "effect_on_gate_counts": "none (product stays out of accepted denominator; cell keeps both-year support via other slots)"
+    }
+  ],
+  "generated_utc": "2026-11-27T07:19:25.121567+00:00",
+  "git_commit": "87eb333e4bd67d53b1ef3dad84fdbcc1d05d9c8e",
+  "phase_2c_1": {
+    "independent_verification": "complete (see V022_FINAL_ACCEPTANCE_REPORT.md)",
+    "qa_radsat_target_product": "DIRECT: live re-read 152766 px, min=max=0 (QA_RADSAT_EVIDENCE_REPORT.md)",
+    "clean_worktree_rerun": "exit 0, all 7 assertions pass, identical reclassification list (git worktree 87eb333 + untracked-data symlink)",
+    "raster_level_regression": "478 optical: 198 fully readable, 280 panel qapixel pruned locally (recorded), 0 unreadable; zero-valid subset 2/2 covered; exactly 1 v0.2.2 reclassification",
+    "denominator_semantics": "fixed in V022_FINAL_ACCEPTANCE_REPORT.md section 3"
+  },
+  "document_checksum": "6b4dfb17268d68ce26535823f9baa792460dd382304b935a04c6b729871cf0da"
+}

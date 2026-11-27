@@ -1,0 +1,24 @@
+% Source: datasets/manifests/zhejiang_eo_scene_census_v0.parquet
+% (18,435 physical scene rows); docs/data/ZHEJIANG_M21A_ACCEPTANCE_REPORT.md §4.2
+\begin{table}[t]
+\centering
+\small
+\caption{Metadata-only Earth-observation scene census for the three
+Zhejiang bays, 1985--2026: physical scene rows intersecting each bay
+envelope. Observed first/last scene dates need not match declared
+mission spans (e.g. Sentinel-1 first observed 2015-02-09; Landsat~7 last
+observed 2023). No pixel export was used to produce this table.}
+\label{tab:census}
+\begin{tabular}{lrrrrrrr}
+\toprule
+Bay & L5 & L7 & L8 & L9 & S1 & S2 & Total \\
+\midrule
+Hangzhou Bay (HZB) & 754 & 844 & 661 & 251 & 1{,}114 & 3{,}072 & 6{,}696 \\
+Sanmen Bay (SMB)   & 665 & 653 & 422 & 146 & 764 & 1{,}220 & 3{,}870 \\
+Yueqing Bay (YQB)  & 679 & 683 & 428 & 149 & 1{,}084 & 4{,}846 & 7{,}869 \\
+\midrule
+\textbf{Total} & \textbf{2{,}098} & \textbf{2{,}180} & \textbf{1{,}511} &
+\textbf{546} & \textbf{2{,}962} & \textbf{9{,}138} & \textbf{18{,}435} \\
+\bottomrule
+\end{tabular}
+\end{table}

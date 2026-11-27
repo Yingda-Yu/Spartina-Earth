@@ -1,0 +1,69 @@
+{
+  "audit": "zhejiang_s2_2022_funnel_audit_v0",
+  "year": 2022,
+  "scope": "10 km COASTAL_RELEVANT cells; Sentinel-2; autumn_primary_v1 DOY 260-320; metadata+geometry only",
+  "thresholds_unchanged": {
+    "coverage_min": 0.99,
+    "scene_cloud_max": 0.3
+  },
+  "v0_groupwide_final_pairs": {
+    "ZJ-HZB": 0,
+    "ZJ-SMB": 0,
+    "ZJ-YQB": 0
+  },
+  "r1_contributing_final_pairs": {
+    "ZJ-HZB": 51,
+    "ZJ-SMB": 150,
+    "ZJ-YQB": 89
+  },
+  "verdict_marker": "ZERO_WAS_PIPELINE_BUG",
+  "verdict": "The v0 zero-event result for 2022 autumn was a pipeline bug, not a real data gap: the pair cloud gate used the max scene_cloud_fraction over every member of the datatake group, including adjacent MGRS tiles that never intersect the cell. With the R1 contributing-scene gate every bay retains quality events. Pixel-level SCL validation remains deferred to M2.1b; it cannot remove the geometric mis-attribution that caused the false zero.",
+  "affected_scope": "gate semantics affect all years/sensors with multi-frame groups; all downstream stats were regenerated as v0_1.",
+  "datatake_verification": {
+    "n_autumn_groups_total": 25,
+    "grouping_rule_counts": {
+      "same_datatake_identifier": 25
+    },
+    "all_groups_real_datatake": true,
+    "groups_spanning_multiple_utc_dates": 0,
+    "groups_intersecting_multiple_bays": [
+      "AG_117fdc42163c6247",
+      "AG_1cb4e425f7203aaf",
+      "AG_1e5b5ef470103028",
+      "AG_21ae59b0b100bd78",
+      "AG_28258700098477fb",
+      "AG_2a211db898c9c82d",
+      "AG_30ad077be6d7d53e",
+      "AG_321f8febd94a61f5",
+      "AG_3b139c43bbc97cea",
+      "AG_4577ef1f92b4cc12",
+      "AG_558fc6e807516aa9",
+      "AG_670d9e7fe65cc96c",
+      "AG_69c421fbeec0d685",
+      "AG_72e47bb83026f38d",
+      "AG_773785c95a759ada",
+      "AG_7d81a45b3f94729c",
+      "AG_7ed44b58308da3b6",
+      "AG_8438b4a99866e566",
+      "AG_903513fcda656d4a",
+      "AG_a21bd3d591c5a698",
+      "AG_aeb2a96c523b1b49",
+      "AG_bced61c96ae57b46",
+      "AG_e3567bbeca607a73",
+      "AG_ec63dadec9c41881",
+      "AG_f4deea0e33a19f21"
+    ],
+    "n_groups_intersecting_multiple_bays": 25,
+    "window": {
+      "label": "autumn_primary_v1",
+      "doy_start": 260,
+      "doy_end": 320
+    },
+    "thresholds": {
+      "coverage_min": 0.99,
+      "scene_cloud_max": 0.3
+    }
+  },
+  "pixel_validation": "DEFERRED_SCL_TO_M21B",
+  "gee_live_spotcheck": "see integration test tests/integration/test_s2_2022_funnel_spotcheck.py"
+}

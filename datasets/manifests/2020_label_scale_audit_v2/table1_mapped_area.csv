@@ -1,0 +1,9 @@
+product,support,semantics,mapped_area_km2
+geodata,30m_GEODATA_native_grid,binary pixel count,519.4386
+cmsa,30m_GEODATA_native_grid,sum of exact fractional cover per 30 m pixel,569.6966
+cmssm,30m_GEODATA_native_grid,sum of exact fractional cover per 30 m pixel,591.7026
+cmsa,10m_project_lattice,sum of exact fractional cover per 10 m pixel,569.6773
+cmssm,10m_project_lattice,sum of exact fractional cover per 10 m pixel,591.6827
+geodata,native,uint8==1 pixel count x 900 m2,519.8913
+cmsa,native,"planar polygon area, EPSG:32650, repaired derived copy",571.3516
+cmssm,native,"planar polygon area, EPSG:32650, repaired derived copy",593.7098

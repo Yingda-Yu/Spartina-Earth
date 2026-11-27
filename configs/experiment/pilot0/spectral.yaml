@@ -1,0 +1,11 @@
+model: sai_threshold
+variant: optical_indices   # SAI is band 8
+seeded: false
+description: >-
+  Deterministic single-threshold SAI rule; threshold fit on TRAIN unique
+  arbitrated_core pixels only over a fixed grid; no val/test retuning.
+  NDVI threshold is diagnostic only.
+threshold_grid:
+  lo: -1.0
+  hi: 1.0
+  step: 0.005

@@ -1,0 +1,109 @@
+{
+  "emitted_utc": "2026-10-12T07:30:04Z",
+  "git_commit": "66549b01e36dd4e4d6247a5d6d3020225c6f24e9",
+  "metrics": "NOT_RUN_INSUFFICIENT_SUPPORT",
+  "protocol_checksum": "2403787764f6d0d6426069348b14916ff0d921dd613179e9065185f9207fe2a2",
+  "protocol_name": "SPARTINASHIFT_SILVER_V0_1_PROTOCOL",
+  "regions": {
+    "INSUFFICIENT_SUPPORT_FOR_REGION_FUJIAN": {
+      "c1_both_year_positive_cells": 0,
+      "c1_total_cells": 4,
+      "c2_positive_cells": 0,
+      "c2_positive_cells_outside": 5,
+      "c2_total_cells": 4,
+      "reasons": [
+        "C2 positive held cells 0 < 2",
+        "C1 both-year positive held cells 0 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    },
+    "INSUFFICIENT_SUPPORT_FOR_REGION_GUANGDONG": {
+      "c1_both_year_positive_cells": 0,
+      "c1_total_cells": 0,
+      "c2_positive_cells": 1,
+      "c2_positive_cells_outside": 4,
+      "c2_total_cells": 2,
+      "reasons": [
+        "C2 total held cells 2 < 4",
+        "C2 positive held cells 1 < 2",
+        "C1 both-year positive held cells 0 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    },
+    "INSUFFICIENT_SUPPORT_FOR_REGION_JIANGSU": {
+      "c1_both_year_positive_cells": 0,
+      "c1_total_cells": 1,
+      "c2_positive_cells": 1,
+      "c2_positive_cells_outside": 4,
+      "c2_total_cells": 2,
+      "reasons": [
+        "C2 total held cells 2 < 4",
+        "C2 positive held cells 1 < 2",
+        "C1 both-year positive held cells 0 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    },
+    "INSUFFICIENT_SUPPORT_FOR_REGION_LIAONING": {
+      "c1_both_year_positive_cells": 0,
+      "c1_total_cells": 3,
+      "c2_positive_cells": 0,
+      "c2_positive_cells_outside": 5,
+      "c2_total_cells": 3,
+      "reasons": [
+        "C2 total held cells 3 < 4",
+        "C2 positive held cells 0 < 2",
+        "C1 both-year positive held cells 0 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    },
+    "INSUFFICIENT_SUPPORT_FOR_REGION_SHANDONG": {
+      "c1_both_year_positive_cells": 1,
+      "c1_total_cells": 5,
+      "c2_positive_cells": 1,
+      "c2_positive_cells_outside": 4,
+      "c2_total_cells": 4,
+      "reasons": [
+        "C2 positive held cells 1 < 2",
+        "C1 both-year positive held cells 1 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    },
+    "INSUFFICIENT_SUPPORT_FOR_REGION_SHANGHAI": {
+      "c1_both_year_positive_cells": 0,
+      "c1_total_cells": 0,
+      "c2_positive_cells": 0,
+      "c2_positive_cells_outside": 5,
+      "c2_total_cells": 1,
+      "reasons": [
+        "C2 total held cells 1 < 4",
+        "C2 positive held cells 0 < 2",
+        "C1 both-year positive held cells 0 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    },
+    "INSUFFICIENT_SUPPORT_FOR_REGION_ZHEJIANG": {
+      "c1_both_year_positive_cells": 1,
+      "c1_total_cells": 1,
+      "c2_positive_cells": 2,
+      "c2_positive_cells_outside": 3,
+      "c2_total_cells": 2,
+      "reasons": [
+        "C2 total held cells 2 < 4",
+        "C1 both-year positive held cells 1 < 2"
+      ],
+      "verdict": "INSUFFICIENT_SUPPORT"
+    }
+  },
+  "rules": {
+    "min_positive_holdout_cells": 2,
+    "min_positive_outside": 3,
+    "min_total_holdout_cells": 4,
+    "min_total_remaining_cells": 8
+  },
+  "runs_executed": 0,
+  "runs_planned": 0,
+  "splits_sha256": "07bc6d190c5242360e6285e989f2e40b04289d8fe20c47b8376df30a6cd6eb3e",
+  "support_matrix_sha256": "00496666a696b59bdf057ffe10509d2294e61c08b717665c3384bc99013f203a",
+  "task": "C3",
+  "verdict": "INSUFFICIENT_SUPPORT_ALL_REGIONS"
+}

@@ -1,0 +1,77 @@
+# M1.5 Pilot-0 baseline ladder — common immutable contract.
+# Split v1 is FROZEN from Issue #4; nothing here may change it.
+dataset_id: hangzhou2015_pilot0
+grid_id: HB2015
+
+paths:
+  stack: work/hangzhou2015/v1/pilot0_stack_30m.tif
+  labels: work/hangzhou2015/v1/pilot0_labels_30m.tif       # bands: weak, silver, ignore
+  silver: work/hangzhou2015/v1/silver_2015_30m.tif
+  disagreement: work/hangzhou2015/v1/label_disagreement_30m.tif  # 3 = weak-only
+  tiles_manifest: datasets/manifests/hangzhou2015_tiles_v1.parquet
+  split_registry: benchmarks/spartinashift/pilot0_splits_v1.json
+  normalization: datasets/manifests/hangzhou2015_normalization_v1.json
+  lock_file: runs/pilot0/FINAL_EVAL_LOCK.json
+  runs_root: runs/pilot0
+  registry_dir: docs/experiments/registries
+
+# 11 source bands (0-based): 0-6 Landsat B1-B7, 7 NDVI, 8 SAI, 9 VV, 10 VH
+variants:
+  optical:          {bands: [0, 1, 2, 3, 4, 5, 6]}
+  optical_indices:  {bands: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+  optical_sar:      {bands: [0, 1, 2, 3, 4, 5, 6, 9, 10]}
+  full:             {bands: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+variant_order: [optical, optical_indices, optical_sar, full]
+
+geometry:
+  patch_px: 96
+  stride_px: 48
+  split_fingerprint_field: logical_manifest_fingerprint_sha256
+
+normalization:
+  low_pct: 0.005
+  high_pct: 0.995
+  fill_value: 0.0          # normalized zero = training mean after clipping
+
+labels:
+  gold_available: false
+  primary_view: arbitrated_core
+  secondary_view: silver_strict
+
+seeds: [17, 42, 2026]
+
+threshold:
+  lo: 0.05
+  hi: 0.95
+  step: 0.01
+
+training:
+  batch_size: 16
+  max_epochs: 120
+  patience: 20
+  grad_clip: 1.0
+  mixed_precision: true
+  bce_weight_cap: 20
+  loss_bce: 0.5
+  loss_dice: 0.5
+  warmup_epochs: 3
+  schedule: cosine_warmup
+  augmentations: [hflip, vflip, rot90, rot180, rot270]
+
+mosaic:
+  blend: hann2d            # fixed cosine/Hann center weighting
+
+rf:
+  n_estimators: 500
+  class_weight: balanced_subsample
+  max_features: sqrt
+  min_samples_leaf: 2
+  n_jobs: 16
+  max_train_pixels: 400000   # declared BEFORE looking at val/test
+
+eval:
+  ece_bins: 15
+  patch_iou_primary: 0.25
+  patch_iou_supplementary: 0.50
+  small_patch_max_px: 10
+  bf1_tolerance_px: [1, 2]   # 30 m, 60 m

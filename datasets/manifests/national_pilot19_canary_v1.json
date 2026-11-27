@@ -1,0 +1,100 @@
+{
+  "product": "national_pilot19_canary_v1",
+  "issue": 19,
+  "phase": "D0",
+  "generated_utc": "2026-10-09T04:12:38.650107+00:00",
+  "git_commit": "b96af345a9bf7f336f87c7619fad399e95eb1d8c",
+  "status": "CANARY_SELECTED_NOT_EXPORTED",
+  "selection_rule": "deterministic canary: fixed sensor order (L5,L7,L8,S1,S2); one SELECTED product per sensor; rank key = (province already used, coastal segment already used, product_id asc); label-blind, pixel-blind, no event-selection change",
+  "sensor_order": [
+    "landsat5",
+    "landsat7",
+    "landsat8",
+    "sentinel1",
+    "sentinel2"
+  ],
+  "n_products": 5,
+  "products": [
+    {
+      "product_id": "NP19_R00226-C00080_L5_1990",
+      "cell_id": "CNA10K-R00226-C00080",
+      "sensor": "landsat5",
+      "year": 1990,
+      "event_id": "EVT-L-1f5d83bceeff5613",
+      "event_utc": "1990-10-29T00:00:00+00:00",
+      "province": "Guangdong",
+      "coastal_segment": "SOUTH_CHINA_SEA",
+      "pass": "",
+      "coverage_tier": "STRICT_FULL",
+      "selection_order": 1,
+      "canary_reason": "deterministic canary: fixed sensor order (L5,L7,L8,S1,S2); one SELECTED product per sensor; rank key = (province already used, coastal segment already used, product_id asc); label-blind, pixel-blind, no event-selection change",
+      "region_diversity": "province Guangdong new; segment SOUTH_CHINA_SEA new"
+    },
+    {
+      "product_id": "NP19_R00264-C00132_L7_2000",
+      "cell_id": "CNA10K-R00264-C00132",
+      "sensor": "landsat7",
+      "year": 2000,
+      "event_id": "EVT-L-cd0e2e876c3bbc40",
+      "event_utc": "2000-09-25T00:00:00+00:00",
+      "province": "Fujian",
+      "coastal_segment": "TAIWAN_STRAIT",
+      "pass": "",
+      "coverage_tier": "STRICT_FULL",
+      "selection_order": 2,
+      "canary_reason": "deterministic canary: fixed sensor order (L5,L7,L8,S1,S2); one SELECTED product per sensor; rank key = (province already used, coastal segment already used, product_id asc); label-blind, pixel-blind, no event-selection change",
+      "region_diversity": "province Fujian new; segment TAIWAN_STRAIT new"
+    },
+    {
+      "product_id": "NP19_R00311-C00156_L8_2021",
+      "cell_id": "CNA10K-R00311-C00156",
+      "sensor": "landsat8",
+      "year": 2021,
+      "event_id": "EVT-L-7f74ad72fd2cbc7f",
+      "event_utc": "2021-09-20T00:00:00+00:00",
+      "province": "Zhejiang",
+      "coastal_segment": "EAST_CHINA_SEA",
+      "pass": "",
+      "coverage_tier": "STRICT_FULL",
+      "selection_order": 3,
+      "canary_reason": "deterministic canary: fixed sensor order (L5,L7,L8,S1,S2); one SELECTED product per sensor; rank key = (province already used, coastal segment already used, product_id asc); label-blind, pixel-blind, no event-selection change",
+      "region_diversity": "province Zhejiang new; segment EAST_CHINA_SEA new"
+    },
+    {
+      "product_id": "NP19_R00347-C00151_S1_2015_A",
+      "cell_id": "CNA10K-R00347-C00151",
+      "sensor": "sentinel1",
+      "year": 2015,
+      "event_id": "EVT-S1-5ad5298373730214",
+      "event_utc": "2015-09-18T09:54:28+00:00",
+      "province": "Jiangsu",
+      "coastal_segment": "YELLOW_SEA",
+      "pass": "ASC",
+      "coverage_tier": "S1_ACTUAL_FOOTPRINT",
+      "selection_order": 4,
+      "canary_reason": "deterministic canary: fixed sensor order (L5,L7,L8,S1,S2); one SELECTED product per sensor; rank key = (province already used, coastal segment already used, product_id asc); label-blind, pixel-blind, no event-selection change",
+      "region_diversity": "province Jiangsu new; segment YELLOW_SEA new"
+    },
+    {
+      "product_id": "NP19_R00388-C00129_S2_2020",
+      "cell_id": "CNA10K-R00388-C00129",
+      "sensor": "sentinel2",
+      "year": 2020,
+      "event_id": "EVT-S2-b5daa51d6c24f005",
+      "event_utc": "2020-09-18T02:57:56.036000+00:00",
+      "province": "Shandong",
+      "coastal_segment": "BOHAI_YELLOW_SEA",
+      "pass": "",
+      "coverage_tier": "STRICT_FULL",
+      "selection_order": 5,
+      "canary_reason": "deterministic canary: fixed sensor order (L5,L7,L8,S1,S2); one SELECTED product per sensor; rank key = (province already used, coastal segment already used, product_id asc); label-blind, pixel-blind, no event-selection change",
+      "region_diversity": "province Shandong new; segment BOHAI_YELLOW_SEA new"
+    }
+  ],
+  "inputs": {
+    "plan_csv": "national_pilot_event_plan_v1.csv",
+    "plan_csv_sha256": "ebc36a5a3b5e5f97ff603526e8e66a10e96a2344158748436d0b4aedb6f80769",
+    "panel_csv": "national_first_pixel_panel_v1.csv",
+    "panel_csv_sha256": "6c2d3a2dfa9062c1e14f9884c4c8f4aefb30bc8076d8312602e65bad793bd4bd"
+  }
+}

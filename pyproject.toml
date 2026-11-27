@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spartina-earth"
+version = "0.0.1"
+description = "Long-term, sensor-agnostic Earth observation + AI research system for Spartina alterniflora (M0 reboot: interfaces and specifications only)"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Spartina Technology / Spartina Earth contributors" }]
+keywords = [
+    "remote-sensing",
+    "earth-observation",
+    "invasive-species",
+    "spartina-alterniflora",
+    "multimodal",
+    "time-series",
+]
+
+# M0 intentionally keeps runtime dependencies at zero: all skeleton modules
+# and smoke tests use the Python standard library only. Heavy geospatial / ML
+# dependencies are introduced in later milestones as optional extras.
+dependencies = []
+
+[project.optional-dependencies]
+# Floors are consistent with environment/environment.yml; the conda env
+# (environment/versions.txt) is the frozen authority, this list is metadata.
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.7",
+    "mypy>=1.11",
+    "pre-commit>=3.7",
+]
+gee = ["earthengine-api>=0.1.400"]
+geo = [
+    "rasterio>=1.4",
+    "rioxarray>=0.17",
+    "shapely>=2.0",
+    "pyproj>=3.6",
+    "geopandas>=1.0",
+    "fiona>=1.10",
+    "pyarrow>=17",
+    "mgrs>=1.5",
+]
+# CUDA wheels come from https://download.pytorch.org/whl/cu118; see
+# environment/environment.yml (torch 2.5.1+cu118 is the frozen build).
+ml = ["torch>=2.5.1", "torchvision>=0.20.1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+pythonpath = ["src", "scripts/audit", "scripts/data", "scripts/system"]
+markers = [
+    "gee_integration: integration tests requiring real Google Earth Engine credentials (deselected by default)",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src"]
+# Legacy prototype is preserved verbatim (see legacy/README.md); its known
+# defects are documented in docs/audit/LEGACY_RESULT_AUDIT.md, not "fixed".
+extend-exclude = ["legacy"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E741"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src", "scripts"]
+mypy_path = ["src", "scripts/data/national"]
+strict = true
+warn_unused_ignores = true
+warn_return_any = true
+# M0 skeleton contains interface-only modules with deliberately broad typing;
+# keep strict checks on, modules may add targeted ignores with justification.
+# Third-party geo/ML libraries ship no type stubs in the frozen env;
+# missing imports are ignored per-module rather than weakening strictness.
+[[tool.mypy.overrides]]
+module = ["rasterio.*", "fiona.*", "geopandas.*", "shapely.*", "pandas.*", "osgeo.*", "scipy.*", "yaml.*", "sklearn.*", "joblib.*", "segmentation_models_pytorch.*", "transformers.*", "timm.*", "ee.*", "google.*", "googleapiclient.*", "mgrs.*"]
+ignore_missing_imports = true

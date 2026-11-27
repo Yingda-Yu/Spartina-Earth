@@ -1,0 +1,32 @@
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:south_china}South China Sea diagnostics at 100\,m
+  (2020). Top: mapped area and patch fragmentation per product
+  (\texttt{results/r4\_south\_china\_fragmentation.csv}). Bottom: pairwise
+  disagreement decomposition; ``only-$X$'' pixels are those product $X$ maps
+  and its counterpart does not, with distance statistics to the
+  counterpart's nearest positive pixel
+  (\texttt{results/r4\_south\_china\_diagnostics.csv}).}
+\small
+\begin{tabular}{l r r r r}
+\toprule
+\multicolumn{5}{l}{\emph{Panel A: mapped area and fragmentation}} \\
+Product & Area (km$^2$) & Patches & Median patch (ha) & Mean patch (ha) \\
+\midrule
+CMSA & 19.27 & 390 & 2.0 & 4.94 \\
+CM-SSM & 14.69 & 337 & 2.0 & 4.36 \\
+GEODATA & 26.31 & 196 & 4.0 & 13.42 \\
+\midrule
+\multicolumn{5}{l}{\emph{Panel B: disagreement decomposition}} \\
+Pair & Only-$A$ (km$^2$) & $\leq$1\,km (\%) & $>$5\,km (\%) & Only-$B$ (km$^2$) \\
+\midrule
+\multirow{2}{*}{CMSA--GEODATA$^{\dagger}$}
+  & \multirow{2}{*}{13.88} & \multirow{2}{*}{47.26} & \multirow{2}{*}{28.75}
+  & 20.92 \\
+CM-SSM--GEODATA$^{\dagger}$ & 11.53 & 44.84 & 29.40 & 23.15 \\
+\bottomrule
+\multicolumn{5}{l}{\footnotesize $^{\dagger}$For only-GEODATA pixels: CMSA pair
+$\leq$1\,km 53.39\,\%, $>$5\,km 29.25\,\%; CM-SSM pair
+$\leq$1\,km 40.00\,\%, $>$5\,km 44.41\,\%.}\\
+\end{tabular}
+\end{table}

@@ -1,0 +1,11 @@
+roi_id,anchor_id,kind,place_zh,requested_lon,requested_lat,snapped_lon,snapped_lat,snap_distance_m
+ZJ-HZB,hzb_en_nanhui,SECTION_POINT,南汇嘴（芦潮港），湾口线北端,121.97,30.87,121.907806,30.908333,7306.833
+ZJ-HZB,hzb_es_zhenhai,SECTION_POINT,镇海口（甬江口·扬子角），湾口线南端,121.74,29.97,121.740833,29.971222,157.803
+ZJ-HZB,hzb_ws_xisan,SECTION_POINT,西三闸，湾-钱塘江口区分界断面南岸,120.87,30.335,120.844194,30.349528,2956.761
+ZJ-HZB,hzb_wn_ganpu,SECTION_POINT,澉浦（长山闸），分界断面北岸,120.905,30.385,120.903361,30.37875,712.531
+ZJ-SMB,smb_mouth_s_jinqimen,SECTION_POINT,金柒门，湾口线南端,121.93,28.99,121.897889,29.006639,3629.875
+ZJ-SMB,smb_mouth_island_sanmendao,SECTION_POINT,三门岛，湾口线链中岛,121.955,29.06,121.954139,29.059583,95.674
+ZJ-SMB,smb_mouth_n_niutoushan,SECTION_POINT,牛头山，湾口线北端,121.97,29.16,121.971667,29.164528,528.871
+ZJ-YQB,yqb_mouth_s_xiaomen,SECTION_POINT,小门岛附近，湾口链南端,121.06,27.99,121.057444,27.992056,339.486
+ZJ-YQB,yqb_mouth_island_damen,SECTION_POINT,大门岛，湾口链中岛,121.11,27.96,121.113306,27.94625,1563.035
+ZJ-YQB,yqb_mouth_island_luxi,SECTION_POINT,鹿西岛，湾口链东北端,121.2,28.07,121.207889,28.063333,1071.796

@@ -1,0 +1,79 @@
+{
+  "artifact": "table15_domain_v1_1_keep_effect_note",
+  "generated_utc": "2026-10-08T13:43:55.955655+00:00",
+  "git_commit": "7df0f74d760987a2c95cb141ad8f4cdd8b0de30b",
+  "method": "Pooled binary Dice and W10-cell cluster bootstrap (500 resamples, seed 20201018) recomputed from the existing Issue #18 per-cell aggregates; no raster re-export. Universe KEEP_ONLY_V1 = 3,011 v1-candidate KEEP cells; KEEP_V1_1_CORE_FROZEN = 3,016 v1.1 frozen KEEP cells.",
+  "promoted_kinmen_cells": [
+    "CNA10K-R00263-C00134",
+    "CNA10K-R00264-C00134",
+    "CNA10K-R00264-C00135",
+    "CNA10K-R00264-C00136",
+    "CNA10K-R00265-C00136"
+  ],
+  "remaining_provisional_offshore_cells": [
+    "CNA10K-R00231-C00093",
+    "CNA10K-R00283-C00149",
+    "CNA10K-R00314-C00162",
+    "CNA10K-R00314-C00163",
+    "CNA10K-R00316-C00163"
+  ],
+  "added_30m_pixels": {
+    "g": 760,
+    "bc": 66,
+    "bm": 602,
+    "cmb": 49,
+    "gc": 46,
+    "gm": 485
+  },
+  "added_30m_area_km2": {
+    "GEO": 0.684,
+    "CMSA_binary": 0.0594,
+    "CMSSM_binary": 0.5418
+  },
+  "added_10m_pixels": {
+    "bc": 623,
+    "bm": 5569,
+    "cmb": 443
+  },
+  "added_10m_area_km2": {
+    "CMSA_binary": 0.0623,
+    "CMSSM_binary": 0.5569
+  },
+  "deltas": [
+    {
+      "support": "30m_GEODATA_native_grid",
+      "pair": "GEO_CMSA",
+      "v1_3011_dice": 0.6076,
+      "v1_1_3016_dice": 0.6073,
+      "delta_dice": -0.0003
+    },
+    {
+      "support": "30m_GEODATA_native_grid",
+      "pair": "GEO_CMSSM",
+      "v1_3011_dice": 0.529,
+      "v1_1_3016_dice": 0.5293,
+      "delta_dice": 0.0003
+    },
+    {
+      "support": "30m_GEODATA_native_grid",
+      "pair": "CMSA_CMSSM",
+      "v1_3011_dice": 0.7217,
+      "v1_1_3016_dice": 0.7214,
+      "delta_dice": -0.0003
+    },
+    {
+      "support": "10m_project_lattice",
+      "pair": "CMSA_CMSSM",
+      "v1_3011_dice": 0.7096,
+      "v1_1_3016_dice": 0.7093,
+      "delta_dice": -0.0003
+    }
+  ],
+  "max_abs_delta_dice": 0.0003,
+  "source_checksums": {
+    "s30_cells_csv": "4463cbd1d095bc8ff6716004f3a4f4b3ed44b4ab7517f92467385abcd96a1025",
+    "s10_cells_csv": "bb0036b595001de54cc4eeb2e887d26a3f4fa202ee8c0c50435fc521abdd9a13",
+    "v1_candidate_csv": "9dbd8cf5cca44ec81d0ce234b3780415a1287cb485b1c475514d94bd1fadb14b",
+    "v1_1_core_frozen_csv": "935624f3e5bb85b0072c218eacf184b0d125992c8f012d519382a50798cf7b53"
+  }
+}

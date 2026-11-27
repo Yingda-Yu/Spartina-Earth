@@ -1,0 +1,6 @@
+model: segformer_b0
+family: huggingface_transformers
+hf_pretrained: nvidia/segformer-b0-finetuned-ade-512-512
+lr: 0.0001
+variants: [optical, optical_indices, optical_sar, full]
+seeds: [17, 42, 2026]

@@ -1,0 +1,112 @@
+\section{Limitations}\label{sec:limitations}
+
+\paragraph{No GOLD validation.}
+No field, UAV, or expert-verified labels exist in the project (GOLD
+= 0). All accuracy-adjacent numbers are SILVER-product reproduction or
+engineering diagnostics on tiny support. GOLD acquisition is an
+independent workstream with its own date, provenance, annotation,
+adjudication, and permission requirements.
+
+\paragraph{Tiny and geographically concentrated Pilot-0 support.}
+The Pilot-0 test set is seven windows over five SILVER components in one
+bay for one nominal year. Spatial confidence intervals are not
+estimable; seed variability covers training randomness only; some model
+means include collapsed runs. Pilot-0 establishes pipeline behavior,
+not mapping accuracy.
+
+\paragraph{Provisional boundaries.}
+The Zhejiang bay envelopes are Tier-C provisional constructions, not
+authoritative shorelines. Bay-clipped label statistics are conditional
+on these envelopes and must be re-versioned if envelopes are revised.
+
+\paragraph{Domain membership has a frozen v1.1 core and an open offshore-policy margin.}
+The W10 membership result is a deterministic GIS audit on a
+100\,m$^2$ touch threshold and a 25\,km island-reach rule; the v1.1
+core (3{,}016/3{,}319 cells) is frozen as
+\texttt{W10\_DOMAIN\_V1\_CORE\_FROZEN} under the 2026-10-08 owner
+decision. Five contested-administered Kinmen cells are operationally
+included under the standing proximity disclaimer, which is not a
+statement on sovereignty or administrative status, and their GIS
+evidence is retained; five beyond-reach unattributed-land cells remain
+\texttt{PROVISIONAL\_OFFSHORE\_POLICY}, excluded from production and
+primary inference, pending a separate general, target-independent
+offshore-island policy supported by authoritative island and
+administration evidence. The 25\,km reach was deliberately not
+extended by cell-specific exceptions. Murray intertidal and JRC surface
+water enter as target-independent context columns at 30\,km support
+only---they neither decide membership nor substitute for tide
+modelling---and Natural Earth attribution cannot replace boundary
+authority for transboundary and contested cells. No national mapping
+accuracy has been established.
+
+\paragraph{SILVER label provenance.}
+The 2015 national raster lacks documented producer, class legend,
+mapping unit, exact acquisition dates, and redistribution terms; its
+national area is stated in the product's UTM-zone planar convention
+and is not a geodetic area. It is not comparable as change against the
+2020 CM-SSM vector product even though the latter's file provenance is
+now byte-verified against its official archive.
+
+\paragraph{The 2020 three-product audit measures agreement, not truth.}
+The Issue~\#18 audit compares three SILVER maps without GOLD labels;
+GEODATA is a comparison support, not reference truth, and none of its
+Dice values (0.52--0.71) can be read as product accuracy. Results
+concern one year: boundary offsets conflate positional transfer,
+acquisition dates, tides and within-2020 ecological change. The 10\,m
+support is a project lattice rather than a reconstructed CMSA native
+grid. Regional attribution no longer derives from the audited labels:
+R1 assigns each pixel independently from Natural Earth 10\,m admin-1
+polygons (centroid in province; otherwise nearest province within
+25\,km with a $>$300\,m second-province margin; otherwise UNKNOWN),
+which leaves 0.98\,km$^2$ of GEODATA-positive area (0.19\,\%) as
+UNKNOWN offshore or border-tie pixels that enter national tallies but
+not regional H4 statistics, and the Natural Earth coastlines are
+generalised rather than survey-grade. Mapped extents beyond the 10\,km
+corridor (19--39\,km$^2$ per product) are excluded from domain-cell
+tables. The pre-registered H2 prediction is reported as
+\textsc{not\_supported}: the observed direction was opposite to the
+preregistered expectation (fine--fine discordance 0.210 in small
+versus 0.316 in large patch strata). This is a directional non-support
+statement about one conditional estimand, not a universal falsification
+of patch-size effects, and it is not contradictory with H3 (zero coarse
+cover of fine small patches), which has a different estimand and
+denominator. The executed primary bootstrap used the 3{,}011 v1-candidate KEEP
+cells (ten unsigned provisional cells excluded); including all ten
+moves pooled Dice by at most 0.0003. Under the v1.1 frozen core the
+production KEEP universe is 3{,}016 cells; recomputing the same
+bootstrap with the fixed seed shifts every point estimate by at most
+0.0003 and every 95\,\% CI bound by at most 0.0035, changing no
+hypothesis decision. No SILVER eligibility,
+product ranking, or multi-source label-merge rule follows from this
+audit.
+
+\paragraph{Pixel-level QA exists only at pilot scale.}
+Scene-level cloud metadata does not establish per-pixel validity.
+M2.1b executed SCL valid masks on ten real 10\,m products (VALID
+0.9458--1.0000), QA\_PIXEL masks on two native-30\,m Landsat products,
+and the first eligible Sentinel-1 identity-decibel validation on one
+IW product with an independent server recompute. All eight cells lie in
+one bay and one autumn window; archive-scale valid-pixel statistics,
+the 20\,m-band resampling policy, and multi-sensor co-registration on
+larger samples remain future work.
+
+\paragraph{Tide and management evidence are missing.}
+FES2022b is selected but not deployed; observed gauge coverage is
+sparse and access-restricted; no modeled value may be called observed.
+Zero verifiable management events with spatial ledgers were found, so
+pre/post-treatment analysis cannot yet be performed.
+
+\paragraph{Seasonal windows are hypotheses.}
+The DOY windows are literature- and climatology-informed proposals
+pending per-bay phenological calibration; they are not frozen policy.
+
+\paragraph{Generalization claims are out of scope.}
+Nothing here demonstrates cross-province, national, or global
+performance, and no foundation-model capability is asserted. The
+national design is target-independent; the metadata-only cell census
+has been executed and independently re-audited (v0: 184{,}051 scenes;
+v0\_1 through the 2026 YTD cutoff: 227{,}505 unique physical scenes,
+93{,}035 events, 10{,}923{,}012 cell--event pairs, all 3{,}319 cells
+observed, zero pixel exports), but no national pixel tier is opened,
+and storage and workload byte estimates remain model assumptions
+pending measured replication.

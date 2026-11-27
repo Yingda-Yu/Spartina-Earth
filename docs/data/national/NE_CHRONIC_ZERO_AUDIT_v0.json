@@ -1,0 +1,68 @@
+{
+  "artifact": "ne_chronic_zero_cell_audit",
+  "version": "v0",
+  "generated_utc": "2026-10-03T19:33:23.830521+00:00",
+  "git_commit": "f1c1ea042cd5bf17d70117ac7bb0f1d5fbd1d2af",
+  "audit": "M2.3b-R1 PART C (Issue #16 blocker 3)",
+  "n_cells": 23,
+  "class_counts": {
+    "MIXED_ADMIN_COAST_ARTIFACT": 14,
+    "DOMAIN_EDGE_ARTIFACT": 6,
+    "INDEX_MISS": 3
+  },
+  "cells": [
+    "CNA10K-R00481-C00204",
+    "CNA10K-R00481-C00205",
+    "CNA10K-R00481-C00206",
+    "CNA10K-R00482-C00204",
+    "CNA10K-R00482-C00205",
+    "CNA10K-R00482-C00206",
+    "CNA10K-R00483-C00206",
+    "CNA10K-R00483-C00207",
+    "CNA10K-R00484-C00206",
+    "CNA10K-R00484-C00207",
+    "CNA10K-R00484-C00208",
+    "CNA10K-R00485-C00204",
+    "CNA10K-R00485-C00205",
+    "CNA10K-R00485-C00207",
+    "CNA10K-R00485-C00208",
+    "CNA10K-R00486-C00204",
+    "CNA10K-R00486-C00205",
+    "CNA10K-R00486-C00207",
+    "CNA10K-R00486-C00208",
+    "CNA10K-R00486-C00209",
+    "CNA10K-R00487-C00207",
+    "CNA10K-R00487-C00208",
+    "CNA10K-R00487-C00209"
+  ],
+  "direct_query_window": "2015-01-01..2026-01-01 (exclusive end)",
+  "intertidal_asset": "UQ/murray/Intertidal/v1_1/global_intertidal",
+  "intertidal_license": "Murray et al., CC BY 4.0",
+  "union_footprint_evidence": {
+    "landsat7": {
+      "115": 319,
+      "114": 286,
+      "113": 13
+    },
+    "landsat8": {
+      "115": 446,
+      "114": 415
+    },
+    "landsat9": {
+      "115": 162,
+      "114": 160
+    },
+    "sentinel2": {
+      "52TFM": 1099,
+      "52TFN": 1090,
+      "52TEM": 1081
+    },
+    "s1_relative_orbits": {
+      "156": 294,
+      "61": 214,
+      "134": 201,
+      "83": 1
+    }
+  },
+  "out_csv": "datasets/manifests/china_ne_chronic_zero_audit_v0.csv"
+}

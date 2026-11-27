@@ -1,0 +1,32 @@
+{
+  "created": "2026-11-05 23:15:24",
+  "git_commit": "1c98369d4c62d858c7f9b13c52fde782f705980b",
+  "primary_resolution_m": 100,
+  "primary_resolution_rationale": "30->100 m global IoU change <=0.4% (E4); point estimate and CI are both computed on the 100 m grid so they refer to one estimand",
+  "block_sizes_km": [
+    1,
+    2,
+    5,
+    10
+  ],
+  "n_bootstrap_per_seed": 1000,
+  "seeds": [
+    202601,
+    202602,
+    202603,
+    202604,
+    202605
+  ],
+  "estimand": "IoU of regional totals = sum(intersection_blocks)/sum(union_blocks)",
+  "resampling_unit": "square spatial block; blocks with union==0 excluded",
+  "contrast_method": "independent block resampling within each disjoint region; difference and ratio distributions; p from sign of distribution",
+  "morans": {
+    "k": 8,
+    "n_perm": 999,
+    "weights": "row-standardised kNN"
+  },
+  "monte_carlo_uncertainty": "std of CI endpoints across the 5 independent seeds",
+  "runtime_s": 106.7,
+  "max_rss_gb": 3.68,
+  "supersedes": "results/superseded_e5_longitude_bands/e5c_iou_bootstrap.csv"
+}

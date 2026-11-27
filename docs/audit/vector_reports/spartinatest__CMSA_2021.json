@@ -1,0 +1,49 @@
+{
+  "path": "old datasets/spartinatest/CMSA_2021.shp",
+  "driver": "ESRI Shapefile",
+  "crs": "EPSG:4326",
+  "schema": {
+    "properties": {
+      "Area_ha": "float:6.4",
+      "Id": "int32:4",
+      "gridcode": "int32:1"
+    },
+    "geometry": "Polygon"
+  },
+  "geometry_types_header": "Polygon",
+  "geometry_types_observed": {
+    "Polygon": 105
+  },
+  "feature_count": 105,
+  "bounds": [
+    121.15035313548084,
+    28.268989278094594,
+    121.21956806361331,
+    28.379467056310798
+  ],
+  "empty_geometries": 0,
+  "invalid_geometries": 0,
+  "invalid_reasons": {},
+  "duplicate_geometry_features": 0,
+  "area_summary": {
+    "crs_used_for_area": "EPSG:4326",
+    "computed_total_area_m2": 9460645.464054173,
+    "computed_total_area_km2": 9.460645464054172,
+    "computed_min_area_m2": 98.20407497370616,
+    "computed_max_area_m2": 6089454.85272809,
+    "geometries_smaller_than_100m2": 8
+  },
+  "area_field_forensics": {
+    "Area_ha": {
+      "field_sum": 949.2400000000001,
+      "field_min": 0.01,
+      "field_max": 610.99,
+      "computed_area_m2_sum": 9460645.464054173,
+      "median_ratio_computed_m2_over_field": 9963.738038798743,
+      "unit_hypothesis": "hectare if ratio~10000",
+      "warning": "hypothesis only; confirm against official field definition / metadata before quoting hectares"
+    }
+  },
+  "categorical_breakdown": null,
+  "repair_policy": "originals untouched; any repair copy lives only under work/"
+}

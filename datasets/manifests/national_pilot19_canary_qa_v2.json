@@ -1,0 +1,2013 @@
+{
+  "schema": "spartina_pilot19_canary_qa_v2",
+  "issue": "#19",
+  "selection_revision": "PILOT_EVENT_SELECTION_V2",
+  "created_utc": "2026-10-09T16:11:29.380768+00:00",
+  "live_gee_cross_checks": true,
+  "canary_cases_present": [
+    "normal_kept_s1",
+    "normal_kept_s2",
+    "previously_empty_s2",
+    "previously_partial_s1"
+  ],
+  "canary_cases_required": [
+    "normal_kept_s1",
+    "normal_kept_s2",
+    "previously_empty_s2",
+    "previously_partial_s1"
+  ],
+  "gate_verdict": "WARN",
+  "decision": "V2_RECOVERY_CANARY_PASS",
+  "actual_mask_gate": 0.95,
+  "plan_v2_csv_sha256": "e985d45261cf32d8d993f39877da30bb95073ac2e863c4a3370bcd7f1386c705",
+  "git": {
+    "git_commit": "b2180c43c6847d445a7f95569b2172b25c4b395a",
+    "dirty_tree": true
+  },
+  "environment": {
+    "python": "3.11.16",
+    "earthengine_api": "1.7.46",
+    "rasterio": "1.4.3"
+  },
+  "products": [
+    {
+      "product_id": "NP19_R00260-C00128_S2_2020",
+      "cell_id": "CNA10K-R00260-C00128",
+      "sensor": "sentinel2",
+      "year": 2020,
+      "canary_case": "previously_empty_s2",
+      "v2_change": "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK",
+      "verdict": "WARN",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "sr",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00260-C00128_S2_2020_sr_20201010_r2.tif",
+                "exists": true,
+                "size_bytes_manifest": 16880320,
+                "size_bytes_actual": 16880320,
+                "sha256_manifest": "10c2fa1ec0a0bccf610bd927c1b5a8729bb48d162cc3c6ab9dbda71d43cbfdde",
+                "sha256_recomputed": "10c2fa1ec0a0bccf610bd927c1b5a8729bb48d162cc3c6ab9dbda71d43cbfdde"
+              },
+              {
+                "role": "valid",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00260-C00128_S2_2020_valid_20201010_r2.tif",
+                "exists": true,
+                "size_bytes_manifest": 58061,
+                "size_bytes_actual": 58061,
+                "sha256_manifest": "66dcf5fa3842881055ce7fc7c67c16a0c80a6aa54fc19d1e770e3f920dc3f5fc",
+                "sha256_recomputed": "66dcf5fa3842881055ce7fc7c67c16a0c80a6aa54fc19d1e770e3f920dc3f5fc"
+              }
+            ],
+            "task_states": {
+              "sr": "COMPLETED",
+              "valid": "COMPLETED"
+            },
+            "schema": "spartina_observation_product_v1",
+            "n_bytes_manifest": 16938381
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "sr": {
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  560340.0,
+                  0.0,
+                  -10.0,
+                  2679670.0
+                ],
+                "width": 1112,
+                "height": 1118,
+                "count": 4,
+                "dtypes": [
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B8"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "valid": {
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  560340.0,
+                  0.0,
+                  -10.0,
+                  2679670.0
+                ],
+                "width": 1112,
+                "height": 1118,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "VALID"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 50,
+            "panel_center_lon": 117.64879,
+            "rebuilt": {
+              "crs_epsg": 32650,
+              "transform": [
+                10.0,
+                0.0,
+                560340.0,
+                0.0,
+                -10.0,
+                2679670.0
+              ],
+              "width": 1112,
+              "height": 1118,
+              "bounds": [
+                560341.0533044541,
+                2668494.7623921647,
+                571458.4377264152,
+                2679668.365488574
+              ]
+            },
+            "header": {
+              "crs_epsg": 32650,
+              "transform": [
+                10.0,
+                0.0,
+                560340.0,
+                0.0,
+                -10.0,
+                2679670.0
+              ],
+              "width": 1112,
+              "height": 1118
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "WARN",
+          "detail": {
+            "n_cell_centre_pixels": 999309,
+            "observed_in_cell": 999309,
+            "observed_coverage": 1.0,
+            "coverage_tier": "ACTUAL_MASK_GTE_0P95",
+            "valid_in_cell": 727829,
+            "valid_coverage": 0.7283322776038242,
+            "gate": 0.5,
+            "valid_coverage_warn_below": 0.9
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.5); QA-valid clear-surface coverage only 0.7283: source scene cloud/QA quality, export semantics unaffected"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "cmsa-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  560340.0,
+                  0.0,
+                  -30.0,
+                  2679690.0
+                ],
+                "width": 371,
+                "height": 374,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  0.0,
+                  20.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "geodata-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  560340.0,
+                  0.0,
+                  -30.0,
+                  2679690.0
+                ],
+                "width": 371,
+                "height": 374,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  0.0,
+                  20.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 10,
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  560340.0,
+                  0.0,
+                  -10.0,
+                  2679670.0
+                ],
+                "width": 1112,
+                "height": 1118,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  560340.0,
+                  0.0,
+                  -30.0,
+                  2679690.0
+                ],
+                "width": 371,
+                "height": 374,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  0.0,
+                  20.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "PASS",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 1,
+            "land_area_fraction_of_cell": 0.9999999999999999,
+            "coastline_length_m_in_buffer": 0.0
+          },
+          "note": "coastline present; land fraction 1.000"
+        },
+        {
+          "name": "s2_bands_scaling",
+          "verdict": "PASS",
+          "detail": {
+            "header": {
+              "count": 4,
+              "dtypes": [
+                "float32",
+                "float32",
+                "float32",
+                "float32"
+              ],
+              "descriptions": [
+                "B2",
+                "B3",
+                "B4",
+                "B8"
+              ]
+            },
+            "valid_unique": [
+              0,
+              1
+            ],
+            "scale": 10000.0,
+            "valid_pixels": 863736,
+            "dn_like_pixels": 0,
+            "negative_pixels": 0,
+            "valid_percentiles": {
+              "B2": {
+                "p01": 0.021400000900030136,
+                "p50": 0.08240000158548355,
+                "p99": 0.20000000298023224,
+                "max": 0.49639999866485596
+              },
+              "B3": {
+                "p01": 0.03709999844431877,
+                "p50": 0.10599999874830246,
+                "p99": 0.23880000412464142,
+                "max": 0.5095999836921692
+              },
+              "B4": {
+                "p01": 0.021800000220537186,
+                "p50": 0.0925000011920929,
+                "p99": 0.2624000012874603,
+                "max": 0.550000011920929
+              },
+              "B8": {
+                "p01": 0.16979999840259552,
+                "p50": 0.3653999865055084,
+                "p99": 0.532800018787384,
+                "max": 0.7835999727249146
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "s2_scl_policy_live",
+          "verdict": "PASS",
+          "detail": {
+            "policy_version": "s2_scl_qa_v1_1",
+            "valid_classes": [
+              4,
+              5,
+              6
+            ],
+            "not_valid_classes": [
+              0,
+              1,
+              2,
+              3,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "datatake_identifier": "GS2A_20201010T023631_027685_N02.14",
+            "contributing_source_product_ids": [
+              "S2A_MSIL2A_20201010T023631_N0214_R089_T50QNM_20201010T052529"
+            ],
+            "spacecraft": null,
+            "live": {
+              "attempted": true,
+              "n_scenes_for_ids": 1,
+              "live_datatakes": [
+                "GS2A_20201010T023631_027685_N02.14"
+              ],
+              "live_contributing_products": [
+                "S2A_MSIL2A_20201010T023631_N0214_R089_T50QNM_20201010T052529"
+              ],
+              "scl_class_counts": {
+                "2": 3698,
+                "3": 1440,
+                "4": 582840,
+                "5": 278284,
+                "6": 2612,
+                "7": 176446,
+                "8": 157352,
+                "9": 40544
+              },
+              "live_valid_pixels": 863736,
+              "live_valid_rule": "classes {4 vegetation, 5 bare, 6 water}",
+              "landed_valid_pixels": 863736,
+              "relative_difference": 0.0,
+              "tolerance": 0.002,
+              "water_class_6_included_in_live_valid": true
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "sr",
+                "dtype": "float32",
+                "bands": 4,
+                "uncompressed_bytes": 19891456,
+                "actual_bytes": 16880320,
+                "lzw_ratio_uncompressed_over_actual": 1.178381452484313
+              },
+              {
+                "role": "valid",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 1243216,
+                "actual_bytes": 58061,
+                "lzw_ratio_uncompressed_over_actual": 21.412238852241607
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "actual_mask_v2_gate",
+          "verdict": "PASS",
+          "detail": {
+            "per_band_finite_fraction": {
+              "B2": 1.0,
+              "B3": 1.0,
+              "B4": 1.0,
+              "B8": 1.0
+            },
+            "coverage_basis": "V2_SAME_DATATAKE_UNION_ACTUAL_SR_MASK_OVER_EXPORT_GRID",
+            "grid_pixels": 1243216,
+            "observed_pixels": 1243216,
+            "actual_observed_fraction_grid": 1.0,
+            "actual_observed_fraction_in_w10_cell": 1.0,
+            "gate": 0.95,
+            "independently_recomputed": true,
+            "manifest_gate": {
+              "abs_delta": 0.0,
+              "agreement_tolerance": 0.002,
+              "byte_fraction": 1.0,
+              "gate": "actual_observed_fraction >= 0.95",
+              "gate_pass": true,
+              "pass": true,
+              "plan_agreement_pass": true,
+              "plan_evidence_source": "LIVE_GEE_EXPORT_GRID",
+              "plan_v2_fraction": 1.0
+            }
+          },
+          "note": "actual-mask coverage 1.0000 grid / 1.0000 in cell (gate 0.95)"
+        },
+        {
+          "name": "interior_nan_scan",
+          "verdict": "PASS",
+          "detail": {
+            "interior_erode_px": 3,
+            "interior_pixels": 1229872,
+            "interior_nonobserved_pixels": 0,
+            "interior_nonobserved_fraction": 0.0,
+            "n_interior_hole_components": 0,
+            "largest_interior_hole_pixels": 0,
+            "largest_interior_hole_fraction": 0.0
+          },
+          "note": "no interior non-observed pixels"
+        },
+        {
+          "name": "repair_provenance",
+          "verdict": "PASS",
+          "detail": {
+            "event_selection_checks": {
+              "revision_pilot_event_selection_v2": true,
+              "plan_checksum": true,
+              "eligibility_v2_eligible": true,
+              "v2_change_matches_plan": true,
+              "v2_change_matches_canary": true,
+              "gate_0p95": true,
+              "label_independent": true,
+              "threshold_relaxation_forbidden": true,
+              "planned_fraction_matches_plan": true,
+              "manifest_event_date_matches_v2_plan": true
+            },
+            "archived_v0_schema": "spartina_observation_product_v0",
+            "archived_files": [
+              {
+                "name": "spartina_pilot19_NP19_R00260-C00128_S2_2020_sr_20201112_r1.tif",
+                "exists_and_sha_ok": true
+              },
+              {
+                "name": "spartina_pilot19_NP19_R00260-C00128_S2_2020_valid_20201112_r1.tif",
+                "exists_and_sha_ok": true
+              }
+            ],
+            "v1_event_utc": "2020-11-12T03:01:13.184000+00:00",
+            "v2_event_utc": "2020-10-10T02:51:19.794000+00:00",
+            "v2_change": "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK"
+          },
+          "note": "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK: V0 history preserved and verified"
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00260-C00128_S2_2020_quicklook.png",
+            "bytes": 1778012
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00264-C00132_S1_2020_A",
+      "cell_id": "CNA10K-R00264-C00132",
+      "sensor": "sentinel1",
+      "year": 2020,
+      "canary_case": "previously_partial_s1",
+      "v2_change": "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK",
+      "verdict": "PASS",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "vvvh",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_S1_2020_A_vvvh_20201012_r2.tif",
+                "exists": true,
+                "size_bytes_manifest": 11316528,
+                "size_bytes_actual": 11316528,
+                "sha256_manifest": "708d05ca9f3922394ac66881c8afa6296d90ff0c941488f223030c147088eaac",
+                "sha256_recomputed": "708d05ca9f3922394ac66881c8afa6296d90ff0c941488f223030c147088eaac"
+              },
+              {
+                "role": "dualpol_valid_v2",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00264-C00132_S1_2020_A_dualpol_valid_v2_20201012_v2.tif",
+                "exists": true,
+                "size_bytes_manifest": 15210,
+                "size_bytes_actual": 15210,
+                "sha256_manifest": "8a854e7eab2ae8b4a76af366eb480cd8c08ae46a1b7d9a78eddfefd5d72caedd",
+                "sha256_recomputed": "8a854e7eab2ae8b4a76af366eb480cd8c08ae46a1b7d9a78eddfefd5d72caedd",
+                "derived_locally": true,
+                "raw_values_modified": false
+              }
+            ],
+            "task_states": {
+              "vvvh": "COMPLETED"
+            },
+            "schema": "spartina_observation_product_v1",
+            "n_bytes_manifest": 11331738
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "vvvh": {
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  604840.0,
+                  0.0,
+                  -10.0,
+                  2714510.0
+                ],
+                "width": 1115,
+                "height": 1119,
+                "count": 2,
+                "dtypes": [
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "VV",
+                  "VH"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "dualpol_valid_v2": {
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  604840.0,
+                  0.0,
+                  -10.0,
+                  2714510.0
+                ],
+                "width": 1115,
+                "height": 1119,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "S1_DUALPOL_VALID_V2"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 50,
+            "panel_center_lon": 118.089678,
+            "rebuilt": {
+              "crs_epsg": 32650,
+              "transform": [
+                10.0,
+                0.0,
+                604840.0,
+                0.0,
+                -10.0,
+                2714510.0
+              ],
+              "width": 1115,
+              "height": 1119,
+              "bounds": [
+                604843.9500455498,
+                2703326.7576081147,
+                615983.5280383971,
+                2714501.04295568
+              ]
+            },
+            "header": {
+              "crs_epsg": 32650,
+              "transform": [
+                10.0,
+                0.0,
+                604840.0,
+                0.0,
+                -10.0,
+                2714510.0
+              ],
+              "width": 1115,
+              "height": 1119
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "PASS",
+          "detail": {
+            "n_cell_centre_pixels": 999504,
+            "observed_in_cell": 999504,
+            "observed_coverage": 1.0,
+            "coverage_tier": "ACTUAL_MASK_GTE_0P95",
+            "gate": 0.5
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.5)"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "cmsa-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  604830.0,
+                  0.0,
+                  -30.0,
+                  2714520.0
+                ],
+                "width": 372,
+                "height": 374,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -10.0,
+                  10.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "geodata-2020",
+                "support_m": 30,
+                "crs_epsg": 32650,
+                "transform": [
+                  30.0,
+                  0.0,
+                  604830.0,
+                  0.0,
+                  -30.0,
+                  2714520.0
+                ],
+                "width": 372,
+                "height": 374,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0,
+                  1.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -10.0,
+                  10.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 99,
+                "positive_observed_fraction_resampled": 1.0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 10,
+                "crs_epsg": 32650,
+                "transform": [
+                  10.0,
+                  0.0,
+                  604840.0,
+                  0.0,
+                  -10.0,
+                  2714510.0
+                ],
+                "width": 1115,
+                "height": 1119,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "PASS",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 23,
+            "land_area_fraction_of_cell": 0.6664970757910612,
+            "coastline_length_m_in_buffer": 53610.200354919085
+          },
+          "note": "coastline present; land fraction 0.666"
+        },
+        {
+          "name": "s1_identity_and_physics",
+          "verdict": "PASS",
+          "detail": {
+            "bands": {
+              "VV": {
+                "min": -38.18067932128906,
+                "p01": -24.46403694152832,
+                "p50": -9.258042335510254,
+                "p99": 8.00130943298331,
+                "max": 33.260860443115234,
+                "std": 7.370112922700637,
+                "finite_fraction": 1.0
+              },
+              "VH": {
+                "min": -61.864986419677734,
+                "p01": -31.36333251953125,
+                "p50": -16.206562042236328,
+                "p99": -2.210820770263741,
+                "max": 19.822023391723633,
+                "std": 6.583721340181668,
+                "finite_fraction": 1.0
+              }
+            },
+            "above_hard_envelope_pixels": 0,
+            "physical_tail_fraction": {
+              "VV": 4.007421745071873e-06,
+              "VH": 8.014843490143746e-07
+            },
+            "upper_hard_envelope_db": 45.0,
+            "live": {
+              "attempted": true,
+              "server_stats": {
+                "VV": {
+                  "min": -38.18068046057205,
+                  "max": 33.260860209384134,
+                  "p01": -24.23457020282164,
+                  "p50": -9.248227796940585,
+                  "p99": 8.240886198099552
+                },
+                "VH": {
+                  "min": -61.86498619948428,
+                  "max": 19.822023018644984,
+                  "p01": -31.235966259131615,
+                  "p50": -16.24948646992499,
+                  "p99": -2.2572443720177224
+                }
+              },
+              "abs_deltas": {
+                "VV_min": 0.0,
+                "VV_max": 0.0,
+                "VV_p01": 0.2295,
+                "VV_p50": 0.0098,
+                "VV_p99": 0.2396,
+                "VH_min": 0.0,
+                "VH_max": 0.0,
+                "VH_p01": 0.1274,
+                "VH_p50": 0.0429,
+                "VH_p99": 0.0464
+              },
+              "checks": {
+                "VV_min": true,
+                "VV_max": true,
+                "VV_p01": true,
+                "VV_p50": true,
+                "VV_p99": true,
+                "VH_min": true,
+                "VH_max": true,
+                "VH_p01": true,
+                "VH_p50": true,
+                "VH_p99": true
+              },
+              "pass": true
+            },
+            "transform": "IDENTITY_SELECT_ONLY_NO_10LOG10"
+          },
+          "note": ""
+        },
+        {
+          "name": "s1_pass_orbit_footprint",
+          "verdict": "PASS",
+          "detail": {
+            "plan_pass": "",
+            "gee_pass": "ASCENDING",
+            "plan_relative_orbit": 40,
+            "gee_relative_orbit": 40,
+            "polarisation": [
+              "VV",
+              "VH"
+            ],
+            "VV_finite_fraction": 1.0,
+            "VH_finite_fraction": 1.0,
+            "coverage_tier": "ACTUAL_MASK_GTE_0P95"
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "vvvh",
+                "dtype": "float32",
+                "bands": 2,
+                "uncompressed_bytes": 9981480,
+                "actual_bytes": 11316528,
+                "lzw_ratio_uncompressed_over_actual": 0.8820267134937501
+              },
+              {
+                "role": "dualpol_valid_v2",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 1247685,
+                "actual_bytes": 15210,
+                "lzw_ratio_uncompressed_over_actual": 82.03057199211045
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "actual_mask_v2_gate",
+          "verdict": "PASS",
+          "detail": {
+            "dualpol_finite_fraction": 1.0,
+            "floor_area_fraction": 0.0,
+            "coverage_basis": "V2_DUALPOL_ACTUAL_MASK_INCL_EXTREME_FLOOR_OVER_EXPORT_GRID",
+            "grid_pixels": 1247685,
+            "observed_pixels": 1247685,
+            "actual_observed_fraction_grid": 1.0,
+            "actual_observed_fraction_in_w10_cell": 1.0,
+            "gate": 0.95,
+            "independently_recomputed": true,
+            "manifest_gate": {
+              "abs_delta": 0.0,
+              "agreement_tolerance": 0.002,
+              "byte_fraction": 1.0,
+              "gate": "actual_observed_fraction >= 0.95",
+              "gate_pass": true,
+              "pass": true,
+              "plan_agreement_pass": true,
+              "plan_evidence_source": "LIVE_GEE_EXPORT_GRID",
+              "plan_v2_fraction": 1.0
+            }
+          },
+          "note": "actual-mask coverage 1.0000 grid / 1.0000 in cell (gate 0.95)"
+        },
+        {
+          "name": "interior_nan_scan",
+          "verdict": "PASS",
+          "detail": {
+            "interior_erode_px": 3,
+            "interior_pixels": 1234317,
+            "interior_nonobserved_pixels": 0,
+            "interior_nonobserved_fraction": 0.0,
+            "n_interior_hole_components": 0,
+            "largest_interior_hole_pixels": 0,
+            "largest_interior_hole_fraction": 0.0
+          },
+          "note": "no interior non-observed pixels"
+        },
+        {
+          "name": "s1_extreme_floor_token",
+          "verdict": "PASS",
+          "detail": {
+            "floor_rule_db": -70.0,
+            "floor_semantics": "NON_OBSERVATION_EXTREME_FLOOR",
+            "floor_pixels_vv": 0,
+            "floor_pixels_vh": 0,
+            "floor_pixels_either": 0,
+            "floor_area_fraction": 0.0,
+            "interior_floor_fraction": 0.0,
+            "floor_edge_associated_fraction": null,
+            "edge_near_px": 3,
+            "floor_distance_to_border": null,
+            "raw_band_statistics_db": {
+              "VV": {
+                "min": -38.18067932128906,
+                "p01": -24.46403694152832,
+                "p50": -9.258042335510254,
+                "p99": 8.00130943298331,
+                "max": 33.260860443115234,
+                "fraction_le_minus70": 0.0
+              },
+              "VH": {
+                "min": -61.864986419677734,
+                "p01": -31.36333251953125,
+                "p50": -16.206562042236328,
+                "p99": -2.210820770263741,
+                "max": 19.822023391723633,
+                "fraction_le_minus70": 0.0
+              }
+            },
+            "token_pixel_identical_to_rule": true,
+            "raw_values_modified": false
+          },
+          "note": "token pixel-exact; floor area fraction 0.000000; raw identity bytes preserved"
+        },
+        {
+          "name": "repair_provenance",
+          "verdict": "PASS",
+          "detail": {
+            "event_selection_checks": {
+              "revision_pilot_event_selection_v2": true,
+              "plan_checksum": true,
+              "eligibility_v2_eligible": true,
+              "v2_change_matches_plan": true,
+              "v2_change_matches_canary": true,
+              "gate_0p95": true,
+              "label_independent": true,
+              "threshold_relaxation_forbidden": true,
+              "planned_fraction_matches_plan": true,
+              "manifest_event_date_matches_v2_plan": true
+            },
+            "archived_v0_schema": "spartina_observation_product_v0",
+            "archived_files": [
+              {
+                "name": "spartina_pilot19_NP19_R00264-C00132_S1_2020_A_vvvh_20201019_r1.tif",
+                "exists_and_sha_ok": true
+              }
+            ],
+            "v1_event_utc": "2020-10-19T10:09:41+00:00",
+            "v2_event_utc": "2020-10-12T10:17:35+00:00",
+            "v2_change": "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK"
+          },
+          "note": "REPLACED_V1_EVENT_FAILED_ACTUAL_MASK: V0 history preserved and verified"
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00264-C00132_S1_2020_A_quicklook.png",
+            "bytes": 2154671
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00226-C00080_S2_2020",
+      "cell_id": "CNA10K-R00226-C00080",
+      "sensor": "sentinel2",
+      "year": 2020,
+      "canary_case": "normal_kept_s2",
+      "v2_change": "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK",
+      "verdict": "WARN",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "sr",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_S2_2020_sr_20201026_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 11981797,
+                "size_bytes_actual": 11981797,
+                "sha256_manifest": "5de71df21a2bdefe6872c0a953a1854c822804fabb98128be76321a025547571",
+                "sha256_recomputed": "5de71df21a2bdefe6872c0a953a1854c822804fabb98128be76321a025547571"
+              },
+              {
+                "role": "valid",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_S2_2020_valid_20201026_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 14577,
+                "size_bytes_actual": 14577,
+                "sha256_manifest": "9fe29dfdfb9c8f947422d301ed6067363b0de35eef4d7f6e3179a200c7966045",
+                "sha256_recomputed": "9fe29dfdfb9c8f947422d301ed6067363b0de35eef4d7f6e3179a200c7966045"
+              }
+            ],
+            "task_states": {
+              "sr": "COMPLETED",
+              "valid": "COMPLETED"
+            },
+            "schema": "spartina_observation_product_v1",
+            "n_bytes_manifest": 11996374
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "sr": {
+                "crs_epsg": 32649,
+                "transform": [
+                  10.0,
+                  0.0,
+                  669800.0,
+                  0.0,
+                  -10.0,
+                  2389170.0
+                ],
+                "width": 1053,
+                "height": 1078,
+                "count": 4,
+                "dtypes": [
+                  "float32",
+                  "float32",
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B8"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "valid": {
+                "crs_epsg": 32649,
+                "transform": [
+                  10.0,
+                  0.0,
+                  669800.0,
+                  0.0,
+                  -10.0,
+                  2389170.0
+                ],
+                "width": 1053,
+                "height": 1078,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "VALID"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 49,
+            "panel_center_lon": 112.690503,
+            "rebuilt": {
+              "crs_epsg": 32649,
+              "transform": [
+                10.0,
+                0.0,
+                669800.0,
+                0.0,
+                -10.0,
+                2389170.0
+              ],
+              "width": 1053,
+              "height": 1078,
+              "bounds": [
+                669801.9595345336,
+                2378393.440255455,
+                680321.7810050887,
+                2389161.6652383734
+              ]
+            },
+            "header": {
+              "crs_epsg": 32649,
+              "transform": [
+                10.0,
+                0.0,
+                669800.0,
+                0.0,
+                -10.0,
+                2389170.0
+              ],
+              "width": 1053,
+              "height": 1078
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "PASS",
+          "detail": {
+            "n_cell_centre_pixels": 999959,
+            "observed_in_cell": 999959,
+            "observed_coverage": 1.0,
+            "coverage_tier": "STRICT_FULL",
+            "valid_in_cell": 999861,
+            "valid_coverage": 0.9999019959818353,
+            "gate": 0.95,
+            "valid_coverage_warn_below": 0.9
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.95)"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "cmsa-2020",
+                "support_m": 30,
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  0.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "geodata-2020",
+                "support_m": 30,
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  0.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 10,
+                "crs_epsg": 32649,
+                "transform": [
+                  10.0,
+                  0.0,
+                  669800.0,
+                  0.0,
+                  -10.0,
+                  2389170.0
+                ],
+                "width": 1053,
+                "height": 1078,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 30,
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  0.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "WARN",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 7,
+            "land_area_fraction_of_cell": 0.0,
+            "coastline_length_m_in_buffer": 1320.3347094319229
+          },
+          "note": "cell land fraction 0.000; verify coastal membership"
+        },
+        {
+          "name": "s2_bands_scaling",
+          "verdict": "PASS",
+          "detail": {
+            "header": {
+              "count": 4,
+              "dtypes": [
+                "float32",
+                "float32",
+                "float32",
+                "float32"
+              ],
+              "descriptions": [
+                "B2",
+                "B3",
+                "B4",
+                "B8"
+              ]
+            },
+            "valid_unique": [
+              0,
+              1
+            ],
+            "scale": 10000.0,
+            "valid_pixels": 1134832,
+            "dn_like_pixels": 0,
+            "negative_pixels": 0,
+            "valid_percentiles": {
+              "B2": {
+                "p01": 0.07280000299215317,
+                "p50": 0.0828000009059906,
+                "p99": 0.09989999979734421,
+                "max": 0.3515999913215637
+              },
+              "B3": {
+                "p01": 0.09600000083446503,
+                "p50": 0.1103999987244606,
+                "p99": 0.12939999997615814,
+                "max": 0.3790000081062317
+              },
+              "B4": {
+                "p01": 0.049300000071525574,
+                "p50": 0.06679999828338623,
+                "p99": 0.1023000031709671,
+                "max": 0.3472000062465668
+              },
+              "B8": {
+                "p01": 0.01720000058412552,
+                "p50": 0.023399999365210533,
+                "p99": 0.03840000182390213,
+                "max": 0.2791999876499176
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "s2_scl_policy_live",
+          "verdict": "PASS",
+          "detail": {
+            "policy_version": "s2_scl_qa_v1_1",
+            "valid_classes": [
+              4,
+              5,
+              6
+            ],
+            "not_valid_classes": [
+              0,
+              1,
+              2,
+              3,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "datatake_identifier": "GS2A_20201026T025821_027914_N02.14",
+            "contributing_source_product_ids": [
+              "S2A_MSIL2A_20201026T025821_N0214_R032_T49QFD_20201026T050222"
+            ],
+            "spacecraft": null,
+            "live": {
+              "attempted": true,
+              "n_scenes_for_ids": 1,
+              "live_datatakes": [
+                "GS2A_20201026T025821_027914_N02.14"
+              ],
+              "live_contributing_products": [
+                "S2A_MSIL2A_20201026T025821_N0214_R032_T49QFD_20201026T050222"
+              ],
+              "scl_class_counts": {
+                "11": 22,
+                "5": 8,
+                "6": 1134824,
+                "8": 280
+              },
+              "live_valid_pixels": 1134832,
+              "live_valid_rule": "classes {4 vegetation, 5 bare, 6 water}",
+              "landed_valid_pixels": 1134832,
+              "relative_difference": 0.0,
+              "tolerance": 0.002,
+              "water_class_6_included_in_live_valid": true
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "sr",
+                "dtype": "float32",
+                "bands": 4,
+                "uncompressed_bytes": 18162144,
+                "actual_bytes": 11981797,
+                "lzw_ratio_uncompressed_over_actual": 1.5158113595147706
+              },
+              {
+                "role": "valid",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 1135134,
+                "actual_bytes": 14577,
+                "lzw_ratio_uncompressed_over_actual": 77.87157851409755
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "actual_mask_v2_gate",
+          "verdict": "PASS",
+          "detail": {
+            "per_band_finite_fraction": {
+              "B2": 1.0,
+              "B3": 1.0,
+              "B4": 1.0,
+              "B8": 1.0
+            },
+            "coverage_basis": "V2_SAME_DATATAKE_UNION_ACTUAL_SR_MASK_OVER_EXPORT_GRID",
+            "grid_pixels": 1135134,
+            "observed_pixels": 1135134,
+            "actual_observed_fraction_grid": 1.0,
+            "actual_observed_fraction_in_w10_cell": 1.0,
+            "gate": 0.95,
+            "independently_recomputed": true,
+            "manifest_gate": {
+              "abs_delta": 0.0,
+              "agreement_tolerance": 1e-06,
+              "byte_fraction": 1.0,
+              "gate": "actual_observed_fraction >= 0.95",
+              "gate_pass": true,
+              "pass": true,
+              "plan_agreement_pass": true,
+              "plan_evidence_source": "LANDED_BYTES",
+              "plan_v2_fraction": 1.0
+            }
+          },
+          "note": "actual-mask coverage 1.0000 grid / 1.0000 in cell (gate 0.95)"
+        },
+        {
+          "name": "interior_nan_scan",
+          "verdict": "PASS",
+          "detail": {
+            "interior_erode_px": 3,
+            "interior_pixels": 1122384,
+            "interior_nonobserved_pixels": 0,
+            "interior_nonobserved_fraction": 0.0,
+            "n_interior_hole_components": 0,
+            "largest_interior_hole_pixels": 0,
+            "largest_interior_hole_fraction": 0.0
+          },
+          "note": "no interior non-observed pixels"
+        },
+        {
+          "name": "repair_provenance",
+          "verdict": "PASS",
+          "detail": {
+            "event_selection_checks": {
+              "revision_pilot_event_selection_v2": true,
+              "plan_checksum": true,
+              "eligibility_v2_eligible": true,
+              "v2_change_matches_plan": true,
+              "v2_change_matches_canary": true,
+              "gate_0p95": true,
+              "label_independent": true,
+              "threshold_relaxation_forbidden": true,
+              "planned_fraction_matches_plan": true,
+              "manifest_event_date_matches_v2_plan": true
+            },
+            "archived_v0_schema": "spartina_observation_product_v0",
+            "kept_raw_sha_matches_v0": {
+              "sr": true,
+              "valid": true
+            },
+            "v2_change": "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK"
+          },
+          "note": "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK: V0 history preserved and verified"
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00226-C00080_S2_2020_quicklook.png",
+            "bytes": 2268257
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "product_id": "NP19_R00226-C00080_S1_2020_A",
+      "cell_id": "CNA10K-R00226-C00080",
+      "sensor": "sentinel1",
+      "year": 2020,
+      "canary_case": "normal_kept_s1",
+      "v2_change": "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK",
+      "verdict": "WARN",
+      "dimensions": [
+        {
+          "name": "manifest_integrity",
+          "verdict": "PASS",
+          "detail": {
+            "files": [
+              {
+                "role": "vvvh",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_S1_2020_A_vvvh_20201010_r1.tif",
+                "exists": true,
+                "size_bytes_manifest": 9812243,
+                "size_bytes_actual": 9812243,
+                "sha256_manifest": "7cb413fb8e8e32ad111547d9eb03dff0ab257741998f4b3741dafef12619aec8",
+                "sha256_recomputed": "7cb413fb8e8e32ad111547d9eb03dff0ab257741998f4b3741dafef12619aec8"
+              },
+              {
+                "role": "dualpol_valid_v2",
+                "path": "/data/yingda/Spartina-Earth/work/national/pilot19/products/spartina_pilot19_NP19_R00226-C00080_S1_2020_A_dualpol_valid_v2_20201010_v2.tif",
+                "exists": true,
+                "size_bytes_manifest": 14620,
+                "size_bytes_actual": 14620,
+                "sha256_manifest": "4266322b6b15d80781be7077a15fa7f39f7a63505647d3a6bcf496d5b4fb7089",
+                "sha256_recomputed": "4266322b6b15d80781be7077a15fa7f39f7a63505647d3a6bcf496d5b4fb7089",
+                "derived_locally": true,
+                "raw_values_modified": false
+              }
+            ],
+            "task_states": {
+              "vvvh": "COMPLETED"
+            },
+            "schema": "spartina_observation_product_v1",
+            "n_bytes_manifest": 9826863
+          },
+          "note": ""
+        },
+        {
+          "name": "component_grid_consistency",
+          "verdict": "PASS",
+          "detail": {
+            "headers": {
+              "vvvh": {
+                "crs_epsg": 32649,
+                "transform": [
+                  10.0,
+                  0.0,
+                  669800.0,
+                  0.0,
+                  -10.0,
+                  2389170.0
+                ],
+                "width": 1053,
+                "height": 1078,
+                "count": 2,
+                "dtypes": [
+                  "float32",
+                  "float32"
+                ],
+                "descriptions": [
+                  "VV",
+                  "VH"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              },
+              "dualpol_valid_v2": {
+                "crs_epsg": 32649,
+                "transform": [
+                  10.0,
+                  0.0,
+                  669800.0,
+                  0.0,
+                  -10.0,
+                  2389170.0
+                ],
+                "width": 1053,
+                "height": 1078,
+                "count": 1,
+                "dtypes": [
+                  "uint8"
+                ],
+                "descriptions": [
+                  "S1_DUALPOL_VALID_V2"
+                ],
+                "compress": "lzw",
+                "nodata": null
+              }
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "independent_grid_rebuild",
+          "verdict": "PASS",
+          "detail": {
+            "manifest_zone": 49,
+            "panel_center_lon": 112.690503,
+            "rebuilt": {
+              "crs_epsg": 32649,
+              "transform": [
+                10.0,
+                0.0,
+                669800.0,
+                0.0,
+                -10.0,
+                2389170.0
+              ],
+              "width": 1053,
+              "height": 1078,
+              "bounds": [
+                669801.9595345336,
+                2378393.440255455,
+                680321.7810050887,
+                2389161.6652383734
+              ]
+            },
+            "header": {
+              "crs_epsg": 32649,
+              "transform": [
+                10.0,
+                0.0,
+                669800.0,
+                0.0,
+                -10.0,
+                2389170.0
+              ],
+              "width": 1053,
+              "height": 1078
+            }
+          },
+          "note": ""
+        },
+        {
+          "name": "cell_geometry_coverage",
+          "verdict": "PASS",
+          "detail": {
+            "n_cell_centre_pixels": 999959,
+            "observed_in_cell": 999959,
+            "observed_coverage": 1.0,
+            "coverage_tier": "S1_ACTUAL_FOOTPRINT",
+            "gate": 0.5
+          },
+          "note": "observed cell coverage 1.0000 (gate 0.5)"
+        },
+        {
+          "name": "label_adapter_alignment",
+          "verdict": "PASS",
+          "detail": {
+            "adapters": [
+              {
+                "source": "cmsa-2020",
+                "support_m": 30,
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  0.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "geodata-2020",
+                "support_m": 30,
+                "crs_epsg": 32649,
+                "transform": [
+                  30.0,
+                  0.0,
+                  669780.0,
+                  0.0,
+                  -30.0,
+                  2389170.0
+                ],
+                "width": 352,
+                "height": 360,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "cross_resolution_bounds_delta_m": 20.0,
+                "cross_resolution_tolerance_m": 20.5,
+                "origin_offset_m": [
+                  -20.0,
+                  0.0
+                ],
+                "origin_on_fine_lattice": true,
+                "positive_pixels": 0
+              },
+              {
+                "source": "cmssm-2020",
+                "support_m": 10,
+                "crs_epsg": 32649,
+                "transform": [
+                  10.0,
+                  0.0,
+                  669800.0,
+                  0.0,
+                  -10.0,
+                  2389170.0
+                ],
+                "width": 1053,
+                "height": 1078,
+                "dtype": "float32",
+                "unique_sample": [
+                  0.0
+                ],
+                "exact_same_resolution_transform": true,
+                "pixel_center_residual_m": [
+                  0.0,
+                  0.0
+                ],
+                "positive_pixels": 0
+              }
+            ]
+          },
+          "note": "all relevant adapters align"
+        },
+        {
+          "name": "coastline_overlay",
+          "verdict": "WARN",
+          "detail": {
+            "gshhs": "/data/yingda/Spartina-Earth/work/external/gshhg_2_3_7/extracted/GSHHS_shp/h/GSHHS_h_L1.shp",
+            "n_polygons_intersecting": 7,
+            "land_area_fraction_of_cell": 0.0,
+            "coastline_length_m_in_buffer": 1320.3347094319229
+          },
+          "note": "cell land fraction 0.000; verify coastal membership"
+        },
+        {
+          "name": "s1_identity_and_physics",
+          "verdict": "PASS",
+          "detail": {
+            "bands": {
+              "VV": {
+                "min": -37.21100997924805,
+                "p01": -24.024146537780762,
+                "p50": -17.129276275634766,
+                "p99": -12.12315103530884,
+                "max": 3.0222625732421875,
+                "std": 2.4967776201914886,
+                "finite_fraction": 1.0
+              },
+              "VH": {
+                "min": -50.44139862060547,
+                "p01": -34.534075622558596,
+                "p50": -27.400197982788086,
+                "p99": -23.363730545043964,
+                "max": -8.474322319030762,
+                "std": 2.135830065657757,
+                "finite_fraction": 1.0
+              }
+            },
+            "above_hard_envelope_pixels": 0,
+            "physical_tail_fraction": {
+              "VV": 0.0,
+              "VH": 8.809532619056428e-07
+            },
+            "upper_hard_envelope_db": 45.0,
+            "live": {
+              "attempted": true,
+              "server_stats": {
+                "VV": {
+                  "min": -37.21101120118814,
+                  "max": 3.0222624570438477,
+                  "p01": -24.121670611015563,
+                  "p50": -17.1251268046619,
+                  "p99": -12.129164343842843
+                },
+                "VH": {
+                  "min": -50.4413976619836,
+                  "max": -8.474322266562895,
+                  "p01": -34.62345260360321,
+                  "p50": -27.373538207277434,
+                  "p99": -23.38232858651728
+                }
+              },
+              "abs_deltas": {
+                "VV_min": 0.0,
+                "VV_max": 0.0,
+                "VV_p01": 0.0975,
+                "VV_p50": 0.0041,
+                "VV_p99": 0.006,
+                "VH_min": 0.0,
+                "VH_max": 0.0,
+                "VH_p01": 0.0894,
+                "VH_p50": 0.0267,
+                "VH_p99": 0.0186
+              },
+              "checks": {
+                "VV_min": true,
+                "VV_max": true,
+                "VV_p01": true,
+                "VV_p50": true,
+                "VV_p99": true,
+                "VH_min": true,
+                "VH_max": true,
+                "VH_p01": true,
+                "VH_p50": true,
+                "VH_p99": true
+              },
+              "pass": true
+            },
+            "transform": "IDENTITY_SELECT_ONLY_NO_10LOG10"
+          },
+          "note": ""
+        },
+        {
+          "name": "s1_pass_orbit_footprint",
+          "verdict": "PASS",
+          "detail": {
+            "plan_pass": "",
+            "gee_pass": "ASCENDING",
+            "plan_relative_orbit": 11,
+            "gee_relative_orbit": 11,
+            "polarisation": [
+              "VV",
+              "VH"
+            ],
+            "VV_finite_fraction": 1.0,
+            "VH_finite_fraction": 1.0,
+            "coverage_tier": "S1_ACTUAL_FOOTPRINT"
+          },
+          "note": ""
+        },
+        {
+          "name": "measured_lzw_compression",
+          "verdict": "PASS",
+          "detail": {
+            "components": [
+              {
+                "role": "vvvh",
+                "dtype": "float32",
+                "bands": 2,
+                "uncompressed_bytes": 9081072,
+                "actual_bytes": 9812243,
+                "lzw_ratio_uncompressed_over_actual": 0.9254838063019841
+              },
+              {
+                "role": "dualpol_valid_v2",
+                "dtype": "uint8",
+                "bands": 1,
+                "uncompressed_bytes": 1135134,
+                "actual_bytes": 14620,
+                "lzw_ratio_uncompressed_over_actual": 77.64254445964433
+              }
+            ]
+          },
+          "note": ""
+        },
+        {
+          "name": "actual_mask_v2_gate",
+          "verdict": "PASS",
+          "detail": {
+            "dualpol_finite_fraction": 1.0,
+            "floor_area_fraction": 0.0,
+            "coverage_basis": "V2_DUALPOL_ACTUAL_MASK_INCL_EXTREME_FLOOR_OVER_EXPORT_GRID",
+            "grid_pixels": 1135134,
+            "observed_pixels": 1135134,
+            "actual_observed_fraction_grid": 1.0,
+            "actual_observed_fraction_in_w10_cell": 1.0,
+            "gate": 0.95,
+            "independently_recomputed": true,
+            "manifest_gate": {
+              "abs_delta": 0.0,
+              "agreement_tolerance": 1e-06,
+              "byte_fraction": 1.0,
+              "gate": "actual_observed_fraction >= 0.95",
+              "gate_pass": true,
+              "pass": true,
+              "plan_agreement_pass": true,
+              "plan_evidence_source": "LANDED_BYTES",
+              "plan_v2_fraction": 1.0
+            }
+          },
+          "note": "actual-mask coverage 1.0000 grid / 1.0000 in cell (gate 0.95)"
+        },
+        {
+          "name": "interior_nan_scan",
+          "verdict": "PASS",
+          "detail": {
+            "interior_erode_px": 3,
+            "interior_pixels": 1122384,
+            "interior_nonobserved_pixels": 0,
+            "interior_nonobserved_fraction": 0.0,
+            "n_interior_hole_components": 0,
+            "largest_interior_hole_pixels": 0,
+            "largest_interior_hole_fraction": 0.0
+          },
+          "note": "no interior non-observed pixels"
+        },
+        {
+          "name": "s1_extreme_floor_token",
+          "verdict": "PASS",
+          "detail": {
+            "floor_rule_db": -70.0,
+            "floor_semantics": "NON_OBSERVATION_EXTREME_FLOOR",
+            "floor_pixels_vv": 0,
+            "floor_pixels_vh": 0,
+            "floor_pixels_either": 0,
+            "floor_area_fraction": 0.0,
+            "interior_floor_fraction": 0.0,
+            "floor_edge_associated_fraction": null,
+            "edge_near_px": 3,
+            "floor_distance_to_border": null,
+            "raw_band_statistics_db": {
+              "VV": {
+                "min": -37.21100997924805,
+                "p01": -24.024146537780762,
+                "p50": -17.129276275634766,
+                "p99": -12.12315103530884,
+                "max": 3.0222625732421875,
+                "fraction_le_minus70": 0.0
+              },
+              "VH": {
+                "min": -50.44139862060547,
+                "p01": -34.534075622558596,
+                "p50": -27.400197982788086,
+                "p99": -23.363730545043964,
+                "max": -8.474322319030762,
+                "fraction_le_minus70": 0.0
+              }
+            },
+            "token_pixel_identical_to_rule": true,
+            "raw_values_modified": false
+          },
+          "note": "token pixel-exact; floor area fraction 0.000000; raw identity bytes preserved"
+        },
+        {
+          "name": "repair_provenance",
+          "verdict": "PASS",
+          "detail": {
+            "event_selection_checks": {
+              "revision_pilot_event_selection_v2": true,
+              "plan_checksum": true,
+              "eligibility_v2_eligible": true,
+              "v2_change_matches_plan": true,
+              "v2_change_matches_canary": true,
+              "gate_0p95": true,
+              "label_independent": true,
+              "threshold_relaxation_forbidden": true,
+              "planned_fraction_matches_plan": true,
+              "manifest_event_date_matches_v2_plan": true
+            },
+            "archived_v0_schema": "spartina_observation_product_v0",
+            "kept_raw_sha_matches_v0": {
+              "vvvh": true
+            },
+            "v2_change": "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK"
+          },
+          "note": "KEPT_SAME_EVENT_PASSES_ACTUAL_MASK: V0 history preserved and verified"
+        },
+        {
+          "name": "quicklook",
+          "verdict": "PASS",
+          "detail": {
+            "path": "/data/yingda/Spartina-Earth/work/national/pilot19/quicklooks/NP19_R00226-C00080_S1_2020_A_quicklook.png",
+            "bytes": 2387459
+          },
+          "note": ""
+        }
+      ]
+    }
+  ]
+}

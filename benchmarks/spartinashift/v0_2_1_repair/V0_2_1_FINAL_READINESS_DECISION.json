@@ -1,0 +1,79 @@
+{
+  "product": "V0_2_1_FINAL_READINESS_DECISION",
+  "issue": 21,
+  "phase": "2A.1_STEP5",
+  "generated_utc": "2026-11-26T18:24:19.578805+00:00",
+  "git_commit": "5b10d3b6751b6b9129a5d1936e6d7eeb7453956f",
+  "verdict": "NOT_READY_FOR_SPARTINASHIFT_V0_2_PROTOCOL",
+  "verdict_semantics": "frozen Issue #21 rule: readiness requires QA batch verdict in {QA_PASS, QA_PASS_WITH_HONEST_SOURCE_REJECTIONS}; this batch is QA_FAIL_SYSTEMATIC_STOP (1 product), so the strict verdict is NOT_READY despite all three GEODATA gate thresholds being met on the QA-clean accepted denominator. This verdict authorises no training and makes no accuracy claim.",
+  "geodata_temporal_gate": {
+    "requirement": "positive cells both years >=12; regions >=3; background >=12 (Landsat landed, >=0.95 actual-mask, frozen QA contract)",
+    "frozen_v0_2_measured": {
+      "positive_cells_both_years": 11,
+      "regions": 5,
+      "background_cells_both_years": 11
+    },
+    "repair_added_qa_passed_both_years": {
+      "positive_cells": [
+        "CNA10K-R00331-C00149",
+        "CNA10K-R00352-C00155",
+        "CNA10K-R00372-C00139",
+        "CNA10K-R00416-C00120"
+      ],
+      "background_cells": [
+        "CNA10K-R00364-C00141"
+      ]
+    },
+    "measured_v0_2_1_landed_and_qa_passed": {
+      "positive_cells_both_years": 15,
+      "regions": 5,
+      "background_cells_both_years": 12
+    },
+    "thresholds_met": true,
+    "robustness": "even excluding R00372-C00139 entirely (cell of the single QA-failed product): positives 14 >= 12; background 12 >= 12"
+  },
+  "export_qa": {
+    "batch_verdict": "QA_FAIL_SYSTEMATIC_STOP",
+    "products_landed": 35,
+    "component_tasks": {
+      "submitted": 105,
+      "succeeded": 105
+    },
+    "total_landed_bytes": 132432833,
+    "single_failure": {
+      "product_id": "V021_R00372-C00139_L8_2015_E",
+      "error": "VALID component has zero valid pixels",
+      "detail": "QA_PIXEL surface mask 0/151285; SR bands 98.9-100% finite; byte actual-mask 0.990 >= 0.95; frozen honest-rejection precondition (all SR bands 100% finite) unmet -> hard error per unchanged frozen contract",
+      "disposition": "excluded from accepted denominator; not a systematic export failure (34/35 clean; sha256/grid/physical checks pass on all landed files)",
+      "owner_options": [
+        "accept as source-quality rejection analogous to panel ZERO_QA_VALID_SURFACE_PIXELS (explicit Owner decision; would make the batch QA_PASS_WITH_HONEST_SOURCE_REJECTIONS and the gate READY)",
+        "commission a NEW protocol revision (e.g. v0.2.2) that explicitly redefines the discovery pool or honest-rejection contract for this class BEFORE any substitute/re-export \u2014 requires Owner-level protocol change, not executable by agent under current freeze"
+      ]
+    }
+  },
+  "evidence": {
+    "live_plan": "benchmarks/spartinashift/v0_2_1_repair/LIVE_GEE_REPAIR_PLAN.json",
+    "live_plan_checksum": "3a7e4669f287347568a7abbc0bb62f548cf4a39595164b9d17256a092e48c37c",
+    "export_manifest": "benchmarks/spartinashift/v0_2_1_repair/REPAIR_EXPORT_MANIFEST.json",
+    "qa_report": "benchmarks/spartinashift/v0_2_1_repair/REPAIR_QA_REPORT.json",
+    "qa_report_checksum": "3264b1046e158c62b9d92fa3f89b33161f40d7011e6555322228af3f79ad7dfa",
+    "verification_report": "docs/roadmap/LIVE_GEE_VERIFICATION_REPORT.md",
+    "export_log": "docs/roadmap/REPAIR_EXPORT_LOG.md"
+  },
+  "constraints_kept": [
+    "no v0_2 frozen file modified",
+    "no label modified",
+    "no QA threshold modified",
+    "no model-informed selection",
+    "no reserve change",
+    "no training",
+    "no paper/preprint"
+  ],
+  "next_step": "PAUSED \u2014 awaiting Owner review of the single QA item before any protocol-freeze decision; formal benchmark start conditions unchanged",
+  "phase_2a_1_update": "Owner Option B (rank-2 substitute) audited and NOT executable: the frozen evaluated pool contains no gate-passing rank-2 candidate (rank-1 L7 0.746 < 0.95 pre-export; rank-2 L8 was the selected/exported product; no rank-3; pool expansion forbidden). Replacement export not executed. QA batch verdict unchanged (QA_FAIL_SYSTEMATIC_STOP). Verdict remains NOT_READY per frozen QA-verdict semantics.",
+  "rank2_substitute": {
+    "executed": false,
+    "evidence": "benchmarks/spartinashift/v0_2_1_repair/RANK2_SUBSTITUTE_PLAN.json"
+  },
+  "document_checksum": "39f1e48c30099e5110900d0af23f01d672ed8bd135a9754ea0eac1f99f5af3ae"
+}

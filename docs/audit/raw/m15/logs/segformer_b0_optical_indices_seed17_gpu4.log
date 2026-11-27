@@ -1,0 +1,15 @@
+/data/yingda/software/miniconda3/envs/spartina-earth/lib/python3.11/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Some weights of SegformerForSemanticSegmentation were not initialized from the model checkpoint at nvidia/segformer-b0-finetuned-ade-512-512 and are newly initialized because the shapes did not match:
+- decode_head.classifier.bias: found shape torch.Size([150]) in the checkpoint and torch.Size([1]) in the model instantiated
+- decode_head.classifier.weight: found shape torch.Size([150, 256, 1, 1]) in the checkpoint and torch.Size([1, 256, 1, 1]) in the model instantiated
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+{
+ "run_id": "segformer_b0_optical_indices_seed-17_20260927T081529Z",
+ "best_epoch": 55,
+ "val_threshold": 0.14,
+ "val_core_iou": 0.6373879052655783,
+ "checkpoint_sha256": "24b47028ff8d2d5c",
+ "gpu": 4,
+ "wall_s": 75.9
+}

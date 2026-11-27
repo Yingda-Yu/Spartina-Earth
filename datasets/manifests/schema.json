@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Yingda-Yu/Spartina-Earth/datasets/manifests/schema.json",
+  "title": "Spartina Earth Data Asset Manifest",
+  "description": "One record per data asset (scene, tile, label file, or derived product). Bytes are never committed to Git; this manifest is the traceable record. Missing values must be null or the string UNKNOWN, never guessed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "asset_id",
+    "source",
+    "provider",
+    "sensor",
+    "product",
+    "acquisition_time",
+    "year",
+    "region",
+    "bbox",
+    "crs",
+    "resolution",
+    "bands",
+    "label_type",
+    "label_quality",
+    "license",
+    "permission",
+    "local_uri",
+    "remote_uri",
+    "checksum",
+    "provenance",
+    "status",
+    "notes"
+  ],
+  "properties": {
+    "asset_id": {
+      "type": "string",
+      "description": "Globally unique stable identifier, e.g. scene-<sceneId> or tile-<tileId>-<date>."
+    },
+    "source": {
+      "type": ["string", "null"],
+      "description": "Acquisition channel, e.g. google_earth_engine, government_portal, partner_uav, legacy_recovery."
+    },
+    "provider": {
+      "type": ["string", "null"],
+      "description": "Data provider / rights holder."
+    },
+    "sensor": {
+      "type": ["string", "null"],
+      "description": "Sensor registry name (landsat5/7/8/9, sentinel1, sentinel2) or null for non-EO assets."
+    },
+    "product": {
+      "type": ["string", "null"],
+      "description": "Product/collection identifier, e.g. LANDSAT/LC08/C02/T1_L2."
+    },
+    "acquisition_time": {
+      "type": ["string", "null"],
+      "description": "ISO 8601 acquisition timestamp or date; null if not applicable."
+    },
+    "year": {
+      "type": ["integer", "null"],
+      "minimum": 1900,
+      "maximum": 2100
+    },
+    "region": {
+      "type": ["string", "null"],
+      "description": "Anonymized coastal region/segment identifier from the versioned region table."
+    },
+    "bbox": {
+      "type": ["array", "null"],
+      "items": { "type": "number" },
+      "minItems": 4,
+      "maxItems": 4,
+      "description": "[west, south, east, north] in the declared CRS, or null."
+    },
+    "crs": {
+      "type": ["string", "null"],
+      "description": "CRS as EPSG code (e.g. EPSG:32651) or WKT reference; null if not georeferenced."
+    },
+    "resolution": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["value_m", "native"],
+      "properties": {
+        "value_m": { "type": ["number", "null"], "minimum": 0 },
+        "native": { "type": "boolean", "description": "true if data are at sensor-native resolution; false if resampled (must never be claimed native)." }
+      }
+    },
+    "bands": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Band identities actually present (registry band names)."
+    },
+    "label_type": {
+      "type": ["string", "null"],
+      "enum": [null, "none", "polygon", "raster_mask", "bbox", "point", "weak_index", "derived"],
+      "description": "Label geometry/type, or null for unlabeled assets."
+    },
+    "label_quality": {
+      "type": "string",
+      "enum": ["GOLD", "SILVER", "WEAK", "UNLABELED"],
+      "description": "GOLD=field/UAV/expert; SILVER=credible government/peer-reviewed product with provenance; WEAK=index/rule/legacy auto; UNLABELED=raw EO."
+    },
+    "license": {
+      "type": "string",
+      "description": "License identifier or UNKNOWN. Never assume Apache for non-code data."
+    },
+    "permission": {
+      "type": "string",
+      "enum": ["redistributable", "research-only", "internal-only", "unknown"],
+      "description": "Redistribution permission established for this project."
+    },
+    "local_uri": {
+      "type": ["string", "null"],
+      "description": "Local storage URI outside Git (datasets/raw, datasets/processed), or null."
+    },
+    "remote_uri": {
+      "type": ["string", "null"],
+      "description": "Upstream URI (GEE asset, DOI, portal URL), or null."
+    },
+    "checksum": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": { "type": "string", "enum": ["sha256", "md5", "none"] },
+        "value": { "type": ["string", "null"] }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Trace chain: source scene -> preprocessing -> label/model versions.",
+      "required": ["chain"],
+      "properties": {
+        "chain": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["step", "identifier"],
+            "properties": {
+              "step": { "type": "string", "examples": ["source_scene", "preprocessing", "label", "model", "checkpoint", "inference_config", "output"] },
+              "identifier": { "type": ["string", "null"] },
+              "version": { "type": ["string", "null"] },
+              "notes": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["cataloged", "downloaded", "qa_passed", "qa_failed", "labeled", "superseded", "quarantined", "missing"],
+      "description": "Lifecycle status."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text caveats; UNKNOWN/MISSING/TODO_VERIFY markers belong here when relevant."
+    }
+  }
+}

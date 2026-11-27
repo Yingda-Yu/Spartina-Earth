@@ -1,0 +1,395 @@
+{
+  "product": "national_pilot19_storage_study_v1",
+  "issue": 19,
+  "phase": "M",
+  "generated_utc": "2026-10-08T22:11:11.809877+00:00",
+  "git_commit": "659885c8a11b9aa5965d8ffa254e038c128c34e0",
+  "status": "STUDY_ONLY; no GEE calls made; no national batch launched; aggregates only (no per-cell national event plan)",
+  "domain": {
+    "version": "W10_DOMAIN_V1_CORE_FROZEN",
+    "n_keep_cells": 3016,
+    "keep_states": [
+      "KEEP_MAINLAND_COASTAL",
+      "KEEP_ISLAND_COASTAL"
+    ],
+    "utm_zones": {
+      "48": 3,
+      "49": 839,
+      "50": 831,
+      "51": 1340,
+      "52": 3
+    },
+    "export_grid_pixels_30m": {
+      "mean": 140338,
+      "min": 114228,
+      "max": 163191
+    },
+    "export_grid_pixels_10m": {
+      "mean": 1258542,
+      "min": 1024000,
+      "max": 1462618
+    },
+    "grid_rule": "cell native UTM zone from WGS84 centroid; edges densified 21 points/edge before projection; covering_grid origin snapped to pixel multiples (same rule as label supports)"
+  },
+  "inputs": {
+    "registry_csv": "china_coastal_cells_v1_1_core_frozen.csv",
+    "census_version": "v0_1",
+    "census_supersession_doc": "CHINA_EO_CENSUS_SUPERSESSION_v0_1.json",
+    "m21b_products_dir": "work/m21b/products",
+    "n_m21b_tifs": 27,
+    "m21b_bytes_total": 127253613,
+    "pilot_plan_csv": "national_pilot_event_plan_v1.csv",
+    "pilot_selected_products": 194,
+    "checksums": {
+      "registry_csv_sha256": "935624f3e5bb85b0072c218eacf184b0d125992c8f012d519382a50798cf7b53",
+      "panel_csv_sha256": "6c2d3a2dfa9062c1e14f9884c4c8f4aefb30bc8076d8312602e65bad793bd4bd",
+      "plan_csv_sha256": "ebc36a5a3b5e5f97ff603526e8e66a10e96a2344158748436d0b4aedb6f80769",
+      "cell_event_census_v0_1_sha256": "4aba63b4754dbf3f89be44e374abbac7c6fc81252414d314e6837b8354918569",
+      "scene_census_v0_1_sha256": "e1188f8b9b43c27c692be1efa14013272558d2c22e9e137d36b3cec526b86637",
+      "wrs2_footprints_v0_1_sha256": "7a13b7bc5aabf7eb8a99cd63540c3841a22dffa6f68d39f4a56a44a3f96114e3",
+      "mgrs_footprints_v0_1_sha256": "113c35ab4aeb59e3bc777821a761bd2f16220d5db52026ecfca81f263d57c5de"
+    }
+  },
+  "byte_factors": {
+    "l89_sr": {
+      "component": "l89_sr",
+      "n_samples": 2,
+      "raw_bytes_per_pixel": 28.0,
+      "lzw_ratio_mean": 1.079111,
+      "lzw_ratio_min": 1.079101,
+      "lzw_ratio_max": 1.07912,
+      "bytes_per_pixel_mean": 30.2151,
+      "bytes_per_pixel_low": 30.2148,
+      "bytes_per_pixel_high": 30.2154,
+      "evidence_token": "MEASURED_M21B_LZW_GEOTIFF"
+    },
+    "l_qa": {
+      "component": "l_qa",
+      "n_samples": 2,
+      "raw_bytes_per_pixel": 2.0,
+      "lzw_ratio_mean": 0.079539,
+      "lzw_ratio_min": 0.047882,
+      "lzw_ratio_max": 0.111195,
+      "bytes_per_pixel_mean": 0.1591,
+      "bytes_per_pixel_low": 0.0958,
+      "bytes_per_pixel_high": 0.2224,
+      "evidence_token": "MEASURED_M21B_LZW_GEOTIFF"
+    },
+    "l_valid": {
+      "component": "l_valid",
+      "n_samples": 2,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 0.049249,
+      "lzw_ratio_min": 0.03738,
+      "lzw_ratio_max": 0.061117,
+      "bytes_per_pixel_mean": 0.0492,
+      "bytes_per_pixel_low": 0.0374,
+      "bytes_per_pixel_high": 0.0611,
+      "evidence_token": "MEASURED_M21B_LZW_GEOTIFF"
+    },
+    "s2_sr": {
+      "component": "s2_sr",
+      "n_samples": 10,
+      "raw_bytes_per_pixel": 16.0,
+      "lzw_ratio_mean": 0.696183,
+      "lzw_ratio_min": 0.490307,
+      "lzw_ratio_max": 0.83404,
+      "bytes_per_pixel_mean": 11.1389,
+      "bytes_per_pixel_low": 7.8449,
+      "bytes_per_pixel_high": 13.3446,
+      "evidence_token": "MEASURED_M21B_LZW_GEOTIFF"
+    },
+    "s2_valid": {
+      "component": "s2_valid",
+      "n_samples": 10,
+      "raw_bytes_per_pixel": 1.0,
+      "lzw_ratio_mean": 0.016356,
+      "lzw_ratio_min": 0.010058,
+      "lzw_ratio_max": 0.022842,
+      "bytes_per_pixel_mean": 0.0164,
+      "bytes_per_pixel_low": 0.0101,
+      "bytes_per_pixel_high": 0.0228,
+      "evidence_token": "MEASURED_M21B_LZW_GEOTIFF"
+    },
+    "s1_vvvh": {
+      "component": "s1_vvvh",
+      "n_samples": 1,
+      "raw_bytes_per_pixel": 8.0,
+      "lzw_ratio_mean": 1.114111,
+      "lzw_ratio_min": 1.114111,
+      "lzw_ratio_max": 1.114111,
+      "bytes_per_pixel_mean": 8.9129,
+      "bytes_per_pixel_low": 8.9129,
+      "bytes_per_pixel_high": 8.9129,
+      "evidence_token": "MEASURED_M21B_LZW_GEOTIFF"
+    },
+    "l57_sr": {
+      "component": "l57_sr",
+      "n_samples": 0,
+      "raw_bytes_per_pixel": 24.0,
+      "lzw_ratio_mean": 1.079111,
+      "lzw_ratio_min": 1.079101,
+      "lzw_ratio_max": 1.07912,
+      "bytes_per_pixel_mean": 25.8987,
+      "bytes_per_pixel_low": 25.8984,
+      "bytes_per_pixel_high": 25.8989,
+      "evidence_token": "ESTIMATE_FLOAT32_LZW_RATIO_BORROWED_FROM_L8_TODO_MEASURE_AT_PHASE_D"
+    }
+  },
+  "bundle_task_model": {
+    "landsat5": {
+      "components": [
+        "l57_sr",
+        "l_qa",
+        "l_valid"
+      ],
+      "gee_tasks_per_product": 3,
+      "files_per_product": 3,
+      "resolution": "30m"
+    },
+    "landsat7": {
+      "components": [
+        "l57_sr",
+        "l_qa",
+        "l_valid"
+      ],
+      "gee_tasks_per_product": 3,
+      "files_per_product": 3,
+      "resolution": "30m"
+    },
+    "landsat8": {
+      "components": [
+        "l89_sr",
+        "l_qa",
+        "l_valid"
+      ],
+      "gee_tasks_per_product": 3,
+      "files_per_product": 3,
+      "resolution": "30m"
+    },
+    "landsat9": {
+      "components": [
+        "l89_sr",
+        "l_qa",
+        "l_valid"
+      ],
+      "gee_tasks_per_product": 3,
+      "files_per_product": 3,
+      "resolution": "30m"
+    },
+    "sentinel2": {
+      "components": [
+        "s2_sr",
+        "s2_valid"
+      ],
+      "gee_tasks_per_product": 2,
+      "files_per_product": 2,
+      "resolution": "10m"
+    },
+    "sentinel1": {
+      "components": [
+        "s1_vvvh"
+      ],
+      "gee_tasks_per_product": 1,
+      "files_per_product": 1,
+      "resolution": "10m"
+    }
+  },
+  "pilot_scenario": {
+    "scope": "20 fixed panel cells",
+    "selected_products_by_sensor": {
+      "landsat5": 27,
+      "landsat7": 6,
+      "landsat8": 50,
+      "sentinel1": 69,
+      "sentinel2": 42
+    },
+    "n_products": 194,
+    "n_gee_tasks": 402,
+    "n_files": 402,
+    "bytes_base": 1750930093,
+    "bytes_low": 1571747462,
+    "bytes_high": 1870912889,
+    "source_event_dedup": [
+      {
+        "sensor": "landsat5",
+        "n_products": 27,
+        "n_distinct_source_events": 23,
+        "products_per_source_event": 1.174
+      },
+      {
+        "sensor": "landsat7",
+        "n_products": 6,
+        "n_distinct_source_events": 5,
+        "products_per_source_event": 1.2
+      },
+      {
+        "sensor": "landsat8",
+        "n_products": 50,
+        "n_distinct_source_events": 37,
+        "products_per_source_event": 1.351
+      },
+      {
+        "sensor": "sentinel1",
+        "n_products": 69,
+        "n_distinct_source_events": 43,
+        "products_per_source_event": 1.605
+      },
+      {
+        "sensor": "sentinel2",
+        "n_products": 42,
+        "n_distinct_source_events": 27,
+        "products_per_source_event": 1.556
+      }
+    ],
+    "label_supports": {
+      "n_tifs": 220,
+      "bytes_measured": 3667918,
+      "bytes_per_cell_measured": 183395.9
+    }
+  },
+  "national_minimal_scenario": {
+    "scope": "3,016 KEEP cells; five anchor slots (1990/2000/2015/2020/2021); S1 one product per pass; 2000 L5->L7 sequential fallback; strict + Landsat near-full tiers",
+    "n_products": 29460,
+    "n_gee_tasks": 60397,
+    "n_files": 60397,
+    "bytes_base": 259507775635,
+    "bytes_low": 233629740286,
+    "bytes_high": 276836012258
+  },
+  "national_standard_scenario": {
+    "scope": "3,016 KEEP cells; one selected product per cell x sensor x year under the same predeclared gates; S1 per pass; full operational years only (2026 YTD excluded); L7 and L8 both retained in overlap years (conservative per-series upper bound); SCENARIO ASSUMPTION FOR SIZING, NOT A PRODUCTION POLICY",
+    "years": {
+      "landsat5": [
+        1984,
+        2011
+      ],
+      "landsat7": [
+        1999,
+        2023
+      ],
+      "landsat8": [
+        2013,
+        2025
+      ],
+      "landsat9": [
+        2022,
+        2025
+      ],
+      "sentinel1": [
+        2015,
+        2025
+      ],
+      "sentinel2": [
+        2015,
+        2025
+      ]
+    },
+    "core_series": {
+      "n_products": 228688,
+      "n_gee_tasks": 578455,
+      "n_files": 578455,
+      "bytes_base": 1455212798793,
+      "bytes_low": 1339258220139,
+      "bytes_high": 1532857347517
+    },
+    "landsat9_add_on": {
+      "n_products": 10282,
+      "n_gee_tasks": 30846,
+      "n_files": 30846,
+      "bytes_base": 43951489941,
+      "bytes_low": 43951489941,
+      "bytes_high": 43951489941
+    },
+    "core_plus_l9": {
+      "n_products": 238970,
+      "n_gee_tasks": 609301,
+      "n_files": 609301,
+      "bytes_base": 1499164288734,
+      "bytes_low": 1383209710080,
+      "bytes_high": 1576808837458
+    },
+    "y2026_memo_pre_gate_autumn_cells": {
+      "landsat8": 1601,
+      "landsat9": 2793,
+      "sentinel1": 2891,
+      "sentinel2": 3016,
+      "note": "raw census presence before cloud/coverage gates; excluded from base because census v0_1 2026 is YTD"
+    }
+  },
+  "label_supports_national_projection": {
+    "basis": "pilot measured mean per cell x 3,016",
+    "pilot_n_tifs_per_cell": 11,
+    "pilot_bytes_per_cell": 183395.9,
+    "national_bytes_estimate": 553122034,
+    "token": "ESTIMATE_PILOT_MEAN_ONE_TIME_LABEL_BYTES"
+  },
+  "throughput_evidence": {
+    "source": "work/m21b/tasks/task_store.json",
+    "n_completed_tasks_recorded": 46,
+    "backend_duration_minutes": {
+      "qapixel": {
+        "n": 3,
+        "minutes_min": 0.18,
+        "minutes_median": 0.19,
+        "minutes_max": 1.64
+      },
+      "reflectance": {
+        "n": 18,
+        "minutes_min": 0.36,
+        "minutes_median": 0.57,
+        "minutes_max": 1.59
+      },
+      "sr": {
+        "n": 3,
+        "minutes_min": 0.2,
+        "minutes_median": 0.22,
+        "minutes_max": 0.42
+      },
+      "valid": {
+        "n": 21,
+        "minutes_min": 0.16,
+        "minutes_median": 0.44,
+        "minutes_max": 0.68
+      },
+      "vvvh": {
+        "n": 1,
+        "minutes_min": 0.38,
+        "minutes_median": 0.38,
+        "minutes_max": 0.38
+      }
+    },
+    "note": "GEE backend start->update wall time for <=10 km tiles; small-batch observations, not a quota or SLA measurement; end-to-end time is polling/Drive-download bound"
+  },
+  "bottlenecks": [
+    "GEE project/auth currently unavailable: Phase D/E hard blocker",
+    "~60,397 GEE export tasks for the minimal anchor run; orchestration is task-poll/Drive bound, not compute (observed backend minutes per <=10 km tile)",
+    "per-cell clips re-export shared source events (pilot: 194 products from 135 distinct events; S1 1.60 products/event); Issue #20 should evaluate one export per source event on a union bbox plus local windowing",
+    "float32 SR barely compresses under LZW (L8 ratio ~1.08, S1 ~1.11); storage is dominated by SR bytes, masks are <1%",
+    "Google Drive is the staging lane; official concurrent-task and download quotas are TODO_VERIFY against the live project",
+    "Landsat near-full products carry the Phase H >=0.95 geometric valid gate; failures force re-selection and re-export",
+    "native UTM zones span 48-52; cross-zone S2 same-datatake mosaics already supported by the selection policy"
+  ],
+  "restart_resume": {
+    "task_store": "spartina.data.gee.tasks.TaskStore persists stable ids, attempt history and terminal state",
+    "request_ids": "deterministic request_id -> get_by_request_id resume; list_non_terminal after a crash",
+    "attempts": "max 3 attempts with recorded errors before FAILED",
+    "drive": "driveio.find_latest_file/download_latest by prefix; M2.1b r3->r4->r5 revisions show the re-run path",
+    "idempotency": "product_id + revision named exports; landed products carry per-product manifest and checksums, so skip-if-landed is possible"
+  },
+  "estimate_tokens": {
+    "MEASURED_M21B_LZW_GEOTIFF": "LZW bytes measured from 27 real M2.1b exports",
+    "ESTIMATE_FLOAT32_LZW_RATIO_BORROWED_FROM_L8_TODO_MEASURE_AT_PHASE_D": "no L5/L7 M2.1b export exists; ratio borrowed",
+    "ESTIMATE_PILOT_MEAN_ONE_TIME_LABEL_BYTES": "label bytes projected from the 20-cell pilot mean",
+    "S2_SR_RANGE": "bytes_low/high span the 10 measured S2 SR LZW ratios (0.49-0.83); all other components use their measured mean (S1 n=1)"
+  },
+  "gee_auth_probe": {
+    "spartina_gee_project_set": false,
+    "earthengine_ls_users_ok": false,
+    "detail": "Please authorize access to your Earth Engine account by running  earthengine authenticate  in your command line, or ee.Authenticate() in Python, and then retry. ",
+    "phase_d_e_status": "BLOCKED_OWNER_GEE_REAUTHENTICATION_REQUIRED"
+  },
+  "checksums": {
+    "study_csv_sha256": "a72811b2f891bf0da738f8050d58f6ac390454cbcce7e705b52518b8b82a8bf4"
+  }
+}

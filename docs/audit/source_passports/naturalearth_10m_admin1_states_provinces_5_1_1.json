@@ -1,0 +1,21 @@
+{
+  "dataset_id": "NATURALEARTH-10M-ADMIN1-STATES-PROVINCES-5.1.1",
+  "source_url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip",
+  "download_utc": "2026-10-08T00:00:00+00:00",
+  "license": "Public domain (Natural Earth Terms of Use, captured 2026-10-03 from https://www.naturalearthdata.com/about/terms-of-use/: 'All versions of Natural Earth raster + vector map data found on this website are in the public domain.'); attribution not required, citation 'Made with Natural Earth' appreciated",
+  "files": [
+    {"name": "ne_10m_admin_1_states_provinces.zip", "size_bytes": 14909524, "sha256": "efc59726337323058f9446210adc96673179cd344e053666ee3d28cb58ba2b05"},
+    {"name": "ne_10m_admin_1_states_provinces.shp", "size_bytes": 20998780, "sha256": "c6f5c8b4b1320d9417033762419c6df1eb423989cd880fba78ea0b1e3522cbe4"},
+    {"name": "ne_10m_admin_1_states_provinces.dbf", "size_bytes": 15161514, "sha256": "445a8a9bea889634faf0af18081830df0b05b8471fc6af8dc42aecdd7a71bba1"},
+    {"name": "ne_10m_admin_1_states_provinces.shx", "size_bytes": 36868, "sha256": "37a9e2bc79ed31d3bdea3cb62d928f77281a1c88d645cd33430231c75dbcf350"},
+    {"name": "ne_10m_admin_1_states_provinces.prj", "size_bytes": 145, "sha256": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"}
+  ],
+  "citation": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com (Admin 1 - States, Provinces, 1:10m cultural, version 5.1.1).",
+  "doi": "",
+  "publisher": "Natural Earth (NACIS CDN distribution)",
+  "archive_name": "ne_10m_admin_1_states_provinces.zip",
+  "archive_size_bytes": 14909524,
+  "archive_sha256": "efc59726337323058f9446210adc96673179cd344e053666ee3d28cb58ba2b05",
+  "verified_by": "ne_10m_admin_1_states_provinces.VERSION.txt reports 5.1.1; sha256 computed 2026-10-08",
+  "notes": "Issue #18 R1 source-independent coastal-region attribution. Only the ten iso_a2=='CN' coastal province rows used (Liaoning, Hebei, Tianjin, Shandong, Jiangsu, Shanghai, Zhejiang, Fujian, Guangdong, Guangxi), dissolved per project region code in the analysis CRS. The polygons are land-based with generalised coastlines; seaward tidal-flat pixels fall outside them and are attributed by the documented centroid/nearest-province/reach/ambiguity rule (see scripts/analysis/labels/run_2020_scale_audit.py). This layer is independent of CMSA, CM-SSM and GEODATA. Kinmen/Matsu-context admin rows are not used for domain membership (Issue #17 remains owner-gated)."
+}

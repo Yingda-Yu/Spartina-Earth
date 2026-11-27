@@ -1,0 +1,124 @@
+{
+  "created": "2026-11-08 16:18:32",
+  "git_commit": "f2c736843aceedd78d7f0b2acd49570ab714600f",
+  "geodata_entity": {
+    "path": "/data/yingda/Spartina-Earth/work/intake/staging/2020年中国滨海30 m分辨率互花米草空间分布动态数据集-数据实体/2020年中国滨海30 m分辨率互花米草空间分布动态数据集-数据实体.tif",
+    "crs": "PROJCS[\"Krasovsky_1940_Albers\",GEOGCS[\"Unknown datum based upon the Krassowsky 1940 ellipsoid\",DATUM[\"Not_specified_based_on_Krassowsky_1940_ellipsoid\",SPHEROID[\"Krassowsky 1940\",6378245,298.3,AUTHORITY[\"EPSG\",\"7024\"]],AUTHORITY[\"EPSG\",\"6024\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4024\"]],PROJECTION[\"Albers_Conic_Equal_Area\"],PARAMETER[\"latitude_of_center\",0],PARAMETER[\"longitude_of_center\",105],PARAMETER[\"standard_parallel_1\",25],PARAMETER[\"standard_parallel_2\",47],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "shape": [
+      70184,
+      43575
+    ],
+    "res": [
+      30.0,
+      30.0
+    ],
+    "nodata": 255.0,
+    "count": 1,
+    "dtype": "uint8",
+    "value_counts": {
+      "1": 577657,
+      "255": 3057690143
+    },
+    "verified_full_resolution": true,
+    "value_counts_check_total": 3058267800,
+    "presence_area_km2_from_entity": 519.89
+  },
+  "vector_entities": {
+    "CMSA": {
+      "path": "work/intake/staging/中国大陆2017-2021互花米草CMSA/CMSA_2020.shp",
+      "n_polygons": 8914,
+      "gridcode_counts": {
+        "2": 8864,
+        "0": 50
+      }
+    },
+    "CMSSM": {
+      "path": "work/external/cm_ssm_2020_official/extracted/CM-SSM/CM-SSM.shp",
+      "n_patches": 148072,
+      "province_code_counts": {
+        "FJ": 28619,
+        "GD": 2082,
+        "GX": 12658,
+        "HB": 510,
+        "JS": 24180,
+        "SD": 9490,
+        "SH": 24566,
+        "TJ": 6203,
+        "ZJ": 39764
+      }
+    }
+  },
+  "verdict": {
+    "coverage_normalized_iou_computable": false,
+    "reason": "GEODATA entity is presence-only (1) with uniform 255 fill, so absence and no-data are indistinguishable; CMSA and CM-SSM are patch-vector products without observation-domain rasters. No masks were invented."
+  },
+  "distance_statistics": {
+    "('CMSA_vs_GEODATA', 'CMSA', 'GEODATA')": {
+      "n_src_positive_px": 56898,
+      "median_km": 0.0,
+      "p90_km": 0.8062,
+      "share_within_0p1km_pct": 72.92,
+      "share_within_0p5km_pct": 86.18,
+      "share_within_1km_pct": 91.69,
+      "share_beyond_5km_pct": 1.42,
+      "share_beyond_10km_pct": 0.74
+    },
+    "('CMSA_vs_GEODATA', 'GEODATA', 'CMSA')": {
+      "n_src_positive_px": 52123,
+      "median_km": 0.0,
+      "p90_km": 3.7121,
+      "share_within_0p1km_pct": 73.05,
+      "share_within_0p5km_pct": 79.94,
+      "share_within_1km_pct": 83.19,
+      "share_beyond_5km_pct": 8.12,
+      "share_beyond_10km_pct": 4.54
+    },
+    "('CMSSM_vs_GEODATA', 'CMSSM', 'GEODATA')": {
+      "n_src_positive_px": 59079,
+      "median_km": 0.1,
+      "p90_km": 2.2204,
+      "share_within_0p1km_pct": 60.89,
+      "share_within_0p5km_pct": 75.74,
+      "share_within_1km_pct": 82.75,
+      "share_beyond_5km_pct": 5.09,
+      "share_beyond_10km_pct": 4.05
+    },
+    "('CMSSM_vs_GEODATA', 'GEODATA', 'CMSSM')": {
+      "n_src_positive_px": 52123,
+      "median_km": 0.0,
+      "p90_km": 18.6944,
+      "share_within_0p1km_pct": 63.75,
+      "share_within_0p5km_pct": 69.74,
+      "share_within_1km_pct": 72.6,
+      "share_beyond_5km_pct": 17.58,
+      "share_beyond_10km_pct": 13.01
+    },
+    "('CMSA_vs_CMSSM', 'CMSA', 'CMSSM')": {
+      "n_src_positive_px": 56898,
+      "median_km": 0.0,
+      "p90_km": 3.7162,
+      "share_within_0p1km_pct": 82.44,
+      "share_within_0p5km_pct": 86.88,
+      "share_within_1km_pct": 87.88,
+      "share_beyond_5km_pct": 8.9,
+      "share_beyond_10km_pct": 7.08
+    },
+    "('CMSA_vs_CMSSM', 'CMSSM', 'CMSA')": {
+      "n_src_positive_px": 59079,
+      "median_km": 0.0,
+      "p90_km": 0.922,
+      "share_within_0p1km_pct": 77.83,
+      "share_within_0p5km_pct": 86.96,
+      "share_within_1km_pct": 90.34,
+      "share_beyond_5km_pct": 4.5,
+      "share_beyond_10km_pct": 1.81
+    }
+  },
+  "outputs": [
+    "results/r4_coverage_normalized_iou.csv",
+    "results/r4_coverage_strips.csv",
+    "results/r4_coverage_by_region.csv",
+    "figures/fig_r4_coverage_strips.pdf"
+  ],
+  "runtime_s": 351.7
+}

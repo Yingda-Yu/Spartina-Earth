@@ -1,0 +1,84 @@
+{
+  "passport_id": "CMSA-FAMILY-INTAKE-2026-10",
+  "intake_utc": "2026-10-06",
+  "family": "CMSA annual mainland-China Spartina vector maps 2017-2021",
+  "what_it_is": [
+    "Five annual national Spartina alterniflora maps (2017, 2018, 2019, 2020, 2021) delivered as one zip archive from NESDC, containing five ESRI shapefile sets (dbf/prj/shp/shx), one per year.",
+    "Polygons in EPSG:32650 (WGS84 UTM 50N) with fields Id, gridcode, Area_ha, geometry; gridcode 2 = Spartina positive; gridcode 0 = small total-area features of UNKNOWN semantics (excluded from positive totals).",
+    "Produced with DeepLabv3+ semantic segmentation trained on 2020 Sentinel-2 imagery and transferred to the other years (time-series mapping / transfer learning / deep learning keywords).",
+    "Underlying model input is 10 m Sentinel-2 raster; delivered entities are vectorised polygons. The polygon boundaries are not themselves a '10 m geometric resolution' measurement."
+  ],
+  "what_it_is_not": [
+    "Not a GOLD product: no field/UAV verification chain supplied; SILVER published external reference.",
+    "Not the 58,006 ha comparator: that figure is a single-year (2020) comparator quoted in the CM-SSM paper, not an area of this product and not a per-year series.",
+    "Not evidence of year-to-year change: annual differences mix methodology/transfer-learning and scale effects with real dynamics; no change inference may be drawn from map disagreement.",
+    "Not a GeoTIFF package despite XLS format metadata; delivered bytes are shapefiles."
+  ],
+  "provider": {
+    "portal": "National Ecosystem Science Data Center (NESDC), DOI 10.12199/nesdc.ecodb.mon.2026.013; mirror CSTR 15732.11.nesdc.ecodb.mon.2026.017",
+    "producers": "李夏荣 / 田金炎 (tjyremote@126.com)",
+    "generated": "2024-05-02",
+    "published": "2026-04-20 (v1)",
+    "access": "browse open; download requires logged-in purpose statement; short-lived JWT URLs (never stored or committed)",
+    "license": "CC-BY-NC-4.0 declared on the NESDC landing page (公开共享 with purpose statement; attribution to NESDC plus citation of Li, Tian, Li et al. 2024 required)",
+    "paper": "Li, X.; Tian, J.; Li, et al. (2024). Int. J. Remote Sens. 45:3172-3199. DOI 10.1080/01431161.2024.2343136"
+  },
+  "archive": {
+    "name": "中国大陆2017-2021互花米草CMSA.zip",
+    "size_bytes": 6455174,
+    "size_note": "6.1561 MB decimal / 6.46 MB (SI); the earlier v0 manifest reading '6.1561 GB' was a unit error and is corrected in registry v1",
+    "sha256": "5876d9780cf581cf0ee3a35362ef08586463318afa62725ac50476ecfd16b897",
+    "members": 20,
+    "member_sha256": "full per-member sizes/hashes in gitignored work/intake/01_extracted_files.json; 0 corrupt/unreadable/duplicate members",
+    "extraction": "7z x read-only into work/intake/staging/中国大陆2017-2021互花米草CMSA/"
+  },
+  "xls_metadata": {
+    "file": "2017-2021年中国大陆10 m互花米草数据集.xls",
+    "size_bytes": 7680,
+    "sha256": "13b083b14dbbb16a5099dd698e6657756cbf549e2b31377d4a4b0af14bcb7538",
+    "sheet": "元数据 (34 rows)",
+    "defects": [
+      "time-range text says 2017-2020 while title/abstract and the delivered archive all cover 2017-2021: stale text field; the archive itself contains ALL FIVE years 2017-2021, so year inventory is COMPLETE",
+      "format text says GeoTIFF / 38 MB but delivered entities are shapefile vectors totaling ~6.16 MB compressed",
+      "no per-year accuracy metrics or validation design in the XLS (paper details TODO_VERIFY)"
+    ]
+  },
+  "per_year_facts": [
+    {"year": 2017, "features_total": 5341, "gridcode0_features": 49, "gridcode0_area_km2": 0.89, "positive_gridcode2_area_km2": 494.69, "all_feature_area_km2": 495.59, "invalid_self_intersecting": 125, "duplicate_id_rows": 49, "slivers_lt_100m2": 0, "w10_keep_km2": 458.386, "w10_provisional_km2": 0.028, "w10_outside_km2": 34.87, "w10_exclude_km2": 0.0},
+    {"year": 2018, "features_total": 5985, "gridcode0_features": 53, "gridcode0_area_km2": 2.56, "positive_gridcode2_area_km2": 504.31, "all_feature_area_km2": 506.87, "invalid_self_intersecting": 162, "duplicate_id_rows": 75, "slivers_lt_100m2": 7, "w10_keep_km2": 465.041, "w10_provisional_km2": 0.014, "w10_outside_km2": 37.796, "w10_exclude_km2": 0.0},
+    {"year": 2019, "features_total": 6097, "gridcode0_features": 62, "gridcode0_area_km2": 6.96, "positive_gridcode2_area_km2": 532.99, "all_feature_area_km2": 539.95, "invalid_self_intersecting": 186, "duplicate_id_rows": 114, "slivers_lt_100m2": 19, "w10_keep_km2": 492.940, "w10_provisional_km2": 0.071, "w10_outside_km2": 38.431, "w10_exclude_km2": 0.0},
+    {"year": 2020, "features_total": 8914, "gridcode0_features": 50, "gridcode0_area_km2": 2.80, "positive_gridcode2_area_km2": 571.35, "all_feature_area_km2": 574.15, "invalid_self_intersecting": 499, "duplicate_id_rows": 119, "slivers_lt_100m2": 22, "w10_keep_km2": 530.499, "w10_provisional_km2": 0.063, "w10_outside_km2": 39.12, "w10_exclude_km2": 0.0},
+    {"year": 2021, "features_total": 6295, "gridcode0_features": 18, "gridcode0_area_km2": 0.11, "positive_gridcode2_area_km2": 586.51, "all_feature_area_km2": 586.63, "invalid_self_intersecting": 253, "duplicate_id_rows": 24, "slivers_lt_100m2": 1, "w10_keep_km2": 540.251, "w10_provisional_km2": 0.158, "w10_outside_km2": 44.383, "w10_exclude_km2": 0.0}
+  ],
+  "integrity_checks": [
+    "Area_ha exactly equals planar geometry area/1e4 in every year (ratio 1.0)",
+    "zero null/empty geometries; zero duplicate geometries",
+    "Id is NOT a unique key (duplicate-value rows per year above)",
+    "geographic extent approx 108.8-124.3E, 21.0-41.0N (mainland coast; no Taiwan / Hainan-south coverage)",
+    "outside-W10 polygons: 12-33 features per year, all within ~3.3 km of the corridor edge at 31.2-37.8N; corridor boundary effect, not inland anomaly; zero features in EXCLUDE cells",
+    "median polygon 2,700-7,700 m2; largest features ~49-56 km2 (large tidal flats, not artifacts)"
+  ],
+  "gridcode_zero_semantics": "UNKNOWN: small-area features with gridcode 0 (0.11-6.96 km2 per year). Likely low-confidence/uncertain class from the DeepLabv3+ pipeline; TODO_VERIFY with producers; excluded from positive area totals and from all analyses.",
+  "legacy_partial_copies": "old datasets/spartinatest/ contains CMSA_2019/2020/2021 shapefiles in EPSG:4326 with 78/191/105 features: tiny working subsets, byte-different from the official package, provenance MISSING; not admitted to the registry and left untouched under read-only old-datasets policy.",
+  "cross_2020_diagnostic": {
+    "w10_cells_all_three_products": 274,
+    "w10_cells_exactly_two": 103,
+    "w10_cells_exactly_one": 126,
+    "spearman_cell_area_with": {"CM_SSM_2020": 0.875, "GEODATA_2020": 0.761},
+    "note": "diagnostic spatial agreement only, against other external products; not accuracy"
+  },
+  "usage_policy": {
+    "tier": "SILVER",
+    "gold_use": false,
+    "scientific_analysis": true,
+    "validation": "external reference product only; never called ground truth",
+    "internal_training": "not used as model training labels (reference-only project policy)",
+    "redistribution": "CC BY-NC 4.0: attribution + non-commercial; any redistribution/derivative keeps NC terms and cites NESDC plus Li, Tian, Li et al. 2024"
+  },
+  "open_questions": [
+    "TODO_VERIFY: semantic meaning of gridcode 0 features (ask producers)",
+    "TODO_VERIFY: per-year validation metrics from the associated paper",
+    "TODO_OWNER_RECORD: NESDC account holder, purpose statement text and download timestamp (JWT itself must not be stored)",
+    "OWNER_ACTION: report the stale 2017-2020 time-range text and GeoTIFF format error to NESDC/producers"
+  ]
+}

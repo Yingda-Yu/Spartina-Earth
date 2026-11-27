@@ -1,0 +1,22 @@
+{
+  "manifest": "zhejiang_label_cell_overlap_v0_1",
+  "supersedes": "zhejiang_label_cell_overlap_v0.csv",
+  "supersedes_sha256": "2e204cc1f9ae14c0e895a18b3d85b88dc8c02957e1756d3587ea1323867cbd40",
+  "superseded_sha256": "370584b6c1d3b06cd4f6fb22f48a507cee17bdcb041735597d7ae000dcdd15a3",
+  "correction_status": "SUPERSEDED_BY_BAY_CLIP_CORRECTION",
+  "defects": [
+    {
+      "marker": "CELL_EDGE_BLEED_CONFIRMED",
+      "detail": "v0 attributed label area in the full fixed square to the cell's bay; v0_1 separates bay-clip and outside-bay area."
+    },
+    {
+      "marker": "M21A_SMB_ZERO_WAS_MASK_FAILURE",
+      "detail": "M2.1a overlap_zj_smb L1=0 was a swallowed rasterio ValueError on an invalid GeometryCollection; polygonal-part mask gives 46,305 px / 41.6745 km2. M2.1a inventory file is preserved unchanged; status CONTRADICTED."
+    }
+  ],
+  "geometry_semantics": {
+    "cell_geometry": "full fixed square; stable id/archive/split unit",
+    "bay_clip_geometry": "cell_geometry n PROVISIONAL_BAY_ENVELOPE_V0",
+    "authoritative_bay_scoped_status": "cell_label_status_bay_scoped"
+  }
+}

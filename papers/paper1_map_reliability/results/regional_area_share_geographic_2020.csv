@@ -1,0 +1,10 @@
+product,region,area_km2,share_pct
+CMSA,Bohai_Yellow,232.16,40.8
+CMSA,East_China,317.55,55.81
+CMSA,South_China,19.27,3.39
+CM-SSM,Bohai_Yellow,189.54,32.08
+CM-SSM,East_China,386.56,65.43
+CM-SSM,South_China,14.69,2.49
+GEODATA,Bohai_Yellow,230.43,44.21
+GEODATA,East_China,264.49,50.74
+GEODATA,South_China,26.31,5.05

@@ -1,0 +1,51 @@
+# Hangzhou Bay 2015 Pilot-0 — leakage-proof split configuration (M1.4)
+#
+# Every value here was fixed BEFORE any model work. Thresholds come from
+# the geometry/coverage studies (see artifacts/audit/pilot0/patch_size_study.json
+# and docs/benchmark/PILOT0_SPLIT_PROTOCOL.md), never from model accuracy.
+
+version: v1
+dataset_id: hangzhou2015_pilot0
+grid_id: HB2015
+
+source:
+  stack: work/hangzhou2015/v1/pilot0_stack_30m.tif
+  labels: work/hangzhou2015/v1/pilot0_labels_30m.tif
+  silver: work/hangzhou2015/v1/silver_2015_30m.tif
+  disagreement: work/hangzhou2015/v1/label_disagreement_30m.tif
+  manifest: datasets/manifests/hangzhou2015_pilot0_v1.csv
+  stack_version: v1
+  crs: EPSG:32651
+
+geometry:
+  patch_px: 96           # 2.88 km; chosen by patch-size study: smallest
+                         # size containing 80% of SILVER components with a
+                         # 250 m context (24/30), all material WEAK-only
+                         # components, 64 silver-bearing windows and 21
+                         # independent blocks (vs 15 at 128 px)
+  stride_px: 48          # P/2 sliding windows inside one split
+  split_axis: columns    # contiguous E-W stripes along the coastal window
+  guard_band_px: 48      # P/2 each side; 96 px = 2.88 km total gap
+  context_margin_px: 9   # 250 m buffer from benchmarks/spartinashift/SPEC.md
+
+splits:
+  targets: {train: 0.60, val: 0.20, test: 0.20}
+  names: [train, val, test]
+  # Targets are objectives, not hard ratios; spatial independence wins.
+  min_column_tracks: 2   # each split usable for >=2 window column tracks
+  min_eval_windows: 5    # >=5 SILVER-eval-bearing viable windows per eval split
+
+thresholds:
+  min_optical_valid_fraction: 0.25   # natural gap in coverage distribution
+  max_ignore_fraction: 0.90          # non-binding for optical>=0.10 windows
+  min_sar_valid_fraction: 0.25
+  min_indices_valid_fraction: 0.25
+  min_silver_eval_pixels_for_metric: 1
+  weak_only_material_min_pixels: 10  # 0.90 ha; 91 components (4.20 km2)
+
+labels:
+  tiers:
+    silver: SILVER        # national 2015 IGA product; evaluation reference
+    weak: WEAK            # local legacy mask; auxiliary only
+    ignore: IGNORE        # never in loss / denominator / confusion
+  gold_available: false

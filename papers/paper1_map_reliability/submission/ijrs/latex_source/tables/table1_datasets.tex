@@ -1,0 +1,28 @@
+% Table 1 -- Dataset inventory
+\begin{table}[htpb]
+\centering
+\caption{\label{tab:datasets}Source dataset inventory (audited 2026-11-03).
+  All products encode \textit{Spartina alterniflora} as a positive class;
+  none provides a verified non-\textit{S.~alterniflora} absence class.}
+\small
+\begin{tabular}{l c c c c}
+\toprule
+Product & Provider & Years & Resolution & CRS \\
+\midrule
+CMSA & CAS ICR & 2017--2021 & 10\,m vector & EPSG:32650 UTM Zone 50N \\
+GEODATA & IGSNRR & 1990, 2000, 2015, 2020 & 30\,m raster & Krasovsky 1940 Albers \\
+CM-SSM & CNU (Xu et al.) & 2020 & sub-meter vector & EPSG:32650 UTM Zone 50N \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\begin{tabular}{l p{0.35\textwidth} p{0.35\textwidth}}
+\toprule
+Product & Class semantics & Known limitations \\
+\midrule
+CMSA & \texttt{gridcode=2} (positive), \texttt{gridcode=0} (UNKNOWN, \textbf{not absence}) & Planar UTM area; ~5\,k polygons/year; no open license \\
+GEODATA & \texttt{Value=1} (Spartina), \texttt{Value=255} (NoData, \textbf{no absence}) & 30\,m misses narrow stands; presence-only encoding; non-commercial license \\
+CM-SSM & Individual Spartina clump polygons & 148\,k patches; resolution may include non-stand clumps; province metadata assigned by researchers, not administrative \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,77 @@
+{
+  "path": "old datasets/Spartina/HangZhouBay/c201511839DTSP_2.tif",
+  "driver": "GTiff",
+  "width": 1292,
+  "height": 501,
+  "band_count": 1,
+  "dtypes": [
+    "uint8"
+  ],
+  "crs": "EPSG:32651",
+  "crs_is_projected": true,
+  "crs_is_geographic": false,
+  "transform": [
+    29.97738826232437,
+    0.0,
+    309298.0530513865,
+    0.0,
+    -29.94570222108099,
+    3364366.757138861
+  ],
+  "bounds": [
+    309298.0530513865,
+    3349363.9603260993,
+    348028.8386863096,
+    3364366.757138861
+  ],
+  "resolution_x": 29.97738826232437,
+  "resolution_y": 29.94570222108099,
+  "nodata": null,
+  "compression": null,
+  "tiled": true,
+  "block_shapes": [
+    [
+      128,
+      128
+    ]
+  ],
+  "bands": [
+    {
+      "index": 1,
+      "dtype": "uint8",
+      "description": null,
+      "block_shape": [
+        128,
+        128
+      ],
+      "overviews": [],
+      "nodata": null
+    }
+  ],
+  "dataset_tags": {
+    "AREA_OR_POINT": "Area",
+    "DataType": "Thematic"
+  },
+  "class_statistics_band_1": {
+    "unique_values": [
+      0,
+      1
+    ],
+    "value_counts": {
+      "0": 631692,
+      "1": 15600
+    },
+    "unique_tracking_abandoned_above_MAX_UNIQUE": false,
+    "positive_pixel_count": 15600,
+    "nodata_pixel_count": 0,
+    "valid_pixel_count": 647292
+  },
+  "area": {
+    "method": "pixel_count_x_transform_pixel_area(projected CRS)",
+    "pixel_area_m2": 897.6939422692941,
+    "positive_area_m2": 14004025.499400988,
+    "positive_area_km2": 14.004025499400989,
+    "positive_pixel_count": 15600,
+    "guards": []
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "assumptions": {
+    "census_bytes_per_cell_year": 4096,
+    "gee_task_seconds_per_product": 180.0,
+    "landsat_bytes_per_product": 2700000,
+    "policy": {
+      "landsat_eligible_events_per_cell_year": 18,
+      "landsat_products_per_cell_year": 3,
+      "s1_eligible_events_per_cell_year": 36,
+      "s1_products_per_cell_year": 6,
+      "s2_eligible_events_per_cell_year": 12,
+      "s2_products_per_cell_year": 3
+    },
+    "positive_history_cells": 482,
+    "products_per_gee_task": 1,
+    "provenance": [
+      "M2.1b (#13) real byte audit, 8 HZB cells, 13 products, 121.4 MiB",
+      "tier1_cell_fraction is a planning prior to be replaced by measured strata counts"
+    ],
+    "s1_bytes_per_product": 25000000,
+    "s2_bytes_per_product": 9000000,
+    "tier1_cell_fraction": 0.15,
+    "tier2_cell_fraction": 1.0,
+    "tier3_cell_fraction": 1.0,
+    "years_archive": 42,
+    "years_monitoring": 1
+  },
+  "coastal_cells": 3319,
+  "estimates": {
+    "TIER0_METADATA_ONLY": {
+      "bytes_total": 570974208,
+      "cell_years": 139398,
+      "cells": 3319,
+      "estimated_runtime_hours": 0.0,
+      "estimated_runtime_seconds": 0.0,
+      "events": 0,
+      "gee_tasks": 0,
+      "gibibytes": 0.532,
+      "products": 0,
+      "tier": "TIER0_METADATA_ONLY"
+    },
+    "TIER1_POSITIVE_HISTORY_NEARBY": {
+      "bytes_total": 89218200000,
+      "cell_years": 482,
+      "cells": 482,
+      "estimated_runtime_hours": 289.2,
+      "estimated_runtime_seconds": 1041120.0,
+      "events": 5784,
+      "gee_tasks": 5784,
+      "gibibytes": 83.091,
+      "products": 5784,
+      "tier": "TIER1_POSITIVE_HISTORY_NEARBY"
+    },
+    "TIER2_STANDARD_NATIONAL_MONITORING": {
+      "bytes_total": 614346900000,
+      "cell_years": 3319,
+      "cells": 3319,
+      "estimated_runtime_hours": 1991.4,
+      "estimated_runtime_seconds": 7169040.0,
+      "events": 39828,
+      "gee_tasks": 39828,
+      "gibibytes": 572.155,
+      "products": 39828,
+      "tier": "TIER2_STANDARD_NATIONAL_MONITORING"
+    },
+    "TIER3_FULL_COASTAL_ARCHIVE": {
+      "bytes_total": 147287926800000,
+      "cell_years": 139398,
+      "cells": 3319,
+      "estimated_runtime_hours": 460013.4,
+      "estimated_runtime_seconds": 1656048240.0,
+      "events": 9200268,
+      "gee_tasks": 9200268,
+      "gibibytes": 137172.571,
+      "products": 9200268,
+      "tier": "TIER3_FULL_COASTAL_ARCHIVE"
+    }
+  },
+  "model": "national_tier_cost_model_v0"
+}

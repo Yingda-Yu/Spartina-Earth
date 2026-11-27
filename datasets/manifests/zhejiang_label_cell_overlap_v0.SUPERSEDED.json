@@ -1,0 +1,13 @@
+{
+  "artifact": "zhejiang_label_cell_overlap_v0.csv",
+  "sha256": "2e204cc1f9ae14c0e895a18b3d85b88dc8c02957e1756d3587ea1323867cbd40",
+  "status": "SUPERSEDED_BY_BAY_CLIP_CORRECTION",
+  "superseded_by": "zhejiang_label_cell_overlap_v0.csv",
+  "superseded_manifest": "zhejiang_label_cell_overlap_v0_1",
+  "superseded_sha256": "370584b6c1d3b06cd4f6fb22f48a507cee17bdcb041735597d7ae000dcdd15a3",
+  "reasons": [
+    "CELL_EDGE_BLEED_CONFIRMED",
+    "M21A_SMB_ZERO_WAS_MASK_FAILURE"
+  ],
+  "note": "Bytes preserved for traceability; do not delete. Use cell_label_status_bay_scoped in v0_1 for bay statistics."
+}

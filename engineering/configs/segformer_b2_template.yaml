@@ -1,0 +1,18 @@
+# SegFormer-B2 semantic segmentation template.
+inherits: common_template.yaml
+
+model:
+  type: segformer
+  variant: B2
+  pretrained: false
+  input_size: [512, 512]
+
+training:
+  batch_size: 8
+  lr: 0.00006
+  search_configs: 8           # shared budget for semantic-seg class
+  seeds: [42, 17, 2026]
+
+resources:
+  # 24 GB RTX 3090; smoke test first (EXPERIMENT_EXECUTION_PLAN §3 S1).
+  gpu_mem_warn_gb: 22

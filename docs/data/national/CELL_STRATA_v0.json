@@ -1,0 +1,133 @@
+{
+  "artifact": "china_national_cell_strata",
+  "version": "v0",
+  "schema": "orthogonal_boolean_flags_plus_exclusive_priority_strata",
+  "generated_utc": "2026-10-03T16:38:34+00:00",
+  "git_commit": "45ec8ed62aaf079e246f4d40e83374c18c2f75f1",
+  "priority_order": [
+    "GOLD_EVIDENCE",
+    "MULTI_PRODUCT_SILVER_POSITIVE",
+    "SILVER_2015_POSITIVE_ONLY",
+    "CMSSM_2020_POSITIVE_ONLY",
+    "NEAR_SILVER_UNLABELED",
+    "UNLABELED_COASTAL"
+  ],
+  "boolean_flags": [
+    "gold_evidence",
+    "silver_2015_positive",
+    "cmssm_2020_positive",
+    "silver_2015_nearby",
+    "multi_product_positive",
+    "cmsa_positive_history",
+    "management_evidence_available"
+  ],
+  "designed_not_build_flags": {
+    "gold_evidence": "requires field/UAV/expert-verified campaign data",
+    "cmsa_positive_history": "CMSA archive not obtained (6.16 GB, purpose-declaration download)",
+    "management_evidence_available": "no management source registry yet"
+  },
+  "tier_discipline": {
+    "MULTI_PRODUCT_SILVER_POSITIVE": "SILVER in two products (2015 30 m raster and 2020 CM-SSM); not field-verified by us",
+    "SILVER_2015_POSITIVE_ONLY": "SILVER: published 30 m map product, not field-verified by us",
+    "CMSSM_2020_POSITIVE_ONLY": "SILVER: published sub-meter map, official archive byte-verified",
+    "NEAR_SILVER_UNLABELED": "one 10 km lattice ring from a 2015-positive cell; no positive evidence in either obtained product",
+    "UNLABELED_COASTAL": "absence of evidence in obtained products; NOT an ecological negative",
+    "GOLD_EVIDENCE": "DESIGNED_NOT_BUILD at v0"
+  },
+  "sources": {
+    "silver2015_raster": "old datasets/30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
+    "cmssm_shapefile": "old datasets/30mSpartinaChina/2020/CM-SSM/CM-SSM.shp",
+    "cmssm_identity_audit": "docs/audit/vector_reports/30mSpartinaChina__2020__CM-SSM__OFFICIAL_IDENTITY.json"
+  },
+  "raster_meta": {
+    "raster": "old datasets/30mSpartinaChina/30m分辨率中国互花米草空间分布数据集(2015年)-数据实体/30m中国互花米草空间分布数据集(2015年)-数据实体.tif",
+    "positive_value": 1,
+    "dtype": "int16",
+    "windows_checked": 2383,
+    "windows_checked_W5000": 6104,
+    "windows_checked_W20000": 956
+  },
+  "nearby_radius_m": 10000,
+  "nearby_ring_cells_by_width": {
+    "5000": 2,
+    "10000": 1,
+    "20000": 1
+  },
+  "widths": [
+    {
+      "width_m": 5000,
+      "coastal_cells": 8192,
+      "priority_stratum_counts": {
+        "GOLD_EVIDENCE": 0,
+        "MULTI_PRODUCT_SILVER_POSITIVE": 570,
+        "SILVER_2015_POSITIVE_ONLY": 175,
+        "CMSSM_2020_POSITIVE_ONLY": 164,
+        "NEAR_SILVER_UNLABELED": 2377,
+        "UNLABELED_COASTAL": 4906
+      },
+      "orthogonal_flag_cells": {
+        "gold_evidence": 0,
+        "silver_2015_positive": 745,
+        "cmssm_2020_positive": 734,
+        "silver_2015_nearby": 2526,
+        "multi_product_positive": 570,
+        "cmsa_positive_history": 0,
+        "management_evidence_available": 0
+      },
+      "silver_or_cmssm_positive_cells": 909,
+      "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
+      "strata_csv": "strata_china_albers_W5000.csv",
+      "strata_csv_sha256": "f273b5ea69d5d1bbb23bf32d4e1504fa74182d9eb55afd051fe595f89932459f"
+    },
+    {
+      "width_m": 10000,
+      "coastal_cells": 3319,
+      "priority_stratum_counts": {
+        "GOLD_EVIDENCE": 0,
+        "MULTI_PRODUCT_SILVER_POSITIVE": 309,
+        "SILVER_2015_POSITIVE_ONLY": 97,
+        "CMSSM_2020_POSITIVE_ONLY": 76,
+        "NEAR_SILVER_UNLABELED": 742,
+        "UNLABELED_COASTAL": 2095
+      },
+      "orthogonal_flag_cells": {
+        "gold_evidence": 0,
+        "silver_2015_positive": 406,
+        "cmssm_2020_positive": 385,
+        "silver_2015_nearby": 812,
+        "multi_product_positive": 309,
+        "cmsa_positive_history": 0,
+        "management_evidence_available": 0
+      },
+      "silver_or_cmssm_positive_cells": 482,
+      "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
+      "strata_csv": "strata_china_albers_W10000.csv",
+      "strata_csv_sha256": "998d5f61f160b57406c4933e8120837e505ece7def69d47c29fbbacdf579a430"
+    },
+    {
+      "width_m": 20000,
+      "coastal_cells": 1383,
+      "priority_stratum_counts": {
+        "GOLD_EVIDENCE": 0,
+        "MULTI_PRODUCT_SILVER_POSITIVE": 170,
+        "SILVER_2015_POSITIVE_ONLY": 48,
+        "CMSSM_2020_POSITIVE_ONLY": 25,
+        "NEAR_SILVER_UNLABELED": 375,
+        "UNLABELED_COASTAL": 765
+      },
+      "orthogonal_flag_cells": {
+        "gold_evidence": 0,
+        "silver_2015_positive": 218,
+        "cmssm_2020_positive": 195,
+        "silver_2015_nearby": 398,
+        "multi_product_positive": 170,
+        "cmsa_positive_history": 0,
+        "management_evidence_available": 0
+      },
+      "silver_or_cmssm_positive_cells": 243,
+      "partition_check": "exclusive_stratum_counts_sum_to_coastal_cells",
+      "strata_csv": "strata_china_albers_W20000.csv",
+      "strata_csv_sha256": "fdd1bbede663cf18228c45f796258f4e082ed90203b2a8be770f7b09badeed4c"
+    }
+  ]
+}

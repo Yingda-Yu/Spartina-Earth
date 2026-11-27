@@ -1,0 +1,609 @@
+{
+  "dirty_tree": false,
+  "frozen_utc": "2026-09-27T08:24:46.876655+00:00",
+  "git_commit": "c7493b0025c72c1093202c33902addd15bff57b3",
+  "lock_sha256": "b80e86abf65fbafb00e2d5d669164430a7619bca124e497051eec1b36b7769a5",
+  "normalization_sha256": "864c86e571585614da7d96e8aa11e8869cb1585229ecefa9b825b9d173db0e8d",
+  "plan": {
+    "expected_runs": {
+      "deeplabv3plus": 12,
+      "random_forest": 12,
+      "sai": 1,
+      "segformer_b0": 12,
+      "unet": 12
+    },
+    "mosaic": {
+      "blend": "hann2d"
+    },
+    "normalization_pct": [
+      0.005,
+      0.995
+    ],
+    "rf": {
+      "class_weight": "balanced_subsample",
+      "max_features": "sqrt",
+      "max_train_pixels": 400000,
+      "min_samples_leaf": 2,
+      "n_estimators": 500,
+      "n_jobs": 16
+    },
+    "seeds": [
+      17,
+      42,
+      2026
+    ],
+    "threshold_grid": {
+      "hi": 0.95,
+      "lo": 0.05,
+      "step": 0.01
+    },
+    "training": {
+      "augmentations": [
+        "hflip",
+        "vflip",
+        "rot90",
+        "rot180",
+        "rot270"
+      ],
+      "batch_size": 16,
+      "bce_weight_cap": 20,
+      "grad_clip": 1.0,
+      "loss_bce": 0.5,
+      "loss_dice": 0.5,
+      "max_epochs": 120,
+      "mixed_precision": true,
+      "patience": 20,
+      "schedule": "cosine_warmup",
+      "warmup_epochs": 3
+    },
+    "variants": [
+      "optical",
+      "optical_indices",
+      "optical_sar",
+      "full"
+    ]
+  },
+  "runs": [
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "e92dc9a11c63a43cbe417d89e5068b9b759403e297b3cbe85248ee2a534cb7f4",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/full/seed-17/deeplabv3plus_full_seed-17_20260927T081240Z",
+      "run_id": "deeplabv3plus_full_seed-17_20260927T081240Z",
+      "seed": 17,
+      "val_threshold": 0.62,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "28f689a5a97ab5f30e849ce4e1cebd4083b71d8ccfe9d5c7c2a4de6d63916940",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/full/seed-42/deeplabv3plus_full_seed-42_20260927T081333Z",
+      "run_id": "deeplabv3plus_full_seed-42_20260927T081333Z",
+      "seed": 42,
+      "val_threshold": 0.08,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "df9056ed48f1115793d704204d5807d7968695eeb0249d609e633b7a65f11229",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/full/seed-2026/deeplabv3plus_full_seed-2026_20260927T081333Z",
+      "run_id": "deeplabv3plus_full_seed-2026_20260927T081333Z",
+      "seed": 2026,
+      "val_threshold": 0.15,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "1bd7cbc5b2fd18c3f1a26677cd1d3025a85f516027f8367db1fc9f1f11eb807b",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical/seed-17/deeplabv3plus_optical_seed-17_20260927T080905Z",
+      "run_id": "deeplabv3plus_optical_seed-17_20260927T080905Z",
+      "seed": 17,
+      "val_threshold": 0.14,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "c97decb19857ca02b5b8e64f025e88768823e9a704d0ea1433e6b8519b1fa989",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical/seed-42/deeplabv3plus_optical_seed-42_20260927T080905Z",
+      "run_id": "deeplabv3plus_optical_seed-42_20260927T080905Z",
+      "seed": 42,
+      "val_threshold": 0.26,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "5b2195b1342d1a2947837b979cbb4b9c257177d4fd35c3894cca782a67616109",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical/seed-2026/deeplabv3plus_optical_seed-2026_20260927T080951Z",
+      "run_id": "deeplabv3plus_optical_seed-2026_20260927T080951Z",
+      "seed": 2026,
+      "val_threshold": 0.06,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "78e90590f09c383b77a4aa293c379beea2adfc5546e020b18f1d03a4623ec1fb",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical_indices/seed-17/deeplabv3plus_optical_indices_seed-17_20260927T080951Z",
+      "run_id": "deeplabv3plus_optical_indices_seed-17_20260927T080951Z",
+      "seed": 17,
+      "val_threshold": 0.15,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "b5ae84d1b1302e886754fd8f775154f47ef9695d921069e95b2f186a611ea6dc",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical_indices/seed-42/deeplabv3plus_optical_indices_seed-42_20260927T081046Z",
+      "run_id": "deeplabv3plus_optical_indices_seed-42_20260927T081046Z",
+      "seed": 42,
+      "val_threshold": 0.34,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "0fc17d344518b4e252832f808b9a4843c5cabe9cbfe6e706a920d31cd59b75ce",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical_indices/seed-2026/deeplabv3plus_optical_indices_seed-2026_20260927T081046Z",
+      "run_id": "deeplabv3plus_optical_indices_seed-2026_20260927T081046Z",
+      "seed": 2026,
+      "val_threshold": 0.07,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "dfc65c594f60d67a67e418d0ae8a052ebad637b7710f4044d959917b522bfe3f",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical_sar/seed-17/deeplabv3plus_optical_sar_seed-17_20260927T081154Z",
+      "run_id": "deeplabv3plus_optical_sar_seed-17_20260927T081154Z",
+      "seed": 17,
+      "val_threshold": 0.6,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "8da03ace0d0b47febcab363ec15e9d51e51875d46a584d7339c1beb96d82bade",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical_sar/seed-42/deeplabv3plus_optical_sar_seed-42_20260927T081154Z",
+      "run_id": "deeplabv3plus_optical_sar_seed-42_20260927T081154Z",
+      "seed": 42,
+      "val_threshold": 0.1,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "fe8faf1889d7ba505e5c969d622f04fa49dbb1736bfc048309bdf867383b96d3",
+      "config_sha256": "730160b48e339f61bc29ea3de47a7ae829d4d262757546508dfcb3e26e7ec59d",
+      "model": "deeplabv3plus",
+      "run_dir": "runs/pilot0/deeplabv3plus/optical_sar/seed-2026/deeplabv3plus_optical_sar_seed-2026_20260927T081241Z",
+      "run_id": "deeplabv3plus_optical_sar_seed-2026_20260927T081241Z",
+      "seed": 2026,
+      "val_threshold": 0.05,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "f004005872a88263a7cc89e9c851b5878420da4dd55fb1ae22dd2c14c39d9cfe",
+      "config_sha256": "653e62140c54953814c36db0d8970461d5ad67eef00a2473eae59f946e2940e9",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/full/seed-17/random_forest_full_seed-17_20260927T075734Z",
+      "run_id": "random_forest_full_seed-17_20260927T075734Z",
+      "seed": 17,
+      "val_threshold": 0.05,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "932be4428756b66f1e275920e541f971ba218a78752f99fdac56162edc28a79e",
+      "config_sha256": "653e62140c54953814c36db0d8970461d5ad67eef00a2473eae59f946e2940e9",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/full/seed-42/random_forest_full_seed-42_20260927T075751Z",
+      "run_id": "random_forest_full_seed-42_20260927T075751Z",
+      "seed": 42,
+      "val_threshold": 0.05,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "bb01626033fb369f92b9cd2f966baef06cad40b2462c9f14709d723253713ee4",
+      "config_sha256": "653e62140c54953814c36db0d8970461d5ad67eef00a2473eae59f946e2940e9",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/full/seed-2026/random_forest_full_seed-2026_20260927T075808Z",
+      "run_id": "random_forest_full_seed-2026_20260927T075808Z",
+      "seed": 2026,
+      "val_threshold": 0.05,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "055c5128e21d047a1ba3552a5328da4882fb1dc7f59809370b184ae0d6522785",
+      "config_sha256": "943664811fdb147635908049e763b9bb5020d0937a51aaf8b12daf047571af97",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical/seed-17/random_forest_optical_seed-17_20260927T075450Z",
+      "run_id": "random_forest_optical_seed-17_20260927T075450Z",
+      "seed": 17,
+      "val_threshold": 0.05,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "85eb509aab7b190f67fc26bd420eeb82d304ae44728de4e6ba4273e4033444c0",
+      "config_sha256": "943664811fdb147635908049e763b9bb5020d0937a51aaf8b12daf047571af97",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical/seed-42/random_forest_optical_seed-42_20260927T075518Z",
+      "run_id": "random_forest_optical_seed-42_20260927T075518Z",
+      "seed": 42,
+      "val_threshold": 0.05,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "b4a6d99ad115748a98bb7cbfdf68a153f71fbb709a89bf6d4400bd1e83fda2f1",
+      "config_sha256": "943664811fdb147635908049e763b9bb5020d0937a51aaf8b12daf047571af97",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical/seed-2026/random_forest_optical_seed-2026_20260927T075534Z",
+      "run_id": "random_forest_optical_seed-2026_20260927T075534Z",
+      "seed": 2026,
+      "val_threshold": 0.05,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "4df1a0d3665969bf5f5f718c2a1723d91c65b4d4d0f914084a5501916fd4c304",
+      "config_sha256": "44360fd06a88bb3ccc9824be35352c92c179dbdb85c03d7d7cf76f210826f965",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical_indices/seed-17/random_forest_optical_indices_seed-17_20260927T075551Z",
+      "run_id": "random_forest_optical_indices_seed-17_20260927T075551Z",
+      "seed": 17,
+      "val_threshold": 0.05,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "9375f2f8088172defeb345d16e5f34a98567939ac817622fe62719f9e22b3c74",
+      "config_sha256": "44360fd06a88bb3ccc9824be35352c92c179dbdb85c03d7d7cf76f210826f965",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical_indices/seed-42/random_forest_optical_indices_seed-42_20260927T075608Z",
+      "run_id": "random_forest_optical_indices_seed-42_20260927T075608Z",
+      "seed": 42,
+      "val_threshold": 0.05,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "31f694743cb1e4e9d45489ca99d5248ecb41e9d1edef4f6963964cb4cfc0e8de",
+      "config_sha256": "44360fd06a88bb3ccc9824be35352c92c179dbdb85c03d7d7cf76f210826f965",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical_indices/seed-2026/random_forest_optical_indices_seed-2026_20260927T075625Z",
+      "run_id": "random_forest_optical_indices_seed-2026_20260927T075625Z",
+      "seed": 2026,
+      "val_threshold": 0.05,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "38364d57a1059cf7937e5df92c198c4273b677f032218909c1d0343be929a187",
+      "config_sha256": "10004d0eb9767e51cb111544678e0e8f6f3f95b5479ee67554f686a969857a42",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical_sar/seed-17/random_forest_optical_sar_seed-17_20260927T075642Z",
+      "run_id": "random_forest_optical_sar_seed-17_20260927T075642Z",
+      "seed": 17,
+      "val_threshold": 0.05,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "2a3f3d127b1532039b8fca8b3c8a00ad007e21345eecfd99fd980fc41ea67877",
+      "config_sha256": "10004d0eb9767e51cb111544678e0e8f6f3f95b5479ee67554f686a969857a42",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical_sar/seed-42/random_forest_optical_sar_seed-42_20260927T075659Z",
+      "run_id": "random_forest_optical_sar_seed-42_20260927T075659Z",
+      "seed": 42,
+      "val_threshold": 0.05,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "random_forest_joblib",
+      "checkpoint_sha256": "404b6a530087a8b30068241e23c4f7f55f485cc8a18fda22de2a246e8a014341",
+      "config_sha256": "10004d0eb9767e51cb111544678e0e8f6f3f95b5479ee67554f686a969857a42",
+      "model": "random_forest",
+      "run_dir": "runs/pilot0/random_forest/optical_sar/seed-2026/random_forest_optical_sar_seed-2026_20260927T075716Z",
+      "run_id": "random_forest_optical_sar_seed-2026_20260927T075716Z",
+      "seed": 2026,
+      "val_threshold": 0.05,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "spectral_rule",
+      "checkpoint_sha256": "05d040bf188d70c37cb1dc11bc7775b367c53507002d4be1f10bcea26fd2b1fd",
+      "config_sha256": "5d0ee640b61a0ca8e77ee5cc9817e09aa1afd20d43a42ef87c973ea3d4742340",
+      "model": "sai",
+      "run_dir": "runs/pilot0/sai/spectral_sai/deterministic/sai_spectral_sai_deterministic_20260927T075401Z",
+      "run_id": "sai_spectral_sai_deterministic_20260927T075401Z",
+      "seed": null,
+      "val_threshold": 0.5,
+      "variant": "spectral_sai"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "9bd20b82cd3f5285437181e8e2b5d096667debb7c890e43f03d1ee416e39ca5f",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/full/seed-17/segformer_b0_full_seed-17_20260927T082004Z",
+      "run_id": "segformer_b0_full_seed-17_20260927T082004Z",
+      "seed": 17,
+      "val_threshold": 0.48,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "e6f18ddb531958bb2c0e3d9dc1b2760fbd3367016fd2af6a1d7eaefc617315dc",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/full/seed-42/segformer_b0_full_seed-42_20260927T082125Z",
+      "run_id": "segformer_b0_full_seed-42_20260927T082125Z",
+      "seed": 42,
+      "val_threshold": 0.5,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "09708b61b01ab2c74c7120e0053cfad30435e64e7a2160c997b9e399f46eeb8e",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/full/seed-2026/segformer_b0_full_seed-2026_20260927T082125Z",
+      "run_id": "segformer_b0_full_seed-2026_20260927T082125Z",
+      "seed": 2026,
+      "val_threshold": 0.6,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "9a2d5aaf17b4aa6c57a7e1effe2cf0c00de0f316eb04664c6263c4b68c92b6f4",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical/seed-17/segformer_b0_optical_seed-17_20260927T081450Z",
+      "run_id": "segformer_b0_optical_seed-17_20260927T081450Z",
+      "seed": 17,
+      "val_threshold": 0.46,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "712a378cb0a7807330a39db8fee691a96bb3fc61d10f9dd8a3d75007af383bc0",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical/seed-42/segformer_b0_optical_seed-42_20260927T081450Z",
+      "run_id": "segformer_b0_optical_seed-42_20260927T081450Z",
+      "seed": 42,
+      "val_threshold": 0.58,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "0e7675c8064b5c83ae1ce3cf169a4046a207a8de9b6c98484b7f08ae723f11df",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical/seed-2026/segformer_b0_optical_seed-2026_20260927T081529Z",
+      "run_id": "segformer_b0_optical_seed-2026_20260927T081529Z",
+      "seed": 2026,
+      "val_threshold": 0.07,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "24b47028ff8d2d5c36166775be30f9157b6a935297741e520e7b87d6428fa2f8",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical_indices/seed-17/segformer_b0_optical_indices_seed-17_20260927T081529Z",
+      "run_id": "segformer_b0_optical_indices_seed-17_20260927T081529Z",
+      "seed": 17,
+      "val_threshold": 0.14,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "8e4a792989b19c5bce0f357f294d04feb3101e9daec9ad8e5e8e32847e7d71d2",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical_indices/seed-42/segformer_b0_optical_indices_seed-42_20260927T081653Z",
+      "run_id": "segformer_b0_optical_indices_seed-42_20260927T081653Z",
+      "seed": 42,
+      "val_threshold": 0.22,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "74ff16487794804b65da17acf907edff0016782dcfd4a3d619ced131e87988af",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical_indices/seed-2026/segformer_b0_optical_indices_seed-2026_20260927T081653Z",
+      "run_id": "segformer_b0_optical_indices_seed-2026_20260927T081653Z",
+      "seed": 2026,
+      "val_threshold": 0.13,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "580c8d332f3360f3511b2fce7c829284ca7b9b52086f867a1c6eaf663e2225ab",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical_sar/seed-17/segformer_b0_optical_sar_seed-17_20260927T081817Z",
+      "run_id": "segformer_b0_optical_sar_seed-17_20260927T081817Z",
+      "seed": 17,
+      "val_threshold": 0.16,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "a5d886a75af9fcb22782dad154ce083e035f56e8894d894009700baf55b2a552",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical_sar/seed-42/segformer_b0_optical_sar_seed-42_20260927T081817Z",
+      "run_id": "segformer_b0_optical_sar_seed-42_20260927T081817Z",
+      "seed": 42,
+      "val_threshold": 0.19,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "8f6e2efc529fd444e172b27684eebbe22d247852fbe0dfde3ed3db4f08f40681",
+      "config_sha256": "85e879e77cb376afa17084f462373e7690b35ff0cf5af7d2f402ea6cb8648eb3",
+      "model": "segformer_b0",
+      "run_dir": "runs/pilot0/segformer_b0/optical_sar/seed-2026/segformer_b0_optical_sar_seed-2026_20260927T082004Z",
+      "run_id": "segformer_b0_optical_sar_seed-2026_20260927T082004Z",
+      "seed": 2026,
+      "val_threshold": 0.38,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "52910836dadb34327c41f481bd42f8953b2d30689bc5188d13e5033138a5fda9",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/full/seed-17/unet_full_seed-17_20260927T080627Z",
+      "run_id": "unet_full_seed-17_20260927T080627Z",
+      "seed": 17,
+      "val_threshold": 0.67,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "7f009f695af8a96950bfb2afa13566015356bcb7e0063fa59ec4a9d09bd452d3",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/full/seed-42/unet_full_seed-42_20260927T080746Z",
+      "run_id": "unet_full_seed-42_20260927T080746Z",
+      "seed": 42,
+      "val_threshold": 0.25,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "0124e364ef6e033aac1240f7e0a86d716b1a94fbc42a540f5c99f640b6b6ebb4",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/full/seed-2026/unet_full_seed-2026_20260927T080746Z",
+      "run_id": "unet_full_seed-2026_20260927T080746Z",
+      "seed": 2026,
+      "val_threshold": 0.65,
+      "variant": "full"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "ce6fd1a3148223089cac1683bbc69ed8892a7abe98ddf8993b6e245767f8c009",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical/seed-17/unet_optical_seed-17_20260927T080220Z",
+      "run_id": "unet_optical_seed-17_20260927T080220Z",
+      "seed": 17,
+      "val_threshold": 0.81,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "ee8ff5bc0548e9deac45ec10187ec49520a054c28bdfe6478e4d5a7116a85701",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical/seed-42/unet_optical_seed-42_20260927T080220Z",
+      "run_id": "unet_optical_seed-42_20260927T080220Z",
+      "seed": 42,
+      "val_threshold": 0.07,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "60fe4dcfcfe05e94b955202c632425b1a142b7733be91f67a5db72ad9a618d3b",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical/seed-2026/unet_optical_seed-2026_20260927T080307Z",
+      "run_id": "unet_optical_seed-2026_20260927T080307Z",
+      "seed": 2026,
+      "val_threshold": 0.06,
+      "variant": "optical"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "5716d1a96e29f30ae8d107b154f47a10bc905b101e026446f3cc4ab79c4a285b",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical_indices/seed-17/unet_optical_indices_seed-17_20260927T080307Z",
+      "run_id": "unet_optical_indices_seed-17_20260927T080307Z",
+      "seed": 17,
+      "val_threshold": 0.07,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "67d75854feb89f8f33a0dc557339414c05c1a8268dbd8cd1eaa36ac4801d4b75",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical_indices/seed-42/unet_optical_indices_seed-42_20260927T080435Z",
+      "run_id": "unet_optical_indices_seed-42_20260927T080435Z",
+      "seed": 42,
+      "val_threshold": 0.71,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "309ee2c6b1dc2c6c556b7ca50098fe0f8f9fa119f42bb509cb1b14396e0df9ac",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical_indices/seed-2026/unet_optical_indices_seed-2026_20260927T080435Z",
+      "run_id": "unet_optical_indices_seed-2026_20260927T080435Z",
+      "seed": 2026,
+      "val_threshold": 0.16,
+      "variant": "optical_indices"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "b603458f016f7b4995c33ff65632198c5811e98271660f39838884622457ede2",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical_sar/seed-17/unet_optical_sar_seed-17_20260927T080533Z",
+      "run_id": "unet_optical_sar_seed-17_20260927T080533Z",
+      "seed": 17,
+      "val_threshold": 0.36,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "9bf51f5e494cecf3cfee35acb86959401944b7696e6a53eba3e512d9f9417c53",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical_sar/seed-42/unet_optical_sar_seed-42_20260927T080533Z",
+      "run_id": "unet_optical_sar_seed-42_20260927T080533Z",
+      "seed": 42,
+      "val_threshold": 0.64,
+      "variant": "optical_sar"
+    },
+    {
+      "artifact_kind": "torch_checkpoint",
+      "checkpoint_sha256": "d322a9e234ec278c7df891c22fb6b6db598665d0dec8e806679939258ff1b748",
+      "config_sha256": "514b7c3f2d104e8c7d4c6cf44672b2b1491b8ed0b43d77ecbb5eabc1c10078ed",
+      "model": "unet",
+      "run_dir": "runs/pilot0/unet/optical_sar/seed-2026/unet_optical_sar_seed-2026_20260927T080627Z",
+      "run_id": "unet_optical_sar_seed-2026_20260927T080627Z",
+      "seed": 2026,
+      "val_threshold": 0.05,
+      "variant": "optical_sar"
+    }
+  ],
+  "split_logical_fingerprint": "1d178352fad0b08f4dcc5dfb86b8be7050f4a6ae8d94bdc1ddbaf9284421dd80",
+  "status": "FROZEN"
+}

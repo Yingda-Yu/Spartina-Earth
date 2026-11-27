@@ -1,0 +1,25 @@
+% Source: datasets/manifests/zhejiang_s1_footprint_audit_summary_v0.csv
+% and zhejiang_s1_footprint_audit_v0.policy.json
+\begin{table}[t]
+\centering
+\small
+\caption{Representative-frame versus actual per-scene Sentinel-1
+coverage over 60 deterministic IW GRD scenes (bay $\times$ pass
+$\times$ relative-orbit strata, years 2015--2026; EW excluded).
+Coverage error is computed per scene--cell pair against actual GEE
+geometry. FE: false eligible (representative says covered, actual does
+not); FR: false rejected.}
+\label{tab:s1footprint}
+\begin{tabular}{lrrrrr}
+\toprule
+Stratum & Scenes & Scene--cell rows & Coverage MAE & FE & FR \\
+\midrule
+HZB & 25 & 735 & 0.509 & 144 & 201 \\
+SMB & 18 & 389 & 0.713 & 40 & 224 \\
+YQB & 17 & 177 & 0.424 & 23 & 49 \\
+\midrule
+\textbf{All} & \textbf{60} & \textbf{1{,}301} & \textbf{0.559} &
+\textbf{207} & \textbf{474} \\
+\bottomrule
+\end{tabular}
+\end{table}

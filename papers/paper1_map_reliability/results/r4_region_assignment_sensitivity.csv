@@ -1,0 +1,73 @@
+policy,policy_description,cap_km,pair,region,region_union_px,region_union_km2,intersection_px,intersection_km2,iou,direct_px_in_region,assigned_px_in_region,unassigned_px_excluded_total,excluded_pct_of_union,assigned_intersection_px,assigned_union_px,assigned_union_share_pct,assigned_product_a_px,assigned_product_b_px
+A,direct membership only,,CMSA_vs_CMSSM,Bohai_Yellow,22197,221.97,11224,112.24,0.5057,26535,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSA_vs_CMSSM,East_China,24407,244.07,14190,141.9,0.5814,29822,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSA_vs_CMSSM,South_China,1668,16.68,830,8.3,0.4976,3083,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSA_vs_GEODATA,Bohai_Yellow,24891,248.91,15083,150.83,0.606,26535,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSA_vs_GEODATA,East_China,24364,243.64,8378,83.78,0.3439,29822,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSA_vs_GEODATA,South_China,2828,28.28,419,4.19,0.1482,3083,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSSM_vs_GEODATA,Bohai_Yellow,24024,240.24,9895,98.95,0.4119,26535,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSSM_vs_GEODATA,East_China,27288,272.88,9059,90.59,0.332,29822,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSSM_vs_GEODATA,South_China,2740,27.4,243,2.43,0.0887,3083,0,31201,34.42,0,0,0.0,0,0
+A,direct membership only,,CMSA_vs_CMSSM,CONTRAST_Bohai_over_South,,,,,1.016,,,31201,34.42,,,,,
+A,direct membership only,,CMSA_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.09,,,31201,34.42,,,,,
+A,direct membership only,,CMSSM_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.644,,,31201,34.42,,,,,
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_CMSSM,Bohai_Yellow,28756,287.56,13414,134.14,0.4665,26535,7678,0,0.0,2190,6559,22.81,3478,5271
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_CMSSM,East_China,44279,442.79,26132,261.32,0.5902,29822,22262,0,0.0,11942,19872,44.88,14259,17555
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_CMSSM,South_China,2299,22.99,1097,10.97,0.4772,3083,1261,0,0.0,267,631,27.45,546,352
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_GEODATA,Bohai_Yellow,29655,296.55,16604,166.04,0.5599,26535,7678,0,0.0,1521,4764,16.06,3478,2807
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_GEODATA,East_China,41804,418.04,16400,164.0,0.3923,29822,22262,0,0.0,8022,17440,41.72,14259,11203
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_GEODATA,South_China,4019,40.19,539,5.39,0.1341,3083,1261,0,0.0,120,1191,29.63,546,765
+B,"nearest assignment (E5d/E5e, no cap)",,CMSSM_vs_GEODATA,Bohai_Yellow,30775,307.75,11222,112.22,0.3646,26535,7678,0,0.0,1327,6751,21.94,5271,2807
+B,"nearest assignment (E5d/E5e, no cap)",,CMSSM_vs_GEODATA,East_China,48228,482.28,16877,168.77,0.3499,29822,22262,0,0.0,7818,20940,43.42,17555,11203
+B,"nearest assignment (E5d/E5e, no cap)",,CMSSM_vs_GEODATA,South_China,3784,37.84,316,3.16,0.0835,3083,1261,0,0.0,73,1044,27.59,352,765
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_CMSSM,CONTRAST_Bohai_over_South,,,,,0.978,,,0,0.0,,,,,
+B,"nearest assignment (E5d/E5e, no cap)",,CMSA_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.175,,,0,0.0,,,,,
+B,"nearest assignment (E5d/E5e, no cap)",,CMSSM_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.367,,,0,0.0,,,,,
+C_5km,nearest with cap,5,CMSA_vs_CMSSM,Bohai_Yellow,26236,262.36,13076,130.76,0.4984,26535,4977,16523,18.23,1852,4039,15.39,2936,2955
+C_5km,nearest with cap,5,CMSA_vs_CMSSM,East_China,31687,316.87,17677,176.77,0.5579,29822,8628,16523,18.23,3487,7280,22.97,4425,6342
+C_5km,nearest with cap,5,CMSA_vs_CMSSM,South_China,2206,22.06,1068,10.68,0.4841,3083,1073,16523,18.23,238,538,24.39,456,320
+C_5km,nearest with cap,5,CMSA_vs_GEODATA,Bohai_Yellow,28925,289.25,16503,165.03,0.5705,26535,4977,16523,18.23,1420,4034,13.95,2936,2518
+C_5km,nearest with cap,5,CMSA_vs_GEODATA,East_China,30496,304.96,10759,107.59,0.3528,29822,8628,16523,18.23,2381,6132,20.11,4425,4088
+C_5km,nearest with cap,5,CMSA_vs_GEODATA,South_China,3834,38.34,539,5.39,0.1406,3083,1073,16523,18.23,120,1006,26.24,456,670
+C_5km,nearest with cap,5,CMSSM_vs_GEODATA,Bohai_Yellow,28265,282.65,11127,111.27,0.3937,26535,4977,16523,18.23,1232,4241,15.0,2955,2518
+C_5km,nearest with cap,5,CMSSM_vs_GEODATA,East_China,35370,353.7,11407,114.07,0.3225,29822,8628,16523,18.23,2348,8082,22.85,6342,4088
+C_5km,nearest with cap,5,CMSSM_vs_GEODATA,South_China,3657,36.57,316,3.16,0.0864,3083,1073,16523,18.23,73,917,25.08,320,670
+C_5km,nearest with cap,5,CMSA_vs_CMSSM,CONTRAST_Bohai_over_South,,,,,1.029,,,16523,18.23,,,,,
+C_5km,nearest with cap,5,CMSA_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.058,,,16523,18.23,,,,,
+C_5km,nearest with cap,5,CMSSM_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.556,,,16523,18.23,,,,,
+C_10km,nearest with cap,10,CMSA_vs_CMSSM,Bohai_Yellow,26950,269.5,13405,134.05,0.4974,26535,5803,9485,10.46,2181,4753,17.64,3452,3482
+C_10km,nearest with cap,10,CMSA_vs_CMSSM,East_China,37105,371.05,20971,209.71,0.5652,29822,14722,9485,10.46,6781,12698,34.22,8594,10885
+C_10km,nearest with cap,10,CMSA_vs_CMSSM,South_China,2229,22.29,1084,10.84,0.4863,3083,1191,9485,10.46,254,561,25.17,477,338
+C_10km,nearest with cap,10,CMSA_vs_GEODATA,Bohai_Yellow,29560,295.6,16604,166.04,0.5617,26535,5803,9485,10.46,1521,4669,15.79,3452,2738
+C_10km,nearest with cap,10,CMSA_vs_GEODATA,East_China,35559,355.59,12696,126.96,0.357,29822,14722,9485,10.46,4318,11195,31.48,8594,6919
+C_10km,nearest with cap,10,CMSA_vs_GEODATA,South_China,3950,39.5,539,5.39,0.1365,3083,1191,9485,10.46,120,1122,28.41,477,765
+C_10km,nearest with cap,10,CMSSM_vs_GEODATA,Bohai_Yellow,28917,289.17,11222,112.22,0.3881,26535,5803,9485,10.46,1327,4893,16.92,3482,2738
+C_10km,nearest with cap,10,CMSSM_vs_GEODATA,East_China,40978,409.78,13173,131.73,0.3215,29822,14722,9485,10.46,4114,13690,33.41,10885,6919
+C_10km,nearest with cap,10,CMSSM_vs_GEODATA,South_China,3770,37.7,316,3.16,0.0838,3083,1191,9485,10.46,73,1030,27.32,338,765
+C_10km,nearest with cap,10,CMSA_vs_CMSSM,CONTRAST_Bohai_over_South,,,,,1.023,,,9485,10.46,,,,,
+C_10km,nearest with cap,10,CMSA_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.116,,,9485,10.46,,,,,
+C_10km,nearest with cap,10,CMSSM_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.63,,,9485,10.46,,,,,
+C_20km,nearest with cap,20,CMSA_vs_CMSSM,Bohai_Yellow,26979,269.79,13412,134.12,0.4971,26535,5901,2493,2.75,2188,4782,17.72,3475,3495
+C_20km,nearest with cap,20,CMSA_vs_CMSSM,East_China,43648,436.48,26067,260.67,0.5972,29822,21570,2493,2.75,11877,19241,44.08,14194,16924
+C_20km,nearest with cap,20,CMSA_vs_CMSSM,South_China,2275,22.75,1086,10.86,0.4774,3083,1237,2493,2.75,256,607,26.68,522,341
+C_20km,nearest with cap,20,CMSA_vs_GEODATA,Bohai_Yellow,29652,296.52,16604,166.04,0.56,26535,5901,2493,2.75,1521,4761,16.06,3475,2807
+C_20km,nearest with cap,20,CMSA_vs_GEODATA,East_China,41639,416.39,16378,163.78,0.3933,29822,21570,2493,2.75,8000,17275,41.49,14194,11081
+C_20km,nearest with cap,20,CMSA_vs_GEODATA,South_China,3995,39.95,539,5.39,0.1349,3083,1237,2493,2.75,120,1167,29.21,522,765
+C_20km,nearest with cap,20,CMSSM_vs_GEODATA,Bohai_Yellow,28999,289.99,11222,112.22,0.387,26535,5901,2493,2.75,1327,4975,17.16,3495,2807
+C_20km,nearest with cap,20,CMSSM_vs_GEODATA,East_China,47536,475.36,16816,168.16,0.3538,29822,21570,2493,2.75,7757,20248,42.6,16924,11081
+C_20km,nearest with cap,20,CMSSM_vs_GEODATA,South_China,3773,37.73,316,3.16,0.0838,3083,1237,2493,2.75,73,1033,27.38,341,765
+C_20km,nearest with cap,20,CMSA_vs_CMSSM,CONTRAST_Bohai_over_South,,,,,1.041,,,2493,2.75,,,,,
+C_20km,nearest with cap,20,CMSA_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.15,,,2493,2.75,,,,,
+C_20km,nearest with cap,20,CMSSM_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.62,,,2493,2.75,,,,,
+C_50km,nearest with cap,50,CMSA_vs_CMSSM,Bohai_Yellow,28278,282.78,13413,134.13,0.4743,26535,7200,715,0.79,2189,6081,21.5,3477,4793
+C_50km,nearest with cap,50,CMSA_vs_CMSSM,East_China,44042,440.42,26132,261.32,0.5933,29822,22025,715,0.79,11942,19635,44.58,14259,17318
+C_50km,nearest with cap,50,CMSA_vs_CMSSM,South_China,2299,22.99,1097,10.97,0.4772,3083,1261,715,0.79,267,631,27.45,546,352
+C_50km,nearest with cap,50,CMSA_vs_GEODATA,Bohai_Yellow,29654,296.54,16604,166.04,0.5599,26535,7200,715,0.79,1521,4763,16.06,3477,2807
+C_50km,nearest with cap,50,CMSA_vs_GEODATA,East_China,41804,418.04,16400,164.0,0.3923,29822,22025,715,0.79,8022,17440,41.72,14259,11203
+C_50km,nearest with cap,50,CMSA_vs_GEODATA,South_China,4019,40.19,539,5.39,0.1341,3083,1261,715,0.79,120,1191,29.63,546,765
+C_50km,nearest with cap,50,CMSSM_vs_GEODATA,Bohai_Yellow,30297,302.97,11222,112.22,0.3704,26535,7200,715,0.79,1327,6273,20.71,4793,2807
+C_50km,nearest with cap,50,CMSSM_vs_GEODATA,East_China,47991,479.91,16877,168.77,0.3517,29822,22025,715,0.79,7818,20703,43.14,17318,11203
+C_50km,nearest with cap,50,CMSSM_vs_GEODATA,South_China,3784,37.84,316,3.16,0.0835,3083,1261,715,0.79,73,1044,27.59,352,765
+C_50km,nearest with cap,50,CMSA_vs_CMSSM,CONTRAST_Bohai_over_South,,,,,0.994,,,715,0.79,,,,,
+C_50km,nearest with cap,50,CMSA_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.175,,,715,0.79,,,,,
+C_50km,nearest with cap,50,CMSSM_vs_GEODATA,CONTRAST_Bohai_over_South,,,,,4.435,,,715,0.79,,,,,

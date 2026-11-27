@@ -1,0 +1,21 @@
+{
+  "dataset_id": "GSHHG-2.3.7",
+  "source_url": "https://www.soest.hawaii.edu/pwessel/gshhg/gshhg-shp-2.3.7.zip",
+  "download_utc": "2026-10-03T09:01:45+00:00",
+  "license": "LGPL-3.0-or-later (per LICENSE.TXT in archive: 'As of GSHHG 2.2.2, GSHHG is distributed under the GNU Lesser General Public License (LGPL) version 3 or later'); UH/NOAA attribution + no-endorsement terms, provided as-is",
+  "files": [
+    {"name": "gshhg-shp-2.3.7.zip", "size_bytes": 149157845, "sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41"},
+    {"name": "GSHHS_shp/h/GSHHS_h_L1.shp", "size_bytes": 34129516, "sha256": "d870bdbc90a074f87a8c09a9630abb5f18916314b9a196dba2e6866fd51ef325"},
+    {"name": "GSHHS_shp/h/GSHHS_h_L1.dbf", "size_bytes": 30687014, "sha256": "b2594e6aabf951dda4265ec23154d369ef7077eeb87f5399aec42728da067023"},
+    {"name": "GSHHS_shp/h/GSHHS_h_L1.shx", "size_bytes": 1158092, "sha256": "c62a70b40ca33ba070b971333268798944a1e582d839510de4ee5575feba2372"},
+    {"name": "GSHHS_shp/h/GSHHS_h_L1.prj", "size_bytes": 143, "sha256": "98aaf3d1c0ecadf1a424a4536de261c3daf4e373697cb86c40c43b989daf52eb"}
+  ],
+  "citation": "Wessel, P., and W. H. F. Smith. A Global, Self-Consistent, Hierarchical, High-Resolution Shoreline Database. J. Geophys. Res. 101(B4): 8741-8743 (1996). GSHHG release 2.3.7 (2022).",
+  "doi": "10.1029/96JB00104",
+  "publisher": "University of Hawaii / NOAA (SOEST distribution page)",
+  "archive_name": "gshhg-shp-2.3.7.zip",
+  "archive_size_bytes": 149157845,
+  "archive_sha256": "8dbbe7e071e77e9e75f2d639239099ebca8d5c16d6a07df8169729d49f15cf41",
+  "verified_by": "unzip integrity tested 2026-10-03; sha256 computed 2026-10-03",
+  "notes": "L1 = land/ocean boundary polygons; h = high resolution (~100 m nominal). Used only for coastline mask geometry, not for labels. Full-resolution and high-resolution counts compared for sensitivity."
+}

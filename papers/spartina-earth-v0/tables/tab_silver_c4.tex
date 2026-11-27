@@ -1,0 +1,29 @@
+% Source: benchmarks/spartinashift/silver_v0_1/results/C4/*.json and
+% aggregate_C4.json. Frozen C2 checkpoints and VAL-only thresholds are
+% reused; no retraining and no tuning on either 2020 label source.
+% Agreement metrics, NOT accuracy: GOLD = 0. CM-SSM is
+% EXTERNAL_REFERENCE_ONLY (source license conflict).
+\begin{table}[t]
+\centering
+\small
+\caption{Task C4: agreement of frozen CMSA-trained C2 models with two
+independent 2020 SILVER label sources---GEODATA 2020 on the two positive
+test cells (cross-source agreement), and CM-SSM 2020 on those cells plus
+the two named witness cells (external-reference agreement; CM-SSM was
+never trained or tuned). Mean$\pm$SD over seeds 17/42/2026; bracketed
+intervals are the union of per-seed 1\,000\,m spatial-block 95\% CIs.
+Agreement is not accuracy: neither source is verified truth.}
+\label{tab:silverc4}
+\begin{tabular}{lrrlrl}
+\toprule
+& \multicolumn{3}{c}{GEODATA 2020} & \multicolumn{2}{c}{CM-SSM 2020} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-6}
+Model & IoU & block CI95 & F1 & IoU & F1 \\
+\midrule
+RF pixel      & 0.0078\,$\pm$\,0.0005 & [0.0022, 0.0150] & 0.0155 & 0.0008 & 0.0016 \\
+U-Net         & 0.0000 & [0, 0] & 0.0000 & 0.0007\,$\pm$\,0.0005 & 0.0013 \\
+DeepLabV3+    & 0.0000 & [0, 0] & 0.0000 & 0.0000 & 0.0000 \\
+SegFormer-B0  & 0.0027\,$\pm$\,0.0039 & [0, 0.0244] & 0.0054 & 0.0019\,$\pm$\,0.0026 & 0.0037 \\
+\bottomrule
+\end{tabular}
+\end{table}

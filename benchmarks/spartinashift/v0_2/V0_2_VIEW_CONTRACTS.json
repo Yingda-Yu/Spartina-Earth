@@ -1,0 +1,162 @@
+{
+  "document_checksum": "e897ba4b3eb106a107d5fad0f9972f48f77039ce2c1e3403f261b6efda7079a9",
+  "generated_utc": "2026-10-12T13:58:04.961794+00:00",
+  "git_commit": "5081afdee6116a4460c10395127035ac14961714",
+  "issue": 21,
+  "phase": "F",
+  "product": "V0_2_VIEW_CONTRACTS",
+  "requirements_checksum": "661e75f25b6691e0316e7656856012e8e781bd878da6030e5de9a3105a5896a5",
+  "shared_rules": {
+    "actual_mask_gate": 0.95,
+    "date_convention": "UTC calendar date, identical to the frozen acquisition plan and census v0_1",
+    "grid_rule": "native W10 native-UTM locked export grids; 10 m S2/S1 and 30 m Landsat never resampled to a common resolution inside a view",
+    "missingness": "every view carries explicit per-band and per-date observation/VALID masks; absence is never encoded as a numeric value",
+    "optical_cloud_max": 0.3,
+    "phenology_window_doy": [
+      260,
+      320
+    ],
+    "tertile_slot_order": [
+      "EARLY",
+      "MID",
+      "LATE"
+    ],
+    "tertiles": [
+      {
+        "doy_max": 279,
+        "doy_min": 260,
+        "name": "EARLY",
+        "preferred_center_doy": 269
+      },
+      {
+        "doy_max": 299,
+        "doy_min": 280,
+        "name": "MID",
+        "preferred_center_doy": 289
+      },
+      {
+        "doy_max": 320,
+        "doy_min": 300,
+        "name": "LATE",
+        "preferred_center_doy": 310
+      }
+    ]
+  },
+  "status": "FROZEN_BEFORE_TRAINING; data-semantics choices only; never tuned on model performance",
+  "views": {
+    "MULTI_DATE_SEASONAL": {
+      "aggregation": {
+        "companion_bands": [
+          "valid_date_count (number of dates entering each pixel's median)",
+          "date_slot_present mask per tertile"
+        ],
+        "minimum_dates": 1,
+        "no_medoid": "medoid rejected at freeze time: it requires a distance choice that would encode a modeling decision; robust median needs none",
+        "rule": "per-pixel robust median across the available in-window dates, computed only over pixels VALID under the frozen per-sensor QA policy AND actually observed",
+        "tie_break": "even-count medians use the mean of the two central values; deterministic float32 reduction in fixed EARLY, MID, LATE order"
+      },
+      "definition": "Fixed date-slot seasonal stack, one slot per tertile, with deterministic robust aggregation and full missingness propagation.",
+      "landsat_seasonal_rule": {
+        "max_observations": 3,
+        "qa_components": [
+          "per-date physical SR",
+          "per-date VALID r2",
+          "per-date raw QA_PIXEL (kept, never summarized away)"
+        ],
+        "sensor_identity": "each slot records landsat5/7/8 identity; aggregation runs WITHIN sensor identity only; L7 and L8 pixels are never jointly medianed and no harmonization is applied",
+        "target_observations": 2
+      },
+      "s1_seasonal_rule": "S1 remains paired per optical event; no S1 temporal fusion across passes or dates; ASC/DESC never merged",
+      "sensitivity_tier": {
+        "gap_days": 14,
+        "usage": "frozen for later sensitivity analysis ONLY; never back-fills the primary view; threshold cannot be widened after seeing support without a new frozen contract"
+      },
+      "slot_assignment": "each acquired V02_ELIGIBLE event occupies exactly its acquisition tertile slot; at most one S2 event and one Landsat observation per sensor per slot; max 3 S2 datatakes and 3 Landsat observations per cell-year; empty slots are explicit masks",
+      "slot_ordering": [
+        "EARLY",
+        "MID",
+        "LATE"
+      ],
+      "stack_contents": [
+        "per-slot SR bands in fixed band order",
+        "per-slot observed-mask (actual geometric coverage)",
+        "per-slot QA VALID mask (s2_scl_qa_v1_1 / Landsat VALID r2)",
+        "per-slot acquisition doy and event id",
+        "per-slot S1 pair block (VV/VH + pair gap + pass + orbit or missing-modality mask)"
+      ]
+    },
+    "SINGLE_EVENT_CANONICAL": {
+      "definition": "Exactly one optical event per (cell, year); paired S1 optional but explicit.",
+      "landsat_rule": {
+        "anchor_years": [
+          2015,
+          2020
+        ],
+        "band_sets_preserved_per_sensor": {
+          "landsat5": [
+            "SR_B1",
+            "SR_B2",
+            "SR_B3",
+            "SR_B4",
+            "SR_B5",
+            "SR_B7"
+          ],
+          "landsat7": [
+            "SR_B1",
+            "SR_B2",
+            "SR_B3",
+            "SR_B4",
+            "SR_B5",
+            "SR_B7"
+          ],
+          "landsat8": [
+            "SR_B1",
+            "SR_B2",
+            "SR_B3",
+            "SR_B4",
+            "SR_B5",
+            "SR_B6",
+            "SR_B7"
+          ]
+        },
+        "components": [
+          "physical SR float32",
+          "VALID r2 byte",
+          "raw QA_PIXEL uint16"
+        ],
+        "event_precedence": [
+          "MID",
+          "EARLY",
+          "LATE"
+        ],
+        "harmonization": "NONE; no cross-sensor compositing or spectral adjustment",
+        "scaling": "C2 L2 scale 0.0000275 add -0.2 applied at export; recorded per product"
+      },
+      "optical_event_precedence": [
+        "MID",
+        "EARLY",
+        "LATE"
+      ],
+      "optical_event_rule": "first V02_ELIGIBLE S2 datatake in precedence MID > EARLY > LATE; cell-years with no eligible S2 event have NO canonical optical sample (never substituted from another year or sensor)",
+      "s1_pair_rule": {
+        "missing_modality": "when no <= 7 d gate-passing pair exists the S1 bands are emitted as an explicit missing-modality mask; the optical sample is preserved; the 14 d sensitivity tier is NOT used in this view",
+        "pair_status_required": "PAIRED_PRIMARY_LTE7D",
+        "pass_preserved": true,
+        "primary_gap_days_max": 7,
+        "relative_orbit_preserved": true,
+        "s1_band_order": [
+          "VV",
+          "VH"
+        ]
+      },
+      "s2_band_order": [
+        "B2",
+        "B3",
+        "B4",
+        "B8"
+      ],
+      "s2_qa_policy": "s2_scl_qa_v1_1",
+      "s2_qa_semantics": "per-pixel VALID surface mask from the frozen s2_scl_qa_v1_1 SCL policy accompanies the SR bands; observed-mask gate and SCL VALID are both propagated"
+    }
+  }
+}

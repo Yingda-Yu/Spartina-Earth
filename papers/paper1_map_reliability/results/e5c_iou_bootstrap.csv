@@ -1,0 +1,7 @@
+pair,scale,exact_iou,iou_mean,iou_std,ci_lo,ci_hi,n_bootstrap,block_km,grid_res_m,effective_note
+CMSA_vs_CMSSM,global,0.5395,0.5393,0.0153,0.5101,0.5689,1000,2,100,block bootstrap
+CMSA_vs_GEODATA,global,0.4444,0.4443,0.0139,0.4182,0.4719,1000,2,100,block bootstrap
+CMSSM_vs_GEODATA,global,0.3432,0.343,0.0149,0.3139,0.3731,1000,2,100,block bootstrap
+CMSA_vs_GEODATA,Bohai_Yellow,0.1437,0.1429,0.0334,0.0783,0.2108,1000,2,100,block bootstrap
+CMSA_vs_GEODATA,East_China,0.4751,0.472,0.0318,0.4053,0.5289,1000,2,100,block bootstrap
+CMSA_vs_GEODATA,South_China,0.457,0.4559,0.0163,0.424,0.4867,1000,2,100,block bootstrap

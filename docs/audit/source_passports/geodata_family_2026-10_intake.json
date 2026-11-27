@@ -1,0 +1,115 @@
+{
+  "passport_id": "GEODATA-FAMILY-INTAKE-2026-10",
+  "intake_utc": "2026-10-06",
+  "family": "GEODATA national 30 m Spartina masks (1990, 2000, 2015, 2020)",
+  "what_it_is": [
+    "Four single-year national Spartina alterniflora binary raster masks ordered from geodata.cn and delivered by the project owner.",
+    "Each archive is an ESRI raster stack: uncompressed tiled BigTIFF + .tfw world file + .tif.aux.xml + .tif.ovr pyramid + .tif.vat.dbf value-attribute table (2015 also .tif.vat.cpg = UTF-8).",
+    "Positive value 1 = Spartina; background/nodata 255; single band; 30 m nominal pixel size.",
+    "1990/2000/2020 use Krasovsky_1940_Albers (central meridian 105E, standard parallels 25N/47N, false easting/northing 0). 2015 uses EPSG:32650 (WGS84 UTM 50N)."
+  ],
+  "what_it_is_not": [
+    "Not field-verified or GOLD labels; SILVER external reference maps only.",
+    "Not a cross-year change product: the four years differ in projection (2015), raster origins, extents and production method; differences between years are not interpretable as change without harmonization.",
+    "Not licensed for redistribution: geodata.cn platform terms restrict to scientific research use and prohibit copying/redistribution without written permission.",
+    "The 2020 portal abstract describing mangrove (红树林) is a metadata defect, not evidence that the bytes are mangrove (see contradiction_resolution)."
+  ],
+  "provider": {
+    "portal": "https://www.geodata.cn (National Earth System Science Data Center / Global Change Science Research Data Publishing System)",
+    "subcenter": "Black Soil and Wetland sub-center, Northeast Institute of Geography and Agroecology, Chinese Academy of Sciences (NEIGAE CAS)",
+    "access": "Online order (在线订单获取) with personal institutional account and manual approval; no machine-readable license; platform terms: scientific research use only, no copy/redistribution without written permission",
+    "license_classification": "RESTRICTED_RESEARCH_ONLY",
+    "2020_listed_contact": "宋春雨, northeast.data@iga.ac.cn",
+    "order_ids": "TODO_OWNER_RECORD (owner to record the geodata.cn order ids, approver and approval timestamps for the four orders)",
+    "portal_evidence_captured_utc": "2026-10-06 (public landing pages only; login/order flow never bypassed)"
+  },
+  "products": [
+    {
+      "product_id": "GEODATA-SPARTINA-1990",
+      "year": 1990,
+      "doi": "10.12041/geodata.195159798810196.ver1.db",
+      "cstr": "17099.11.G195159798810196.20220225.v1",
+      "archive": {"name": "1990年中国滨海30m分辨率互花米草空间分布动态数据集-数据实体.rar", "size_bytes": 245971, "sha256": "8fb616afccfe26be76732e95e06d40846acda3e73b251d36ed54e9d6ffda0724", "portal_listing_size": "240.21 KiB (matches)"},
+      "raster": {"dtype": "uint8", "width": 39337, "height": 67187, "crs": "Krasovsky_1940_Albers", "pixel_m": 30, "positive_value": 1, "nodata": 255, "positive_pixels": 48628, "area_km2_at_900m2": 43.7652, "bounds_wgs84": [110.328, 21.884, 125.387, 38.427]},
+      "vat": "CLass_1990 = 'hhmc' (pinyin initialism for 互花米草); count 48628 reproduced independently by full block-window scan",
+      "method_portal": "Landsat era imagery + object-based image analysis (OBIA); Mao et al. 2019 Sensors 19:2308 cited",
+      "reported_accuracy": ">90% level-1 class accuracy (generic portal boilerplate, not year-specific; NOT verified)",
+      "defects": ["VAT class name pinyin initialism, not UTF-8 Chinese", "exact image acquisition dates TODO_VERIFY"],
+      "domain_overlap_w10": {"KEEP_pixels": 48624, "PROVISIONAL_pixels": 4, "OUTSIDE_GRID_pixels": 0, "EXCLUDE_pixels": 0}
+    },
+    {
+      "product_id": "GEODATA-SPARTINA-2000",
+      "year": 2000,
+      "doi": "10.12041/geodata.140184217931452.ver1.db",
+      "cstr": "17099.11.G140184217931452.20220225.v1",
+      "archive": {"name": "2000年中国滨海30m分辨率互花米草空间分布动态数据集-数据实体.rar", "size_bytes": 606691, "sha256": "c55f5a5019810fb7be707b4195365b7bb60ea52f164219ea168fdad3f5097fba", "portal_listing_size": "592.47 KiB (matches)"},
+      "raster": {"dtype": "uint8", "width": 48709, "height": 68485, "crs": "Krasovsky_1940_Albers", "pixel_m": 30, "positive_value": 1, "nodata": 255, "positive_pixels": 284927, "area_km2_at_900m2": 256.4343, "bounds_wgs84": [107.64, 21.629, 125.404, 38.423]},
+      "vat": "Class_2000 = 'hhmc'; count 284927 reproduced independently",
+      "method_portal": "Landsat + OBIA; Mao et al. 2019 Sensors 19:2308 cited",
+      "reported_accuracy": ">90% generic boilerplate; NOT verified",
+      "defects": ["portal keywords contain mangrove boilerplate though the abstract is Spartina", "exact image acquisition dates TODO_VERIFY"],
+      "domain_overlap_w10": {"KEEP_pixels": 284923, "PROVISIONAL_pixels": 4, "OUTSIDE_GRID_pixels": 0, "EXCLUDE_pixels": 0}
+    },
+    {
+      "product_id": "GEODATA-SPARTINA-2015",
+      "year": 2015,
+      "doi": "10.12041/geodata.65372070926827.ver1.db",
+      "cstr": "17099.11.G65372070926827.20200918.v1",
+      "archive": {"name": "30m分辨率中国互花米草空间分布数据集(2015年)-数据实体.rar", "size_bytes": 681048, "sha256": "470aa0275adaa2641b97cbd4d729bb849557a0041861643f83dfe866c746f5fc", "portal_listing_size": "665.09 KiB"},
+      "raster": {"dtype": "int16", "width": 45282, "height": 67077, "crs": "EPSG:32650 WGS84 UTM Zone 50N", "pixel_m": 30, "positive_value": 1, "nodata": 255, "positive_pixels": 608287, "area_km2_at_900m2": 547.4583, "bounds_wgs84": [108.894, 20.87, 122.931, 39.072]},
+      "vat": "Value/Count table only, no class-name field; count 608287 reproduced independently",
+      "method_portal": "Landsat-8 OLI 2015; eCognition 9.2 multiscale segmentation; object-oriented/SVM classification; expert visual editing; field samples",
+      "reported_accuracy": "OA 92% reported on portal and in associated papers (Mao et al. 2019 Sensors 19:2308; Liu, Mao, Wang 2018 Remote Sensing 10:1933); NOT independently re-derived",
+      "defects": [],
+      "local_byte_identity": "Extracted TIF sha256 39a2d5352de8cb558f11df64c348574e9e2abf06446c3dc89035cdb3bb9c521d is BYTE-IDENTICAL to the pre-existing read-only copy under old datasets/30mSpartinaChina/; prior RELATIONSHIP_UNKNOWN blocker resolved",
+      "domain_overlap_w10": {"KEEP_pixels": 587396, "PROVISIONAL_pixels": 281, "OUTSIDE_GRID_pixels": 20610, "EXCLUDE_pixels": 0, "outside_note": "outside pixels within 4.7 km of W10 corridor edge at 31.16-37.85N; tidal-flat corridor boundary effect, not inland anomaly"}
+    },
+    {
+      "product_id": "GEODATA-SPARTINA-2020-30M",
+      "year": 2020,
+      "doi": "10.12041/geodata.254533427778392.ver1.db",
+      "cstr": "17099.11.G254533427778392.20220225.v1",
+      "archive": {"name": "2020年中国滨海30m分辨率互花米草空间分布动态数据集-数据实体.rar", "size_bytes": 695700, "sha256": "c37bffcdfeffb0dff6d110043f3fd33bb086b8a6b5909c4d3e1915ab5daa2bb1", "portal_listing_size": "679.39 KiB (matches)"},
+      "raster": {"dtype": "uint8", "width": 43575, "height": 70184, "crs": "Krasovsky_1940_Albers", "pixel_m": 30, "positive_value": 1, "nodata": 255, "positive_pixels": 577657, "area_km2_at_900m2": 519.8913, "bounds_wgs84": [108.125, 20.997, 124.21, 38.455]},
+      "vat": "Class_name = UTF-8 互花米草 (console renders as mojibake; bytes decode as UTF-8); count 577657 reproduced independently",
+      "method_portal": "UNKNOWN from the portal page itself (abstract is mangrove boilerplate); same-family Mao et al. 2019 Sensors 19:2308 reference assumed but TODO_VERIFY",
+      "reported_accuracy": "UNKNOWN (no Spartina-specific accuracy on the contradictory page)",
+      "contradiction_resolution": {
+        "portal_record": "title/filename = Spartina 2020 30 m; abstract = '2020年中国滨海30 m分辨率红树林分布状态数据' (mangrove) with mangrove keywords, a 1980 greater-Pearl-River-Delta mangrove sentence and Jia et al. 2019 mangrove citation",
+        "verdict": "DELIVERED_BYTES_VERIFIED_SPARTINA; PORTAL_ABSTRACT_CONFLICT",
+        "evidence_spartina": ["archive name and landing-page title", "VAT Class_name decodes to 互花米草", "positive pixels extend to 39.35N and ~13.3% of pixels lie at 36-42N, outside mangrove biogeographic range", "spatial pattern matches the Jiangsu/Shanghai/Zhejiang Spartina coast"],
+        "owner_action": "write to the listed contact (宋春雨 northeast.data@iga.ac.cn) requesting correction of the portal abstract/keywords; retain the reply; do not silently edit the portal record"
+      },
+      "defects": ["MAJOR portal metadata conflict (open until provider corrects the record)"],
+      "domain_overlap_w10": {"KEEP_pixels": 539128, "PROVISIONAL_pixels": 760, "OUTSIDE_GRID_pixels": 37769, "EXCLUDE_pixels": 0, "outside_note": "outside pixels within 7.1 km of corridor edge at 31.15-38.14N; corridor boundary effect"}
+    }
+  ],
+  "grid_alignment": {
+    "within_albers_trio": "NOT pixel aligned: pairwise origin offsets are non-integer pixels (1990->2000 dx=-9322.79 dy=-7.15 px; 1990->2020 dx=-7557.31 dy=-564.02 px; 2000->2020 dx=1765.48 dy=-556.87 px); extents and dimensions also differ",
+    "2015_vs_trio": "different datum/projection (WGS84 UTM 50N vs Krasovsky Albers); reprojection mandatory",
+    "verdict": "NOT_DIRECTLY_COMPARABLE pixelwise; at most COMPARABLE_WITH_CAVEATS after documented harmonization; area series only within each product's own planar convention; never infer change from map disagreement"
+  },
+  "extracted_members": {
+    "note": "full per-member sizes and sha256 hashes recorded in gitignored work/intake/01_extracted_files.json; archives extracted read-only into work/intake/staging with the conda-forge unrar client (system p7zip 16.02 cannot read these RAR5 members); 0 corrupt/unreadable/duplicate members",
+    "tif_sha256": {
+      "1990": "d88fc80ebed0e32f3550194d730293259ee8612f3f630915d4423a9edaccc6b4",
+      "2000": "0556a63a1cd0c101ef267dfeced390fbf0430fb9472d95f8d03b32535be990b1",
+      "2015": "39a2d5352de8cb558f11df64c348574e9e2abf06446c3dc89035cdb3bb9c521d",
+      "2020": "2cd169261383bef26aadb6abf8a730f14d7a847801f996757dc91c5b3f3d0937"
+    }
+  },
+  "usage_policy": {
+    "tier": "SILVER",
+    "gold_use": false,
+    "scientific_analysis": true,
+    "validation": "external reference product only; never called ground truth",
+    "internal_training": "not used as model training labels (reference-only project policy)",
+    "redistribution": "prohibited without written provider permission; never serve pixels from SpartinaGuard or commit bytes to Git"
+  },
+  "open_questions": [
+    "TODO_OWNER_RECORD: geodata.cn order ids / approver / approval timestamps and exact license-text snapshots for the four orders",
+    "TODO_VERIFY: exact image acquisition dates and per-year validation design behind the generic >90% accuracy statement",
+    "TODO_VERIFY: production method of the 2020 product (portal page is mangrove boilerplate)",
+    "OPEN: provider correction of the 2020 portal abstract/keywords"
+  ]
+}

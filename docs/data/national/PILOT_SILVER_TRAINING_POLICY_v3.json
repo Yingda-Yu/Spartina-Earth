@@ -1,0 +1,100 @@
+{
+  "product": "PILOT_SILVER_TRAINING_POLICY_V3",
+  "issue": 19,
+  "phase": "post-V2-recovery paired-EO gate; policy still NOT IN FORCE",
+  "status": "POLICY_RECOMMENDATION_NOT_IN_FORCE; no training, no split, no registry flag change",
+  "generated_utc": "2026-10-10T14:36:44+00:00",
+  "git_commit": "30ca090470c5f294f4669a20ebd058ccd8303d13",
+  "selection_revision": "PILOT_EVENT_SELECTION_V2",
+  "adapter_version": "PILOT_LABEL_ADAPTER_V1",
+  "supersedes": "PILOT_SILVER_TRAINING_POLICY_V2 (retained for traceability); framework gates G1-G7 from v1 are carried forward unchanged, G8 added",
+  "decision_needed_from": "repository owner (explicit approval); this file alone changes nothing",
+  "gold_labels_current_count": 0,
+  "tiers": {
+    "SILVER_TRAINING_ELIGIBLE": "SILVER product allowed to supervise INTERNAL research training runs, but only for spatially disjoint training units and only while every gate G1-G8 below is satisfied for the specific paired EO product. SILVER labels are occupancy summaries, never ground truth.",
+    "EXTERNAL_REFERENCE_ONLY": "Product usable for comparison, calibration, visual review and external-reference metrics, never as a training target. Within any one experiment the same SILVER product on an evaluation unit is automatically EXTERNAL_REFERENCE_ONLY there even when it is SILVER_TRAINING_ELIGIBLE elsewhere.",
+    "FINAL_GOLD_EVAL_ONLY": "GOLD label (field/UAV/expert-verified, tier per AGENTS.md data provenance policy) reserved for final evaluation. NO GOLD LABELS EXIST IN THE PILOT (GOLD count = 0)."
+  },
+  "eligibility_gates_carried_forward": [
+    "G1_PROVENANCE: every training example carries dataset manifest entry, source product id, adapter version, support resolution, and per-pixel UNKNOWN mask; unprovenanced pixels are dropped",
+    "G2_GOLD_ISOLATION: no GOLD site, scene or adjacent (buffered) unit may occur in training; verified with spartina.evaluation.splits.assert_spatially_disjoint",
+    "G3_SOURCE_SPECIFIC_EVALUATION: metrics are reported per source family and year; SILVER agreement is never called accuracy and no pooled ground-truth accuracy is reported",
+    "G4_SPATIAL_LEAKAGE_CONTROL: only spatially disjoint W10-cell splits with buffers; a split manifest plus leakage report are required before any training",
+    "G5_LICENSE: internal research only under the explicit per-family license classes below; no commercial use; source archives and label-derived bytes are never redistributed",
+    "G6_UNKNOWN_SEMANTICS: CMSA gridcode-0 regions are an ignore mask; GEODATA in-window background is a WEAK negative under a documented class-balancing scheme; out-of-window/uncovered pixels are ignored, not negative",
+    "G7_PILOT_ISOLATION: recommendation that the 20 Issue #19 pilot cells be excluded from any training set feeding the Issue #20 benchmark; owner decides at Issue #20 setup"
+  ],
+  "new_gate": {
+    "id": "G8_PAIRED_EO_ACTUAL_MASK",
+    "rule": "a SILVER label support (cell x family-year) is training-eligible with a paired EO product ONLY when that exact EO product passes the actual observed-mask gate INSIDE the W10 Albers cell (pixel-centre rule): actual_observed_fraction_in_w10_cell >= 0.95, with S2 requiring all required SR bands finite and S1 requiring the local s1_dualpol_valid_v2 token (finite VV AND finite VH AND both > -70 dB). Eligibility is evaluated per (support, EO product) pair; a multimodal stack does not transfer eligibility between sensors. A support with no same-year pilot EO product is UNMEASURED by this pilot, never silently eligible. Gate WARN evidence (edge-resampling delta, grid-vs-cell fraction near the threshold) is recorded on the pair but does not retract eligibility when the in-cell fraction passes; any hard gate FAIL makes the pair ineligible.",
+    "evidence_artifacts": [
+      "datasets/manifests/national_pilot_event_plan_v2.csv",
+      "datasets/manifests/national_pilot19_pilot_qa_v2.json",
+      "work/national/pilot19/export_progress_v2.json"
+    ]
+  },
+  "family_license_terms_explicit": [
+    {"source_key": "GEODATA_1990", "registry_product_id": "GEODATA-SPARTINA-1990", "license_class": "RESTRICTED_RESEARCH_ONLY", "license_terms": "internal research use only; no commercial use; no redistribution of source archives or label-derived bytes; source-specific use conditions from v1 retained", "label_tier": "SILVER", "gold": false},
+    {"source_key": "GEODATA_2000", "registry_product_id": "GEODATA-SPARTINA-2000", "license_class": "RESTRICTED_RESEARCH_ONLY", "license_terms": "internal research use only; no commercial use; no redistribution", "label_tier": "SILVER", "gold": false},
+    {"source_key": "GEODATA_2015", "registry_product_id": "GEODATA-SPARTINA-2015", "license_class": "RESTRICTED_RESEARCH_ONLY", "license_terms": "internal research use only; no commercial use; no redistribution", "label_tier": "SILVER", "gold": false},
+    {"source_key": "GEODATA_2020", "registry_product_id": "GEODATA-SPARTINA-2020-30M", "license_class": "RESTRICTED_RESEARCH_ONLY", "license_terms": "internal research use only; no commercial use; no redistribution", "label_tier": "SILVER", "gold": false},
+    {"source_key": "CMSA_2017", "registry_product_id": "NESDC-CMSA-2017", "license_class": "CC-BY-NC-4.0", "license_terms": "Creative Commons Attribution-NonCommercial 4.0; attribution NESDC plus Li/Tian/Li 2024 as recorded in the label registry; non-commercial; redistribution only under the same license terms and with attribution", "label_tier": "SILVER", "gold": false},
+    {"source_key": "CMSA_2018", "registry_product_id": "NESDC-CMSA-2018", "license_class": "CC-BY-NC-4.0", "license_terms": "CC-BY-NC-4.0; attribution NESDC plus Li/Tian/Li 2024; non-commercial", "label_tier": "SILVER", "gold": false},
+    {"source_key": "CMSA_2019", "registry_product_id": "NESDC-CMSA-2019", "license_class": "CC-BY-NC-4.0", "license_terms": "CC-BY-NC-4.0; attribution NESDC plus Li/Tian/Li 2024; non-commercial", "label_tier": "SILVER", "gold": false},
+    {"source_key": "CMSA_2020", "registry_product_id": "NESDC-CMSA-2020", "license_class": "CC-BY-NC-4.0", "license_terms": "CC-BY-NC-4.0; attribution NESDC plus Li/Tian/Li 2024; non-commercial", "label_tier": "SILVER", "gold": false},
+    {"source_key": "CMSA_2021", "registry_product_id": "NESDC-CMSA-2021", "license_class": "CC-BY-NC-4.0", "license_terms": "CC-BY-NC-4.0; attribution NESDC plus Li/Tian/Li 2024; non-commercial", "label_tier": "SILVER", "gold": false},
+    {"source_key": "CM-SSM_2020", "registry_product_id": "ZENODO-CM-SSM-2020", "license_class": "SOURCE_LICENSE_CONFLICT", "license_terms": "source archive terms internally inconsistent; used under the most restrictive reading (CC-BY-NC-equivalent: non-commercial, attribution, no redistribution) until the license conflict is cleared (TODO_VERIFY in DATA_LICENSE.md)", "label_tier": "SILVER", "gold": false}
+  ],
+  "g8_pairing_ledger_pilot_v2": {
+    "denominator_note": "20 pilot cells x 10 family-years; CM-SSM_2020 carries two adapter supports per cell (10 m and 30 m rasterizations, same family count). Eligibility counted per unique cell support; paired EO product instances counted individually.",
+    "gate_threshold": "actual_observed_fraction_in_w10_cell >= 0.95 on landed bytes",
+    "families": [
+      {"source_key": "GEODATA_1990", "eo_year": 1990, "cell_supports": 20, "paired_landed_eo_products": 12, "paired_products_gate_pass": 12, "eligible_cell_supports": 12, "not_eligible": 8, "not_eligible_breakdown": "7 cells had no 1990 scene at any candidate rank (NO_SCENE; no observation possible in the early Landsat archive); 1 cell (R00347) V2-eligible L5 product honestly rejected at landing, in-cell fraction 0.7005", "gate_status": "MEASURED"},
+      {"source_key": "GEODATA_2000", "eo_year": 2000, "cell_supports": 20, "paired_landed_eo_products": 19, "paired_products_gate_pass": 19, "eligible_cell_supports": 19, "not_eligible": 1, "not_eligible_breakdown": "R00347 L5_2000 honestly rejected at landing, in-cell fraction 0.7854; no L7 fallback available for that cell", "gate_status": "MEASURED"},
+      {"source_key": "GEODATA_2015", "eo_year": 2015, "cell_supports": 20, "paired_landed_eo_products": 33, "paired_products_gate_pass": 33, "eligible_cell_supports": 20, "not_eligible": 0, "not_eligible_breakdown": "all 33 paired L8/S1/S2 products pass in-cell; 1 edge WARN (R00334 L8 in-cell 0.9559, covering-grid 0.9473; cell support authoritative under F1) plus 1 S2 live-proxy edge-resampling delta WARN on R00445", "gate_status": "MEASURED"},
+      {"source_key": "GEODATA_2020", "eo_year": 2020, "cell_supports": 20, "paired_landed_eo_products": 59, "paired_products_gate_pass": 59, "eligible_cell_supports": 20, "not_eligible": 0, "not_eligible_breakdown": "none", "gate_status": "MEASURED"},
+      {"source_key": "CMSA_2017", "eo_year": 2017, "cell_supports": 20, "paired_landed_eo_products": 0, "paired_products_gate_pass": 0, "eligible_cell_supports": 0, "not_eligible": 0, "not_eligible_breakdown": "not a failure: the V2 pilot EO design has no 2017 slot, so G8 is UNMEASURED for this family; eligibility can only be granted by a future pilot that lands 2017 EO", "gate_status": "UNMEASURED_NO_PILOT_EO_SLOT"},
+      {"source_key": "CMSA_2018", "eo_year": 2018, "cell_supports": 20, "paired_landed_eo_products": 0, "paired_products_gate_pass": 0, "eligible_cell_supports": 0, "not_eligible": 0, "not_eligible_breakdown": "UNMEASURED: no 2018 pilot EO slot", "gate_status": "UNMEASURED_NO_PILOT_EO_SLOT"},
+      {"source_key": "CMSA_2019", "eo_year": 2019, "cell_supports": 20, "paired_landed_eo_products": 0, "paired_products_gate_pass": 0, "eligible_cell_supports": 0, "not_eligible": 0, "not_eligible_breakdown": "UNMEASURED: no 2019 pilot EO slot", "gate_status": "UNMEASURED_NO_PILOT_EO_SLOT"},
+      {"source_key": "CMSA_2020", "eo_year": 2020, "cell_supports": 20, "paired_landed_eo_products": 59, "paired_products_gate_pass": 59, "eligible_cell_supports": 20, "not_eligible": 0, "not_eligible_breakdown": "none", "gate_status": "MEASURED"},
+      {"source_key": "CMSA_2021", "eo_year": 2021, "cell_supports": 20, "paired_landed_eo_products": 61, "paired_products_gate_pass": 61, "eligible_cell_supports": 20, "not_eligible": 0, "not_eligible_breakdown": "1 S2 product on R00445 carries a live-proxy edge-resampling delta WARN (in-cell 0.99999, passes)", "gate_status": "MEASURED"},
+      {"source_key": "CM-SSM_2020", "eo_year": 2020, "cell_supports": 20, "paired_landed_eo_products": 118, "paired_products_gate_pass": 118, "eligible_cell_supports": 20, "not_eligible": 0, "not_eligible_breakdown": "59 paired 2020 EO products times two adapter supports (10 m and 30 m); all pass; license conflict gate G5 still outstanding", "gate_status": "MEASURED"}
+    ],
+    "totals": {
+      "paired_eo_product_instances_evaluated": 243,
+      "paired_eo_product_instances_gate_pass": 243,
+      "hard_gate_fail_among_landed": 0,
+      "honest_landing_rejections_affecting_supports": 3,
+      "cell_support_pairs_not_observable_no_scene": 7
+    }
+  },
+  "agreement_is_not_accuracy": {
+    "rule": "label-adapter alignment WARNs quantify geometric agreement between SILVER occupancy supports and the EO window; they are not accuracy evidence and can never be reported as model or label accuracy",
+    "label_adapter_alignment_warns": 11,
+    "label_adapter_alignment_fails": 0,
+    "interpretation": "11 supports show <90% positive-pixel QA-valid alignment under the nested-lattice rule; recorded as per-family evidence under G3, not as eligibility FAILs; no GOLD reference exists to measure accuracy against (GOLD count = 0)"
+  },
+  "remaining_gates_before_any_activation": [
+    "G1-G8 satisfied per (support, paired EO product) pair in a future training manifest",
+    "owner explicit approval; registry flags updated in a separate commit",
+    "license gates remain as classified (RESTRICTED_RESEARCH_ONLY; CC-BY-NC-4.0; SOURCE_LICENSE_CONFLICT most-restrictive until TODO_VERIFY cleared)",
+    "spatially disjoint split manifest with leakage report (Issue #20, not started)",
+    "CMSA 2017-2019 require same-year landed EO before G8 can be evaluated"
+  ],
+  "pilot_panel": {
+    "n_cells": 20,
+    "recommended_status": "EXCLUDED_FROM_TRAINING (G7) until owner decides the Issue #20 hold-out design"
+  },
+  "not_done_here": [
+    "no model training",
+    "no train/val/test split",
+    "no registry flag change",
+    "no SILVER bytes redistributed",
+    "no accuracy claim derived from SILVER products"
+  ],
+  "checksums": {
+    "label_registry_csv_sha256": "d02cef7b4cc78db24bef0f12142f1553272f04a161ec672c2ac8e6348e1db948",
+    "supports_csv_sha256": "aea106fbfdb4dc115de8fa7ee9b96d6872fcecaeb0b17a5eee1204fae9e5eb84",
+    "plan_v2_csv_sha256": "e985d45261cf32d8d993f39877da30bb95073ac2e863c4a3370bcd7f1386c705"
+  }
+}

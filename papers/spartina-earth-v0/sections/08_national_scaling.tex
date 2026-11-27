@@ -1,0 +1,643 @@
+\section{National scaling design}\label{sec:national}
+
+This section keeps two objects explicitly separate: the immutable
+10\,km \emph{grid} (3{,}319 cells with fixed geometry and reversible
+identifiers) and \emph{mainland coastal-domain membership}, a
+versioned attribute on that cell-id space. The two are not the same:
+grid cells intersected by the geometric corridor may still fall over
+foreign land or open sea. The administrative clip excludes Taiwan and
+the audited national label products are themselves mainland-China
+products, so the present scope is never described as the whole China
+coast. The evidence chain is therefore: independent mainland coastal
+evidence $\rightarrow$ deterministic domain membership $\rightarrow$
+stable W10 grid cells $\rightarrow$ observation events. The grid geometry and the v0 registry are immutable; the v1 deterministic
+membership rule was accepted on 2026-10-08 under a documented owner-decision
+layer (Issue~\#17), and the operational membership core is frozen as
+\texttt{W10\_DOMAIN\_V1\_CORE\_FROZEN}: 3{,}016 KEEP cells, with five
+beyond-reach offshore cells held outside the frozen core as
+\texttt{PROVISIONAL\_OFFSHORE\_POLICY} pending a separate general
+offshore-island policy. The freeze does not close every spatial-policy
+question. No national pixel export and no national result map exists. The national EO
+metadata census (Issue~\#16) has, however, now been executed twice as a
+metadata- and geometry-only operation---v0 (1984--2025) and the audited
+revision v0\_1, which extends through the frozen year-to-date cutoff
+2026-10-03T00:00:00Z---reading live GEE catalogs with zero pixel
+exports under an installed \texttt{ee.batch.Export} guard. The v0
+product files are untouched; v0\_1 supersedes them through an explicit
+supersession manifest.
+The central design rule is that the study domain must be independent of
+the target. Restricting the domain to 2015 positive Spartina cells
+would systematically exclude later expansion, eradicated sites,
+recurrence, previously omitted populations, and true unlabeled controls.
+
+\subsection{Target-independent coastal domain and cells}
+The domain is built from independent coastal geospatial evidence
+rather than from Spartina labels: land is the Natural Earth 10\,m
+admin-0 China polygon (v5.1.1, public domain; Taiwan is a separate row
+and excluded by design), the coastline and small-island set come from
+GSHHG~2.3.7 (L1, high resolution; LGPL-3.0-or-later), and the
+analysis corridor is a geometric buffer on land and sea with inland
+foreign-border segments removed. A fixed rule recovers 3{,}093
+nearshore islands $\leq$100\,km$^2$ (1{,}898\,km$^2$) whose
+representative point lies within 25\,km of the China polygon and
+outside every other admin-0 polygon---archipelago coast (Zhoushan,
+Miaodao, Changshan, Wanshan) that the 1:10\,m administrative layer
+omits. Cell retention requires at least 1\,\% corridor intersection,
+which removes triple-border slivers.
+
+Two deterministic lattices were compared: a national equal-area China
+Albers conic grid (ESRI:102025 parameters, WGS84), in which every
+10\,km cell covers exactly $10^{8}$\,m$^2$, and UTM-zone-aware 10\,km
+grids in zones 49--52. The UTM scheme double-covers the coast at the
+114$^{\circ}$E seam (75 overlapping cell pairs, 2{,}038\,km$^2$ of
+pairwise overlap) and at 120$^{\circ}$E (301 pairs, 8{,}026\,km$^2$),
+with no overlap at 126$^{\circ}$E; the Albers lattice is seam-free and
+is therefore selected as the canonical archive lattice, while UTM
+remains a sensor-native check only. At the provisional 10\,km corridor
+width the canonical lattice contains 3{,}319 coastal cells over a
+235{,}984\,km$^2$ corridor; the 5\,km and 20\,km a-priori sweeps give
+8{,}192 and 1{,}383 Albers cells (8{,}968 and 1{,}557 UTM-zone-aware
+cells). Full-resolution GSHHG changes the counts by
+at most +6 cells ($\leq$0.16\,\%), and omitting island recovery
+removes 12.3\,\% of cells, so the lattice is coastline-resolution
+insensitive but materially dependent on the island rule, which is kept
+strictly geometric. Each cell carries a deterministic reversible
+identifier (projection, zone where applicable, grid-width token, row,
+column), geometry hash, and coastal-relevance metadata; label-derived
+entry conditions are forbidden.
+
+\subsection{v1 membership audit on the immutable grid}
+Because corridor intersection is not membership, Issue~\#17 audited all
+3{,}319 v0 cells with a deterministic, target-independent rule applied
+to per-cell GIS evidence only (GSHHG land/coastline, Natural Earth
+ownership, nearest-landfall distances); labels, scene and event counts,
+model outputs, and the Murray/JRC layers are structurally incapable of
+entering a decision. Ownership first normalises the admin units: the
+Hong Kong and Macao map units are folded into China (a literal
+name-based reading had falsely treated 23 Pearl River delta cells as
+foreign), whereas the Taiwan-administered units encountered inside the
+corridor---the Kinmen/Matsu archipelago---are marked contested rather
+than silently claimed or deleted. The ordered rule keeps any cell with
+$\geq$100\,m$^2$ of Chinese mainland land (mixed transboundary cells
+are kept with the foreign share recorded), keeps cells anchored by a
+nearshore island only when the Chinese mainland is the strictly nearest
+administered landfall (refining the v0 island rule, which admitted
+foreign-landfall islets near the Tumen triple border), excludes
+foreign-only land, foreign-nearer water, and water beyond the 10\,km
+landfall reach, applies a 500\,m border-tie band, and leaves
+incomplete or sovereignty-ambiguous cells provisional.
+
+Of the 3{,}319 v0 cells, the v1 candidate keeps 3{,}011 (2{,}752
+mainland-coastal, 259 island-coastal; nominal footprint
+301{,}100\,km$^2$, $-$30{,}800\,km$^2$ against v0), excludes 298 as
+domain artifacts, and holds 10 as provisional. All 20 Issue~\#16
+flagged cells are independently confirmed as artifacts (17 over
+Russian, Korean or Vietnamese administered land; 3 open-sea edge
+cells), while the three \texttt{INDEX\_MISS} cells are genuine Chinese
+mainland. The full-population scan exposed 278 further artifacts that
+the manual audit could not see: 256 open-sea corridor slivers,
+additional foreign coast slivers, and two foreign-nearer water cells.
+The ten provisional cells split into five with material unattributed
+land (Pearl estuary, the Matsu channel, and three remote Zhejiang
+island groups 18--27\,km offshore) and five Kinmen cells within
+0.9--9\,km of Fujian; each is listed in the supersession manifest and
+must receive a documented human decision before any freeze.
+On 2026-10-08 the programme owner decided all ten cells. The five Kinmen
+cells (0.9--8.9\,km from the Fujian mainland) are kept as island-coastal
+members because they are operationally part of the mainland-Fujian
+nearshore observation frame; the v1.1 frozen registry therefore contains
+3{,}016 KEEP cells (2{,}752 mainland, 264 island; nominal footprint
+301{,}600\,km$^2$), 298 excluded cells and five provisional cells. The
+operational inclusion carries the standing disclaimer: ``Inclusion of
+cells intersecting contested-administered islands is an operational
+spatial-domain decision based on proximity to the mainland coast and does
+not constitute a statement on sovereignty or administrative status.'' The
+contested-admin area fractions and landfall distances remain verbatim in
+each cell's evidence JSON. The fixed 25\,km offshore-island reach was not
+extended and no cell-specific exception was created: the five
+unattributed-land cells beyond that reach (Wanshan, two Dachen, Dongji and
+Juguang settings) are versioned \texttt{PROVISIONAL\_OFFSHORE\_POLICY},
+excluded from production datasets and primary inference, with their cell
+IDs and GIS evidence preserved for a later general offshore-island policy
+review. The
+a-priori width sweep is stable in character rather than borderline:
+artifact rates are 11.45\,\% at W5, 8.98\,\% at W10 and 7.74\,\% at W20,
+with island-only fragmentation of 9.67\,\%, 7.95\,\% and 6.65\,\%; W20
+dilutes the same artifacts over larger cells rather than removing them,
+so the W10 choice is supported rather than overturned.
+
+Murray intertidal v1.1 (11 epochs, 1984--2016; CC-BY-4.0;
+\citealp{murray2019tidalflats}) and JRC
+Global Surface Water v1.4 (1984--2021; Copernicus, attribution
+``Source: EC JRC/Google''; \citealp{pekel2016gsw}) were fetched as batched server-side scalar
+summaries for all cells (166 \texttt{reduceRegions} calls at 30\,km
+analysis scale; no national image export) and are joined as descriptive
+context columns only. At that scale the Murray product is a coarse
+support indicator---it is positive in 2{,}867 of the 3{,}011 v1-candidate kept cells
+but also in 249 of the 298 excluded cells---which is precisely why it
+cannot measure cell-level tidal-flat area and is barred from membership
+decisions; JRC surface water is reported as context and is not a tide
+proxy. Excluded cells are never deleted from the grid registry: all
+3{,}319 rows persist with a versioned membership token, evidence JSON,
+and the pinned v0 registry SHA-256.
+
+\subsection{Label-overlay flags and exclusive strata}
+Labels enter the domain strictly as overlays. Each cell carries seven
+\emph{orthogonal boolean flags}---2015 SILVER positive (406 cells),
+CM-SSM 2020 positive (385), 2015 nearby (one fixed 10\,km lattice band;
+812), multi-product positive (both products; 309), plus three
+schema-reserved flags that are empty at v0: GOLD evidence, CMSA history
+(the archive is registration-gated), and management evidence---so
+overlapping evidence is never collapsed. The overlays are computed on
+the immutable v0 grid (3{,}319 cells); for sampling we additionally
+derive one \emph{exclusive priority stratum} per cell, whose counts
+partition the grid exactly: 309 multi-product positive, 97 positive
+only in 2015, 76 positive only in 2020, 742 near-positive unlabeled,
+and 2{,}095 other coastal unlabeled cells (482 cells positive in at
+least one obtained product). Restricted to the 3{,}016 cells of the
+frozen v1.1 KEEP core the same strata partition as 309, 97, 76, 728 and
+1{,}806: no excluded artifact cell carries any SILVER positive label,
+and all 482 positive cells are now core members, including the
+multi-product positive Kinmen cell, which enters under the standing
+operational disclaimer with its contested-admin evidence retained. The cells without positive evidence are absence of
+evidence in the products obtained, never an ecological negative.
+Management-evidence and GOLD strata remain designed but not built (no
+verifiable spatial management ledger exists; GOLD\,=\,0).
+
+\subsection{Metadata census through footprint indexing}
+The national census is metadata-only by construction and forbids
+cell-by-scene \texttt{getInfo} brute force: static WRS-2 path/row
+frames for Landsat and MGRS tile frames for Sentinel-2 act as cheap
+prefilters, Sentinel-1 eligibility uses batched \emph{actual}
+per-scene geometry (representative frames are never the final gate,
+following the Issue \#13 result), and all joins are evaluated locally.
+Recorded fields cover scene/event counts, UTC, coverage, full-year and
+candidate-season tags, source QA, pass/orbit, datatake/tiles, and
+path/row, with sensor-era status distinguished as not-operational,
+no-scenes, no-cell-intersection, metadata-available, or query-failed.
+The executed v0 census (1984--2025; S2 from 2015 and S1 from late
+2014) required 85 batched optical and 30 Sentinel-1 metadata calls (no
+per-cell calls; three oversized yearly S1 ascending batches were
+re-fetched as half-year scopes) and returned 184{,}051 unique physical
+scenes: 21{,}022 Landsat~5, 20{,}187 Landsat~7, 13{,}306 Landsat~8,
+4{,}265 Landsat~9, 108{,}232 Sentinel-2 granules and 17{,}039
+Sentinel-1 scenes. The R1 integrity audit then rebuilt the census as
+v0\_1 with four documented change reasons
+(\texttt{CHINA\_EO\_CENSUS\_SUPERSESSION\_v0\_1.json}; v0 files
+untouched). (1)~\emph{2026 YTD.} Only operational sensors were queried
+for 2026 and the year is marked \texttt{PARTIAL\_YEAR} through the
+frozen cutoff---855 Landsat~8, 888 Landsat~9, 14{,}463 Sentinel-2 and
+1{,}255 Sentinel-1 YTD scenes; Landsat~5 is recorded
+\texttt{SENSOR\_NOT\_OPERATIONAL} without a query and Landsat~7 has zero
+2026 rows after imaging was suspended on 2024-01-19
+\citep{usgs2024l7extended}. Partial-year rows never enter full-year
+comparisons or chronic-gap flags. (2)~\emph{Sentinel-1 pass audit.}
+The S1 universe was rebuilt from an unfiltered national pull (33
+batched calls) with ascending and descending scenes retained at every
+funnel stage; the v0\_1 set is 18{,}891 actual-footprint IW/VV$|$VH
+scenes intersecting W10 cells. The audited diagnosis token is
+\texttt{DESCENDING\_REGIONALLY\_AND\_TEMPORALLY\_IMBALANCED}:
+descending observations exist nationally---22{,}926 raw and 3{,}145
+cell-intersecting scenes in 2015--2025, and 281{,}321 descending
+cell--event pairs---but availability is strongly region- and
+period-dependent. Pass availability was substantial in parts of
+Bohai (about 50\,\% descending share, e.g.\ 200 of 318 scenes at one
+audited Bohai cell) but much sparser along southern coastal segments
+(below 5\,\% in the Yangtze, Zhejiang--Fujian, Pearl River Delta and
+Hainan spot checks), and the national descending share fell sharply
+to 4.8\,\% in 2022--2025 after the Sentinel-1B anomaly of 2021-12-23
+and its declared end of mission on 2022-08-03
+\citep{copernicus2022s1b}. The complete audited era is reported
+explicitly: the partial 2014 record (pull starts 2014-10-01; raw
+ascending/descending scenes exist but none intersects a W10 cell),
+the 2015--2025 full years, and 2026 YTD as \texttt{PARTIAL\_YEAR}
+without annualization. Ten deterministic direct-GEE spot checks
+(at least two per region) confirm the real, region- and era-structured
+acquisition pattern rather than a pipeline filter---the v0 cache itself
+retained 2{,}763 descending scenes. (3)~\emph{NE edge audit.} The 23
+far-northeast cells (lon~130.4--131.2, lat~41.9--42.4) that v0
+reported chronic-zero for every common-era sensor were audited case by
+case: none was a query failure; 3 are \texttt{INDEX\_MISS} (the v0
+server bbox stopped at 127$^{\circ}$E although the domain reaches
+132$^{\circ}$E), 6 are \texttt{DOMAIN\_EDGE\_ARTIFACT} and 14 are
+\texttt{MIXED\_ADMIN\_COAST\_ARTIFACT}. The footprint indices were
+expanded to 71 WRS-2 frames ($+5$) and 141 MGRS tiles ($+13$), the
+affected historical ranges were re-queried (88 successful calls,
+including half-year and quarter rescue splits), and all 23 cells are
+observed in v0\_1; there are zero optical or Sentinel-2 chronic zeros.
+Only 7 chronic-zero cells remain, all Sentinel-1-only island/border
+cells at the Beibu Gulf--Paracel margin with no IW/VV$|$VH footprint
+intersection in any year; they are kept as an explicit gap, never
+patched. (4)~\emph{L7 extended mission preserved.} All 20{,}187 v0
+Landsat~7 rows are preserved. Nominal-repeat-orbit rows join through
+WRS-2 (21{,}132 distinct nominal events in v0\_1); the 6{,}156 pulled
+Extended Science Mission scenes (2022-05-05 to 2024-01-15; 1{,}418
+intersecting W10 cells) are flagged
+\texttt{OFF\_NOMINAL\_EXTENDED\_MISSION} with
+\texttt{default\_production\_eligible=false}, are joined to cells via
+their actual pulled footprints
+(\texttt{L7\_EXTENDED\_ACTUAL\_FOOTPRINT}; 1{,}418 distinct events,
+122{,}744 cell--event pairs) and are reported separately from nominal
+totals, consistent with the USGS note that no U.S.\ ARD or Level-3
+products were produced from this mission phase
+\citep{usgs2024l7extended}; nine scenes from the 2022-04 orbit-lowering
+standby window are preserved as metadata without pairs.
+Sentinel-2 granules from the same datatake on the same day are grouped
+into one observation event, and local geometric joins on v0\_1 yield
+227{,}505 unique physical scenes, 93{,}035 distinct events
+(L5~23{,}382; L7~22{,}550, of which 1{,}418 extended; L8~15{,}944;
+L9~5{,}737; S1~18{,}891; S2~6{,}531), 10{,}923{,}012 cell--event pairs,
+and all 3{,}319 cells observed by at least one sensor in the
+2015--2025 common era (v0: 3{,}296). The census is enumerated over the
+immutable v0 grid, not over the membership result: events on the 298
+excluded cells remain recorded for provenance, and membership acts as a
+read-time filter rather than a deletion; the 3{,}016 members of the
+frozen v1.1 KEEP core (five more than the v1-candidate active set) are
+likewise all observed in 2015--2025. Median full-year observation
+density at W10 is 20 Landsat~8, 143 Sentinel-2 and 40 Sentinel-1 events
+per cell-year; at W10, 80\,\%/76\,\%/78\,\% of cell--event pairs fully
+cover the cell for L8/S2/S1, so the nominal-frame prefilter is never
+treated as full-cover evidence. All 1{,}190 island-only, 1{,}570
+mainland and 559 mixed cells are observed in 2015--2025 (v0:
+98.3\,\%/99.8\,\%/100\,\%). The full-year gap matrix now partitions
+into 16{,}466 no-chronic-gap, 3{,}319 not-applicable (pre-operational
+Landsat~5 cell-years), 122 multi-year-gap and 7 Sentinel-1-only
+chronic-zero cell--sensor rows. Census contracts, checksums, per-call
+resource ledgers (241 batched catalog calls across the five v0/v0\_1
+ledgers, plus the deterministic direct spot checks) and the full
+availability/gap matrices are versioned as run manifest
+\texttt{EO\_CENSUS\_RUN\_MANIFEST\_v0.json} together with
+\texttt{CHINA\_EO\_CENSUS\_SUPERSESSION\_v0\_1.json}; no census bytes
+are tracked in Git. A deterministic 20-cell first-pixel panel (five strata
+and four geometry-edge quotas, SHA-256 ranked on cell IDs) entered its
+pixel phase under Issue~\#19 after the owner restored GEE
+authentication: a label- and pixel-blind five-product canary passed the
+full Phase~H/I gates after one server-side valid-mask revision, the
+frozen 194-product plan was then partially exported, and a systematic
+source-coverage finding halted the first run at 52 LANDED products
+(Section~\ref{sec:pilot19}). Under an owner-authorized repair revision
+the event selection was replayed with an actual observed-raster mask
+gate, the valid export history was retained rather than restarted, and
+the recovered pilot completed at 184 LANDED products out of 187
+gate-eligible slots---three planned products were honestly rejected by
+the measured in-cell mask rather than replaced by force---with zero
+hard QA failures. The panel was re-validated against the v1
+membership audit
+and all 20 cells are active members (19 mainland-coastal
+decisions---18 land-touching and one Chinese-side seawater cell---and
+one nearshore-island cell). Issue~\#19 completed every offline
+stage---a frozen 194-product event plan with an explicit V1$\rightarrow$V2
+supersession map, derived label supports, a bridge to the frozen
+Issue~\#18 audit, a SILVER policy recommendation, split-preparation
+fields, a measured storage study, and full Phase~H/I re-validation
+(Section~\ref{sec:pilot19})---and the real-pixel evidence and the
+resulting production and benchmark verdicts are reported there.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 5}{National scaling design schematic only:
+independent mainland coastal evidence $\rightarrow$ deterministic v1
+domain membership on the immutable W10 grid $\rightarrow$ 2015/2020
+SILVER overlays and strata $\rightarrow$ footprint-indexed metadata
+census (events retained grid-wide; membership as a read-time filter)
+$\rightarrow$ storage tiers T0--T3. Explicitly a design figure; no
+national result map.}
+\label{fig:national}
+\end{figure}
+
+\subsection{Auxiliary registry and storage tiers}
+Thirteen context and sensor sources are registered with explicit
+CORE / OPTIONAL / OPTIONAL\_CONTEXT / VALIDATION\_ONLY / BLOCKED roles,
+including Murray intertidal, JRC surface water, the NESDC 2020 tidal-flat
+collection (registration-gated), Copernicus GLO-30 (license-gated),
+SRTM, JAXA ALOS/PALSAR annual mosaics (25\,m; 2011--2014 gap; DN is not
+$\gamma^0$), ERA5-Land, FES2022b and TPXO9 (modeled tide only), and a
+management-events registry that is blocked pending real spatial ledgers.
+Four storage tiers bound future work with M2.1b-calibrated byte
+assumptions: Tier~0 metadata for all 3{,}319 cells over 42 archive
+years (139{,}398 cell-years; 0.53\,GiB); Tier~1 positive-history cells
+only (482 cells, $\approx$83\,GiB, $\approx$289 platform task-hours);
+Tier~2 one standard monitoring year on all cells ($\approx$572\,GiB,
+$\approx$1{,}991 task-hours); Tier~3 the full candidate archive
+($\approx$134\,TiB, $\approx$460{,}000 task-hours). These are
+model estimates, not measurements; per-sensor national availability is
+now measured by the Issue~\#16 metadata census (reported above) and
+can later replace the calibrated assumptions, but no tier that exports
+pixels is opened in this study.
+
+\subsection{First-pixel pilot: label bridge and measured scaling evidence}
+\label{sec:pilot19}
+Issue~\#19 takes the 20-cell panel from a frozen, fully
+enumerated production plan into a gated real-pixel export. Under the
+predeclared V1 selection policy (autumn window DOY~260--320, scene
+cloud $\le$0.30, full-cell coverage, plus a near-full tier at
+$\ge$0.90 nominal-frame intersection), replaying the frozen v0\_1
+census yields 194 selected slots from 280 candidate rows: 83 Landsat
+(L5~27, L7~6, L8~50), 42 Sentinel-2 and 69 Sentinel-1, including the
+2000 L5$\rightarrow$L7 sequential fallback. The first export run
+established that nominal MGRS/frame geometry is not a reliable
+coverage predicate, and the run was halted at 52 LANDED products
+rather than forcing the count (findings below). The owner-authorized
+V2 selection revision repaired, rather than restarted, the frozen
+plan: nominal geometry is retained only as a prefilter, and eligibility
+is decided on the actual observed raster mask \emph{inside the exact
+W10 Albers cell} under a pixel-centre rule---the observed fraction must
+be at least 0.95, with Sentinel-2 requiring every required SR band
+finite and Sentinel-1 requiring finite VV and finite VH both above
+$-70$\,dB. A V1 event failing that gate is replaced deterministically,
+label-blind, by the next-ranked same-window candidate; when no
+candidate qualifies the slot is marked
+\texttt{NO\_ELIGIBLE\_EVENT\_ACTUAL\_MASK} and never backfilled. The
+V1 plan, bytes and manifests are retained under an explicit
+V1$\rightarrow$V2 supersession map. Of the 194 V1 slots, 83 Landsat
+outcomes were inherited unchanged (metadata-only schema refresh), 87
+S1/S2 events already passed and were kept, 17 were deterministically
+replaced after 86 candidate rows were evaluated, and 7 slots found no
+eligible event at any rank; 187 slots therefore went to export
+(Sentinel-1~67, Landsat-8~50, Sentinel-2~37, Landsat-5~27,
+Landsat-7~6). Three planned products then failed the same gate on
+their own landed bytes and were honestly rejected rather than forced
+through: one 2021 Landsat-8 window at 0.9490 in-cell fraction (its
+coastal SR\_B1 edge absent even though bands B2--B7 alone cover
+0.9719), and two Landsat-5 windows over one cell at 0.7005 (1990) and
+0.7854 (2000). The pilot consequently completes at 184 LANDED
+products, which is the scientific denominator for every pilot result
+that follows; a smaller honest set is preferred to a forced 194.
+
+The frozen source label archives were never modified. The 220 derived
+fractional/binary supports (11 per cell) were rasterised on per-cell
+native-UTM grids; MakeValid repair on derived copies changed source
+areas by 0.0\,\%. An independent re-implementation of the transfer on
+the pilot lattice reproduces the frozen Issue~\#18 R1 panel totals for
+2020 within 0.12\,\% for every product at 30\,m (GEODATA 0.113\,\%,
+CMSA 0.116\,\%, CM-SSM 0.052\,\%) and within $-$0.02\,\% for CM-SSM at
+10\,m. This is lattice consistency, not accuracy: GOLD remains zero,
+agreement is not truth, and no SILVER admission is activated. The
+revised SILVER policy adds a paired-EO gate: a label support may
+supervise training only with an EO product whose own in-cell mask
+passes. Measured over the landed V2 set, every one of the 243
+paired support--product instances passes, with zero hard gate fails:
+GEODATA-2015, GEODATA-2020, CMSA-2020, CMSA-2021 and CM-SSM-2020 are
+paired on all 20 cells and GEODATA-2000 on 19; GEODATA-1990 is paired
+on 12 cells (seven cells have no 1990 scene at any candidate rank, and
+the one rejected 1990 window above is withheld), while CMSA 2017--2019
+cannot be evaluated because the pilot design has no EO slots in those
+years---recorded as unmeasured, never silently eligible. The policy
+remains a non-binding recommendation, no train/validation/test
+assignment exists, and both await explicit owner decisions in
+Issue~\#20.
+
+Storage is measured at two layers where T0--T3 were estimated. The
+earlier M2.1b line---27 GeoTIFF exports, 121.4\,MiB---measured LZW
+bytes per raw pixel at 1.08$\times$ for seven-band Landsat-8/9 float32
+SR, 0.70$\times$ for four-band Sentinel-2 SR (observed range
+0.50--0.83, $n=10$), and 1.11$\times$ for Sentinel-1 VV/VH. The
+Issue~\#19 V2 pilot replaces every borrowed assumption with direct
+landed-byte measurement over all 184 landed products
+(1{,}639{,}339{,}598 bytes, 1.53\,GiB; \texttt{MEASURED}), of which
+Sentinel-1 is 772.7\,MiB, Sentinel-2 549.5\,MiB, Landsat-8 200.5\,MiB,
+Landsat-5 59.6\,MiB and Landsat-7 16.9\,MiB. Mean float32 SR LZW
+ratios are 1.48$\times$ for six-band Landsat-5 ($n=25$),
+1.22$\times$ for Landsat-7 ($n=6$), 0.95$\times$ for seven-band
+Landsat-8 ($n=49$), 1.35$\times$ for covering Sentinel-2 windows
+($n=37$) and 0.91$\times$ for Sentinel-1 VV/VH ($n=67$); QA\_PIXEL
+costs $\le$0.10\,B per pixel, server- and SCL-derived validity masks
+$\le$0.05\,B, and the locally derived Sentinel-1 dual-pol validity
+token 0.012\,B (mean LZW 85.6$\times$), so reflectance still dominates
+storage. Every landed component enters the measurement, including
+edge-reduced windows; no information-free exclusion was required in
+V2. Exact per-cell export grids---native UTM zone, edges densified to
+21 points before projection---average 140{,}338 pixels at 30\,m and
+1{,}258{,}542 at 10\,m across the 3{,}016 frozen KEEP cells (zones
+48--52). Replaying eligibility over the frozen census gives
+Table~\ref{tab:pilot19scaling}: the frozen pilot plan maps to 402 GEE
+tasks (three per Landsat bundle, two per Sentinel-2, one per
+Sentinel-1) and 1.63 (1.38--1.79)\,GiB replayed from V2 factors,
+consistent with the 1.53\,GiB measured on the 184 landed products; a
+five-anchor-year minimal national run (1990, 2000, 2015, 2020, 2021)
+needs 60{,}397 tasks and 241 (205--264)\,GiB; the standard annual core,
+including the 2022--2025 Landsat-9 add-on, needs 238{,}970 products,
+609{,}301 tasks and 1.27 (1.01--1.43)\,TiB. Scenario bytes are
+\texttt{EXTRAPOLATED} from measured per-component pilot bytes over the
+v1 national grids and remain \texttt{TODO\_VERIFY}; the V2 actual-mask
+shortfall rate is deliberately not used to shrink the national
+denominator because national eligibility is unmeasured, and the
+Landsat-9 factor is borrowed from Landsat-8 under an explicit
+\texttt{TODO\_VERIFY} token. One-time national label supports add only
+$\approx$0.52\,GiB, projected from the measured 3.67\,MB over the 20
+pilot cells. The 194 planned products derive from 135 distinct source
+events (1.17--1.60 products per event across sensors), so per-cell
+clipping repeats shared scenes; whether Issue~\#20 exports one window
+per source event on a union footprint or retains per-cell redundancy
+is an explicit pending decision. Recorded GEE backend durations for
+$\le$10\,km tiles are short (component medians 0.19--0.57 minutes over
+46 M2.1b tasks), but end-to-end throughput is bounded by task polling
+and Google Drive staging rather than compute; the recovered pilot
+observed the same across 422 recorded backend tasks---415 polled to
+COMPLETED and seven stale ENQUEUED records reconciled after polling
+restarts (two are plan-excluded staging orphans and five are
+COMPLETED components whose landed SHA-256 was re-verified), with zero
+backend failures, cancellations or resubmissions for every record
+(2--37 poll observations per task, mean 12.6) and $\approx$180\,s Drive
+propagation under 15\,s poll intervals at concurrency seven. Live
+project concurrency and download quotas are still not probed
+(\texttt{TODO\_VERIFY}); the repair itself exercised crash recovery on
+real work---deterministic request IDs, non-terminal-task adoption on
+restart, prefix-based Drive rediscovery, ledger SHA-256 re-validation
+before resume, and idempotent enrichment of retained products, with
+superseded V1 bytes and manifests archived rather than deleted.
+
+The pixel phase opened with a deterministic five-product canary, one
+product per sensor in fixed L5/L7/L8/S1/S2 order, ranked label- and
+pixel-blind on province and coastal-segment diversity (Guangdong 1990,
+Fujian 2000, Zhejiang 2021, Jiangsu 2015, Shandong 2020). Full
+Phase~H/I QA first exposed a Landsat valid-mask defect: QA\_PIXEL clear
+with QA\_RADSAT\,=\,0 does not guarantee per-band SR presence---interior
+blue/green windows are absent under nominally clear QA pixels. The
+server-side valid mask was revised (r2) to additionally require every
+SR band observed, including the Landsat-8 coastal band; live-server r2
+reducer counts match the landed masks exactly (relative difference
+0.0; zero NaN under VALID), and the canary then passed every gate:
+\texttt{CANARY\_PASS}. The inherited Landsat r2 contract was not
+lowered in V2: inherited windows still short of all-band observation
+end as the honest landing rejections above rather than as accepted
+products.
+
+The halted first run reached 52 LANDED products before full-pilot QA
+fired the predeclared geometric gate: four products FAIL cell
+coverage---three Sentinel-2 windows were 100\,\% NaN and one
+Sentinel-1 frame covered only 12\,\% of its cell---despite
+STRICT\_FULL\_CELL\_COVERED claims in the frozen V1 plan. Live GEE
+verification root-caused this to event selection on nominal MGRS/frame
+geometry instead of actual raster masks (one 2020 plan tile was also
+one MGRS latitude band wrong); same-tile alternative revisits inside
+DOY~260--320 demonstrably covered the affected cells, so the export
+machinery itself was sound. A second finding was the GEE border/
+no-signal floor on partial Sentinel-1 frames, reproduced
+byte-identically from the server and therefore a masking-policy
+question rather than an export or double-log defect. The owner
+decision adopted in V2 preserves the raw GEE VV/VH values exactly---no
+clipping, replacement or rewrite---and derives a local validity token
+that classifies any finite value at or below $-70$\,dB as
+\texttt{NON\_OBSERVATION\_EXTREME\_FLOOR}. Auditing all landed
+Sentinel-1 confirms the policy: across all 67 products the number of
+at-or-below-floor finite pixels is zero (global VV minimum
+$-55.82$\,dB, VH minimum $-67.76$\,dB), no raster is quarantined, and
+the two quarantined and fourteen floor-bearing products of the V1
+discovery remain frozen with their raw rasters for traceability.
+
+Full Phase~H/I were rerun across the complete recovered set. All 184
+landed products carry complete manifests with SHA-256 and QA returns
+100~PASS / 84~WARN / 0~FAIL; the three unlanded slots are
+independently recomputed gate rejections, with zero contradictions and
+zero unresolved cases. The WARN families are all frozen evidence
+classes rather than structural defects: 49 conservative cell-geometry
+flags where the QA-valid clear-surface mask is stricter than the
+coverage contract, 20 ``verify coastal membership'' coastline
+overlays, 34 interior non-observation scans, 11 label-adapter
+alignment flags below 90\,\% positive overlap, and three near-threshold
+actual-mask notes. Interior morphology is assessed on the same W10
+cell support as eligibility and separated by connectivity: enclosed
+holes of at least 1\,ha or an in-cell enclosed fraction of at least
+$10^{-4}$ would hard-FAIL, frame-edge slivers are quantified WARN
+only. No product trips the structural rule---the largest enclosed
+Sentinel-2 hole is 200\,m$^2$, the Landsat flags are LaSRC
+band-limited aerosol fill or sub-threshold specks, and the single
+Sentinel-1 case is a frame-edge sliver intruding at most 158\,m at one
+cell corner with no enclosed component. The deterministic 20\,\%
+live-server subset (43 reducer, identity and pass/orbit comparisons) is
+exact throughout: no spatial misregistration against W10 cells, label
+adapters or coastline, no scaling, band-order, SCL, provenance or
+label-inversion defect, zero pass/orbit violations, and the only
+grid-versus-cell coverage notes are two edge-resampling deltas and one
+near-threshold window (covering grid 0.9473, in-cell 0.9559) where the
+cell support is authoritative. Low VALID fractions on 1990/2000
+Landsat windows remain source cloud quality (WARN).
+
+Accordingly \texttt{PILOT19\_PRODUCTION\_READINESS\_v3.json} records
+\texttt{GO\_LIMITED\_PRODUCTION} and
+\texttt{READY\_FOR\_ISSUE\_20}: the selection, export, provenance and
+QA pipeline is demonstrated end to end on real pixels with zero hard
+failures and zero backend retries. The verdict is deliberately
+limited---national byte figures are \texttt{EXTRAPOLATED} and
+\texttt{TODO\_VERIFY}, the national actual-mask shortfall rate is
+unmeasured, live-project quotas were not probed, and no national
+accuracy, SpartinaFM or Atlas claim is supported by a pilot of this
+size. A full national batch, any registry flag change, and the
+benchmark split remain explicit owner decisions; no national export,
+split or training is authorised by this study.
+
+\input{tables/tab_pilot19_scaling}
+
+\subsection{Pre-registered three-product disagreement audit for 2020}
+\label{sec:issue18}
+The 2020 layer of each acquired product family---GEODATA (30\,m raster;
+519.89\,km$^2$ native), CMSA 2020 (\texttt{gridcode=2}; 571.35\,km$^2$)
+and CM-SSM 2020 (593.71\,km$^2$)---was compared under a protocol whose
+six hypotheses and decision thresholds were fixed before any result was
+read (Issue~\#18). No product is treated as truth: with GOLD\,=\,0 the
+output is an agreement characterisation, and GEODATA serves only as a
+comparison support. The pre-registered common 5\,m lattice was abandoned
+before execution because transferring a 30\,m observation onto 5\,m
+would fabricate thirty-six binary observations per real pixel and
+because no product natively observes at 5\,m. Two documented supports
+replace it: the GEODATA native 30\,m grid, on which the vectors
+contribute exact per-pixel fractional cover (all three pairs), and a
+10\,m project comparison lattice that is not claimed to reconstruct
+CMSA's native pixel grid (CMSA vs CM-SSM only). Block stripes carry
+halos so the 300\,m boundary-distance transform never meets a block
+edge; nearest-neighbour reads and centre containment are used for hit
+masks, and area transfers reproduce native totals within 0.4\,\%.
+Geometry repair is applied to derived copies only: 499 of 8{,}864 CMSA
+features and 2{,}402 of 148{,}072 CM-SSM features were self-intersecting
+rings (with 22 and 100{,}455 sub-100\,m$^2$ slivers respectively);
+MakeValid repair dropped no feature and changed total area by 0.0\,\% in
+both products. The 50 CMSA \texttt{gridcode=0} features remain
+\textsc{unknown} and were never relabelled negative.
+
+National totals are similar while spatial agreement is only moderate
+(Table~\ref{tab:labeldisagreement2020}): full-extent binary Dice is
+0.620 for GEO--CMSA, 0.522 for GEO--CM-SSM and 0.715 for CMSA--CM-SSM.
+The executed primary inferential universe was the 3{,}011
+v1-candidate KEEP cells; W10 cluster-bootstrap intervals there (500
+resamples) are 0.608~[0.551, 0.656], 0.529~[0.463, 0.585] and
+0.722~[0.674, 0.763], and 0.710~[0.664, 0.751] for CMSA--CM-SSM on the
+10\,m lattice, staying at or below 0.76 for every pair. Recomputing the
+identical bootstrap on the post-decision 3{,}016-cell frozen core moves
+every point estimate by at most 0.0003 and changes no hypothesis
+decision (table15\_domain\_v1\_1\_keep\_effect). The six pre-registered decisions are: H1
+boundary concentration \emph{supported}---disagreement at 0--30\,m is
+7.7$\times$, 5.9$\times$ and 5.9$\times$ the 120--300\,m rate for the
+three pairs (8.2$\times$ for CMSA--CM-SSM on the 10\,m lattice) and
+decays monotonically across the distance bands; H2 fine-patch-size
+discordance \textsc{not\_supported}---the observed direction was
+opposite to the preregistered expectation, with overall CMSA--CM-SSM
+discordance of 0.210 inside CM-SSM patches $<$2{,}500\,m$^2$ versus
+0.316 inside $\geq$10$^5$\,m$^2$ meadows; H3 coarse-support absence in
+small patches \emph{supported}---89.2\,\% of 100--900\,m$^2$ CMSA
+patches and 86.5\,\% of CM-SSM patches carry zero GEODATA cover,
+against 17.7\,\% and 23.6\,\% of patches $\geq$10$^5$\,m$^2$, with
+monotone ordering across size classes. H2 and H3 are not
+contradictory: they are different estimands with different
+denominators---H2 is an overall CMSA--CM-SSM discordance rate
+conditional on CM-SSM patch-size strata (denominator: 300\,m band
+pixels in each stratum), whereas H3 is the fraction of fine-reference
+patches receiving zero cover from the coarse product (denominator:
+fine patches). The coarse product can omit most small fine patches
+(H3) while the two fine products still agree more, not less, where
+small patches occur (H2). H4 regional structure is \emph{supported}
+under the source-independent regional attribution described below:
+regional binary Dice ranges are 0.75, 0.58 and 0.80 (0.78 on the 10\,m
+lattice), from 0.00---Liaoning, where only 1.4\,km$^2$ of CMSA extent
+exists and neither other product maps cover---to 0.80; H5
+area-vs-patch divergence \emph{supported} (8.6\,\% national area bias
+at 0.620 Dice); and H6 binary-labelling loss \emph{supported}---36.6\,\%
+and 42.5\,\% of GEODATA-positive pixels carry below half occupancy of
+CMSA and CM-SSM respectively, while W10 block-mean cover Spearman
+correlations over the 1{,}869 occupied KEEP blocks (1{,}217 on the
+10\,m lattice) remain 0.73--0.87. The R1 closure replaced the
+product-derived region keys with a source-independent, deterministic
+attribution from Natural Earth 10\,m admin-1 polygons (v5.1.1): a
+pixel is assigned to the province containing its centroid, otherwise to
+the unique nearest province within 25\,km provided the second-nearest
+province is more than 300\,m farther, and otherwise left
+\textsc{unknown}; ambiguous border pixels are never forced. This
+attributes 124.23\,km$^2$ of the previously unattributed 125.21\,km$^2$
+of GEODATA-positive area, leaving 0.98\,km$^2$ (0.19\,\% of the 519.44
+km$^2$ total) as \textsc{unknown} offshore/border-tie pixels excluded
+from regional H4 tallies; where both labelings carry a code they
+agree on 99.0\,\% of fine-product pixels (98.4\,\% over all
+fine-product pixels). The other
+bookkeeping gap remains explicit: 19--39\,km$^2$ of mapped extent per
+product lies beyond the 10\,km corridor and therefore outside
+domain-cell statistics. The executed primary inference excluded the
+ten then-unsigned provisional cells by design; including them as a
+sensitivity universe (3{,}021 cells) changes every pooled bootstrap Dice
+by at most 0.0003 (relative $\leq$0.06\,\%) and every block Spearman
+correlation by at most 0.0008, and changes no hypothesis decision. The
+2026-10-08 owner decision enlarged the production KEEP universe to
+3{,}016 cells; recomputing the same pooled-Dice bootstrap on that
+universe shifts every point estimate by at most 0.0003 and every
+95\,\% CI bound by at most 0.0035, again changing no hypothesis
+decision, and only one promoted cell carries any 2020 mapped pixels
+(0.68\,km$^2$ GEO, 0.06\,km$^2$ CMSA, 0.54\,km$^2$ CM-SSM on the 30\,m
+grid). The audit authorises no SILVER admission, no product ranking, and
+no label merge; a multi-source 2020 training label would need an
+explicit conflict rule, and the five
+\texttt{PROVISIONAL\_OFFSHORE\_POLICY} cells remain outside any
+eligibility decision. Full tables, the hypothesis-evidence JSON, and the candidate
+figure ranking are versioned in
+\texttt{2020\_label\_scale\_audit\_v2} (v1 tables retained for
+traceability) and the companion analysis note.
+
+\begin{figure}[t]\centering
+\figplaceholder{Figure 7}{Issue~\#18 candidate figure (ranked~1 of~5):
+binary disagreement fraction vs distance to the nearest mapped boundary
+for the three product pairs, 30\,m support (0--30 to 120--300\,m bands;
+ratios 7.7$\times$, 5.9$\times$, 5.9$\times$). Rendered analysis PNG
+exists at docs/analysis/figures/figC\_boundary\_distance.png; final
+in-manuscript artwork awaits an explicit rendering request per the
+figure manifest.}
+\label{fig:boundarydisagreement}
+\end{figure}
+
+\input{tables/tab_label_disagreement_2020}

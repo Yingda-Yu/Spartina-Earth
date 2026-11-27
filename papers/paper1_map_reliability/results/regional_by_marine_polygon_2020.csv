@@ -1,0 +1,22 @@
+product,marine_polygon,area_km2,share_pct
+CMSA,Bo Hai,39.77,6.99
+CMSA,East China Sea,137.24,24.12
+CMSA,Gulf of Tonkin,9.03,1.59
+CMSA,Hangzhou Bay,28.39,4.99
+CMSA,South China Sea,4.78,0.84
+CMSA,Taiwan Strait,9.33,1.64
+CMSA,Yellow Sea,157.61,27.7
+CM-SSM,Bo Hai,1.75,0.3
+CM-SSM,East China Sea,171.31,29.0
+CM-SSM,Gulf of Tonkin,8.86,1.5
+CM-SSM,Hangzhou Bay,31.64,5.36
+CM-SSM,South China Sea,2.31,0.39
+CM-SSM,Taiwan Strait,8.06,1.36
+CM-SSM,Yellow Sea,135.08,22.86
+GEODATA,Bo Hai,48.67,9.34
+GEODATA,East China Sea,103.8,19.91
+GEODATA,Gulf of Tonkin,7.42,1.42
+GEODATA,Hangzhou Bay,41.08,7.88
+GEODATA,South China Sea,11.24,2.16
+GEODATA,Taiwan Strait,7.58,1.45
+GEODATA,Yellow Sea,153.69,29.49

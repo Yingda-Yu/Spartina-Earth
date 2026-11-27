@@ -1,0 +1,24 @@
+{
+  "dataset_id": "CM-SSM-2020-ZENODO",
+  "source_url": "https://zenodo.org/api/records/16296823/files/CM-SSM.zip/content",
+  "download_utc": "2026-10-03T09:44:37+00:00",
+  "license": "CC-BY-4.0 (Zenodo record + DataCite metadata); NESDC mirror landing page declares CC-BY-NC-4.0 -> SOURCE_LICENSE_CONFLICT, see notes",
+  "files": [
+    {"name": "CM-SSM/CM-SSM.CPG", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+    {"name": "CM-SSM/CM-SSM.dbf", "size_bytes": 10365170, "sha256": "8a74dcd9f1039c06fcf7a3a1102a0e8568ad600c6f1f1ef25af885ea07aced4a"},
+    {"name": "CM-SSM/CM-SSM.prj", "size_bytes": 402, "sha256": "0cb13e6fc96091963305c3afcbb024fb464f80e014bf154433c6c5b343fdc1ef"},
+    {"name": "CM-SSM/CM-SSM.sbn", "size_bytes": 1460596, "sha256": "e9cd8c5da2d1b56e03846212ea36c402693edef4becfbe35ce102be46f760594"},
+    {"name": "CM-SSM/CM-SSM.sbx", "size_bytes": 14004, "sha256": "5c88db52bea6badbce90af7ea837b303748a8abe92cefc50075f32431d5b70b1"},
+    {"name": "CM-SSM/CM-SSM.shp", "size_bytes": 357998720, "sha256": "8f28c0f20f1dc8c5872a06db57621808dc737d602f8521387075dc39302cea54"},
+    {"name": "CM-SSM/CM-SSM.shp.xml", "size_bytes": 41474, "sha256": "e540f30706bb50cd259ccd26abd4c2fbbcfe3d47489db0ebe3c91d039c243fed"},
+    {"name": "CM-SSM/CM-SSM.shx", "size_bytes": 1184676, "sha256": "ce7c01f77f946647f426da4da9198b15250ffef050bc60c2861bd070dcbc42f2"}
+  ],
+  "citation": "Xu, M.; Tian, J.; Zhou, B. (2025). National-Scale Sub-meter Mapping of Spartina alterniflora in Mainland China 2020 (CM-SSM). Zenodo. DOI 10.5281/zenodo.16296823.",
+  "doi": "10.5281/zenodo.16296823",
+  "publisher": "Zenodo (Capital Normal University authors); mirrored at NESDC CSTR 15732.11.nesdc.ecodb.mon.2026.014",
+  "archive_name": "CM-SSM.zip",
+  "archive_size_bytes": 77339180,
+  "archive_sha256": "93411e765d185b5ae48a84850a1773776e6308bd56a433fa553c23dc49b66238",
+  "verified_by": "md5 matches Zenodo API f1f2592ca5d965fa8bf6a008a3fa1a73; sha256 computed 2026-10-03",
+  "notes": "SOURCE_LICENSE_CONFLICT: Zenodo record metadata and DataCite (api.datacite.org/dois/10.5281%2Fzenodo.16296823) both declare CC-BY-4.0; the NESDC mirror landing page declares CC-BY-NC-4.0 for the same DOI. Per project policy the more permissive license was NOT auto-selected; rights matrix must use the archive license plus contributor declaration as core evidence and mark commercial use UNVERIFIED. Associated paper: Xu, Tian, Zhou et al., ESSD 17, 6601-6624 (2025), DOI 10.5194/essd-17-6601-2025 (CC BY 4.0). Downloaded over resumable HTTPS via pinned IPv4 137.138.153.219 (Zenodo IPv6 unreachable from this host). Byte-identical to pre-existing local copy under 'old datasets/30mSpartinaChina/2020/CM-SSM/' -> local provenance VERIFIED_CM_SSM_2020."
+}
