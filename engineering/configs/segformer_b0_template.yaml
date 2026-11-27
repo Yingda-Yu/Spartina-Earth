@@ -1,0 +1,14 @@
+# SegFormer-B0 semantic segmentation template.
+inherits: common_template.yaml
+
+model:
+  type: segformer
+  variant: B0
+  pretrained: false
+  input_size: [512, 512]
+
+training:
+  batch_size: 16
+  lr: 0.00006
+  search_configs: 8           # shared budget for semantic-seg class
+  seeds: [42, 17, 2026]

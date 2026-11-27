@@ -1,0 +1,19 @@
+# RF / XGBoost classical baseline template (equal budget rule).
+# Inherits every field of common_template.yaml unless overridden here.
+inherits: common_template.yaml
+
+model:
+  type: rf                 # rf | xgboost
+  features: spectral       # per-pixel spectral features from identity-tagged bands
+  feature_set_frozen: issue20_carry_forward   # same features as RF for fairness
+  n_estimators: 300        # shared search space entry
+  max_depth: null          # searched within shared budget
+  n_jobs: 16
+
+training:
+  # Classical models have no epochs; budget = N configs x seeds (equal rule).
+  search_configs: 8
+  seeds: [42, 17, 2026]
+
+resources:
+  device: cpu

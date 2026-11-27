@@ -1,0 +1,27 @@
+# EO foundation model adapter template (Stage D; FOUNDATION_MODEL_COMPARISON.md).
+# No weights are downloaded until the disk/GPU audit is recorded.
+inherits: common_template.yaml
+
+model:
+  type: fm_adapter
+  fm_name: null               # prithvi_eo_2_0 | satmae_pp | anysat (verified rows only)
+  weights_path: null          # local path; SHA-256 recorded in run manifest
+  weights_sha256: null
+  regime: null                # frozen_probe | frozen_head | peft | full_ft
+  band_mapping:               # landed bands -> model input bands; documented per model
+    source_bands: [B2, B3, B4, B8]
+    target_bands: null        # TODO per FOUNDATION_MODEL_COMPARISON §2 (verified at download)
+  normalization_stats_ref: null   # dataset stats from the release; never invented
+
+training:
+  freeze_encoder: true        # regime 1/2; false only for peft/full_ft rows
+  peft_method: null           # lora | adapters | null
+  batch_size: 4               # reduced for large encoders on 24 GB
+  lr: 0.00001
+  search_configs: 8
+  seeds: [42, 17, 2026]
+
+validation_gate:
+  # Adapter must pass validate_on_batch on landed bytes BEFORE training.
+  require_adapter_validation: true
+  min_finite_fraction: 0.999

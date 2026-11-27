@@ -1,0 +1,14 @@
+# U-Net baseline template (CNN class).
+inherits: common_template.yaml
+
+model:
+  type: unet
+  encoder: resnet18
+  pretrained_encoder: false   # from-scratch; pretrained variants are separate rows
+  decoder_channels: [256, 128, 64, 32, 16]
+
+training:
+  batch_size: 16
+  lr: 0.0001
+  search_configs: 8           # shared budget for CNN class
+  seeds: [42, 17, 2026]

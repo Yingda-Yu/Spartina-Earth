@@ -71,6 +71,17 @@ def auprc(
     return float(average_precision_score(yv, pv))
 
 
+def negative_log_likelihood(
+    prob: np.ndarray[Any, Any], y: np.ndarray[Any, Any],
+    valid: np.ndarray[Any, Any],
+) -> float:
+    """Mean binary NLL over valid pixels (BENCHMARK_METRIC_SPEC.md §1)."""
+    pv, yv = prob[valid], y[valid].astype(np.float64)
+    eps = 1e-12
+    nll = -(yv * np.log(pv + eps) + (1.0 - yv) * np.log(1.0 - pv + eps))
+    return float(nll.mean())
+
+
 def calibration(
     prob: np.ndarray[Any, Any], y: np.ndarray[Any, Any],
     valid: np.ndarray[Any, Any], n_bins: int = 15,
